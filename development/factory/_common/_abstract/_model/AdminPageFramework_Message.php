@@ -185,6 +185,8 @@ class AdminPageFramework_Message {
         'loading'                               => 'Loading...',
         'please_enable_javascript'              => 'Please enable JavaScript for better user experience.',
 
+        'submit_confirmation_label'             => 'Submit the form.', 'admin-page-framework',
+        'submit_confirmation_error'             => 'Please check this box if you want to proceed.', 'admin-page-framework',
 
     );
 
@@ -207,7 +209,9 @@ class AdminPageFramework_Message {
      *
      * @since       2.1.6
      * @since       3.2.0       Changed it to create an instance per text domain basis.
+     * @param       string      $sTextDomain
      * @remark      This class should be instantiated via this method.
+     * @return      AdminPageFramework_Message
      */
     public static function getInstance( $sTextDomain='admin-page-framework' ) {
 
@@ -228,6 +232,7 @@ class AdminPageFramework_Message {
 
     /**
      * Sets up properties.
+     * @param string $sTextDomain
      */
     public function __construct( $sTextDomain='admin-page-framework' ) {
 
@@ -267,7 +272,8 @@ class AdminPageFramework_Message {
      *
      * @remark      An alias of the __() method.
      * @since       3.2.0
-     * @since       3.7.0      If no key is specified, return the entire mesage array.
+     * @since       3.7.0        If no key is specified, return the entire mesage array.
+     * @param       string       $sKey
      * @return      string|array
      */
     public function get( $sKey='' ) {
@@ -433,6 +439,9 @@ class AdminPageFramework_Message {
         __( 'The ability to repeat sections is disabled.', 'admin-page-framework' ); // 3.8.13+
         __( 'The ability to repeat fields is disabled.', 'admin-page-framework' ); // 3.8.13+
         __( 'Warning.', 'admin-page-framework' ); // 3.8.13+
+
+        __( 'Submit the form.', 'admin-page-framework' ); // 3.8.24
+        __( 'Please check this box if you want to proceed.', 'admin-page-framework' ); // 3.8.24
 
     }
 

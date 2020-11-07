@@ -15,8 +15,13 @@
  * <ul>
  *     <li>**href** - (optional, string) the url(s) linked to the submit button.</li>
  *     <li>**redirect_url** - (optional, string) the url(s) redirected to after submitting the input form.</li>
- *     <li>**reset** - [2.1.2+] (optional, boolean|string|array) the option key to delete. Set 1 for the entire option. [3.5.3+] In order to reset a particular field that belongs to a section, set an array representing the dimensional keys such as `array( 'my_sectio_id', 'my_field_id' )`.
- *      </li>
+ *     <li>**reset** - [2.1.2+] (optional, boolean|string|array) the option key to delete. Set 1 for the entire option. [3.5.3+] In order to reset a particular field that belongs to a section, set an array representing the dimensional keys such as `array( 'my_sectio_id', 'my_field_id' )`.</li>
+ *     <li>**confirm** - [3.8.24+] (optional, string|array) A confirmation checkbox to be enabled. If non-empty value is set, it will appear. An empty string by default. An array of the following arguments is accepted.
+ *         <ul>
+ *             <li>**label** - (string) the checkbox label.</li>
+ *             <li>**error** - (string) the error message to display when the user does not check it but presses the submit button.</li>
+ *         </ul>
+ *     </li>
  *     <li>**skip_confirmation** - [3.7.6+] (optional, boolean) Whether to skip confirmation. Default: `false`.</li>
  *     <li>**email** - [3.3.0+] (optional, array) Coming soon...
  *         <ul>
@@ -198,6 +203,7 @@ class AdminPageFramework_FieldType_submit extends AdminPageFramework_FieldType {
         'href'          => null,
         'reset'         => null, 
         'email'         => null,    // [3.3.0+] string of an email address to send to or it can be an array with the following keys.
+        'confirm'       => '',
         /* 
             array(
                 'to'            => null,    // string|array     The email address to send to or an array representing the key structure of the submitted form data holding the value. The first key should be the section ID and the second key is the the field ID.
@@ -227,20 +233,62 @@ class AdminPageFramework_FieldType_submit extends AdminPageFramework_FieldType {
 .admin-page-framework-field input[type='submit'] {
     margin-bottom: 0.5em;
 }
+/* Confirmation */
+.admin-page-framework-field-submit .submit-confirm-container {
+    display: inline-block;
+    margin-left: 1em;
+    vertical-align: middle;
+}
+.admin-page-framework-field-submit .field-error.submit-confirmation-warning {
+    float: none;
+    margin-left: 0.8em;
+}
 CSSRULES;
     }
     
     /**
+     * Returns the field type specific JavaScript script.
+     *
+     * @since       3.8.24
+     * @internal
+     */
+    protected function getScripts() {
+        return <<<JAVASCRIPTS
+jQuery( document ).ready( function(){
+    jQuery( '.admin-page-framework-field-submit .submit-confirm-container input[type=checkbox]' ).each( function( index, value ){
+        jQuery( this ).closest( '.admin-page-framework-field-submit' ).find( 'input[type=submit]' ).click( function( event ){
+            var _fieldSubmit = jQuery( this ).closest( '.admin-page-framework-field-submit' );  
+            _fieldSubmit.find( '.submit-confirmation-warning' ).remove(); // previous error message
+            var _confirmCheckbox = jQuery( this ).closest( '.admin-page-framework-field-submit' ).find( '.submit-confirm-container input[type=checkbox]' );
+            if ( ! _confirmCheckbox.length ) {
+                return true;
+            }
+            if ( _confirmCheckbox.is( ':checked' ) ) {
+                return true;
+            }           
+            // At this point, the checkbox is not checked.
+            var _sErrorTag = "<span class='field-error submit-confirmation-warning'>* " + _confirmCheckbox.attr( 'data-error-message' ) + "</span>";
+            _fieldSubmit.find( '.submit-confirm-container label' ).append( _sErrorTag );
+            return false;        
+        } );     
+    });            
+});
+JAVASCRIPTS;
+
+    }    
+    
+    /**
      * Returns the output of the field type.
      * 
-     * @since       2.1.5       Moved from `AdminPageFramework_FormField`.
-     * @since       3.3.1       Changed from `_replyToGetField()`.
+     * @since       2.1.5   Moved from `AdminPageFramework_FormField`.
+     * @since       3.3.1   Changed from `_replyToGetField()`.
      * @internal
+     * @param       array   $aField
      * @return      string
      */
     protected function getField( $aField ) {
         
-        $aField                     = $this->_getFormatedFieldArray( $aField );
+        $aField                     = $this->___getFormattedFieldArray( $aField );
         $_aInputAttributes          = $this->_getInputAttributes( $aField );
         $_aLabelAttributes          = $this->_getLabelAttributes( $aField, $_aInputAttributes );
         $_aLabelContainerAttributes = $this->_getLabelContainerAttributes( $aField );
@@ -255,18 +303,55 @@ CSSRULES;
                     . "<input " . $this->getAttributes( $_aInputAttributes ) . " />" // this method is defined in the base class
                     . $aField[ 'after_input' ]
                 . "</label>"
+                . $this->___getConfirmationCheckbox( $aField )
             . "</div>"
             . $aField['after_label'];
         
     }
         /**
+         * @param  array  $aField
+         * @return string
+         * @since  3.8.24
+         */
+        private function ___getConfirmationCheckbox( $aField ) {
+            if ( empty( $aField[ 'confirm' ] ) ) {
+                return '';
+            }
+            $_aConfirm    = is_string( $aField[ 'confirm' ] )
+                ? array(
+                    'label' => $aField[ 'confirm' ]
+                )
+                : $this->getAsArray( $aField[ 'confirm' ] );
+            $_aConfirm    = $_aConfirm + array(
+                'label' => $this->oMsg->get( 'submit_confirmation_label' ),
+                'error' => $this->oMsg->get( 'submit_confirmation_error' ),
+            );
+            $_aAttributes = $this->getElementAsArray( $aField, array( 'attributes', 'confirm' ) );
+            $_sInput      = $this->getHTMLTag(
+                'input',
+                array(
+                    'type'       => 'checkbox',
+                    'name'       => "{$aField[ 'input_id' ]}[confirm]",
+                    'class'      => 'confirm-submit',
+                    'value'      => 0, // unchecked by default
+                    'data-error-message' => $_aConfirm[ 'error' ],
+                ) + $_aAttributes
+            );
+            return "<p class='submit-confirm-container'><label>"
+                   . $_sInput
+                   . "<span>{$_aConfirm[ 'label' ]}</span>"
+                . "</label></p>";
+        }
+
+        /**
          * Returns the formatted field definition array.
-         * 
+         *
          * @since       3.5.3
+         * @param       array       $aField
          * @return      array       The formatted field definition array.
          * @internal
          */
-        private function _getFormatedFieldArray( array $aField ) {
+        private function ___getFormattedFieldArray( array $aField ) {
             
             $aField[ 'label' ] = $aField[ 'label' ]
                 ? $aField[ 'label' ] 
@@ -300,7 +385,8 @@ CSSRULES;
          * Returns the label container attribute array.
          * 
          * @since       3.5.3
-         * @return      array       The label container attribute array.
+         * @param       array   $aField
+         * @return      array   The label container attribute array.
          * @internal
          */        
         private function _getLabelContainerAttributes( array $aField ) {           
@@ -315,7 +401,8 @@ CSSRULES;
         }    
         /**
          * Returns the input attribute array.
-         * 
+         *
+         * @param       array       $aField
          * @since       3.5.3
          * @return      array       The input attribute array.
          * @internal
@@ -341,6 +428,7 @@ CSSRULES;
      * This is for the import field type that extends this class. The import field type cannot place the file input tag inside the label tag that causes a problem in FireFox.
      * 
      * @since       3.0.0
+     * @param       array   $aField
      * @return      string
      * @internal
      */
@@ -352,6 +440,7 @@ CSSRULES;
      * Returns the output of hidden fields for this field type that enables custom submit buttons.
      * @since       3.0.0
      * @internal
+     * @param       array   $aField
      * @return      string
      */
     protected function _getExtraInputFields( &$aField ) {
@@ -395,6 +484,7 @@ CSSRULES;
          * @since       3.5.3
          * @internal
          * @return      string      the HTML input tag output for the section id argument.
+         * @param       array       $aField
          */    
         private function _getHiddenInput_SectionID( array $aField ) {
             return $this->getHTMLTag( 
@@ -413,6 +503,8 @@ CSSRULES;
          * 
          * @since       3.5.3
          * @internal
+         * @param       array       $aField
+         * @param       string      $sKey
          * @return      string      the HTML input tag output for the given key argument.
          */        
         private function _getHiddenInputByKey( array $aField, $sKey ) {
@@ -432,10 +524,11 @@ CSSRULES;
          * 
          * @since       3.5.3
          * @internal
+         * @param       array       $aField
          * @return      string      the HTML input tag output for the 'reset' argument.
          */        
         private function _getHiddenInput_Reset( array $aField ) {
-            if ( ! $aField['reset'] ) {
+            if ( ! $aField[ 'reset' ] ) {
                 return '';
             }
             return ! $this->_checkConfirmationDisplayed( $aField, $aField[ '_input_name_flat' ], 'reset' )
@@ -451,10 +544,10 @@ CSSRULES;
                     'input',
                     array(
                         'type'  => 'hidden',
-                        'name'  => "__submit[{$aField['input_id']}][reset_key]",
-                        'value' => is_array( $aField['reset'] )   // set the option array key to delete.
-                            ? implode( '|', $aField['reset'] )
-                            : $aField['reset'],
+                        'name'  => "__submit[{$aField[ 'input_id' ]}][reset_key]",
+                        'value' => is_array( $aField[ 'reset' ] )   // set the option array key to delete.
+                            ? implode( '|', $aField[ 'reset' ] )
+                            : $aField[ 'reset' ],
                     )
                 );      
         }
@@ -463,6 +556,7 @@ CSSRULES;
          * 
          * @since       3.5.3
          * @internal
+         * @param       array       $aField
          * @return      string      the HTML input tag output for the 'email' argument.
          */ 
         private function _getHiddenInput_Email( array $aField ) {
@@ -495,7 +589,10 @@ CSSRULES;
     
         /**
          * A helper function for the above `getSubmitField()` that checks if a reset confirmation message has been displayed or not when the `reset` key is set.
-         * 
+         *
+         * @param       array   $aField
+         * @param       string  $sFlatFieldName
+         * @param       string  $sType
          * @return      boolean
          * @internal
          */
@@ -538,6 +635,7 @@ CSSRULES;
      * @since       2.0.0
      * @since       2.1.5       Moved from `AdminPageFramwrork_InputField`. Changed the scope to protected from private. Removed the second parameter.
      * @internal
+     * @param       array   $aField
      */ 
     protected function _getInputFieldValueFromLabel( $aField ) {    
         

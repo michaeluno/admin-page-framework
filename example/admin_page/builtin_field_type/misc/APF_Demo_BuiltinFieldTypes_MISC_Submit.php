@@ -76,6 +76,26 @@ EOD
                         . "</pre>",
                 ),
             ),
+            array(
+                'field_id'          => 'submit_button_with_confirmation_checkbox',
+                'title'             => __( 'With Confirmation Checkbox', 'admin-page-framework-loader' ),
+                'type'              => 'submit',
+                'confirm'           => $_sLabel = __( 'Okay to submit the form.', 'admin-page-framework-loader' ),
+                'description'       => array(
+                    __( 'A submit button with a confirmation checkbox.', 'admin-page-framework-loader' ),
+                    "<pre class='field-argument-example'>"
+                        . $oFactory->oWPRMParser->getSyntaxHighlightedPHPCode(
+<<<EOD
+array(
+    'type'              => 'submit',   
+    'confirm'           => '{$_sLabel}',
+)
+EOD
+                        )
+                        . "</pre>",
+                ),
+                'value'             => 'Send'
+            ),
             array( // Submit button as a link
                 'field_id'          => 'submit_button_link',
                 'type'              => 'submit',
