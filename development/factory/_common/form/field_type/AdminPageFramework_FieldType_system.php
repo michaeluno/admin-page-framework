@@ -220,6 +220,7 @@ CSSRULES;
      * Returns the output of the field type.
      *
      * @internal
+     * @param       array   $aField
      * @return      string
      */
     protected function getField( $aField ) {
@@ -239,7 +240,7 @@ CSSRULES;
                         : ""
                     )
                     . "<textarea " . $this->getAttributes( $_aInputAttributes ) . " >"
-                        . esc_textarea( $this->_getSystemInfomation( $aField[ 'value' ], $aField[ 'data' ], $aField[ 'print_type' ] ) )
+                        . esc_textarea( $this->___getSystemInformation( $aField[ 'value' ], $aField[ 'data' ], $aField[ 'print_type' ] ) )
                     . "</textarea>"
                     . $aField[ 'after_input' ]
                 . "</label>"
@@ -250,18 +251,21 @@ CSSRULES;
         /**
          * Returns the system information value for a textarea tag.
          *
-         * @return      string      The human readable system information.
+         * @return      string       The human readable system information.
+         * @param       array|string $asValue
+         * @param       array|string $asCustomData
+         * @param       integer      $iPrintType
          * @internal
          */
-        private function _getSystemInfomation( $asValue=null, $asCustomData=null, $iPrintType=1 ) {
+        private function ___getSystemInformation( $asValue=null, $asCustomData=null, $iPrintType=1 ) {
 
             if ( isset( $asValue ) ) {
                 return $asValue;
             }
 
             $_aOutput   = array();
-            foreach( $this->_getFormattedSystemInformation( $asCustomData ) as $_sSection => $_aInfo ) {
-                $_aOutput[] = $this->_getSystemInfoBySection( $_sSection, $_aInfo, $iPrintType );
+            foreach( $this->___getFormattedSystemInformation( $asCustomData ) as $_sSection => $_aInfo ) {
+                $_aOutput[] = $this->_____getSystemInfoBySection( $_sSection, $_aInfo, $iPrintType );
             }
             return implode( PHP_EOL, $_aOutput );
 
@@ -270,24 +274,25 @@ CSSRULES;
              * Returns the formatted system information array.
              * @since       3.5.3
              * @internal
-             * @return      array       the formatted system information array.
+             * @param       string|array $asCustomData
+             * @return      array        The formatted system information array.
              */
-            private function _getFormattedSystemInformation( $asCustomData ) {
+            private function ___getFormattedSystemInformation( $asCustomData ) {
 
                 $_aData = $this->getAsArray( $asCustomData );
                 $_aData = $_aData + array(
-                    'Admin Page Framework'  => isset( $_aData['Admin Page Framework'] )
-                        ? null
-                        : AdminPageFramework_Registry::getInfo(),
-                    'WordPress'             => $this->_getSiteInfoWithCache( ! isset( $_aData['WordPress'] ) ),
-                    'PHP'                   => $this->_getPHPInfo( ! isset( $_aData['PHP'] ) ),
-                    'PHP Error Log'         => $this->_getErrorLogByType( 'php', ! isset( $_aData['PHP Error Log'] ) ),
-                    'MySQL'                 => isset( $_aData['MySQL'] )
+                    'WordPress'             => $this->___getSiteInfoWithCache( ! isset( $_aData[ 'WordPress' ] ) ),
+                    'PHP'                   => $this->_getPHPInfo( ! isset( $_aData[ 'PHP' ] ) ),
+                    'PHP Error Log'         => $this->___getErrorLogByType( 'php', ! isset( $_aData[ 'PHP Error Log' ] ) ),
+                    'MySQL'                 => isset( $_aData[ 'MySQL' ] )
                         ? null
                         : $this->getMySQLInfo(),    // defined in the utility class.
-                    'MySQL Error Log'       => $this->_getErrorLogByType( 'mysql', ! isset( $_aData['MySQL Error Log'] ) ),
-                    'Server'                => $this->_getWebServerInfo( ! isset( $_aData['Server'] ) ),
-                    'Browser'               => $this->_getClientInfo( ! isset( $_aData['Browser'] ) ),
+                    'MySQL Error Log'       => $this->___getErrorLogByType( 'mysql', ! isset( $_aData[ 'MySQL Error Log' ] ) ),
+                    'Server'                => $this->___getWebServerInfo( ! isset( $_aData[ 'Server' ] ) ),
+                    'Browser'               => $this->___getClientInfo( ! isset( $_aData[ 'Browser' ] ) ),
+                    'Admin Page Framework'  => isset( $_aData[ 'Admin Page Framework' ] )
+                        ? null
+                        : AdminPageFramework_Registry::getInfo(),
                 );
 
                 // Dropping empty elements allows the user to remove a section by setting an empty section.
@@ -298,9 +303,12 @@ CSSRULES;
              * Returns the system information by section.
              * @since       3.5.3
              * @return      string      The system information by section.
+             * @param       string      $sSectionName
+             * @param       array       $aData
+             * @param       integer     $iPrintType
              * @internal
              */
-            private function _getSystemInfoBySection( $sSectionName, $aData, $iPrintType ) {
+            private function _____getSystemInfoBySection( $sSectionName, $aData, $iPrintType ) {
                 switch ( $iPrintType ) {
                     default:
                     case 1: // use the framework readable representation of arrays.
@@ -315,9 +323,11 @@ CSSRULES;
              *
              * @internal
              * @since       3.4.6
-             * @since       3.5.3       Added the $bGenerateInfo paramter. This is to reduce conditional statment in the caller method.
+             * @since       3.5.3       Added the $bGenerateInfo parameter. This is to reduce conditional statement in the caller method.
+             * @param       boolean     $bGenerateInfo
+             * @return      string
              */
-            private function _getClientInfo( $bGenerateInfo=true ) {
+            private function ___getClientInfo( $bGenerateInfo=true ) {
 
                 if ( ! $bGenerateInfo ) {
                     return '';
@@ -325,9 +335,9 @@ CSSRULES;
 
                 // Check the browscap value in the ini file first to prevent warnings from being populated
                 $_aBrowser = @ini_get( 'browscap' )
-                    ? get_browser( $_SERVER['HTTP_USER_AGENT'], true )
+                    ? get_browser( $_SERVER[ 'HTTP_USER_AGENT' ], true )
                     : array();
-                unset( $_aBrowser['browser_name_regex'] );  // this element causes output to be blank
+                unset( $_aBrowser[ 'browser_name_regex' ] );  // this element causes output to be blank
                 return empty( $_aBrowser )
                     ? __( 'No browser information found.', 'admin-page-framework' )
                     : $_aBrowser;
@@ -343,7 +353,7 @@ CSSRULES;
              * @param       string      $sType          The error log type. Either 'php' or 'mysql' is accepted.
              * @param       boolean     $bGenerateInfo  Whether to generate a log. This is for the caller method to reduce a conditinal statement.
              */
-            private function _getErrorLogByType( $sType, $bGenerateInfo=true ) {
+            private function ___getErrorLogByType( $sType, $bGenerateInfo=true ) {
 
                 if ( ! $bGenerateInfo ) {
                     return '';
@@ -375,14 +385,15 @@ CSSRULES;
              * @internal
              * @since       3.4.6
              * @since       3.5.3       Added the $bGenerateInfo paramter. This is to reduce conditional statment in the caller method.
-             * @return      array      The generated site information array.
+             * @param       boolean     $bGenerateInfo
+             * @return      array       The generated site information array.
              */
-            private function _getSiteInfoWithCache( $bGenerateInfo=true ) {
+            private function ___getSiteInfoWithCache( $bGenerateInfo=true ) {
 
                 if ( ! $bGenerateInfo || isset( self::$_aSiteInfo ) ) {
                     return self::$_aSiteInfo;
                 }
-                self::$_aSiteInfo = self::_getSiteInfo();
+                self::$_aSiteInfo = self::___getSiteInfo();
                 return self::$_aSiteInfo;
 
             }
@@ -393,7 +404,7 @@ CSSRULES;
                  * @since       3.5.3
                  * @return      array       The WordPress site information.
                  */
-                private function _getSiteInfo() {
+                private function ___getSiteInfo() {
                     global $wpdb;
                     return array(
                         __( 'Version', 'admin-page-framework' )                     => $GLOBALS[ 'wp_version' ],
@@ -401,7 +412,7 @@ CSSRULES;
                         __( 'Memory Limit', 'admin-page-framework' )                => $this->getReadableBytes( $this->getNumberOfReadableSize( WP_MEMORY_LIMIT ) ),
                         __( 'Multi-site', 'admin-page-framework' )                  => $this->getAOrB( is_multisite(), $this->oMsg->get( 'yes' ), $this->oMsg->get( 'no' ) ),
                         __( 'Permalink Structure', 'admin-page-framework' )         => get_option( 'permalink_structure' ),
-                        __( 'Active Theme', 'admin-page-framework' )                => $this->_getActiveThemeName(),
+                        __( 'Active Theme', 'admin-page-framework' )                => $this->___getActiveThemeName(),
                         __( 'Registered Post Statuses', 'admin-page-framework' )    => implode( ', ', get_post_stati() ),
                         'WP_DEBUG'                                                  => $this->getAOrB( $this->isDebugMode(), $this->oMsg->get( 'enabled' ), $this->oMsg->get( 'disabled' ) ),
                         'WP_DEBUG_LOG'                                              => $this->getAOrB( $this->isDebugLogEnabled(), $this->oMsg->get( 'enabled' ), $this->oMsg->get( 'disabled' ) ),
@@ -409,22 +420,24 @@ CSSRULES;
                         __( 'Table Prefix', 'admin-page-framework' )                => $wpdb->prefix,
                         __( 'Table Prefix Length', 'admin-page-framework' )         => strlen( $wpdb->prefix ),
                         __( 'Table Prefix Status', 'admin-page-framework' )         => $this->getAOrB( strlen( $wpdb->prefix ) > 16, $this->oMsg->get( 'too_long' ), $this->oMsg->get( 'acceptable' ) ),
-                        'wp_remote_post()'                                          => $this->_getWPRemotePostStatus(),
-                        'wp_remote_get()'                                           => $this->_getWPRemoteGetStatus(),
+                        'wp_remote_post()'                                          => $this->___getWPRemotePostStatus(),
+                        'wp_remote_get()'                                           => $this->___getWPRemoteGetStatus(),
                         __( 'Multibite String Extension', 'admin-page-framework' )  => $this->getAOrB( function_exists( 'mb_detect_encoding' ), $this->oMsg->get( 'enabled' ), $this->oMsg->get( 'disabled' ) ),
                         __( 'WP_CONTENT_DIR Writeable', 'admin-page-framework' )    => $this->getAOrB( is_writable( WP_CONTENT_DIR ), $this->oMsg->get( 'yes' ), $this->oMsg->get( 'no' ) ),
-                        __( 'Active Plugins', 'admin-page-framework' )              => PHP_EOL . $this->_getActivePlugins(),
-                        __( 'Network Active Plugins', 'admin-page-framework' )      => PHP_EOL . $this->_getNetworkActivePlugins(),
-                        __( 'Constants', 'admin-page-framework' )                   => $this->_getDefinedConstants( 'user' ),
+                        __( 'Active Plugins', 'admin-page-framework' )              => PHP_EOL . $this->___getActivePlugins(),
+                        __( 'Network Active Plugins', 'admin-page-framework' )      => PHP_EOL . $this->___getNetworkActivePlugins(),
+                        __( 'Constants', 'admin-page-framework' )                   => $this->___getDefinedConstants( 'user' ),
                     );
                 }
                     /**
                      *
                      * @since       3.5.12
+                     * @param       array|string|null $asCategories
+                     * @param       array|string|null $asRemovingCategories
                      * @return      string|array
                      * @internal
                      */
-                    private function _getDefinedConstants( $asCategories=null, $asRemovingCategories=null ) {
+                    private function ___getDefinedConstants( $asCategories=null, $asRemovingCategories=null ) {
                         $_asConstants = $this->getDefinedConstants( $asCategories, $asRemovingCategories );
                         if ( ! is_array( $_asConstants ) ) {
                             return $_asConstants;
@@ -459,12 +472,12 @@ CSSRULES;
                  * @internal
                  * @return      string
                  */
-                private function _getActiveThemeName() {
+                private function ___getActiveThemeName() {
 
                     // If the WordPress version is less than 3.4,
-                    if ( version_compare( $GLOBALS['wp_version'], '3.4', '<' ) ) {
+                    if ( version_compare( $GLOBALS[ 'wp_version' ], '3.4', '<' ) ) {
                         $_aThemeData = get_theme_data( get_stylesheet_directory() . '/style.css' );
-                        return $_aThemeData['Name'] . ' ' . $_aThemeData['Version'];
+                        return $_aThemeData[ 'Name' ] . ' ' . $_aThemeData[ 'Version' ];
                     }
 
                     $_oThemeData = wp_get_theme();
@@ -477,7 +490,7 @@ CSSRULES;
                  * @return      string
                  * @internal
                  */
-                private function _getActivePlugins() {
+                private function ___getActivePlugins() {
 
                     $_aPluginList       = array();
                     $_aActivePlugins    = get_option( 'active_plugins', array() );
@@ -485,7 +498,7 @@ CSSRULES;
                         if ( ! in_array( $_sPluginPath, $_aActivePlugins ) ) {
                             continue;
                         }
-                        $_aPluginList[] = '    ' . $_aPlugin['Name'] . ': ' . $_aPlugin['Version'];
+                        $_aPluginList[] = '    ' . $_aPlugin[ 'Name' ] . ': ' . $_aPlugin[ 'Version' ];
                     }
                     return implode( PHP_EOL, $_aPluginList );
 
@@ -495,7 +508,7 @@ CSSRULES;
                  * @return      string
                  * @internal
                  */
-                private function _getNetworkActivePlugins() {
+                private function ___getNetworkActivePlugins() {
 
                     if ( ! is_multisite() ) {
                         return '';
@@ -507,7 +520,7 @@ CSSRULES;
                             continue;
                         }
                         $_aPlugin       = get_plugin_data( $_sPluginPath );
-                        $_aPluginList[] = '    ' . $_aPlugin['Name'] . ' :' . $_aPlugin['Version'];
+                        $_aPluginList[] = '    ' . $_aPlugin[ 'Name' ] . ' :' . $_aPlugin[ 'Version' ];
                     }
                     return implode( PHP_EOL, $_aPluginList );
 
@@ -519,13 +532,13 @@ CSSRULES;
                  * @return      string
                  * @internal
                  */
-                private function _getWPRemotePostStatus() {
+                private function ___getWPRemotePostStatus() {
 
                     $_vResponse = $this->getTransient( 'apf_rp_check' );
                     $_vResponse = false === $_vResponse
                         ? wp_remote_post(
                             // 'https://www.paypal.com/cgi-bin/webscr',
-                            add_query_arg( $_GET, admin_url( $GLOBALS['pagenow'] ) ),
+                            add_query_arg( $_GET, admin_url( $GLOBALS[ 'pagenow' ] ) ),
                             array(
                                 'sslverify'     => false,
                                 'timeout'       => 60,
@@ -534,7 +547,7 @@ CSSRULES;
                         )
                         : $_vResponse;
                     $this->setTransient( 'apf_rp_check', $_vResponse, 60 );
-                    return $this->getAOrB( $this->_isHttpRequestError( $_vResponse ), $this->oMsg->get( 'not_functional' ), $this->oMsg->get( 'functional' ) );
+                    return $this->getAOrB( $this->___isHttpRequestError( $_vResponse ), $this->oMsg->get( 'not_functional' ), $this->oMsg->get( 'functional' ) );
 
                 }
                 /**
@@ -543,43 +556,42 @@ CSSRULES;
                  * @return      string
                  * @internal
                  */
-                private function _getWPRemoteGetStatus() {
+                private function ___getWPRemoteGetStatus() {
 
-                    $_vResponse = $this->getTransient( 'apf_rg_check' );
-                    $_vResponse = false === $_vResponse
+                    $_aoResponse = $this->getTransient( 'apf_rg_check' );
+                    $_aoResponse = false === $_aoResponse
                         ? wp_remote_get(
-                            add_query_arg( $_GET + array( 'apf_remote_request_test' => '_testing' ), admin_url( $GLOBALS['pagenow'] ) ),
+                            add_query_arg( $_GET + array( 'apf_remote_request_test' => '_testing' ), admin_url( $GLOBALS[ 'pagenow' ] ) ),
                             array(
                                 'sslverify'     => false,
                                 'timeout'       => 60,
                             )
                         )
-                        : $_vResponse;
-                    $this->setTransient( 'apf_rg_check', $_vResponse, 60 );
-                    return $this->getAOrB( $this->_isHttpRequestError( $_vResponse ), $this->oMsg->get( 'not_functional' ), $this->oMsg->get( 'functional' ) );
+                        : $_aoResponse;
+                    $this->setTransient( 'apf_rg_check', $_aoResponse, 60 );
+                    return $this->getAOrB( $this->___isHttpRequestError( $_aoResponse ), $this->oMsg->get( 'not_functional' ), $this->oMsg->get( 'functional' ) );
 
                 }
                     /**
                      * Checks the HTTP request response has an error.
                      * @since       3.5.3
+                     * @param       mixed   $aoResponse        
                      * @return      boolean
                      * @internal
                      */
-                    private function _isHttpRequestError( $mResponse ) {
-
-                        // if ( ! is_wp_error( $_vResponse ) && $_vResponse['response']['code'] >= 200 && $_vResponse['response']['code'] < 300 ) {
-                        //  echo 'no error' .
-                        // }
-                        if ( is_wp_error( $mResponse ) ) {
+                    private function ___isHttpRequestError( $aoResponse ) {
+                        
+                        if ( is_wp_error( $aoResponse ) ) {
                             return true;
                         }
-                        if ( $mResponse[ 'response'][ 'code' ] < 200 ) {
+                        if ( $aoResponse[ 'response'][ 'code' ] < 200 ) {
                             return true;
                         }
-                        if ( $mResponse[ 'response' ][ 'code' ] >= 300 ) {
+                        if ( $aoResponse[ 'response' ][ 'code' ] >= 300 ) {
                             return true;
                         }
                         return false;
+                        
                     }
 
             /**
@@ -595,6 +607,8 @@ CSSRULES;
              * @internal
              * @since       3.4.6
              * @since       3.5.3       Added the $bGenerateInfo parameter. This is to reduce conditional statement in the caller method.
+             * @param       boolean     $bGenerateInfo
+             * @return      array
              */
             private function _getPHPInfo( $bGenerateInfo=true ) {
 
@@ -626,7 +640,7 @@ CSSRULES;
                 )
                 + $this->getPHPInfo()
                 + array(
-                    __( 'Constants', 'admin-page-framework' )               => $this->_getDefinedConstants( null, 'user' )
+                    __( 'Constants', 'admin-page-framework' )               => $this->___getDefinedConstants( null, 'user' )
                 )
                 ;
 
@@ -638,11 +652,11 @@ CSSRULES;
              * Returns the web server information.
              * @internal
              * @since       3.4.6
-             * @since       3.5.3       Added the $bGenerateInfo paramter. This is to reduce conditional statment in the caller method.
+             * @since       3.5.3        Added the $bGenerateInfo paramter. This is to reduce conditional statment in the caller method.
+             * @param       boolean      $bGenerateInfo
              * @return      array|string
              */
-            private function _getWebServerInfo( $bGenerateInfo=true ) {
-
+            private function ___getWebServerInfo( $bGenerateInfo=true ) {
                 return $bGenerateInfo
                     ? array(
                         __( 'Web Server', 'admin-page-framework' )                  => $_SERVER['SERVER_SOFTWARE'],
@@ -655,7 +669,6 @@ CSSRULES;
                         __( 'Session Use Only Cookies', 'admin-page-framework' )    => $this->getAOrB( @ini_get( 'session.use_only_cookies' ), $this->oMsg->get( 'on' ), $this->oMsg->get( 'off' ) ),
                     ) + $_SERVER
                     : '';
-
             }
 
 }
