@@ -185,8 +185,9 @@ class AdminPageFramework_Message {
         'loading'                               => 'Loading...',
         'please_enable_javascript'              => 'Please enable JavaScript for better user experience.',
 
-        'submit_confirmation_label'             => 'Submit the form.', 'admin-page-framework',
-        'submit_confirmation_error'             => 'Please check this box if you want to proceed.', 'admin-page-framework',
+        'submit_confirmation_label'             => 'Submit the form.',
+        'submit_confirmation_error'             => 'Please check this box if you want to proceed.',
+        'import_no_file'                        => 'No file is selected.',
 
     );
 
@@ -442,6 +443,7 @@ class AdminPageFramework_Message {
 
         __( 'Submit the form.', 'admin-page-framework' ); // 3.8.24
         __( 'Please check this box if you want to proceed.', 'admin-page-framework' ); // 3.8.24
+        __( 'No file is selected.', 'admin-page-framework' ); // 3.8.24
 
     }
 

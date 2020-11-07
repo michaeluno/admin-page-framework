@@ -1,3 +1,4 @@
-- Tweaked the style of the `import` field type.
 - Added the `confirm` argument for the `submit` field type.
-- Change the behavior of the textarea of the system field type not to select text on click.  
+- Tweaked the style of the `import` field type.
+- Added a message to appear when the submit button of the `import` field type is clicked without uploading a file. 
+- Change the behavior of the textarea of the system field type not to select text on click.
