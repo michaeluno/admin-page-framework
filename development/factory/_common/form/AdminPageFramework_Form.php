@@ -124,7 +124,7 @@ class AdminPageFramework_Form extends AdminPageFramework_Form_Controller {
         /**
          * Decides whether the section is visible or not.
          * This will be called when the form gets rendered.
-         * @return      boolen
+         * @return      boolean
          */
         'is_sectionset_visible'    => null,
         /**
@@ -183,6 +183,7 @@ class AdminPageFramework_Form extends AdminPageFramework_Form_Controller {
 
     /**
      * Stores the message object.
+     * @var AdminPageFramework_Message
      */
     public $oMsg;
 
@@ -220,21 +221,6 @@ class AdminPageFramework_Form extends AdminPageFramework_Form_Controller {
         'register_if_action_already_done'   => true,
 
     );
-
-    /**
-     * A submit notice object.
-     */
-    public $oSubmitNotice;
-
-    /**
-     * A field error object.
-     */
-    public $oFieldError;
-
-    /**
-     * Last inputs handler object.
-     */
-    public $oLastInputs;
 
     /**
      * Stores sub-object class names.
