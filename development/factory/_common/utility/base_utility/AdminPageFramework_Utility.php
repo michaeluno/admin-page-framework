@@ -18,14 +18,47 @@
  */
 class AdminPageFramework_Utility extends AdminPageFramework_Utility_HTMLAttribute {
 
+    static private $___aObjectCache = array();
+    /**
+     * @param string|array $asName  If array, it represents a multi-dimensional keys.
+     * @param mixed        $mValue
+     * @since  3.8.24
+     */
+    static public function setObjectCache( $asName, $mValue ) {
+        self::setMultiDimensionalArray( self::$___aObjectCache, self::getAsArray( $asName ), $mValue );
+    }
+
+    /**
+     * @param array|string $asName
+     * @since  3.8.24
+     */
+    static public function unsetObjectCache( $asName ) {
+        self::unsetDimensionalArrayElement( self::$___aObjectCache, self::getAsArray( $asName ) );
+    }
+
+    /**
+     * Caches values in the class property.
+     *
+     * @remark The stored data will be gone after the page load.
+     * @param  array|string $asName The key of the object cache array. If an array is given, it represents the multi-dimensional keys.
+     * @param  mixed $mDefault
+     * @return mixed
+     * @since  3.8.24
+     */
+    static public function getObjectCache( $asName, $mDefault=null ) {
+        return self::getArrayValueByArrayKeys( self::$___aObjectCache, self::getAsArray( $asName ), $mDefault );
+    }
+
     /**
      * Shows a message for a deprecated item.
      *
      * Uses the `E_USER_NOTICE` error level so that the message won't be shown if `WP_DEBUG` is `false`.
      *
-     * @remark      This method is overridden by the `AdminPageFramework_FrameworkUtility` class.
-     * @return      void
-     * @since       3.8.8
+     * @remark  This method is overridden by the `AdminPageFramework_FrameworkUtility` class.
+     * @param   string $sDeprecated
+     * @param   string $sAlternative
+     * @param   string $sProgramName
+     * @since   3.8.8
      */
     static public function showDeprecationNotice( $sDeprecated, $sAlternative='', $sProgramName='Admin Page Framework' ) {
         trigger_error(
@@ -88,12 +121,14 @@ class AdminPageFramework_Utility extends AdminPageFramework_Utility_HTMLAttribut
     /**
      * Captures the output buffer of the given function.
      * @since       3.6.3
+     * @param       callable    $cCallable
+     * @param       array       $aParameters
      * @return      string      The captured output buffer.
      */
-    static public function getOutputBuffer( $oCallable, array $aParameters=array() ) {
+    static public function getOutputBuffer( $cCallable, array $aParameters=array() ) {
 
         ob_start();
-        echo call_user_func_array( $oCallable, $aParameters );
+        echo call_user_func_array( $cCallable, $aParameters );
         $_sContent = ob_get_contents();
         ob_end_clean();
         return $_sContent;
@@ -105,6 +140,7 @@ class AdminPageFramework_Utility extends AdminPageFramework_Utility_HTMLAttribut
      *
      * @remark      Meant to be used for the `__toString()` method.
      * @since       3.6.0
+     * @param       object  $oInstance
      * @return      string
      */
     static public function getObjectInfo( $oInstance ) {
@@ -125,7 +161,7 @@ class AdminPageFramework_Utility extends AdminPageFramework_Utility_HTMLAttribut
      * @since       3.5.3
      * @param       boolean|integer|double|string|array|object|resource|NULL        $mValue     The value to evaluate.
      * @param       boolean|integer|double|string|array|object|resource|NULL        $mTrue      The value to return when the first parameter value yields true.
-     * @param       boolean|integer|double|string|array|object|resource|NULL        $mTrue      The value to return when the first parameter value yields false.
+     * @param       boolean|integer|double|string|array|object|resource|NULL        $mFalse     The value to return when the first parameter value yields false.
      * @return      mixed
      */
     static public function getAOrB( $mValue, $mTrue=null, $mFalse=null ) {

@@ -3,7 +3,6 @@
 ## Minor
 - Tweak the style of the `import` field type.
 - Show an error when the import submit button is pressed without setting a file.
-- Add object cache utility methods.
 
 ## Major
 - Support namespaces.
