@@ -98,9 +98,15 @@ class AdminPageFramework_FieldType_import extends AdminPageFramework_FieldType_s
 .admin-page-framework-field-import input {
     margin-right: 0.5em;
 }
+.admin-page-framework-field-import,
+.admin-page-framework-field-import .admin-page-framework-input-label-container {
+    width: 100%;
+}
 .admin-page-framework-field-import label,
 .form-table td fieldset.admin-page-framework-fieldset .admin-page-framework-field-import label { /* for Wordpress 3.8 or above */
-    display: inline; /* to display the submit button in the same line to the file input tag */
+    display: inline-block; /* to display the submit button in the same line to the file input tag */
+    width: auto;
+    vertical-align: middle;
 }
 CSSRULES;
     }
@@ -111,14 +117,13 @@ CSSRULES;
      * @since       2.1.5       Moved from the AdminPageFramework_FormField class. The name was changed from getHiddenField().
      * @since       3.3.1       Changed from `_replyToGetField()`.
      * @internal
+     * @param       array
      * @return      string
      */
     protected function getField( $aField ) {
-
-        /* Set some required values */
-        $aField['attributes']['name']   = "__import[submit][{$aField['input_id']}]";
-        $aField['label']                = $aField['label']
-            ? $aField['label']
+        $aField[ 'attributes'][ 'name' ]  = "__import[submit][{$aField[ 'input_id' ]}]";
+        $aField[ 'label' ]                = $aField[ 'label' ]
+            ? $aField[ 'label' ]
             : $this->oMsg->get( 'import' );
         return parent::getField( $aField );
     }
@@ -130,22 +135,26 @@ CSSRULES;
      *
      * @since       3.0.0
      * @internal
+     * @param       array   $aField
      * @return      string
      */
     protected function _getExtraFieldsBeforeLabel( &$aField ) {
-        return "<input " . $this->getAttributes(
-                array(
-                    'id' => "{$aField['input_id']}_file",
-                    'type' => 'file',
-                    'name' => "__import[{$aField['input_id']}]",
-                ) + $aField['attributes']['file']
-            ) . " />";
+        return "<label>"
+                . "<input " . $this->getAttributes(
+                    array(
+                        'id' => "{$aField[ 'input_id' ]}_file",
+                        'type' => 'file',
+                        'name' => "__import[{$aField[ 'input_id' ]}]",
+                    ) + $aField[ 'attributes' ][ 'file' ]
+                ) . " />"
+            . "</label>";
     }
 
     /**
      * Returns the output of hidden fields for this field type that enables custom submit buttons.
      * @since       3.0.0
      * @internal
+     * @param       array   $aField
      * @return      string
      */
     protected function _getExtraInputFields( &$aField ) {

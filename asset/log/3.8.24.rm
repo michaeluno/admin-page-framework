@@ -1,1 +1,2 @@
+- Tweaked the style of the `import` field type.
 - Added the `confirm` argument for the `submit` field type.
