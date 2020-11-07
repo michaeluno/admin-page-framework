@@ -438,7 +438,8 @@ class AdminPageFramework_Debug_Base extends AdminPageFramework_FrameworkUtility 
              * @return string
              */
             static private function ___getStackTraceArgument_string( $mArgument ) {
-                return "'" . $mArgument . "'";
+                $_sString = self::___getLegibleString( $mArgument, 200, true );
+                return "'" . $_sString . "'";
             }
             static private function ___getStackTraceArgument_scalar( $mArgument ) {
                 return $mArgument;
@@ -466,13 +467,13 @@ class AdminPageFramework_Debug_Base extends AdminPageFramework_FrameworkUtility 
                 foreach( $mArgument as $_sKey => $_mValue ) {
                     $_iIndex++;
                     $_mValue   = is_scalar( $_mValue )
-                        ? $_mValue
+                        ? self::___getLegibleDetailedScalar( $_mValue, 100 )
                         : ucfirst( gettype( $_mValue ) ) . (
                             is_object( $_mValue )
                                 ? ' (' . get_class( $_mValue ) . ')'
                                 : ''
                         );
-                    $_sOutput .= $_sKey . ': ' . $_mValue . ',';
+                    $_sOutput .= $_sKey . ': ' . $_mValue . ', ';
                     if ( $_iIndex > $_iMax && $_iTotal > $_iMax ) {
                         $_sOutput  = rtrim( $_sOutput, ','  ) . '...';
                         break;
