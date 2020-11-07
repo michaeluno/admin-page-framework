@@ -117,7 +117,7 @@ abstract class AdminPageFramework_Input_Base extends AdminPageFramework_Framewor
         );
         return isset( $_aParams[ 0 ] )
             ? $this->getElement( $this->aAttributes, $_aParams[ 0 ], $_aParams[ 1 ] )
-            : $this->aAttributes();
+            : $this->aAttributes;
     }
  
     /**
@@ -169,10 +169,11 @@ abstract class AdminPageFramework_Input_Base extends AdminPageFramework_Framewor
      * Use this method to generate an attribute array for multiple input items.
      * 
      * @since       3.5.3
+     * @param       strign $sKey
      * @return      void
      */
     public function setAttributesByKey( $sKey ) {
-        $this->aAttributes = $this->getAttributesByKey( $sKey );
+        $this->aAttributes = call_user_func_array( array( $this, 'getAttributesByKey' ), array( $sKey ) );
     }
     
     /**
@@ -181,7 +182,7 @@ abstract class AdminPageFramework_Input_Base extends AdminPageFramework_Framewor
      * @return      array       The updated attribute array. 
      * @since       3.5.3
      */
-    public function getAttributesByKey() {
+    public function getAttributesByKey( /* $sKey */ ) {
         return array();
     }
         
@@ -195,6 +196,5 @@ abstract class AdminPageFramework_Input_Base extends AdminPageFramework_Framewor
             $_aParams = func_get_args();
             return call_user_func_array( array( $this, 'getAttributesByKey' ), $_aParams );
         }    
-    
- 
+
 }
