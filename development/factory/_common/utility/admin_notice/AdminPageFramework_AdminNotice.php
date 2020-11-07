@@ -57,7 +57,7 @@ class AdminPageFramework_AdminNotice extends AdminPageFramework_FrameworkUtility
      * @param       array       $aCallbacks     [3.7.0+] An array storing callbacks.
      * <h4>Arguments</h4>
      * <ul>
-     *      <li>`shouold_show` - (callable) Determines whether the admin notice should be displayed or not.</li>
+     *      <li>`should_show` - (callable) Determines whether the admin notice should be displayed or not.</li>
      * </ul>
      * @since       3.5.0
      */
@@ -78,7 +78,7 @@ class AdminPageFramework_AdminNotice extends AdminPageFramework_FrameworkUtility
         // Load resources.
         new AdminPageFramework_AdminNotice___Script;
 
-        // An empty value may be set in oreder only to laode the fade-in script.
+        // An empty value may be set in order only to load the fade-in script.
         if ( ! $sNotice ) {
             return;
         }
