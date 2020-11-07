@@ -105,7 +105,7 @@ class AdminPageFramework_FieldType_system extends AdminPageFramework_FieldType {
             'required'      => null,
             'wrap'          => null,
             'style'         => null,
-            'onclick'       => 'this.focus();this.select()',
+            // 'onclick'       => 'this.focus();this.select()', // @deprecated 3.8.24
         ),
     );
 

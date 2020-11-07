@@ -1,2 +1,3 @@
 - Tweaked the style of the `import` field type.
 - Added the `confirm` argument for the `submit` field type.
+- Change the behavior of the textarea of the system field type not to select text on click.  
