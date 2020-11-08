@@ -241,7 +241,6 @@ class AdminPageFramework_FieldType_submit extends AdminPageFramework_FieldType {
 }
 .admin-page-framework-field-submit .field-error.submit-confirmation-warning {
     float: none;
-    margin-left: 0.8em;
 }
 CSSRULES;
     }
@@ -267,8 +266,8 @@ jQuery( document ).ready( function(){
                 return true;
             }           
             // At this point, the checkbox is not checked.
-            var _sErrorTag = "<span class='field-error submit-confirmation-warning'>* " + _confirmCheckbox.attr( 'data-error-message' ) + "</span>";
-            _fieldSubmit.find( '.submit-confirm-container label' ).append( _sErrorTag );
+            var _sErrorTag = "<p class='field-error submit-confirmation-warning'><span>* " + _confirmCheckbox.attr( 'data-error-message' ) + "</span></p>";
+            _fieldSubmit.find( '.submit-confirm-container' ).append( _sErrorTag );
             return false;        
         } );     
     });            
