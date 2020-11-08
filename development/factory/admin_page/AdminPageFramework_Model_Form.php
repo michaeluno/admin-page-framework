@@ -262,6 +262,8 @@ abstract class AdminPageFramework_Model_Form extends AdminPageFramework_Router {
 
     /**
      * @since       3.7.0
+     * @param       array   $aFieldset
+     * @param       array   $aSectionsets
      * @return      array
      */
     public function _replyToFormatFieldsetDefinition( $aFieldset, $aSectionsets ) {
@@ -299,8 +301,8 @@ abstract class AdminPageFramework_Model_Form extends AdminPageFramework_Router {
             ? $aFieldset[ 'capability' ]
             : $this->_replyToGetCapabilityForForm(
                 $this->oUtil->getElement( $_aSectionset, 'capability' ),
-                $aSectionset[ 'page_slug' ],
-                $aSectionset[ 'tab_slug' ]
+                $_aSectionset[ 'page_slug' ],
+                $_aSectionset[ 'tab_slug' ]
             );
 
         return parent::_replyToFormatFieldsetDefinition( $aFieldset, $aSectionsets );
