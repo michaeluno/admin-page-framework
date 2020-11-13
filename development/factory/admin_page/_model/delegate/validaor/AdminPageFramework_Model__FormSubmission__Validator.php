@@ -56,6 +56,7 @@ class AdminPageFramework_Model__FormSubmission__Validator extends AdminPageFrame
             $_sPageSlug         = $this->getElement( $_POST, 'page_slug', '' );
 
             $_aSubmits          = $this->getElementAsArray( $_POST, '__submit', array() );
+            $_aSubmits          = $this->getHTTPRequestSanitized( $_aSubmits, true );
             $_sPressedInputName = $this->_getPressedSubmitButtonData( $_aSubmits, 'name' );
             $_sSubmitSectionID  = $this->_getPressedSubmitButtonData( $_aSubmits, 'section_id' );
 

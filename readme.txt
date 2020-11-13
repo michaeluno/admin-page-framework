@@ -4,7 +4,7 @@ Donate link:        http://michaeluno.jp/en/donate
 Tags:               admin pages, developers, options, settings, API, framework, library, meta box, custom post type, fields, widgets, forms, plugins, themes
 Requires at least:  3.4
 Tested up to:       5.5.3
-Stable tag:         3.8.23
+Stable tag:         3.8.24
 License:            GPLv2 or later
 License URI:        http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -538,6 +538,15 @@ Alternately, you may use the `options_{instantiated class name}` filter to suppr
 See examples, https://gist.github.com/michaeluno/c30713fcfe0d9d45d89f, https://gist.github.com/michaeluno/fcfac27825aa8a35b90f,
 
 == Changelog ==
+
+= 3.8.24 - 2020/11/14 =
+- Added the `confirm` argument for the `submit` field type.
+- Added a message to appear when the submit button of the `import` field type is clicked without uploading a file.
+- Tweaked the style of the `import` field type.
+- Fixed non-sanitized HTTP request arrays.
+- Fixed a bug that field capability did not inherit from its section properly.
+- Changed the behavior of the textarea of the system field type not to select text on click.
+- Removed the `ace` custom field type as it was warned by the wordpress.org plugin team not to load files remotely.
 
 = 3.8.23 - 2020/11/05 =
 - Added the ability to automatically insert the current in-page tab title in the page title.

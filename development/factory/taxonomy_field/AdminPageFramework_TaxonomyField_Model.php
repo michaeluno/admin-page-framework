@@ -216,7 +216,6 @@ abstract class AdminPageFramework_TaxonomyField_Model extends AdminPageFramework
         protected function _shouldProceedValidation() {
 
             if ( ! isset( $_POST[ $this->oProp->sClassHash ] ) ) {
-
                 return false;
             }
             if ( ! wp_verify_nonce( $_POST[ $this->oProp->sClassHash ], $this->oProp->sClassHash ) ) {

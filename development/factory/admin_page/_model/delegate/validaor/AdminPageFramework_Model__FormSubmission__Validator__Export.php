@@ -56,16 +56,19 @@ class AdminPageFramework_Model__FormSubmission__Validator__Export extends AdminP
         /**
          * Processes exporting data.
          *
-         * @since       2.0.0
-         * @since       2.1.5       Added additional filters with field id and input id.
-         * @since       3.3.1       Moved from `AdminPageFramework_Setting_Port`.
-         * @since       3.5.3       Moved from `AdminPageFramework_Form_Model_Port`.
-         * @since       3.6.3       Moved from `AdminPageFramework_Form_Model_Export`.
+         * @param mixed  $mData
+         * @param string $sPageSlug
+         * @param string $sTabSlug
+         * @since 2.0.0
+         * @since 2.1.5  Added additional filters with field id and input id.
+         * @since 3.3.1  Moved from `AdminPageFramework_Setting_Port`.
+         * @since 3.5.3  Moved from `AdminPageFramework_Form_Model_Port`.
+         * @since 3.6.3  Moved from `AdminPageFramework_Form_Model_Export`.
          */
         protected function _exportOptions( $mData, $sPageSlug, $sTabSlug ) {
 
             $_oExport           = new AdminPageFramework_ExportOptions(
-                $_POST[ '__export' ],
+                $this->getHTTPRequestSanitized( $this->getElementAsArray( $_POST, array( '__export' ) ), true ),
                 $this->oFactory->oProp->sClassName
             );
             $_aArguments        = array(

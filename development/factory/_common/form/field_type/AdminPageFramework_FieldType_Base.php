@@ -149,7 +149,10 @@ abstract class AdminPageFramework_FieldType_Base extends AdminPageFramework_Form
      * 
      * @remark      Used by the `text`, `textarea`, `size`, 'radio', and `checkbox` field types.
      * @since       3.5.8
-     * @since       3.7.0      Changed the third parameter to accept a label argument from a boolean value to be usable for other filed types.
+     * @since       3.7.0        Changed the third parameter to accept a label argument from a boolean value to be usable for other filed types.
+     * @param       array|string $asElement
+     * @param       array|string $asKey
+     * @param       array|string $asLabel
      * @return      string
      */
     protected function getElementByLabel( $asElement, $asKey, $asLabel ) {
@@ -170,6 +173,7 @@ abstract class AdminPageFramework_FieldType_Base extends AdminPageFramework_Form
      * 
      * This is used to create nested fields or dynamically create a different type of field.
      * @since       3.4.0
+     * @param       array       $aFieldset
      * @return      string      The fieldset output.
      */
     protected function getFieldOutput( array $aFieldset ) {
@@ -197,6 +201,8 @@ abstract class AdminPageFramework_FieldType_Base extends AdminPageFramework_Form
     }
         /**
          * @deprecated  Kept for backward compatibility.
+         * @param       array       $aFieldset
+         * @return      string
          */
         protected function geFieldOutput( array $aFieldset ) {
             return $this->getFieldOutput( $aFieldset );
@@ -227,6 +233,8 @@ abstract class AdminPageFramework_FieldType_Base extends AdminPageFramework_Form
      * @since       2.1.5
      * @since       3.0.0       Added the $sFieldTypeSlug parameter.
      * @since       3.0.3       Tweaked it to have better execution speed.
+     * @param       string      $sFieldTypeSlug
+     * @return      array
      * @internal
      */
     public function getDefinitionArray( $sFieldTypeSlug='' ) {
@@ -257,20 +265,28 @@ abstract class AdminPageFramework_FieldType_Base extends AdminPageFramework_Form
     /*
      * These methods should be overridden in the extended class.
      */
-    /**#@+
+    /**
      * @internal
+     * @param       array      $aField
+     * @return      string
      */    
     public function _replyToGetField( $aField ) { return ''; }          // should return the field output
+    /**#@+
+     * @internal
+     * @return   string
+     */
     public function _replyToGetScripts() { return ''; }                 // should return the script
     public function _replyToGetInputIEStyles() { return ''; }           // should return the style for IE
     public function _replyToGetStyles() { return ''; }                  // should return the style
-    public function _replyToFieldLoader() {}                            // do stuff that should be done when the field type is loaded for the first time.
     /**#@-*/
+    public function _replyToFieldLoader() {}                            // do stuff that should be done when the field type is loaded for the first time.
+
     /**
      * Sets the field set type.
      * 
      * Called when enqueuing the field type's head tag elements.
      * @since       3.0.0
+     * @param       string  $sFieldSetType
      * @internal
      */
     public function _replyToFieldTypeSetter( $sFieldSetType='' ) {
@@ -281,6 +297,7 @@ abstract class AdminPageFramework_FieldType_Base extends AdminPageFramework_Form
      * Called when the given field of this field type is registered.
      * 
      * @since       3.5.0
+     * @param       array       $aField
      * @internal
      */
     public function _replyToDoOnFieldRegistration( $aField ) {}
@@ -338,7 +355,10 @@ abstract class AdminPageFramework_FieldType_Base extends AdminPageFramework_Form
          * 
          * @internal
          * @since       2.0.0
-         * @callback    filter      gettext
+         * @param       string       $sTranslated
+         * @param       string       $sText
+         * @return      string
+         * @callback    add_filter() gettext
          */ 
         public function _replyToReplaceThickBoxText( $sTranslated, $sText ) {
 
@@ -353,8 +373,8 @@ abstract class AdminPageFramework_FieldType_Base extends AdminPageFramework_Form
                 return $sTranslated; 
             }
             
-            if ( isset( $_GET['button_label'] ) ) { 
-                return $_GET['button_label']; 
+            if ( isset( $_GET[ 'button_label' ] ) ) {
+                return sanitize_text_field( $_GET[ 'button_label' ] );
             }
 
             return $this->oProp->sThickBoxButtonUseThis 
@@ -366,9 +386,10 @@ abstract class AdminPageFramework_FieldType_Base extends AdminPageFramework_Form
          * Removes the From URL tab from the media uploader.
          * 
          * @internal
-         * since        2.1.3
-         * since        2.1.5       Moved from AdminPageFramework_Setting. Changed the name from removeMediaLibraryTab() to _replyToRemovingMediaLibraryTab().
-         * @callback    filter      media_upload_tabs
+         * @since       2.1.3
+         * @since       2.1.5        Moved from AdminPageFramework_Setting. Changed the name from removeMediaLibraryTab() to _replyToRemovingMediaLibraryTab().
+         * @callback    add_filter() media_upload_tabs
+         * @param       array        $aTabs
          * @return      array
          */
         public function _replyToRemovingMediaLibraryTab( $aTabs ) {
@@ -376,21 +397,23 @@ abstract class AdminPageFramework_FieldType_Base extends AdminPageFramework_Form
             if ( ! isset( $_REQUEST[ 'enable_external_source' ] ) ) {
                 return $aTabs; 
             }
-            
-            if ( ! $_REQUEST[ 'enable_external_source' ] ) {
+            if ( ! ( boolean ) $_REQUEST[ 'enable_external_source' ] ) {
                 unset( $aTabs[ 'type_url' ] ); // removes the 'From URL' tab in the thick box.
             }
             return $aTabs;
             
-        }     
-        
+        }
+
     /**
      * Generates HTML attributes of label containers.
-     * 
+     *
      * This is used for element that `label_min_width` is applied.
-     * 
-     * @since       3.8.0
-     * @return      string
+     *
+     * @param  array         $aField
+     * @param  array|string $asClassAttributes
+     * @param  array        $aAttributes
+     * @return string
+     * @since  3.8.0
      */
     protected function getLabelContainerAttributes( $aField, $asClassAttributes, array $aAttributes=array() ) {
 
@@ -404,8 +427,7 @@ abstract class AdminPageFramework_FieldType_Base extends AdminPageFramework_Form
             $this->getElement( $aAttributes, 'style' )
         );
         return $this->getAttributes( $aAttributes );
-        
-       
+
     }
         
 }

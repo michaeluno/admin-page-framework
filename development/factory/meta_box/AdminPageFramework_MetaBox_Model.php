@@ -19,6 +19,13 @@ abstract class AdminPageFramework_MetaBox_Model extends AdminPageFramework_MetaB
 
     /**
      * Sets up hooks.
+     * @param       string $sMetaBoxID
+     * @param       string $sTitle
+     * @param       array|string $asPostTypeOrScreenID
+     * @param       string $sContext
+     * @param       string $sPriority
+     * @param       string $sCapability
+     * @param       string $sTextDomain
      * @since       3.7.9
      */
     public function __construct( $sMetaBoxID, $sTitle, $asPostTypeOrScreenID=array( 'post' ), $sContext='normal', $sPriority='default', $sCapability='edit_posts', $sTextDomain='admin-page-framework' ) {
@@ -44,6 +51,7 @@ abstract class AdminPageFramework_MetaBox_Model extends AdminPageFramework_MetaB
      * Sets up hooks after calling the `setUp()` method.
      *
      * @since       3.7.9
+     * @param       AdminPageFramework  $oFactory
      * @callback    action      set_up_{instantiated class name}
      * @internal
      */
@@ -61,6 +69,7 @@ abstract class AdminPageFramework_MetaBox_Model extends AdminPageFramework_MetaB
      * @since       3.7.9       Renamed from `_setUpValidationHooks`. Changed the scope to public from protected.
      * @callback    action      set_up_{instantiated class name}
      * @internal
+     * @param       WP_Screen   $oScreen
      */
     public function _replyToSetUpValidationHooks( $oScreen ) {
 
@@ -130,7 +139,7 @@ abstract class AdminPageFramework_MetaBox_Model extends AdminPageFramework_MetaB
     public function _replyToGetSavedFormData() {
 
         $_oMetaData = new AdminPageFramework_MetaBox_Model___PostMeta(
-            $this->_getPostID(),
+            $this->___getPostID(),
             $this->oForm->aFieldsets
         );
         $this->oProp->aOptions = $_oMetaData->get();
@@ -145,18 +154,18 @@ abstract class AdminPageFramework_MetaBox_Model extends AdminPageFramework_MetaB
          * @internal
          * @return      integer     The found post ID. `0` if not found.
          */
-        private function _getPostID()  {
+        private function ___getPostID()  {
 
             // for an editing post page.
             if ( isset( $GLOBALS[ 'post' ]->ID ) ) {
                 return $GLOBALS[ 'post' ]->ID;
             }
             if ( isset( $_GET[ 'post' ] ) ) {
-                return $_GET[ 'post' ];
+                return absint( $_GET[ 'post' ] );
             }
             // for post.php without any query key-values.
             if ( isset( $_POST[ 'post_ID' ] ) ) {
-                return $_POST[ 'post_ID' ];
+                return absint( $_POST[ 'post_ID' ] );
             }
             return 0;
 
@@ -183,7 +192,7 @@ abstract class AdminPageFramework_MetaBox_Model extends AdminPageFramework_MetaB
 
         // Retrieve the submitted data.
         $_aInputs       = $this->oForm->getSubmittedData(
-            $_POST,     // subject data to be parsed
+            $_POST,     // subject data to be parsed. Will be sanitized in the method
             true,       // extract data with the fieldset structure
             false       // strip slashes
         );
@@ -238,6 +247,7 @@ abstract class AdminPageFramework_MetaBox_Model extends AdminPageFramework_MetaB
          * @internal
          * @callback    filter      redirect_post_location
          * @since       3.3.0
+         * @param       string      $sLocation
          * @return      string      The modified url to be redirected after publishing the post.
          */
         public function _replyToModifyRedirectPostLocation( $sLocation ) {
@@ -260,9 +270,10 @@ abstract class AdminPageFramework_MetaBox_Model extends AdminPageFramework_MetaB
          * Checks whether the function call of processing submitted field values is valid or not.
          *
          * @since       3.3.0
-         * @since       3.6.0       Added the `$aUnmodified` parameter.
+         * @since       3.6.0      Added the `$aUnmodified` parameter.
          * @since       3.7.0      Renamed from `_validateCall()`.
          * @internal
+         * @param       array      $aUnmodified
          * @return      boolean
          */
         private function _shouldProceedValidation( array $aUnmodified ) {
@@ -284,7 +295,7 @@ abstract class AdminPageFramework_MetaBox_Model extends AdminPageFramework_MetaB
                 return false;
             }
 
-            if ( ! in_array( $aUnmodified[ 'post_type' ], $this->oProp->aPostTypes ) ) {
+            if ( ! in_array( $aUnmodified[ 'post_type' ], $this->oProp->aPostTypes, true ) ) {
                 return false;
             }
 

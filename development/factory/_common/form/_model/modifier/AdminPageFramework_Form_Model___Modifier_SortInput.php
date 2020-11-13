@@ -29,9 +29,8 @@ class AdminPageFramework_Form_Model___Modifier_SortInput extends AdminPageFramew
             $this->aInput,
             $this->aFieldAddresses,
         );
-        $this->aInput               = $_aParameters[ 0 ];
+        $this->aInput          = $_aParameters[ 0 ];
         $this->aFieldAddresses = $_aParameters[ 1 ];
-
 
     }
 
@@ -76,6 +75,7 @@ class AdminPageFramework_Form_Model___Modifier_SortInput extends AdminPageFramew
          * the addresses are already modified and it causes data loss.
          *
          * @since       3.6.2
+         * @param       array   $aFieldAddresses
          * @return      array
          */
         private function _getFormattedDimensionalKeys( $aFieldAddresses ) {

@@ -41,6 +41,8 @@ class AdminPageFramework_ExportOptions extends AdminPageFramework_CustomSubmitFi
 
     /**
      * Sets up properties.
+     * @param array  $aPostExport
+     * @param string $sClassName
      */
     public function __construct( $aPostExport, $sClassName ) {
 
@@ -90,8 +92,12 @@ class AdminPageFramework_ExportOptions extends AdminPageFramework_CustomSubmitFi
      *  name="__export[submit][export_sinble]"
      *  value="Export Options">
      * </code>
-     * @since       2.0.0
-     * @since       3.5.4       Added the `$aHeader` parameter. Deprecated the `$sFileName` parameter as it is included in the $aHeader definition.
+     *
+     * @param mixed $vData
+     * @param null  $sFormatType
+     * @param array $aHeader
+     * @since 3.5.4       Added the `$aHeader` parameter. Deprecated the `$sFileName` parameter as it is included in the $aHeader definition.
+     * @since 2.0.0
      */
     public function doExport( $vData, $sFormatType=null, array $aHeader=array() ) {
 
@@ -119,6 +125,8 @@ class AdminPageFramework_ExportOptions extends AdminPageFramework_CustomSubmitFi
          * @internal
          * @remark      If a parsing item is an array,
          * @since       3.5.4
+         * @param       array  $aHeader
+         * @param       string $sKey
          * @return      void
          */
         private function _outputHTTPHeader( array $aHeader, $sKey='' ) {
@@ -148,8 +156,10 @@ class AdminPageFramework_ExportOptions extends AdminPageFramework_CustomSubmitFi
         /**
          * Outputs the given data by type.
          *
-         * @since       3.5.3
-         * @return      void
+         * @param    mixed  $vData
+         * @param    string $sFormatType
+         * @return   void
+         * @since    3.5.3
          * @internal
          */
         private function _outputDataByType( $vData, $sFormatType ) {

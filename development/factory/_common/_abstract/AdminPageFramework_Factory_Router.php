@@ -258,7 +258,7 @@ abstract class AdminPageFramework_Factory_Router {
                 return false;
             }
             $_sAction = isset( $_POST[ 'action' ] ) ? $_POST[ 'action' ] : '';
-            return in_array( $_sAction, array( 'heartbeat', 'closed-postboxes', 'meta-box-order' ) );
+            return in_array( $_sAction, array( 'heartbeat', 'closed-postboxes', 'meta-box-order' ), true );
         }
 
     /**

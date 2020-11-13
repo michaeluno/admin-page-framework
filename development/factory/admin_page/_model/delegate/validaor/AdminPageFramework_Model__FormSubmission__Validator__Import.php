@@ -26,9 +26,13 @@ class AdminPageFramework_Model__FormSubmission__Validator__Import extends AdminP
     /**
      * Handles the callback.
      *
+     * @param       array        $aInputs
+     * @param       array        $aRawInputs
+     * @param       array        $aSubmits
+     * @param       array        $aSubmitInformation
+     * @callback    add_action() try_validation_after_{class name}
+     * @throws      Exception
      * @since       3.6.3
-     * @return      array       The formatted definition array.
-     * @callback    action      try_validation_after_{class name}
      */
     public function _replyToCallback( $aInputs, $aRawInputs, array $aSubmits, $aSubmitInformation, $oFactory ) {
         if ( ! $this->_shouldProceed() ) {
@@ -52,13 +56,16 @@ class AdminPageFramework_Model__FormSubmission__Validator__Import extends AdminP
                 $_FILES[ '__import' ]
             );
         }
+
         /**
          * Handles importing options.
          *
+         * @param    string $sPageSlug
+         * @param    string $sTabSlug
+         * @throws   Exception
+         * @since    3.5.3
+         * @since    3.6.3  Moved from `AdminPageFramework_Validation`.
          * @internal
-         * @since       3.5.3
-         * @since       3.6.3       Moved from `AdminPageFramework_Validation`.
-         * @return      void
          */
         private function _doImportOptions( $sPageSlug, $sTabSlug ) {
 
@@ -72,16 +79,24 @@ class AdminPageFramework_Model__FormSubmission__Validator__Import extends AdminP
             throw $_oException;
 
         }
+
             /**
              * Processes importing data.
              *
-             * @since       2.0.0
-             * @since       2.1.5       Added additional filters with field id and input id.
-             * @since       3.3.1       Moved from `AdminPageFramework_Setting_Port`.
+             * @param  array  $aStoredOptions
+             * @param  string $sPageSlug
+             * @param  string $sTabSlug
+             * @return array|callable|string
+             * @since  2.1.5  Added additional filters with field id and input id.
+             * @since  3.3.1  Moved from `AdminPageFramework_Setting_Port`.
+             * @since  2.0.0
              */
             private function _importOptions( $aStoredOptions, $sPageSlug, $sTabSlug ) {
 
-                $_oImport           = new AdminPageFramework_ImportOptions( $_FILES[ '__import' ], $_POST[ '__import' ] );
+                $_oImport           = new AdminPageFramework_ImportOptions(
+                    $this->getHTTPRequestSanitized( $_FILES[ '__import' ], false ),
+                    $this->getHTTPRequestSanitized( $_POST[ '__import' ], true )
+                );
                 $_aArguments        = array(
                     'class_name'        => $this->oFactory->oProp->sClassName,
                     'page_slug'         => $sPageSlug,
@@ -274,6 +289,5 @@ class AdminPageFramework_Model__FormSubmission__Validator__Import extends AdminP
         );
 
     }
-
 
 }

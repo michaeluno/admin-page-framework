@@ -18,6 +18,29 @@
  */
 class AdminPageFramework_Utility extends AdminPageFramework_Utility_HTMLAttribute {
 
+    /**
+     * @param  array   $aRequest
+     * @param  boolean $bStripSlashes   Whether to fix magic quotes.
+     * @return array
+     * @since  3.8.24
+     */
+    static public function getHTTPRequestSanitized( array $aRequest, $bStripSlashes ) {
+        foreach( $aRequest as $_isIndex => $_mValue ) {
+            if ( is_array( $_mValue ) ) {
+                $aRequest[ $_isIndex ] = self::getHTTPRequestSanitized( $_mValue, $bStripSlashes );
+                continue;
+            }
+            if ( is_string( $_mValue ) ) {
+                $aRequest[ $_isIndex ] = _sanitize_text_fields( $_mValue, true );
+            }
+        }
+        return $bStripSlashes ? stripslashes_deep( $aRequest ) : $aRequest;
+    }
+
+    /**
+     * @var   array
+     * @since 3.8.24
+     */
     static private $___aObjectCache = array();
     /**
      * @param string|array $asName  If array, it represents a multi-dimensional keys.
