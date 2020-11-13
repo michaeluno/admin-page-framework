@@ -3,3 +3,4 @@
 - Tweaked the style of the `import` field type.
 - Fixed a bug that field capability did not inherit from its section properly. 
 - Change the behavior of the textarea of the system field type not to select text on click.
+- Removed the `ace` custom field type as it was warned by the wordpress.org plugin team not to load files remotely.  
