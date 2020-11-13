@@ -1,11 +1,14 @@
 # Todo List
 
 ## Minor
-- Tweak the style of the `import` field type.
-- Show an error when the import submit button is pressed without setting a file.
-
+- Change the class map script to support autoload of traits and interfaces.
+       
 ## Major
-- Support namespaces.
-- Separate resources from PHP files.
-- Add the ability to auto-load file constructs.
 - Add the ability to set slug that suppresses the class name used for the hook names.
+- Separate resources from PHP files.
+- [4.0.0] Support namespaces.
+- [4.0.0] Add the ability to auto-load file constructs.
+- [4.0.0] Add a new meta box classes that do not require constructor parameters as they can be defined in class properties.
+- [Refactor] Convert all private methods to have the triple underscore (___) prefix.   
+- [Refactor] Convert all protected methods to have the triple underscore (_) prefix.   
+- [Refactor] Move utility methods into traits.
