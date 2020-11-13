@@ -18,6 +18,28 @@
  */
 class AdminPageFramework_Utility extends AdminPageFramework_Utility_HTMLAttribute {
 
+    /**
+     * @param  array $aRequest
+     * @return array
+     * @since  3.8.24
+     */
+    static public function getHTTPRequestSanitized( array $aRequest ) {
+        foreach( $aRequest as $_isIndex => $_mValue ) {
+            if ( is_array( $_mValue ) ) {
+                $aRequest[ $_isIndex ] = self::getHTTPRequestSanitized( $_mValue );
+                continue;
+            }
+            if ( is_string( $_mValue ) ) {
+                $aRequest[ $_isIndex ] = sanitize_text_field( $_mValue );
+            }
+        }
+        return $aRequest;
+    }
+
+    /**
+     * @var   array
+     * @since 3.8.24
+     */
     static private $___aObjectCache = array();
     /**
      * @param string|array $asName  If array, it represents a multi-dimensional keys.
