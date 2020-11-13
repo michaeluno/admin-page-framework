@@ -33,19 +33,19 @@ $root = $_SERVER['DOCUMENT_ROOT'];
 if( !$root ) exit("ERROR: Root filesystem directory not set in jqueryFileTree.php");
 
 $_aPost = $_POST;
-// $_aPost = _getPOSTValuesSanitized( $_POST );
-// function _getPOSTValuesSanitized( array $aPost ) {
-//     foreach( $aPost as $_isIndex => $_mValue ) {
-//         if ( is_string( $_mValue ) ) {
-//             $aPost[ $_isIndex ] = sanitize_text_field( $_mValue );
-//             continue;
-//         }
-//         if ( is_array( $_mValue ) ) {
-//             $aPost[ $_isIndex ] = _getPOSTValuesSanitized( $_mValue );
-//         }
-//     }
-//     return $aPost;
-// }
+$_aPost = _getPOSTValuesSanitized( $_POST );
+function _getPOSTValuesSanitized( array $aPost ) {
+    foreach( $aPost as $_isIndex => $_mValue ) {
+        if ( is_string( $_mValue ) ) {
+            $aPost[ $_isIndex ] = sanitize_text_field( $_mValue );
+            continue;
+        }
+        if ( is_array( $_mValue ) ) {
+            $aPost[ $_isIndex ] = _getPOSTValuesSanitized( $_mValue );
+        }
+    }
+    return $aPost;
+}
 
 $postDir = rawurldecode($root.(isset($_aPost['dir']) ? $_aPost['dir'] : null ));
 
