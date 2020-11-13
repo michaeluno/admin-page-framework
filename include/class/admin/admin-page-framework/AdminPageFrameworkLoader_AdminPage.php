@@ -27,7 +27,7 @@ class AdminPageFrameworkLoader_AdminPage extends AdminPageFramework {
             
             // Update the options and reload the page
             $_oOption = AdminPageFrameworkLoader_Option::getInstance( AdminPageFrameworkLoader_Registry::$aOptionKeys[ 'main' ] );
-            $_oOption->update( 'enable_admin_pages', $_GET[ 'enable_apfl_admin_pages' ] );
+            $_oOption->update( 'enable_admin_pages', ( boolean ) $_GET[ 'enable_apfl_admin_pages' ] );
             
             $this->oUtil->goToLocalURL( 
                 remove_query_arg( 'enable_apfl_admin_pages' ),
@@ -41,7 +41,7 @@ class AdminPageFrameworkLoader_AdminPage extends AdminPageFramework {
             
             // Update the options and reload the page
             $_oOption = AdminPageFrameworkLoader_Option::getInstance( AdminPageFrameworkLoader_Registry::$aOptionKeys[ 'main' ] );
-            $_oOption->update( 'enable_demo', $_GET[ 'enable_apfl_demo_pages' ] );
+            $_oOption->update( 'enable_demo', ( boolean ) $_GET[ 'enable_apfl_demo_pages' ] );
              
             if ( $_GET[ 'enable_apfl_demo_pages' ] ) {
                 $this->setSettingNotice( 
