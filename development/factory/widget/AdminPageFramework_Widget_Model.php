@@ -44,15 +44,19 @@ abstract class AdminPageFramework_Widget_Model extends AdminPageFramework_Widget
         }
 
     }
+
         /**
          * Sorts dynamic elements.
-         * @internal
-         * @since       3.6.0
+         *
+         * @param       array              $aSubmittedFormData
+         * @param       array              $aStoredFormData
+         * @param       AdminPageFramework $oFactory
          * @return      array
-         * @callback    filter      validation_{factory class name}
+         * @callback    add_filter()       validation_{factory class name}
+         * @since       3.6.0
+         * @internal
          */
         public function _replyToSortInputs( $aSubmittedFormData, $aStoredFormData, $oFactory ) {
-// @todo examine whether stripslashes_deep() is necessary or not.
             return $this->oForm->getSortedInputs( $aSubmittedFormData );
         }
 

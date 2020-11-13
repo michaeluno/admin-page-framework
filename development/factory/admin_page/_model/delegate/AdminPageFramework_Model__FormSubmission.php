@@ -109,6 +109,7 @@ class AdminPageFramework_Model__FormSubmission extends AdminPageFramework_Model_
 
         // Execute the submit_{...} actions.
         $_aSubmits          = $this->getElementAsArray( $_POST, '__submit', array() );
+        $_aSubmits          = $this->getHTTPRequestSanitized( $_aSubmits, true );
         $_sSubmitSectionID  = $this->_getPressedSubmitButtonData( $_aSubmits, 'section_id' );
         $_sPressedFieldID   = $this->_getPressedSubmitButtonData( $_aSubmits, 'field_id' );
         $_sPressedInputID   = $this->_getPressedSubmitButtonData( $_aSubmits, 'input_id' );        
@@ -232,7 +233,7 @@ class AdminPageFramework_Model__FormSubmission extends AdminPageFramework_Model_
         private function _getUserInputsFromPOST() {
 
             $_aInputs     = $this->getElementAsArray( 
-                $_POST, 
+                $_POST, // will be sanitized in the getSubmittedData() method.
                 $this->oFactory->oProp->sOptionKey, 
                 array() 
             );
@@ -240,9 +241,7 @@ class AdminPageFramework_Model__FormSubmission extends AdminPageFramework_Model_
                 $_aInputs,
                 false   // do not extract from form fieldsets structure
             );
-            // $_aInputs     = stripslashes_deep( $_aInputs );  
-            // return $this->oFactory->oForm->getSortedInputs( $_aInputs ); // 3.6.0+
-        
+
         }        
     
         /**

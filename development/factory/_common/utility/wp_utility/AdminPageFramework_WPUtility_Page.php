@@ -96,7 +96,7 @@ class AdminPageFramework_WPUtility_Page extends AdminPageFramework_WPUtility_HTM
                 }
                 if ( isset( $_GET[ 'post' ] ) && $_GET[ 'post' ] ) {
                     // It will perform a database query.
-                    return get_post_type( $_GET[ 'post' ] );
+                    return get_post_type( absint( $_GET[ 'post' ] ) );
                 }
             }
 
@@ -180,12 +180,10 @@ class AdminPageFramework_WPUtility_Page extends AdminPageFramework_WPUtility_HTM
         }
 
         $_aPostTypes = self::getAsArray( $asPostTypes );
-
         if ( ! isset( $_GET[ 'post_type' ] )  ) {
-            return in_array( 'post', $_aPostTypes );
+            return in_array( 'post', $_aPostTypes, true );
         }
-
-        return in_array( $_GET[ 'post_type' ], $_aPostTypes );
+        return in_array( $_GET[ 'post_type' ], $_aPostTypes, true );
 
     }
 

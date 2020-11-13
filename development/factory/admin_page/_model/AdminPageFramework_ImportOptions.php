@@ -46,6 +46,8 @@ class AdminPageFramework_ImportOptions extends AdminPageFramework_CustomSubmitFi
 
     /**
      * Sets up properties.
+     * @param array $aFilesImport
+     * @param array $aPostImport
      */
     public function __construct( $aFilesImport, $aPostImport ) {
 

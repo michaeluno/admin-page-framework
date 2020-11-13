@@ -37,11 +37,15 @@ class AdminPageFramework_Form_Model extends AdminPageFramework_Form_Base {
         }
         
     }
-    
+
     /**
      * Retrieves the submitted form data from $_POST.
-     * @since       3.7.0
-     * @return      array
+     *
+     * @param  array   $aDataToParse
+     * @param  boolean $bExtractFromFieldStructure
+     * @param  boolean $bStripSlashes
+     * @return array
+     * @since  3.7.0
      */
     public function getSubmittedData( array $aDataToParse, $bExtractFromFieldStructure=true, $bStripSlashes=true ) {
                 
@@ -52,13 +56,8 @@ class AdminPageFramework_Form_Model extends AdminPageFramework_Form_Base {
                 $aDataToParse   // the subject data array, usually $_POST.
             )
             : $aDataToParse;
-
-        // 3.6.0 - sorts dynamic elements.        
-        $_aSubmittedFormData    = $this->getSortedInputs( $_aSubmittedFormData ); 
-        
-        return $bStripSlashes
-            ? stripslashes_deep( $_aSubmittedFormData ) // fixes magic quotes
-            : $_aSubmittedFormData;
+        $_aSubmittedFormData    = $this->getHTTPRequestSanitized( $_aSubmittedFormData, $bStripSlashes );
+        return $this->getSortedInputs( $_aSubmittedFormData ); // [3.6.0] - sorts dynamic elements.
         
     }
     
@@ -71,7 +70,8 @@ class AdminPageFramework_Form_Model extends AdminPageFramework_Form_Base {
      * @since       3.6.0
      * @since       3.7.0      Moved from `AdminPageFramework_Factory_Model`.
      * Renamed from `_getSortedInputs()`.
-     * @return      array       The sorted input array.
+     * @param       array      $aFormInputs
+     * @return      array      The sorted input array.
      */
     public function getSortedInputs( array $aFormInputs ) {
         
@@ -89,15 +89,11 @@ class AdminPageFramework_Form_Model extends AdminPageFramework_Form_Base {
                 )
             )
         );
-
         if ( empty( $_aDynamicFieldAddressKeys ) ) {
             return $aFormInputs;
         }
 
-        $_oInputSorter = new AdminPageFramework_Form_Model___Modifier_SortInput( 
-            $aFormInputs, 
-            $_aDynamicFieldAddressKeys
-        );
+        $_oInputSorter = new AdminPageFramework_Form_Model___Modifier_SortInput( $aFormInputs, $_aDynamicFieldAddressKeys );
         return $_oInputSorter->get();
         
     }    

@@ -137,8 +137,8 @@ class APF_Demo_ManageOptions_Export {
     public function replyToModifyFileName( $sFileName, $sFieldID, $sInputID, $vData, $oFactory ) {
 
         // Change the exporting file name based on the selected format type in the other field.
-        $sSelectedFormatType = isset( $_POST[ $this->_oFactory->oProp->sOptionKey ][ $this->_sSectionID ]['export_format_type'] )
-            ? $_POST[ $this->_oFactory->oProp->sOptionKey ][ $this->_sSectionID ]['export_format_type']
+        $sSelectedFormatType = isset( $_POST[ $this->_oFactory->oProp->sOptionKey ][ $this->_sSectionID ][ 'export_format_type' ] )
+            ? sanitize_text_field( $_POST[ $this->_oFactory->oProp->sOptionKey ][ $this->_sSectionID ][ 'export_format_type' ] )
             : null;
         $aFileNameParts = pathinfo( $sFileName );
         $sFileNameWOExt = $aFileNameParts['filename'];
@@ -164,8 +164,8 @@ class APF_Demo_ManageOptions_Export {
     public function replyToModifyFileType( $sFormatType, $sFieldID ) {
 
         // Set the internal formatting type based on the selected format type in the other field.
-        return isset( $_POST[ $this->_oFactory->oProp->sOptionKey ][ $this->_sSectionID ]['export_format_type'] )
-            ? $_POST[ $this->_oFactory->oProp->sOptionKey ][ $this->_sSectionID ]['export_format_type']
+        return isset( $_POST[ $this->_oFactory->oProp->sOptionKey ][ $this->_sSectionID ][ 'export_format_type' ] )
+            ? sanitize_text_field( $_POST[ $this->_oFactory->oProp->sOptionKey ][ $this->_sSectionID ][ 'export_format_type' ] )
             : $sFormatType;
 
     }

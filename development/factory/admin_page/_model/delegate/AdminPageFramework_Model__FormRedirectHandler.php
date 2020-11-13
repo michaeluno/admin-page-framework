@@ -57,9 +57,8 @@ class AdminPageFramework_Model__FormRedirectHandler extends AdminPageFramework_F
         }
 
         // The redirect transient key.
-        $_sTransient = 'apf_rurl' . md5(
-            trim( "redirect_{$this->oFactory->oProp->sClassName}_{$_GET['page']}" )
-        );
+        $_sPageSlug  = sanitize_text_field( $_GET[ 'page' ] );
+        $_sTransient = 'apf_rurl' . md5( trim( "redirect_{$this->oFactory->oProp->sClassName}_{$_sPageSlug}" ) );
 
         // Check the settings error transient.
         $_aError = $this->oFactory->getFieldErrors();
@@ -95,25 +94,12 @@ class AdminPageFramework_Model__FormRedirectHandler extends AdminPageFramework_F
             }
 
             // If the settings have not updated the options, do nothing.
-            // if ( ! ( isset( $_GET[ 'settings-updated' ] ) && ! empty( $_GET[ 'settings-updated' ] ) ) ) {
-                // return false;
-            // }
-            $_bsSettingsUpdatedFlag = $this->getElement(
-                $_GET,
-                'settings-updated',
-                false
-            );
-            if ( ! $_bsSettingsUpdatedFlag ) {
+            if ( ! $this->getElement( $_GET, 'settings-updated', false ) ) {
                 return false;
             }
 
             // [3.3.0+] If the confirmation key does not hold the 'redirect' string value, do not process.
-            $_sConfirmationType = $this->getElement(
-                $_GET,
-                'confirmation',
-                ''
-            );
-            return 'redirect' === $_sConfirmationType;
+            return 'redirect' === $this->getElement( $_GET, 'confirmation', '' );
 
         }
 

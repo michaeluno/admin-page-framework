@@ -98,11 +98,9 @@ class APF_Demo_ManageOptions_Import {
      * @remark      import_format_{page slug}_{tab slug}
      */
     public function replyToModifyFormat( $sFormatType, $sFieldID ) {
-
-        return isset( $_POST[ $this->_oFactory->oProp->sOptionKey ][ $this->_sSectionID ]['import_format_type'] )
-            ? $_POST[ $this->_oFactory->oProp->sOptionKey ][ $this->_sSectionID ]['import_format_type']
+        return isset( $_POST[ $this->_oFactory->oProp->sOptionKey ][ $this->_sSectionID ][ 'import_format_type' ] )
+            ? sanitize_text_field( $_POST[ $this->_oFactory->oProp->sOptionKey ][ $this->_sSectionID ][ 'import_format_type' ] )
             : $sFormatType;
-
     }
     /**
      *

@@ -477,6 +477,7 @@ abstract class AdminPageFramework_Resource_Base extends AdminPageFramework_Frame
      *
      * @since       2.1.2
      * @since       2.1.5       Moved from the main class.
+     * @param       array       $aEnqueueItem
      * @internal
      */
     protected function _enqueueSRC( $aEnqueueItem ) {
