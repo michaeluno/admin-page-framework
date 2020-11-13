@@ -59,7 +59,17 @@ class PathCustomFieldType extends AdminPageFramework_FieldType_image {
     );
     
     protected function construct() {
+        $this->___handleQuery();
     }
+        /**
+         * @since  3.8.24
+         */
+        private function ___handleQuery() {
+            if ( ! isset( $_REQUEST[ 'apf_path_field_type' ] ) || ! $_REQUEST[ 'apf_path_field_type' ] ) {
+                return;
+            }
+            exit( include( dirname( __FILE__ ) . '/connectors/jQueryFileTreePlus.php' ) );
+        }
     
     /**
      * Loads the field type necessary components.
@@ -72,6 +82,7 @@ class PathCustomFieldType extends AdminPageFramework_FieldType_image {
          * Normalize a file system path.
          *
          * @since       3.8.4
+         * @param       string $sPath
          * @return      string
          */
         private function _getPathNormalized( $sPath ) {
@@ -112,10 +123,8 @@ class PathCustomFieldType extends AdminPageFramework_FieldType_image {
      */
     protected function getScripts() {
 
-        $_aJSArray            = json_encode( $this->aFieldTypeSlugs );
-        $_sConnectorScriptURL = $this->getSRCFromPath( dirname( __FILE__ ) . '/connectors/jQueryFileTreePlus.php' );
+        $_sConnectorScriptURL = add_query_arg( array( 'apf_path_field_type' => 1 ) );
         return "jQuery( document ).ready( function(){
-
         
             /**
              * Removes the set values to the input tags.
@@ -221,7 +230,7 @@ class PathCustomFieldType extends AdminPageFramework_FieldType_image {
     public function getField( $aField ) {
         
         $_sPath             = $this->getElement( $aField, array( 'attributes', 'value' ), '' );
-        $_aBaseAttributes   = $this->_getBaseAttributes( $aField );
+        $_aBaseAttributes   = $this->___getBaseAttributes( $aField );
     
         return
             $aField[ 'before_label' ]
@@ -235,7 +244,7 @@ class PathCustomFieldType extends AdminPageFramework_FieldType_image {
                         . "</span>",                        
                         ''                        
                     )
-                    . "<input " . $this->getAttributes( $this->_getPathInputAttributes( $aField, $_sPath, $_aBaseAttributes ) ) . " />" 
+                    . "<input " . $this->getAttributes( $this->___getPathInputAttributes( $aField, $_sPath, $_aBaseAttributes ) ) . " />" 
                     . $aField[ 'after_input' ]
                     . "<div class='repeatable-field-buttons'></div>" 
                 . "</label>"
@@ -285,7 +294,7 @@ class PathCustomFieldType extends AdminPageFramework_FieldType_image {
              */
             private function _getFileTreeOptionsFormatted( $aOptions ) {
                 
-                $aOptions[ 'root' ] = $this->_getRootFormatted( $aOptions[ 'root' ] );
+                $aOptions[ 'root' ] = $this->___getRootFormatted( $aOptions[ 'root' ] );
                 
                 $_aOptions = array();
                 foreach( $aOptions as $_sKey => $_mValue ) {
@@ -323,9 +332,10 @@ class PathCustomFieldType extends AdminPageFramework_FieldType_image {
                 
             /**
              * @since       3.8.4
+             * @param       string  $sPath
              * @return      string
              */
-            private function _getRootFormatted( $sPath ) {
+            private function ___getRootFormatted( $sPath ) {
                 
                 $_sPath             = trim( $this->_getPathNormalized( $sPath ), '\\/' );
                 $_sDocumentRootPath = trim( $this->_getPathNormalized( $_SERVER[ 'DOCUMENT_ROOT' ] ), '\\/' );
@@ -341,10 +351,11 @@ class PathCustomFieldType extends AdminPageFramework_FieldType_image {
         /**
          * Returns a base attribute array.
          * @since       3.8.4
+         * @param       array       $aField
          * @return      array       The generated base attribute array.
          * @internal
          */
-        private function _getBaseAttributes( $aField ) {
+        private function ___getBaseAttributes( $aField ) {
             
             $_aBaseAttributes   = $aField[ 'attributes' ] + array( 'class' => null );
             unset( 
@@ -362,10 +373,13 @@ class PathCustomFieldType extends AdminPageFramework_FieldType_image {
         /**
          * Returns a path field input attribute array for the input tag that stores the user's selecting path.
          * @since       3.8.4
+         * @param       array   $aField
+         * @param       string  $sPath
+         * @param       array   $aBaseAttributes
          * @return      array
          * @internal
          */
-        private function _getPathInputAttributes( array $aField, $sPath, array $aBaseAttributes ) {
+        private function ___getPathInputAttributes( array $aField, $sPath, array $aBaseAttributes ) {
             
             return array(
                 'name'              => $aField[ 'attributes' ][ 'name' ],
@@ -384,6 +398,9 @@ class PathCustomFieldType extends AdminPageFramework_FieldType_image {
          * Returns an inline script tag that removes the set value.
          * 
          * @since       3.8.4
+         * @param       string  $sInputID
+         * @param       array   $aButtonAttributes
+         * @param       string  $sType
          * @return      string
          * @internal
          */
@@ -409,12 +426,15 @@ JAVASCRIPTS;
          * Returns a `<script>` tag element with a JavaScript script that enables select buttons.
          * 
          * @since       3.8.4
+         * @param       string        $sInputID
+         * @param       array|boolean $abRepeatable
+         * @param       array         $aButtonAttributes
          * @return      string
          * @internal
          */     
         protected function _getSelectButtonScript( $sInputID, $abRepeatable, array $aButtonAttributes ) {
       
-            $_sButtonHTML       = '"' . $this->_getSelectButtonHTML( $sInputID, $aButtonAttributes ) . '"';
+            $_sButtonHTML       = '"' . $this->____getSelectButtonHTML( $sInputID, $aButtonAttributes ) . '"';
             $_sRpeatable        = $this->getAOrB( ! empty( $abRepeatable ), 'true', 'false' );
             $_sScript                = <<<JAVASCRIPTS
 if ( jQuery( 'a#select_path_{$sInputID}' ).length == 0 ) {
@@ -435,13 +455,15 @@ JAVASCRIPTS;
             /**
              * Returns an HTML output of a select button.
              * @since       3.8.4
+             * @param       string      $sInputID
+             * @param       array       $aButtonAttributes
              * @return      string      The generated HTML uploader button output.
              * @internal
              */
-            private function _getSelectButtonHTML( $sInputID, array $aButtonAttributes ) {
+            private function ____getSelectButtonHTML( $sInputID, array $aButtonAttributes ) {
                                       
                 $_bIsLabelSet = isset( $aButtonAttributes[ 'data-label' ] ) && $aButtonAttributes[ 'data-label' ];
-                $_aAttributes = $this->_getFormattedSelectButtonAttributes( 
+                $_aAttributes = $this->___getFormattedSelectButtonAttributes( 
                     $sInputID, 
                     $aButtonAttributes, 
                     $_bIsLabelSet
@@ -462,10 +484,13 @@ JAVASCRIPTS;
                 /**
                  * Returns a formatted upload button attributes array.
                  * @since       3.8.4
+                 * @param       string      $sInputID
+                 * @param       array       $aButtonAttributes
+                 * @param       boolean     $_bIsLabelSet
                  * @return      array       The formatted upload button attributes array.
                  * @internal
                  */
-                private function _getFormattedSelectButtonAttributes( $sInputID, array $aButtonAttributes, $_bIsLabelSet ) {
+                private function ___getFormattedSelectButtonAttributes( $sInputID, array $aButtonAttributes, $_bIsLabelSet ) {
                                      
                     $_aAttributes           = array(
                             'id'        => "select_path_{$sInputID}",
@@ -492,7 +517,6 @@ JAVASCRIPTS;
                     );       
                     return $_aAttributes;
                     
-                }           
-    
+                }
 }
 endif;

@@ -114,57 +114,28 @@ class AjaxTestCustomFieldType extends AdminPageFramework_FieldType_select {
     /**
      * Returns the output of the field type.
      *
+     * @param       array  $aField
      * @return      string
      */
     public function getField( $aField ) {
-
         return parent::getField( $aField );
-
     }
 
-
-
     /**
-     * Callks back the callback function if it is set.
+     * Calls back the callback function if it is set.
      *
-     * Called when the field type is registered.
+     * @reamark Called when the field type is registered.
+     * @param   array $aFieldset
      */
     protected function doOnFieldRegistration( $aFieldset ) {
 
         $_aQueries = $_REQUEST;
-        if ( ! $this->_shouldProceedToAjaxRequest( $_aQueries, $aFieldset ) ) {
+        if ( ! isset( $aRequest[ '_doing_apf_ajax_text' ] ) ) {
             return;
         }
         unset( $_aQueries[ '_doing_apf_ajax_text' ] );
         $this->replyToHandleAjaxRequest();
 
     }
-
-        /**
-         * @return      boolean
-         */
-        private function _shouldProceedToAjaxRequest( $aRequest, $aFieldset ) {
-
-            return isset( $aRequest[ '_doing_apf_ajax_text' ] );
-
-            if (
-                ! isset(
-                    $aRequest[ '_doing_apf_ajax_text' ],
-                    $aRequest[ 'field_id' ],
-                    $aRequest[ 'section_id' ]
-                )
-            ) {
-                return false;
-            }
-            if ( $aFieldset[ 'field_id' ] !== $aRequest[ 'field_id' ] ) {
-                return false;
-            }
-            if ( $aFieldset[ 'section_id' ] !== $aRequest[ 'section_id' ] ) {
-                return false;
-            }
-
-            return true;
-
-        }
 
 }

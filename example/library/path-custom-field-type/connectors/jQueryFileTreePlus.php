@@ -18,6 +18,9 @@ if( !array_key_exists('HTTP_REFERER', $_SERVER) ) exit('No direct script access 
  * 1.0.0 - released (24 March 2008)
  *
  * Output a list of files for jQuery File Tree
+ * 
+ * @author Michael Uno
+ * @since  2020/11/13 Modified the part handling $_aPost to sanitize values using WordPress character escaping methods.
  */
 
 /**
@@ -29,15 +32,30 @@ if( !array_key_exists('HTTP_REFERER', $_SERVER) ) exit('No direct script access 
 $root = $_SERVER['DOCUMENT_ROOT'];
 if( !$root ) exit("ERROR: Root filesystem directory not set in jqueryFileTree.php");
 
-$postDir = rawurldecode($root.(isset($_POST['dir']) ? $_POST['dir'] : null ));
+$_aPost = $_POST;
+// $_aPost = _getPOSTValuesSanitized( $_POST );
+// function _getPOSTValuesSanitized( array $aPost ) {
+//     foreach( $aPost as $_isIndex => $_mValue ) {
+//         if ( is_string( $_mValue ) ) {
+//             $aPost[ $_isIndex ] = sanitize_text_field( $_mValue );
+//             continue;
+//         }
+//         if ( is_array( $_mValue ) ) {
+//             $aPost[ $_isIndex ] = _getPOSTValuesSanitized( $_mValue );
+//         }
+//     }
+//     return $aPost;
+// }
+
+$postDir = rawurldecode($root.(isset($_aPost['dir']) ? $_aPost['dir'] : null ));
 
 // set checkbox if multiSelect set to true
-$checkbox = ( isset($_POST['multiSelect']) && $_POST['multiSelect'] == 'true' ) ? "<input type='checkbox' />" : null;
-$onlyFolders = ( isset($_POST['onlyFolders']) && $_POST['onlyFolders'] == 'true' ) ? true : false;
-$onlyFiles = ( isset($_POST['onlyFiles']) && $_POST['onlyFiles'] == 'true' ) ? true : false;
+$checkbox = ( isset($_aPost['multiSelect']) && $_aPost['multiSelect'] == 'true' ) ? "<input type='checkbox' />" : null;
+$onlyFolders = ( isset($_aPost['onlyFolders']) && $_aPost['onlyFolders'] == 'true' ) ? true : false;
+$onlyFiles = ( isset($_aPost['onlyFiles']) && $_aPost['onlyFiles'] == 'true' ) ? true : false;
 
-$_aAllowedExtensions = isset( $_POST[ 'fileExtensions' ] ) 
-    ?  array_filter( explode( ',', $_POST[ 'fileExtensions' ] ) )
+$_aAllowedExtensions = isset( $_aPost[ 'fileExtensions' ] ) 
+    ?  array_filter( explode( ',', $_aPost[ 'fileExtensions' ] ) )
     : array();
 
 if( file_exists($postDir) ) {
@@ -88,5 +106,3 @@ if( file_exists($postDir) ) {
 		echo "</ul>";
 	}
 }
-
-?>
