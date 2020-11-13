@@ -49,7 +49,7 @@ abstract class AdminPageFramework_MetaBox extends AdminPageFramework_MetaBox_Con
      * @param       string|array      $asPostTypeOrScreenID     (optional) The post type(s) or screen ID that the meta box is associated with.
      * @param       string            $sContext                 (optional) The part of the page where the edit screen section should be shown ('normal', 'advanced', or 'side') Default: `normal`.
      * @param       string            $sPriority                (optional) The priority within the context where the boxes should show ('high', 'core', 'default' or 'low') Default: `default`.
-     * @param       string            $sPriority                (optional) The <a href="http://codex.wordpress.org/Roles_and_Capabilities">access level</a> to the meta box. Default: `edit_posts`.
+     * @param       string            $sCapability              (optional) The <a href="http://codex.wordpress.org/Roles_and_Capabilities">access level</a> to the meta box. Default: `edit_posts`.
      * @param       string            $sTextDomain              (optional) The text domain applied to the displayed text messages. Default: `admin-page-framework`.
      * @return      void
      */
