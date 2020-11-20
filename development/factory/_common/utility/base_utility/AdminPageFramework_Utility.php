@@ -31,11 +31,42 @@ class AdminPageFramework_Utility extends AdminPageFramework_Utility_HTMLAttribut
                 continue;
             }
             if ( is_string( $_mValue ) ) {
-                $aRequest[ $_isIndex ] = _sanitize_text_fields( $_mValue, true );
+                $aRequest[ $_isIndex ] = self::___getHTTPRequestTextValueSanitized( $_mValue );
             }
         }
         return $bStripSlashes ? stripslashes_deep( $aRequest ) : $aRequest;
     }
+        /**
+         * A light version of _sanitize_text_fields().
+         * 
+         * This does not strip HTML tags.
+         * 
+         * @param  string  $sString
+         * @param  boolean $bKeepLineFeeds
+         * @return string
+         * @sicne  3.8.25
+         * @see    _sanitize_text_fields()
+         */
+        static private function ___getHTTPRequestTextValueSanitized( $sString, $bKeepLineFeeds=true ) {
+            
+            $_sFiltered = wp_check_invalid_utf8( $sString );
+            if ( ! $bKeepLineFeeds ) {
+                $_sFiltered = preg_replace( '/[\r\n\t ]+/', ' ', $_sFiltered );
+            }
+            $_sFiltered = trim( $_sFiltered );
+        
+            $_bFound = false;
+            while ( preg_match( '/%[a-f0-9]{2}/i', $_sFiltered, $_aMatches ) ) {
+                $_sFiltered = str_replace( $_aMatches[ 0 ], '', $_sFiltered );
+                $_bFound    = true;
+            }
+            if ( $_bFound ) {
+                // Strip out the whitespace that may now exist after removing the octets.
+                $_sFiltered = trim( preg_replace( '/ +/', ' ', $_sFiltered ) );
+            }
+            return $_sFiltered;
+
+        }
 
     /**
      * @var   array
