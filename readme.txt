@@ -4,7 +4,7 @@ Donate link:        http://michaeluno.jp/en/donate
 Tags:               admin pages, developers, options, settings, API, framework, library, meta box, custom post type, fields, widgets, forms, plugins, themes
 Requires at least:  3.4
 Tested up to:       5.5.3
-Stable tag:         3.8.24
+Stable tag:         3.8.25
 License:            GPLv2 or later
 License URI:        http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -538,6 +538,9 @@ Alternately, you may use the `options_{instantiated class name}` filter to suppr
 See examples, https://gist.github.com/michaeluno/c30713fcfe0d9d45d89f, https://gist.github.com/michaeluno/fcfac27825aa8a35b90f,
 
 == Changelog ==
+
+= 3.8.25 - 2020/11/20 =
+- Fixed a bug that caused textarea form values to have no mark-ups.
 
 = 3.8.24 - 2020/11/14 =
 - Added the `confirm` argument for the `submit` field type.
