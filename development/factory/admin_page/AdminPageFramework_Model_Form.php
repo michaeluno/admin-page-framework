@@ -435,7 +435,7 @@ abstract class AdminPageFramework_Model_Form extends AdminPageFramework_Router {
         // Note that the passed capability value to the method is same as the one set to the factory class constructor.
         $_sTabCapability  = $this->_getInPageTabCapability( $_sTabSlug, $_sPageSlug );
         $_sPageCapability = $this->_getPageCapability( $_sPageSlug );
-        $_aCapabilities   = array_filter( array( $_sTabCapability, $_sPageCapability ) )
+        $_aCapabilities   = array_values( array_filter( array( $_sTabCapability, $_sPageCapability ) ) )
             + array( $this->oProp->sCapability );
         return $_aCapabilities[ 0 ];
 
