@@ -169,15 +169,19 @@ abstract class AdminPageFramework_Utility_String extends AdminPageFramework_Util
 
     /**
      * Returns a human readable size from the given byte number.
+     * @param  integer $iRoundPrecision
+     * @param  integer|float $nBytes
      * @since       3.4.6
+     * @since       3.8.26 Added the `$iRoundPrecision` parameter.
      * @return      string
      */
-    static public function getReadableBytes( $nBytes ) {
-        $_aUnits    = array( 0 => 'B', 1 => 'KB', 2 => 'MB', 3 => 'GB' );
-        $_nLog      = log( $nBytes, 1024 );
-        $_iPower    = ( int ) $_nLog;
-        $_iSize     = pow( 1024, $_nLog - $_iPower );
-        return $_iSize . $_aUnits[ $_iPower ];
+    static public function getReadableBytes( $nBytes, $iRoundPrecision=2 ) {
+        $_aUnits = array( 0 => 'B', 1 => 'kB', 2 => 'MB', 3 => 'GB' );
+        $_nLog   = log( $nBytes, 1024 );
+        $_iPower = ( int ) $_nLog;
+        $_ifSize = pow( 1024, $_nLog - $_iPower );
+        $_ifSize = round( $_ifSize, $iRoundPrecision );
+        return $_ifSize . $_aUnits[ $_iPower ];
     }
 
     /**

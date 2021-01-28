@@ -1,1 +1,2 @@
+- Fixed the PHP Fatal error "Uncaught TypeError: round(): Argument #1 ($num) must be of type int|float, string given in ...AdminPageFramework_PageLoadInfo_Base.php:96." in PHP 8.0, which resulted in not loading the form with JavaScript errors.
 - Fixed a bug that caused a PHP notice in PHP 8.0, saying "Deprecated: Required parameter $... follows optional parameter". 

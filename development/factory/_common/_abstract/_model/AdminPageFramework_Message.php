@@ -125,9 +125,9 @@ class AdminPageFramework_Message {
 
         // AdminPageFramework_PageLoadInfo_Base
         'queries_in_seconds'                    => '%1$s queries in %2$s seconds.',
-        'out_of_x_memory_used'                  => '%1$s out of %2$s MB (%3$s) memory used.',
-        'peak_memory_usage'                     => 'Peak memory usage %1$s MB.',
-        'initial_memory_usage'                  => 'Initial memory usage  %1$s MB.',
+        'out_of_x_memory_used'                  => '%1$s out of %2$s (%3$s) memory used.',
+        'peak_memory_usage'                     => 'Peak memory usage %1$s.',
+        'initial_memory_usage'                  => 'Initial memory usage  %1$s.',
 
         // Repeatable sections & fields
         'repeatable_section_is_disabled'        => 'The ability to repeat sections is disabled.', // 3.8.13+
