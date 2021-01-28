@@ -126,7 +126,7 @@ class AdminPageFramework_Property_widget extends AdminPageFramework_Property_Bas
      * Sets up properties.
      * @since       3.7.0
      */
-    public function __construct( $oCaller, $sCallerPath, $sClassName, $sCapability='manage_options', $sTextDomain='admin-page-framework', $sStructureType ) {
+    public function __construct( $oCaller, $sCallerPath, $sClassName, $sCapability='manage_options', $sTextDomain='admin-page-framework', $sStructureType='' ) {
 
         // 3.7.0+
         $this->_sFormRegistrationHook   = 'load_' . $sClassName;

@@ -1,0 +1,1 @@
+- Fixed a bug that caused a PHP notice in PHP 8.0, saying "Deprecated: Required parameter $... follows optional parameter". 

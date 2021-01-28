@@ -118,16 +118,15 @@ abstract class AdminPageFramework_TaxonomyField_Model extends AdminPageFramework
      * This array will be referred later in the `getFieldOutput()` method.
      *
      * @since       unknown
-     * @since       3.0.0       The scope is changed to protected as the taxonomy field class redefines it.
-     * @since       3.5.0       Moved from `AdminPageFramework_TaxonomyField`.
-     * @since       3.7.0      No longer sets the value to `$this-oProp->aOptions` but to the form peoperty.
+     * @since       3.0.0        The scope is changed to protected as the taxonomy field class redefines it.
+     * @since       3.5.0        Moved from `AdminPageFramework_TaxonomyField`.
+     * @since       3.7.0        No longer sets the value to `$this-oProp->aOptions` but to the form peoperty.
+     * @param       integer|null $iTermID
+     * @param       string|null  $sOptionKey
      * @internal
      */
-    protected function _setOptionArray( $iTermID=null, $sOptionKey ) {
-        $this->oForm->aSavedData = $this->_getSavedFormData(
-            $iTermID,
-            $sOptionKey
-        );
+    protected function _setOptionArray( $iTermID=null, $sOptionKey=null ) {
+        $this->oForm->aSavedData = $this->_getSavedFormData( $iTermID, $sOptionKey );
     }
         /**
          * @remark      The returned values are portion of the entire data set to the options table row

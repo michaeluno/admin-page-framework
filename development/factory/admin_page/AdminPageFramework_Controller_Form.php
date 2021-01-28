@@ -294,7 +294,7 @@ abstract class AdminPageFramework_Controller_Form extends AdminPageFramework_Vie
     * @param        string      $_and_more      (optional) add more field IDs to the next parameters as many as necessary.
     * @return void
     */
-    public function removeSettingFields( $sFieldID1, $sFieldID2=null, $_and_more ) {
+    public function removeSettingFields( $sFieldID1, $sFieldID2=null, $_and_more=null ) {
         foreach( func_get_args() as $_sFieldID ) {
             $this->oForm->removeField( $_sFieldID );
         }
