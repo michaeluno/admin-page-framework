@@ -3,7 +3,7 @@
  * Parses WordPress readme files.
  *
  * @package      Admin Page Framework
- * @copyright    Copyright (c) 2013-2020, Michael Uno
+ * @copyright    Copyright (c) 2013-2021, Michael Uno
  * @author       Michael Uno
  * @authorurl    http://michaeluno.jp
  */
