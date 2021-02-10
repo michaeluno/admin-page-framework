@@ -56,7 +56,7 @@ class AdminPageFramework_Utility extends AdminPageFramework_Utility_HTMLAttribut
             $_sFiltered = trim( $_sFiltered );
         
             $_bFound = false;
-            while ( preg_match( '/%[a-f0-9]{2}/i', $_sFiltered, $_aMatches ) ) {
+            while ( preg_match( '/%[a-f0-9]{2}(?=(%[a-f0-9]{2})|[\W])/i', $_sFiltered, $_aMatches ) ) {
                 $_sFiltered = str_replace( $_aMatches[ 0 ], '', $_sFiltered );
                 $_bFound    = true;
             }
