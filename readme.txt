@@ -3,8 +3,8 @@ Contributors:       Michael Uno, miunosoft, pcraig3
 Donate link:        http://michaeluno.jp/en/donate
 Tags:               admin pages, developers, options, settings, API, framework, library, meta box, custom post type, fields, widgets, forms, plugins, themes
 Requires at least:  3.4
-Tested up to:       5.5.3
-Stable tag:         3.8.25
+Tested up to:       5.6.1
+Stable tag:         3.8.26
 License:            GPLv2 or later
 License URI:        http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -538,6 +538,12 @@ Alternately, you may use the `options_{instantiated class name}` filter to suppr
 See examples, https://gist.github.com/michaeluno/c30713fcfe0d9d45d89f, https://gist.github.com/michaeluno/fcfac27825aa8a35b90f,
 
 == Changelog ==
+
+= 3.8.26 - 2021/02/11 =
+- Fixed a bug that stripped some valid text area values when sanitizing.
+- Fixed a bug that form capabilities were not properly inherited from its page when a tab does not exist.
+- Fixed the PHP Fatal error "Uncaught TypeError: round(): Argument #1 ($num) must be of type int|float, string given in ...AdminPageFramework_PageLoadInfo_Base.php:96." in PHP 8.0, which resulted in not loading the form with JavaScript errors.
+- Fixed a bug that caused a PHP notice in PHP 8.0, saying "Deprecated: Required parameter $... follows optional parameter".
 
 = 3.8.25 - 2020/11/20 =
 - Fixed a bug that caused textarea form values to have no mark-ups.
