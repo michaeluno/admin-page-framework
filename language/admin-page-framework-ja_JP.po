@@ -1,0 +1,527 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Admin Page Framework\n"
+"POT-Creation-Date: 2021-02-17 07:36+0900\n"
+"PO-Revision-Date: 2021-02-17 08:16+0900\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.3\n"
+"X-Poedit-KeywordsList: __;_e\n"
+"X-Poedit-Basepath: ../include/class\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"Last-Translator: \n"
+"Language: ja\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: AdminPageFrameworkLoader_Bootstrap.php:63
+msgid "Deactivating the plugin"
+msgstr "プラグインを無効にしています"
+
+#: admin/_abstract/AdminPageFrameworkLoader_AdminPage_RootBase.php:45
+#, php-format
+msgid "The method is not defined: %1$s"
+msgstr "次のメソッドは定義されていません: %1$s"
+
+#: admin/_abstract/AdminPageFrameworkLoader_AdminPage_Section_Base.php:101
+#: admin/admin-page-framework/tool/generator/AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator.php:203
+msgid "There was something wrong with your input."
+msgstr "入力に誤りがあります。"
+
+#: admin/admin-page-framework/AdminPageFrameworkLoader_AdminPage.php:48
+#: admin/network-admin/AdminPageFrameworkLoader_NetworkAdmin.php:36
+msgid "Enabled demo!"
+msgstr "デモを有効にしました！"
+
+#: admin/admin-page-framework/AdminPageFrameworkLoader_AdminPage.php:87
+#: admin/admin-page-framework/AdminPageFrameworkLoader_AdminPage.php:166
+msgid "Tools"
+msgstr "ツール"
+
+#: admin/admin-page-framework/AdminPageFrameworkLoader_AdminPage.php:98
+#: admin/admin-page-framework/addon/AdminPageFrameworkLoader_AdminPage_Addon.php:26
+msgid "Add Ons"
+msgstr "アドオン"
+
+#: admin/admin-page-framework/AdminPageFrameworkLoader_AdminPage.php:109
+msgid "Help"
+msgstr "ヘルプ"
+
+#: admin/admin-page-framework/AdminPageFrameworkLoader_AdminPage.php:145
+#: admin/admin-page-framework/help/AdminPageFrameworkLoader_AdminPage_Help.php:32
+#: admin/network-admin/AdminPageFrameworkLoader_NetworkAdmin.php:60
+msgid "Support"
+msgstr "サポート"
+
+#: admin/admin-page-framework/AdminPageFrameworkLoader_AdminPage.php:180
+msgid "Disable Admin Pages"
+msgstr "管理ページを無効にする"
+
+#: admin/admin-page-framework/AdminPageFrameworkLoader_AdminPage.php:181
+msgid "Enable Admin Pages"
+msgstr "管理ページを有効にする"
+
+#: admin/admin-page-framework/AdminPageFrameworkLoader_AdminPage.php:200
+#: admin/network-admin/AdminPageFrameworkLoader_NetworkAdmin.php:79
+msgid "Disable Demo"
+msgstr "デモを無効にする"
+
+#: admin/admin-page-framework/AdminPageFrameworkLoader_AdminPage.php:201
+#: admin/network-admin/AdminPageFrameworkLoader_NetworkAdmin.php:80
+msgid "Enable Demo"
+msgstr "デモを有効にする"
+
+#: admin/admin-page-framework/AdminPageFrameworkLoader_AdminPage.php:218
+msgid "Notification"
+msgstr "お知らせ"
+
+#: admin/admin-page-framework/AdminPageFrameworkLoader_AdminPageMetaBox_ExternalLinks.php:38
+msgid "Documentation"
+msgstr "マニュアル"
+
+#: admin/admin-page-framework/AdminPageFrameworkLoader_AdminPageMetaBox_ExternalLinks.php:41
+msgid "Manual"
+msgstr "マニュアル"
+
+#: admin/admin-page-framework/AdminPageFrameworkLoader_AdminPageMetaBox_ExternalLinks.php:45
+msgid "Tutorials"
+msgstr "チュートリアル"
+
+#: admin/admin-page-framework/AdminPageFrameworkLoader_AdminPageMetaBox_Notification.php:88
+msgid "Test Development Version"
+msgstr "開発バージョンをテストする"
+
+#: admin/admin-page-framework/AdminPageFrameworkLoader_AdminPageMetaBox_Notification.php:92
+#, php-format
+msgid "A new development version <code>%1$s</code> is available!"
+msgstr "次の開発バージョン <code>%1$s</code> が入手可能です！"
+
+#: admin/admin-page-framework/AdminPageFrameworkLoader_AdminPageMetaBox_Notification.php:94
+msgid "Please test it before it gets released."
+msgstr "リリース前にテストをお願いします。"
+
+#: admin/admin-page-framework/AdminPageFrameworkLoader_AdminPageMetaBox_Notification.php:102
+#: admin/admin-page-framework/tool/generator/AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator.php:125
+#: admin/admin-page-framework/tool/generator/AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator.php:129
+msgid "Download"
+msgstr "ダウンロード"
+
+#: admin/admin-page-framework/addon/AdminPageFrameworkLoader_AdminPage_Addon_Top.php:52
+msgid "No add-on could be found."
+msgstr "アドオンが見つかりませんでした。"
+
+#: admin/admin-page-framework/addon/AdminPageFrameworkLoader_AdminPage_Addon_Top.php:122
+msgid "Get it Now"
+msgstr "今すぐ入手する"
+
+#: admin/admin-page-framework/addon/AdminPageFrameworkLoader_AdminPage_Addon_Top.php:189
+msgid "Demo"
+msgstr "デモ"
+
+#: admin/admin-page-framework/addon/AdminPageFrameworkLoader_AdminPage_Addon_Top.php:195
+msgid "Showcases the features of Admin Page Framework."
+msgstr "Admin Page Framework の機能をお見せします。"
+
+#: admin/admin-page-framework/addon/AdminPageFrameworkLoader_AdminPage_Addon_Top.php:207
+msgid "Deactivate"
+msgstr "無効にする"
+
+#: admin/admin-page-framework/addon/AdminPageFrameworkLoader_AdminPage_Addon_Top.php:210
+msgid "Activate"
+msgstr "有効にする"
+
+#: admin/admin-page-framework/help/AdminPageFrameworkLoader_AdminPage_Help.php:40
+#: admin/dashboard/welcome/AdminPageFrameworkLoader_AdminPageWelcome_Welcome.php:42
+msgid "Getting Started"
+msgstr "始めに"
+
+#: admin/admin-page-framework/help/AdminPageFrameworkLoader_AdminPage_Help.php:55
+msgid "FAQ"
+msgstr "FAQ"
+
+#: admin/admin-page-framework/help/AdminPageFrameworkLoader_AdminPage_Help.php:63
+msgid "Tips"
+msgstr "チップス"
+
+#: admin/admin-page-framework/help/AdminPageFrameworkLoader_AdminPage_Help.php:71
+msgid "Examples"
+msgstr "用例"
+
+#: admin/admin-page-framework/help/AdminPageFrameworkLoader_AdminPage_Help.php:79
+msgid "Report"
+msgstr "レポート"
+
+#: admin/admin-page-framework/help/AdminPageFrameworkLoader_AdminPage_Help.php:87
+msgid "About"
+msgstr "アバウト"
+
+#: admin/admin-page-framework/help/AdminPageFrameworkLoader_AdminPage_Help.php:101
+msgid "Debug"
+msgstr "デバッグ"
+
+#: admin/admin-page-framework/help/AdminPageFrameworkLoader_AdminPage_Help.php:109
+msgid "Resources"
+msgstr "リソース"
+
+#: admin/admin-page-framework/help/AdminPageFrameworkLoader_AdminPage_Help_Debug.php:30
+msgid "Reset"
+msgstr "リセット"
+
+#: admin/admin-page-framework/help/AdminPageFrameworkLoader_AdminPage_Help_Debug.php:37
+#: admin/admin-page-framework/help/AdminPageFrameworkLoader_AdminPage_Help_Report_Report.php:94
+msgid "Saved Options"
+msgstr "保存された設定"
+
+#: admin/admin-page-framework/help/AdminPageFrameworkLoader_AdminPage_Help_Report.php:28
+msgid "Report Issues"
+msgstr "問題の報告"
+
+#: admin/admin-page-framework/help/AdminPageFrameworkLoader_AdminPage_Help_Report.php:29
+msgid "If you find a bug, you can report it from here."
+msgstr "バグを見つけた場合、こちらから報告可能です。"
+
+#: admin/admin-page-framework/help/AdminPageFrameworkLoader_AdminPage_Help_Report_Report.php:29
+msgid "Your Name"
+msgstr "名前"
+
+#: admin/admin-page-framework/help/AdminPageFrameworkLoader_AdminPage_Help_Report_Report.php:36
+msgid "Type your name."
+msgstr "名前を入力します。"
+
+#: admin/admin-page-framework/help/AdminPageFrameworkLoader_AdminPage_Help_Report_Report.php:41
+msgid "Your Email Address"
+msgstr "Eメールアドレス"
+
+#: admin/admin-page-framework/help/AdminPageFrameworkLoader_AdminPage_Help_Report_Report.php:46
+msgid "Type your email that the developer replies backt to."
+msgstr "開発者が返信可能なEメールを入力します。"
+
+#: admin/admin-page-framework/help/AdminPageFrameworkLoader_AdminPage_Help_Report_Report.php:51
+msgid "Expected Behavior"
+msgstr "期待される動作"
+
+#: admin/admin-page-framework/help/AdminPageFrameworkLoader_AdminPage_Help_Report_Report.php:53
+msgid "Tell how the framework should work."
+msgstr "フレームワークがどのように動作すべきかを伝えます。"
+
+#: admin/admin-page-framework/help/AdminPageFrameworkLoader_AdminPage_Help_Report_Report.php:60
+msgid "Actual Behavior"
+msgstr "実際の動作"
+
+#: admin/admin-page-framework/help/AdminPageFrameworkLoader_AdminPage_Help_Report_Report.php:62
+msgid "Describe the behavior of the framework."
+msgstr "フレームワークの動作の詳細を記述します。"
+
+#: admin/admin-page-framework/help/AdminPageFrameworkLoader_AdminPage_Help_Report_Report.php:69
+msgid "Screenshots"
+msgstr "スクリーンショット"
+
+#: admin/admin-page-framework/help/AdminPageFrameworkLoader_AdminPage_Help_Report_Report.php:82
+msgid "System Information"
+msgstr "システム情報"
+
+#: admin/admin-page-framework/help/AdminPageFrameworkLoader_AdminPage_Help_Report_Report.php:84
+msgid "Custom Data"
+msgstr "カスタムデータ"
+
+#: admin/admin-page-framework/help/AdminPageFrameworkLoader_AdminPage_Help_Report_Report.php:84
+msgid "This is custom data inserted with the data argument."
+msgstr "これは data 引数によって挿入されたカスタムデータです。"
+
+#: admin/admin-page-framework/help/AdminPageFrameworkLoader_AdminPage_Help_Report_Report.php:85
+msgid "Current Time"
+msgstr "現在時刻"
+
+#: admin/admin-page-framework/help/AdminPageFrameworkLoader_AdminPage_Help_Report_Report.php:114
+msgid "Confirmation"
+msgstr "確認"
+
+#: admin/admin-page-framework/help/AdminPageFrameworkLoader_AdminPage_Help_Report_Report.php:115
+msgid "required"
+msgstr "必須"
+
+#: admin/admin-page-framework/help/AdminPageFrameworkLoader_AdminPage_Help_Report_Report.php:117
+msgid ""
+"I understand that the system information including a PHP version and "
+"WordPress version etc. will be sent along with the messages to help "
+"developer trouble-shoot the problem."
+msgstr ""
+"私は PHP や WordPress バージョンを含むシステム情報は、メッセージと共に問題解"
+"決のトラブルシューティングの助けの為、開発者に送信されることを理解します。"
+
+#: admin/admin-page-framework/help/AdminPageFrameworkLoader_AdminPage_Help_Report_Report.php:128
+msgid "Send"
+msgstr "送信"
+
+#: admin/admin-page-framework/help/AdminPageFrameworkLoader_AdminPage_Help_Report_Report.php:129
+msgid "Preview"
+msgstr "プレビュー"
+
+#: admin/admin-page-framework/help/AdminPageFrameworkLoader_AdminPage_Help_Report_Report.php:172
+msgid "We need necessary information to help you."
+msgstr "サポートに必要な情報があります。"
+
+#: admin/admin-page-framework/help/AdminPageFrameworkLoader_AdminPage_Help_Report_Report.php:178
+msgid "Please help us to help you."
+msgstr "サポートのやり取りには相互の協力が必要です。"
+
+#: admin/admin-page-framework/tool/AdminPageFrameworkLoader_AdminPage_Tool.php:27
+msgid "Generator"
+msgstr "生成"
+
+#: admin/admin-page-framework/tool/generator/AdminPageFrameworkLoader_AdminPage_Tool_Generator.php:31
+msgid "Download Framework"
+msgstr "フレームワークのダウンロード"
+
+#: admin/admin-page-framework/tool/generator/AdminPageFrameworkLoader_AdminPage_Tool_Generator.php:33
+msgid "Generate your own version of the framework to avoid library conflicts."
+msgstr ""
+"ライブラリのコンフリクトを避けるため、ご自身のバージョンのフレームワークを生"
+"成します。"
+
+#: admin/admin-page-framework/tool/generator/AdminPageFrameworkLoader_AdminPage_Tool_Generator_CustomFieldTypes.php:52
+msgid "Custom Field Types"
+msgstr "カスタムフィールドタイプ"
+
+#: admin/admin-page-framework/tool/generator/AdminPageFrameworkLoader_AdminPage_Tool_Generator_CustomFieldTypes.php:89
+msgid "ACE"
+msgstr "ACE"
+
+#: admin/admin-page-framework/tool/generator/AdminPageFrameworkLoader_AdminPage_Tool_Generator_CustomFieldTypes.php:90
+msgid "provides code syntax highlighting in a text area field."
+msgstr ""
+"テキストエリアフィールドにおけるコードシンタックスハイライトを可能にします。"
+
+#: admin/admin-page-framework/tool/generator/AdminPageFrameworkLoader_AdminPage_Tool_Generator_CustomFieldTypes.php:98
+msgid "GitHub Buttons"
+msgstr "GitHub ボタン"
+
+#: admin/admin-page-framework/tool/generator/AdminPageFrameworkLoader_AdminPage_Tool_Generator_CustomFieldTypes.php:99
+msgid "allows you to display GitHub buttons in a field."
+msgstr "フィールド内に GitHub ボタンを表示させます。"
+
+#: admin/admin-page-framework/tool/generator/AdminPageFrameworkLoader_AdminPage_Tool_Generator_CustomFieldTypes.php:107
+msgid "Path"
+msgstr "パス"
+
+#: admin/admin-page-framework/tool/generator/AdminPageFrameworkLoader_AdminPage_Tool_Generator_CustomFieldTypes.php:108
+msgid "allows the user to select a file path on the server."
+msgstr "サーバー上のファイルパスを選択可能にします。"
+
+#: admin/admin-page-framework/tool/generator/AdminPageFrameworkLoader_AdminPage_Tool_Generator_CustomFieldTypes.php:116
+msgid "Toggle"
+msgstr "切替"
+
+#: admin/admin-page-framework/tool/generator/AdminPageFrameworkLoader_AdminPage_Tool_Generator_CustomFieldTypes.php:117
+msgid "allows the user to switch a button."
+msgstr "ボタンの切り替えが可能になります。"
+
+#: admin/admin-page-framework/tool/generator/AdminPageFrameworkLoader_AdminPage_Tool_Generator_CustomFieldTypes.php:125
+msgid "NoUISlider (Range Slider)"
+msgstr "NoUISlider (レンジスライダー)"
+
+#: admin/admin-page-framework/tool/generator/AdminPageFrameworkLoader_AdminPage_Tool_Generator_CustomFieldTypes.php:126
+msgid "allows the user to set values in ranges."
+msgstr "範囲内での値を設定することを可能にします。"
+
+#: admin/admin-page-framework/tool/generator/AdminPageFrameworkLoader_AdminPage_Tool_Generator_CustomFieldTypes.php:134
+msgid "Select2"
+msgstr "Select2"
+
+#: admin/admin-page-framework/tool/generator/AdminPageFrameworkLoader_AdminPage_Tool_Generator_CustomFieldTypes.php:135
+msgid ""
+"allows the user to select items with autocomplete from a list which can be "
+"populated with AJAX."
+msgstr "Ajax を利用しリストから選択項目のオートコンプリートを可能にします。"
+
+#: admin/admin-page-framework/tool/generator/AdminPageFrameworkLoader_AdminPage_Tool_Generator_CustomFieldTypes.php:143
+msgid "Post Type Taxonomy"
+msgstr "投稿タイプタクソノミー"
+
+#: admin/admin-page-framework/tool/generator/AdminPageFrameworkLoader_AdminPage_Tool_Generator_CustomFieldTypes.php:144
+msgid "allows the user to select taxonomy terms of selected post types."
+msgstr "選択された投稿タイプの分類語句の選択を可能にします。"
+
+#: admin/admin-page-framework/tool/generator/AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator.php:65
+msgid "Version"
+msgstr "バージョン"
+
+#: admin/admin-page-framework/tool/generator/AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator.php:76
+msgid "Class Prefix"
+msgstr "クラス接頭語"
+
+#: admin/admin-page-framework/tool/generator/AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator.php:79
+msgid "Set alphanumeric characters for the class names."
+msgstr "クラス名の為のアルファベットと数字の文字列を入力します。"
+
+#: admin/admin-page-framework/tool/generator/AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator.php:80
+msgid ""
+"For example, if you set here <code>MyPluginName_</code>, you will need to "
+"extend the class named <code>MyClassName_AdminPageFramework</code> instead "
+"of <code>AdminPageFramework</code>."
+msgstr ""
+"例として、<code>MyPluginName_</code>を設定すると、継承するクラスは"
+"<code>AdminPageFramework</code>ではなく、"
+"<code>MyClassName_AdminPageFramework</code>になります。"
+
+#: admin/admin-page-framework/tool/generator/AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator.php:86
+msgid "Type a prefix."
+msgstr "接頭語を入力します。"
+
+#: admin/admin-page-framework/tool/generator/AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator.php:91
+msgid "Text Domain"
+msgstr "テキストドメイン"
+
+#: admin/admin-page-framework/tool/generator/AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator.php:93
+msgid "The default text domain of your project."
+msgstr "あなたのプロジェクトの初期テキストドメイン。"
+
+#: admin/admin-page-framework/tool/generator/AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator.php:98
+msgid "Type your text domain."
+msgstr "テキストドメインを入力します。"
+
+#: admin/admin-page-framework/tool/generator/AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator.php:103
+msgid "Components"
+msgstr "コンポーネント"
+
+#: admin/admin-page-framework/tool/generator/AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator.php:106
+msgid ""
+"Select the components you would like to include in your framework files."
+msgstr ""
+"あなたのフレームワークファイルに同梱させるコンポーネントを選択します。"
+
+#: admin/admin-page-framework/tool/generator/AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator.php:107
+msgid "If you are not sure what to select, check them all."
+msgstr "どれを選択するか確かでない場合、全てを選択します。"
+
+#: admin/admin-page-framework/tool/generator/AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator.php:134
+msgid "Download the compiled framework files as a zip file."
+msgstr ""
+"Zip ファイルとし生成されたフレームワークファイルをダウンロードします。"
+
+#: admin/admin-page-framework/tool/generator/AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator.php:135
+msgid "The zip extension needs to be enabled to use this feature."
+msgstr "この機能を利用するには PHP の zip 機能拡張が必要です。"
+
+#: admin/admin-page-framework/tool/generator/AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator.php:160
+msgid "Admin Pages"
+msgstr "管理ページ"
+
+#: admin/admin-page-framework/tool/generator/AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator.php:161
+msgid "Network Admin Pages"
+msgstr "ネットワーク管理ページ"
+
+#: admin/admin-page-framework/tool/generator/AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator.php:162
+msgid "Custom Post Types"
+msgstr "カスタムフィールドタイプ"
+
+#: admin/admin-page-framework/tool/generator/AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator.php:163
+msgid "Taxonomy Fields"
+msgstr "タクソノミーフィールド"
+
+#: admin/admin-page-framework/tool/generator/AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator.php:164
+msgid "Term Meta"
+msgstr "タームメタ"
+
+#: admin/admin-page-framework/tool/generator/AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator.php:165
+msgid "Post Meta Boxes"
+msgstr "投稿メタボックス"
+
+#: admin/admin-page-framework/tool/generator/AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator.php:166
+msgid "Page Meta Boxes"
+msgstr "ページメタボックス"
+
+#: admin/admin-page-framework/tool/generator/AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator.php:167
+msgid "Widgets"
+msgstr "ウィジェット"
+
+#: admin/admin-page-framework/tool/generator/AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator.php:168
+msgid "User Meta"
+msgstr "ユーザーメタ"
+
+#: admin/admin-page-framework/tool/generator/AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator.php:169
+msgid "Utilities"
+msgstr "ユーティリティ"
+
+#: admin/admin-page-framework/tool/generator/AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator.php:191
+msgid "The prefix must consist of alphanumeric with underscores."
+msgstr ""
+"プレフィックスはアルファベット、数字、そしてアンダースコア(_) の使用が可能で"
+"す。"
+
+#: admin/admin-page-framework/tool/generator/AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator.php:196
+msgid "The text domain cannot be empty."
+msgstr "テキストドメインは空にできません。"
+
+#: admin/dashboard/AdminPageFrameworkLoader_AdminPageWelcome.php:211
+#, php-format
+msgid "Welcome to %1$s"
+msgstr "%1$s へようこそ"
+
+#: admin/dashboard/AdminPageFrameworkLoader_AdminPageWelcome.php:214
+#, php-format
+msgid ""
+"Thank you for updating to the latest version! %1$s is ready to make your "
+"plugin or theme development faster, more organized and better!"
+msgstr ""
+"最新バージョンにアップデートして頂きありがとうございます！%1$s はプラグイン"
+"やテーマの開発を敏速かつよりまとまったものにしてくれます！"
+
+#: admin/dashboard/AdminPageFrameworkLoader_AdminPageWelcome.php:221
+#, php-format
+msgid "Version %1$s"
+msgstr "バージョン %1$s"
+
+#: admin/dashboard/welcome/AdminPageFrameworkLoader_AdminPageWelcome_Welcome.php:31
+msgid "What's New"
+msgstr "新しい機能"
+
+#: admin/dashboard/welcome/AdminPageFrameworkLoader_AdminPageWelcome_Welcome.php:45
+msgid "Contents"
+msgstr "コンテンツ"
+
+#: admin/dashboard/welcome/AdminPageFrameworkLoader_AdminPageWelcome_Welcome.php:53
+msgid "Change Log"
+msgstr "変更履歴"
+
+#: admin/dashboard/welcome/AdminPageFrameworkLoader_AdminPageWelcome_Welcome.php:66
+msgid "Credit"
+msgstr "クレジット"
+
+#: admin/dashboard/welcome/AdminPageFrameworkLoader_AdminPageWelcome_Welcome.php:77
+msgid "Admin Page Framework is created by the following contributors."
+msgstr "Admin Page Framework は次の貢献者によって作られています。"
+
+#: admin/dashboard/welcome/AdminPageFrameworkLoader_AdminPageWelcome_Welcome.php:98
+msgid "Star the repository and get Involved!"
+msgstr "リポジトリをスターして開発に参加しましょう！"
+
+#: admin/dashboard/welcome/AdminPageFrameworkLoader_AdminPageWelcome_Welcome.php:154
+msgid "No valid changlog was found."
+msgstr "表示可能な変更履歴は見つかりませんでした。"
+
+#: admin/dashboard/welcome/AdminPageFrameworkLoader_AdminPageWelcome_Welcome.php:190
+#, php-format
+msgid "View %s"
+msgstr "%1$s を閲覧"
+
+#: admin/demo/AdminPageFrameworkLoader_Demo.php:77
+msgid ""
+"Check out the functionality of Admin Page Framework by enabling the demo."
+msgstr "デモを有効にし、Admin Page Framework の機能をチェックしましょう。"
+
+#: utility/AdminPageFrameworkLoader_Utility.php:32
+#, php-format
+msgid "The URL is not valid: %1$s"
+msgstr "次の URL は無効です: %1$s"
+
+#: utility/AdminPageFrameworkLoader_Utility.php:35
+msgid "Header already sent."
+msgstr "HTTP ヘッダーは既に送信されています。"
+
+#: utility/AdminPageFrameworkLoader_Utility.php:44
+#, php-format
+msgid "Could not be redirected to %1$s."
+msgstr "%1$s へのリダイレクトに失敗しました。"

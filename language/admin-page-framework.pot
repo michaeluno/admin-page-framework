@@ -1,20 +1,21 @@
+#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: Admin Page Framework\n"
 "POT-Creation-Date: 2021-02-17 07:30+0900\n"
-"PO-Revision-Date: 2021-02-17 07:30+0900\n"
+"PO-Revision-Date: 2021-02-17 07:23+0900\n"
 "Last-Translator: Michael Uno <michael@michaeluno.jp>\n"
 "Language-Team: \n"
-"Language: ja\n"
+"Language: en\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Poedit 2.3\n"
 "X-Poedit-KeywordsList: __;_e\n"
-"X-Poedit-Basepath: .\n"
+"X-Poedit-Basepath: ..\n"
 "X-Poedit-SourceCharset: UTF-8\n"
-"Plural-Forms: nplurals=1; plural=0;\n"
-"X-Poedit-SearchPath-0: ../development\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-SearchPath-0: development\n"
 
 #: development/admin-page-framework.php:139
 #, php-format
@@ -24,64 +25,64 @@ msgstr ""
 #: development/factory/_common/_abstract/AdminPageFramework_Factory_Router.php:520
 #, php-format
 msgid "The method is not defined: %1$s"
-msgstr "次のメソッドは定義されていません: %1$s"
+msgstr ""
 
 #: development/factory/_common/_abstract/_model/AdminPageFramework_Message.php:348
 msgid "The options have been updated."
-msgstr "設定は更新されました。"
+msgstr ""
 
 #: development/factory/_common/_abstract/_model/AdminPageFramework_Message.php:349
 msgid "The options have been cleared."
-msgstr "設定が消去されました。"
+msgstr ""
 
 #: development/factory/_common/_abstract/_model/AdminPageFramework_Message.php:350
 msgid "Export"
-msgstr "エクスポート"
+msgstr ""
 
 #: development/factory/_common/_abstract/_model/AdminPageFramework_Message.php:351
 msgid "Export Options"
-msgstr "設定のエクスポート"
+msgstr ""
 
 #: development/factory/_common/_abstract/_model/AdminPageFramework_Message.php:352
 msgid "Import"
-msgstr "インポート"
+msgstr ""
 
 #: development/factory/_common/_abstract/_model/AdminPageFramework_Message.php:353
 msgid "Import Options"
-msgstr "設定のインポート"
+msgstr ""
 
 #: development/factory/_common/_abstract/_model/AdminPageFramework_Message.php:354
 msgid "Submit"
-msgstr "送信"
+msgstr ""
 
 #: development/factory/_common/_abstract/_model/AdminPageFramework_Message.php:355
 msgid "An error occurred while uploading the import file."
-msgstr "インポートファイルのアップロードの最中にエラーが生じました。"
+msgstr ""
 
 #: development/factory/_common/_abstract/_model/AdminPageFramework_Message.php:356
 #, php-format
 msgid "The uploaded file type is not supported: %1$s"
-msgstr "アップロードされたファイルタイプはサポートされていません： %1$s"
+msgstr ""
 
 #: development/factory/_common/_abstract/_model/AdminPageFramework_Message.php:357
 msgid "Could not load the importing data."
-msgstr "インポートデータが読み込めませんでした。"
+msgstr ""
 
 #: development/factory/_common/_abstract/_model/AdminPageFramework_Message.php:358
 msgid "The uploaded file has been imported."
-msgstr "アップロードされたファイルはインポートされました。"
+msgstr ""
 
 #: development/factory/_common/_abstract/_model/AdminPageFramework_Message.php:359
 msgid "No data could be imported."
-msgstr "インポートできませんでした。"
+msgstr ""
 
 #: development/factory/_common/_abstract/_model/AdminPageFramework_Message.php:360
 msgid "Upload Image"
-msgstr "画像アップロード"
+msgstr ""
 
 #: development/factory/_common/_abstract/_model/AdminPageFramework_Message.php:361
 msgid "Use This Image"
-msgstr "この画像を使う"
+msgstr ""
 
 #: development/factory/_common/_abstract/_model/AdminPageFramework_Message.php:362
 msgid "Insert from URL"
@@ -89,7 +90,7 @@ msgstr ""
 
 #: development/factory/_common/_abstract/_model/AdminPageFramework_Message.php:363
 msgid "Are you sure you want to reset the options?"
-msgstr "本当に設定をリセットしますか？"
+msgstr ""
 
 #: development/factory/_common/_abstract/_model/AdminPageFramework_Message.php:364
 msgid "Please confirm your action."
@@ -97,12 +98,11 @@ msgstr ""
 
 #: development/factory/_common/_abstract/_model/AdminPageFramework_Message.php:365
 msgid "The specified options have been deleted."
-msgstr "指定された設定は消去されました。"
+msgstr ""
 
 #: development/factory/_common/_abstract/_model/AdminPageFramework_Message.php:366
 msgid "A problem occurred while processing the form data. Please try again."
 msgstr ""
-"フォームの送信データを処理中に問題が発生しました。もう一度お試しください。"
 
 #: development/factory/_common/_abstract/_model/AdminPageFramework_Message.php:367
 #, php-format
@@ -118,16 +118,12 @@ msgid "Is it okay to send the email?"
 msgstr ""
 
 #: development/factory/_common/_abstract/_model/AdminPageFramework_Message.php:369
-#, fuzzy
-#| msgid "The uploaded file has been imported."
 msgid "The email has been sent."
-msgstr "アップロードされたファイルはインポートされました。"
+msgstr ""
 
 #: development/factory/_common/_abstract/_model/AdminPageFramework_Message.php:370
-#, fuzzy
-#| msgid "The options have been cleared."
 msgid "The email has been scheduled."
-msgstr "設定が消去されました。"
+msgstr ""
 
 #: development/factory/_common/_abstract/_model/AdminPageFramework_Message.php:371
 msgid "There was a problem sending the email"
@@ -135,37 +131,35 @@ msgstr ""
 
 #: development/factory/_common/_abstract/_model/AdminPageFramework_Message.php:372
 msgid "Title"
-msgstr "タイトル"
+msgstr ""
 
 #: development/factory/_common/_abstract/_model/AdminPageFramework_Message.php:373
 msgid "Author"
-msgstr "作成者"
+msgstr ""
 
 #: development/factory/_common/_abstract/_model/AdminPageFramework_Message.php:374
 msgid "Categories"
-msgstr "カテゴリー"
+msgstr ""
 
 #: development/factory/_common/_abstract/_model/AdminPageFramework_Message.php:375
 msgid "Tags"
-msgstr "タグ"
+msgstr ""
 
 #: development/factory/_common/_abstract/_model/AdminPageFramework_Message.php:376
 msgid "Comments"
-msgstr "コメント"
+msgstr ""
 
 #: development/factory/_common/_abstract/_model/AdminPageFramework_Message.php:377
 msgid "Date"
-msgstr "日付"
+msgstr ""
 
 #: development/factory/_common/_abstract/_model/AdminPageFramework_Message.php:378
 msgid "Show All"
-msgstr "全て表示"
+msgstr ""
 
 #: development/factory/_common/_abstract/_model/AdminPageFramework_Message.php:379
-#, fuzzy
-#| msgid "Show All"
 msgid "Show All Authors"
-msgstr "全て表示"
+msgstr ""
 
 #: development/factory/_common/_abstract/_model/AdminPageFramework_Message.php:380
 msgid "Thank you for creating with"
@@ -177,65 +171,55 @@ msgstr ""
 
 #: development/factory/_common/_abstract/_model/AdminPageFramework_Message.php:382
 msgid "Settings"
-msgstr "設定"
+msgstr ""
 
 #: development/factory/_common/_abstract/_model/AdminPageFramework_Message.php:383
 msgid "Manage"
-msgstr "編集"
+msgstr ""
 
 #: development/factory/_common/_abstract/_model/AdminPageFramework_Message.php:384
 msgid "Select Image"
-msgstr "画像の選択"
+msgstr ""
 
 #: development/factory/_common/_abstract/_model/AdminPageFramework_Message.php:385
 msgid "Upload File"
-msgstr "ファイルのアップロード"
+msgstr ""
 
 #: development/factory/_common/_abstract/_model/AdminPageFramework_Message.php:386
 msgid "Use This File"
-msgstr "このファイルを使う"
+msgstr ""
 
 #: development/factory/_common/_abstract/_model/AdminPageFramework_Message.php:387
 msgid "Select File"
-msgstr "ファイルの選択"
+msgstr ""
 
 #: development/factory/_common/_abstract/_model/AdminPageFramework_Message.php:388
-#, fuzzy
-#| msgid "Remove"
 msgid "Remove Value"
-msgstr "削除"
+msgstr ""
 
 #: development/factory/_common/_abstract/_model/AdminPageFramework_Message.php:389
-#, fuzzy
-#| msgid "Select File"
 msgid "Select All"
-msgstr "ファイルの選択"
+msgstr ""
 
 #: development/factory/_common/_abstract/_model/AdminPageFramework_Message.php:390
-#, fuzzy
-#| msgid "Select File"
 msgid "Select None"
-msgstr "ファイルの選択"
+msgstr ""
 
 #: development/factory/_common/_abstract/_model/AdminPageFramework_Message.php:391
 msgid "No term found."
 msgstr ""
 
 #: development/factory/_common/_abstract/_model/AdminPageFramework_Message.php:392
-#, fuzzy
-#| msgid "Select File"
 msgid "Select"
-msgstr "ファイルの選択"
+msgstr ""
 
 #: development/factory/_common/_abstract/_model/AdminPageFramework_Message.php:393
 msgid "Insert"
 msgstr ""
 
 #: development/factory/_common/_abstract/_model/AdminPageFramework_Message.php:394
-#, fuzzy
-#| msgid "Use This File"
 msgid "Use This"
-msgstr "このファイルを使う"
+msgstr ""
 
 #: development/factory/_common/_abstract/_model/AdminPageFramework_Message.php:395
 msgid "Return to Library"
@@ -244,54 +228,54 @@ msgstr ""
 #: development/factory/_common/_abstract/_model/AdminPageFramework_Message.php:396
 #, php-format
 msgid "%1$s queries in %2$s seconds."
-msgstr "%2$s秒中%1$sクエリ。"
+msgstr ""
 
 #: development/factory/_common/_abstract/_model/AdminPageFramework_Message.php:397
 #, php-format
 msgid "%1$s out of %2$s MB (%3$s) memory used."
-msgstr "%2$s 中 %1$s (%3$s) メモリ使用。"
+msgstr ""
 
 #: development/factory/_common/_abstract/_model/AdminPageFramework_Message.php:398
 #, php-format
 msgid "Peak memory usage %1$s MB."
-msgstr "%1$s ピークメモリ使用量。"
+msgstr ""
 
 #: development/factory/_common/_abstract/_model/AdminPageFramework_Message.php:399
 #, php-format
 msgid "Initial memory usage  %1$s MB."
-msgstr "%1$s 初期メモリ使用量。"
+msgstr ""
 
 #: development/factory/_common/_abstract/_model/AdminPageFramework_Message.php:400
 msgid "The allowed maximum number of fields is {0}."
-msgstr "最大{0}個 のフィールドが使用できます。"
+msgstr ""
 
 #: development/factory/_common/_abstract/_model/AdminPageFramework_Message.php:401
 msgid "The allowed minimum number of fields is {0}."
-msgstr "最小{0}個 のフィールドが使用できます。"
+msgstr ""
 
 #: development/factory/_common/_abstract/_model/AdminPageFramework_Message.php:402
 msgid "Add"
-msgstr "追加"
+msgstr ""
 
 #: development/factory/_common/_abstract/_model/AdminPageFramework_Message.php:403
 msgid "Remove"
-msgstr "削除"
+msgstr ""
 
 #: development/factory/_common/_abstract/_model/AdminPageFramework_Message.php:404
 msgid "The allowed maximum number of sections is {0}"
-msgstr "最大{0}個 のセクションが使用できます。"
+msgstr ""
 
 #: development/factory/_common/_abstract/_model/AdminPageFramework_Message.php:405
 msgid "The allowed minimum number of sections is {0}"
-msgstr "最小{0}個 のセクションが使用できます。"
+msgstr ""
 
 #: development/factory/_common/_abstract/_model/AdminPageFramework_Message.php:406
 msgid "Add Section"
-msgstr "セクションの追加"
+msgstr ""
 
 #: development/factory/_common/_abstract/_model/AdminPageFramework_Message.php:407
 msgid "Remove Section"
-msgstr "セクションの削除"
+msgstr ""
 
 #: development/factory/_common/_abstract/_model/AdminPageFramework_Message.php:408
 msgid "Toggle All"
@@ -358,10 +342,9 @@ msgid "No log found."
 msgstr ""
 
 #: development/factory/_common/_abstract/_model/AdminPageFramework_Message.php:425
-#, fuzzy, php-format
-#| msgid "The method is not defined: %1$s"
+#, php-format
 msgid "The method is called too early: %1$s"
-msgstr "次のメソッドは定義されていません: %1$s"
+msgstr ""
 
 #: development/factory/_common/_abstract/_model/AdminPageFramework_Message.php:426
 msgid "Debug Info"
@@ -410,10 +393,8 @@ msgid "Submit the form."
 msgstr ""
 
 #: development/factory/_common/_abstract/_model/AdminPageFramework_Message.php:445
-#, fuzzy
-#| msgid "Please confirm if you want to perform the specified task."
 msgid "Please check this box if you want to proceed."
-msgstr "指定されたタスクを実行することをご確認下さい。"
+msgstr ""
 
 #: development/factory/_common/_abstract/_model/AdminPageFramework_Message.php:446
 msgid "No file is selected."
@@ -428,10 +409,8 @@ msgid "Default"
 msgstr ""
 
 #: development/factory/_common/form/field_type/AdminPageFramework_FieldType_color.php:110
-#, fuzzy
-#| msgid "Select File"
 msgid "Select Color"
-msgstr "ファイルの選択"
+msgstr ""
 
 #: development/factory/_common/form/field_type/AdminPageFramework_FieldType_color.php:111
 msgid "Current Color"
@@ -509,20 +488,16 @@ msgid "Safe Mode"
 msgstr ""
 
 #: development/factory/_common/form/field_type/AdminPageFramework_FieldType_system.php:624
-#, fuzzy
-#| msgid "Upload File"
 msgid "Upload Max Size"
-msgstr "ファイルのアップロード"
+msgstr ""
 
 #: development/factory/_common/form/field_type/AdminPageFramework_FieldType_system.php:625
 msgid "Post Max Size"
 msgstr ""
 
 #: development/factory/_common/form/field_type/AdminPageFramework_FieldType_system.php:626
-#, fuzzy
-#| msgid "Upload File"
 msgid "Upload Max File Size"
-msgstr "ファイルのアップロード"
+msgstr ""
 
 #: development/factory/_common/form/field_type/AdminPageFramework_FieldType_system.php:627
 msgid "Max Execution Time"
@@ -599,6 +574,3 @@ msgstr ""
 #: development/factory/_common/form/field_type/AdminPageFramework_FieldType_system.php:669
 msgid "Session Use Only Cookies"
 msgstr ""
-
-#~ msgid "Powered by"
-#~ msgstr "Powered by"

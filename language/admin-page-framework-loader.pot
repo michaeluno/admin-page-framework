@@ -1,0 +1,514 @@
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Admin Page Framework\n"
+"POT-Creation-Date: 2021-02-17 07:36+0900\n"
+"PO-Revision-Date: 2021-02-17 07:23+0900\n"
+"Last-Translator: Michael Uno <michael@michaeluno.jp>\n"
+"Language-Team: \n"
+"Language: en\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.3\n"
+"X-Poedit-KeywordsList: __;_e\n"
+"X-Poedit-Basepath: ../include/class\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: AdminPageFrameworkLoader_Bootstrap.php:63
+msgid "Deactivating the plugin"
+msgstr ""
+
+#: admin/_abstract/AdminPageFrameworkLoader_AdminPage_RootBase.php:45
+#, php-format
+msgid "The method is not defined: %1$s"
+msgstr ""
+
+#: admin/_abstract/AdminPageFrameworkLoader_AdminPage_Section_Base.php:101
+#: admin/admin-page-framework/tool/generator/AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator.php:203
+msgid "There was something wrong with your input."
+msgstr ""
+
+#: admin/admin-page-framework/AdminPageFrameworkLoader_AdminPage.php:48
+#: admin/network-admin/AdminPageFrameworkLoader_NetworkAdmin.php:36
+msgid "Enabled demo!"
+msgstr ""
+
+#: admin/admin-page-framework/AdminPageFrameworkLoader_AdminPage.php:87
+#: admin/admin-page-framework/AdminPageFrameworkLoader_AdminPage.php:166
+msgid "Tools"
+msgstr ""
+
+#: admin/admin-page-framework/AdminPageFrameworkLoader_AdminPage.php:98
+#: admin/admin-page-framework/addon/AdminPageFrameworkLoader_AdminPage_Addon.php:26
+msgid "Add Ons"
+msgstr ""
+
+#: admin/admin-page-framework/AdminPageFrameworkLoader_AdminPage.php:109
+msgid "Help"
+msgstr ""
+
+#: admin/admin-page-framework/AdminPageFrameworkLoader_AdminPage.php:145
+#: admin/admin-page-framework/help/AdminPageFrameworkLoader_AdminPage_Help.php:32
+#: admin/network-admin/AdminPageFrameworkLoader_NetworkAdmin.php:60
+msgid "Support"
+msgstr ""
+
+#: admin/admin-page-framework/AdminPageFrameworkLoader_AdminPage.php:180
+msgid "Disable Admin Pages"
+msgstr ""
+
+#: admin/admin-page-framework/AdminPageFrameworkLoader_AdminPage.php:181
+msgid "Enable Admin Pages"
+msgstr ""
+
+#: admin/admin-page-framework/AdminPageFrameworkLoader_AdminPage.php:200
+#: admin/network-admin/AdminPageFrameworkLoader_NetworkAdmin.php:79
+msgid "Disable Demo"
+msgstr ""
+
+#: admin/admin-page-framework/AdminPageFrameworkLoader_AdminPage.php:201
+#: admin/network-admin/AdminPageFrameworkLoader_NetworkAdmin.php:80
+msgid "Enable Demo"
+msgstr ""
+
+#: admin/admin-page-framework/AdminPageFrameworkLoader_AdminPage.php:218
+msgid "Notification"
+msgstr ""
+
+#: admin/admin-page-framework/AdminPageFrameworkLoader_AdminPageMetaBox_ExternalLinks.php:38
+msgid "Documentation"
+msgstr ""
+
+#: admin/admin-page-framework/AdminPageFrameworkLoader_AdminPageMetaBox_ExternalLinks.php:41
+msgid "Manual"
+msgstr ""
+
+#: admin/admin-page-framework/AdminPageFrameworkLoader_AdminPageMetaBox_ExternalLinks.php:45
+msgid "Tutorials"
+msgstr ""
+
+#: admin/admin-page-framework/AdminPageFrameworkLoader_AdminPageMetaBox_Notification.php:88
+msgid "Test Development Version"
+msgstr ""
+
+#: admin/admin-page-framework/AdminPageFrameworkLoader_AdminPageMetaBox_Notification.php:92
+#, php-format
+msgid "A new development version <code>%1$s</code> is available!"
+msgstr ""
+
+#: admin/admin-page-framework/AdminPageFrameworkLoader_AdminPageMetaBox_Notification.php:94
+msgid "Please test it before it gets released."
+msgstr ""
+
+#: admin/admin-page-framework/AdminPageFrameworkLoader_AdminPageMetaBox_Notification.php:102
+#: admin/admin-page-framework/tool/generator/AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator.php:125
+#: admin/admin-page-framework/tool/generator/AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator.php:129
+msgid "Download"
+msgstr ""
+
+#: admin/admin-page-framework/addon/AdminPageFrameworkLoader_AdminPage_Addon_Top.php:52
+msgid "No add-on could be found."
+msgstr ""
+
+#: admin/admin-page-framework/addon/AdminPageFrameworkLoader_AdminPage_Addon_Top.php:122
+msgid "Get it Now"
+msgstr ""
+
+#: admin/admin-page-framework/addon/AdminPageFrameworkLoader_AdminPage_Addon_Top.php:189
+msgid "Demo"
+msgstr ""
+
+#: admin/admin-page-framework/addon/AdminPageFrameworkLoader_AdminPage_Addon_Top.php:195
+msgid "Showcases the features of Admin Page Framework."
+msgstr ""
+
+#: admin/admin-page-framework/addon/AdminPageFrameworkLoader_AdminPage_Addon_Top.php:207
+msgid "Deactivate"
+msgstr ""
+
+#: admin/admin-page-framework/addon/AdminPageFrameworkLoader_AdminPage_Addon_Top.php:210
+msgid "Activate"
+msgstr ""
+
+#: admin/admin-page-framework/help/AdminPageFrameworkLoader_AdminPage_Help.php:40
+#: admin/dashboard/welcome/AdminPageFrameworkLoader_AdminPageWelcome_Welcome.php:42
+msgid "Getting Started"
+msgstr ""
+
+#: admin/admin-page-framework/help/AdminPageFrameworkLoader_AdminPage_Help.php:55
+msgid "FAQ"
+msgstr ""
+
+#: admin/admin-page-framework/help/AdminPageFrameworkLoader_AdminPage_Help.php:63
+msgid "Tips"
+msgstr ""
+
+#: admin/admin-page-framework/help/AdminPageFrameworkLoader_AdminPage_Help.php:71
+msgid "Examples"
+msgstr ""
+
+#: admin/admin-page-framework/help/AdminPageFrameworkLoader_AdminPage_Help.php:79
+msgid "Report"
+msgstr ""
+
+#: admin/admin-page-framework/help/AdminPageFrameworkLoader_AdminPage_Help.php:87
+msgid "About"
+msgstr ""
+
+#: admin/admin-page-framework/help/AdminPageFrameworkLoader_AdminPage_Help.php:101
+msgid "Debug"
+msgstr ""
+
+#: admin/admin-page-framework/help/AdminPageFrameworkLoader_AdminPage_Help.php:109
+msgid "Resources"
+msgstr ""
+
+#: admin/admin-page-framework/help/AdminPageFrameworkLoader_AdminPage_Help_Debug.php:30
+msgid "Reset"
+msgstr ""
+
+#: admin/admin-page-framework/help/AdminPageFrameworkLoader_AdminPage_Help_Debug.php:37
+#: admin/admin-page-framework/help/AdminPageFrameworkLoader_AdminPage_Help_Report_Report.php:94
+msgid "Saved Options"
+msgstr ""
+
+#: admin/admin-page-framework/help/AdminPageFrameworkLoader_AdminPage_Help_Report.php:28
+msgid "Report Issues"
+msgstr ""
+
+#: admin/admin-page-framework/help/AdminPageFrameworkLoader_AdminPage_Help_Report.php:29
+msgid "If you find a bug, you can report it from here."
+msgstr ""
+
+#: admin/admin-page-framework/help/AdminPageFrameworkLoader_AdminPage_Help_Report_Report.php:29
+msgid "Your Name"
+msgstr ""
+
+#: admin/admin-page-framework/help/AdminPageFrameworkLoader_AdminPage_Help_Report_Report.php:36
+msgid "Type your name."
+msgstr ""
+
+#: admin/admin-page-framework/help/AdminPageFrameworkLoader_AdminPage_Help_Report_Report.php:41
+msgid "Your Email Address"
+msgstr ""
+
+#: admin/admin-page-framework/help/AdminPageFrameworkLoader_AdminPage_Help_Report_Report.php:46
+msgid "Type your email that the developer replies backt to."
+msgstr ""
+
+#: admin/admin-page-framework/help/AdminPageFrameworkLoader_AdminPage_Help_Report_Report.php:51
+msgid "Expected Behavior"
+msgstr ""
+
+#: admin/admin-page-framework/help/AdminPageFrameworkLoader_AdminPage_Help_Report_Report.php:53
+msgid "Tell how the framework should work."
+msgstr ""
+
+#: admin/admin-page-framework/help/AdminPageFrameworkLoader_AdminPage_Help_Report_Report.php:60
+msgid "Actual Behavior"
+msgstr ""
+
+#: admin/admin-page-framework/help/AdminPageFrameworkLoader_AdminPage_Help_Report_Report.php:62
+msgid "Describe the behavior of the framework."
+msgstr ""
+
+#: admin/admin-page-framework/help/AdminPageFrameworkLoader_AdminPage_Help_Report_Report.php:69
+msgid "Screenshots"
+msgstr ""
+
+#: admin/admin-page-framework/help/AdminPageFrameworkLoader_AdminPage_Help_Report_Report.php:82
+msgid "System Information"
+msgstr ""
+
+#: admin/admin-page-framework/help/AdminPageFrameworkLoader_AdminPage_Help_Report_Report.php:84
+msgid "Custom Data"
+msgstr ""
+
+#: admin/admin-page-framework/help/AdminPageFrameworkLoader_AdminPage_Help_Report_Report.php:84
+msgid "This is custom data inserted with the data argument."
+msgstr ""
+
+#: admin/admin-page-framework/help/AdminPageFrameworkLoader_AdminPage_Help_Report_Report.php:85
+msgid "Current Time"
+msgstr ""
+
+#: admin/admin-page-framework/help/AdminPageFrameworkLoader_AdminPage_Help_Report_Report.php:114
+msgid "Confirmation"
+msgstr ""
+
+#: admin/admin-page-framework/help/AdminPageFrameworkLoader_AdminPage_Help_Report_Report.php:115
+msgid "required"
+msgstr ""
+
+#: admin/admin-page-framework/help/AdminPageFrameworkLoader_AdminPage_Help_Report_Report.php:117
+msgid ""
+"I understand that the system information including a PHP version and "
+"WordPress version etc. will be sent along with the messages to help "
+"developer trouble-shoot the problem."
+msgstr ""
+
+#: admin/admin-page-framework/help/AdminPageFrameworkLoader_AdminPage_Help_Report_Report.php:128
+msgid "Send"
+msgstr ""
+
+#: admin/admin-page-framework/help/AdminPageFrameworkLoader_AdminPage_Help_Report_Report.php:129
+msgid "Preview"
+msgstr ""
+
+#: admin/admin-page-framework/help/AdminPageFrameworkLoader_AdminPage_Help_Report_Report.php:172
+msgid "We need necessary information to help you."
+msgstr ""
+
+#: admin/admin-page-framework/help/AdminPageFrameworkLoader_AdminPage_Help_Report_Report.php:178
+msgid "Please help us to help you."
+msgstr ""
+
+#: admin/admin-page-framework/tool/AdminPageFrameworkLoader_AdminPage_Tool.php:27
+msgid "Generator"
+msgstr ""
+
+#: admin/admin-page-framework/tool/generator/AdminPageFrameworkLoader_AdminPage_Tool_Generator.php:31
+msgid "Download Framework"
+msgstr ""
+
+#: admin/admin-page-framework/tool/generator/AdminPageFrameworkLoader_AdminPage_Tool_Generator.php:33
+msgid "Generate your own version of the framework to avoid library conflicts."
+msgstr ""
+
+#: admin/admin-page-framework/tool/generator/AdminPageFrameworkLoader_AdminPage_Tool_Generator_CustomFieldTypes.php:52
+msgid "Custom Field Types"
+msgstr ""
+
+#: admin/admin-page-framework/tool/generator/AdminPageFrameworkLoader_AdminPage_Tool_Generator_CustomFieldTypes.php:89
+msgid "ACE"
+msgstr ""
+
+#: admin/admin-page-framework/tool/generator/AdminPageFrameworkLoader_AdminPage_Tool_Generator_CustomFieldTypes.php:90
+msgid "provides code syntax highlighting in a text area field."
+msgstr ""
+
+#: admin/admin-page-framework/tool/generator/AdminPageFrameworkLoader_AdminPage_Tool_Generator_CustomFieldTypes.php:98
+msgid "GitHub Buttons"
+msgstr ""
+
+#: admin/admin-page-framework/tool/generator/AdminPageFrameworkLoader_AdminPage_Tool_Generator_CustomFieldTypes.php:99
+msgid "allows you to display GitHub buttons in a field."
+msgstr ""
+
+#: admin/admin-page-framework/tool/generator/AdminPageFrameworkLoader_AdminPage_Tool_Generator_CustomFieldTypes.php:107
+msgid "Path"
+msgstr ""
+
+#: admin/admin-page-framework/tool/generator/AdminPageFrameworkLoader_AdminPage_Tool_Generator_CustomFieldTypes.php:108
+msgid "allows the user to select a file path on the server."
+msgstr ""
+
+#: admin/admin-page-framework/tool/generator/AdminPageFrameworkLoader_AdminPage_Tool_Generator_CustomFieldTypes.php:116
+msgid "Toggle"
+msgstr ""
+
+#: admin/admin-page-framework/tool/generator/AdminPageFrameworkLoader_AdminPage_Tool_Generator_CustomFieldTypes.php:117
+msgid "allows the user to switch a button."
+msgstr ""
+
+#: admin/admin-page-framework/tool/generator/AdminPageFrameworkLoader_AdminPage_Tool_Generator_CustomFieldTypes.php:125
+msgid "NoUISlider (Range Slider)"
+msgstr ""
+
+#: admin/admin-page-framework/tool/generator/AdminPageFrameworkLoader_AdminPage_Tool_Generator_CustomFieldTypes.php:126
+msgid "allows the user to set values in ranges."
+msgstr ""
+
+#: admin/admin-page-framework/tool/generator/AdminPageFrameworkLoader_AdminPage_Tool_Generator_CustomFieldTypes.php:134
+msgid "Select2"
+msgstr ""
+
+#: admin/admin-page-framework/tool/generator/AdminPageFrameworkLoader_AdminPage_Tool_Generator_CustomFieldTypes.php:135
+msgid ""
+"allows the user to select items with autocomplete from a list which can be "
+"populated with AJAX."
+msgstr ""
+
+#: admin/admin-page-framework/tool/generator/AdminPageFrameworkLoader_AdminPage_Tool_Generator_CustomFieldTypes.php:143
+msgid "Post Type Taxonomy"
+msgstr ""
+
+#: admin/admin-page-framework/tool/generator/AdminPageFrameworkLoader_AdminPage_Tool_Generator_CustomFieldTypes.php:144
+msgid "allows the user to select taxonomy terms of selected post types."
+msgstr ""
+
+#: admin/admin-page-framework/tool/generator/AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator.php:65
+msgid "Version"
+msgstr ""
+
+#: admin/admin-page-framework/tool/generator/AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator.php:76
+msgid "Class Prefix"
+msgstr ""
+
+#: admin/admin-page-framework/tool/generator/AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator.php:79
+msgid "Set alphanumeric characters for the class names."
+msgstr ""
+
+#: admin/admin-page-framework/tool/generator/AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator.php:80
+msgid ""
+"For example, if you set here <code>MyPluginName_</code>, you will need to "
+"extend the class named <code>MyClassName_AdminPageFramework</code> instead "
+"of <code>AdminPageFramework</code>."
+msgstr ""
+
+#: admin/admin-page-framework/tool/generator/AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator.php:86
+msgid "Type a prefix."
+msgstr ""
+
+#: admin/admin-page-framework/tool/generator/AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator.php:91
+msgid "Text Domain"
+msgstr ""
+
+#: admin/admin-page-framework/tool/generator/AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator.php:93
+msgid "The default text domain of your project."
+msgstr ""
+
+#: admin/admin-page-framework/tool/generator/AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator.php:98
+msgid "Type your text domain."
+msgstr ""
+
+#: admin/admin-page-framework/tool/generator/AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator.php:103
+msgid "Components"
+msgstr ""
+
+#: admin/admin-page-framework/tool/generator/AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator.php:106
+msgid ""
+"Select the components you would like to include in your framework files."
+msgstr ""
+
+#: admin/admin-page-framework/tool/generator/AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator.php:107
+msgid "If you are not sure what to select, check them all."
+msgstr ""
+
+#: admin/admin-page-framework/tool/generator/AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator.php:134
+msgid "Download the compiled framework files as a zip file."
+msgstr ""
+
+#: admin/admin-page-framework/tool/generator/AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator.php:135
+msgid "The zip extension needs to be enabled to use this feature."
+msgstr ""
+
+#: admin/admin-page-framework/tool/generator/AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator.php:160
+msgid "Admin Pages"
+msgstr ""
+
+#: admin/admin-page-framework/tool/generator/AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator.php:161
+msgid "Network Admin Pages"
+msgstr ""
+
+#: admin/admin-page-framework/tool/generator/AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator.php:162
+msgid "Custom Post Types"
+msgstr ""
+
+#: admin/admin-page-framework/tool/generator/AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator.php:163
+msgid "Taxonomy Fields"
+msgstr ""
+
+#: admin/admin-page-framework/tool/generator/AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator.php:164
+msgid "Term Meta"
+msgstr ""
+
+#: admin/admin-page-framework/tool/generator/AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator.php:165
+msgid "Post Meta Boxes"
+msgstr ""
+
+#: admin/admin-page-framework/tool/generator/AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator.php:166
+msgid "Page Meta Boxes"
+msgstr ""
+
+#: admin/admin-page-framework/tool/generator/AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator.php:167
+msgid "Widgets"
+msgstr ""
+
+#: admin/admin-page-framework/tool/generator/AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator.php:168
+msgid "User Meta"
+msgstr ""
+
+#: admin/admin-page-framework/tool/generator/AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator.php:169
+msgid "Utilities"
+msgstr ""
+
+#: admin/admin-page-framework/tool/generator/AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator.php:191
+msgid "The prefix must consist of alphanumeric with underscores."
+msgstr ""
+
+#: admin/admin-page-framework/tool/generator/AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator.php:196
+msgid "The text domain cannot be empty."
+msgstr ""
+
+#: admin/dashboard/AdminPageFrameworkLoader_AdminPageWelcome.php:211
+#, php-format
+msgid "Welcome to %1$s"
+msgstr ""
+
+#: admin/dashboard/AdminPageFrameworkLoader_AdminPageWelcome.php:214
+#, php-format
+msgid ""
+"Thank you for updating to the latest version! %1$s is ready to make your "
+"plugin or theme development faster, more organized and better!"
+msgstr ""
+
+#: admin/dashboard/AdminPageFrameworkLoader_AdminPageWelcome.php:221
+#, php-format
+msgid "Version %1$s"
+msgstr ""
+
+#: admin/dashboard/welcome/AdminPageFrameworkLoader_AdminPageWelcome_Welcome.php:31
+msgid "What's New"
+msgstr ""
+
+#: admin/dashboard/welcome/AdminPageFrameworkLoader_AdminPageWelcome_Welcome.php:45
+msgid "Contents"
+msgstr ""
+
+#: admin/dashboard/welcome/AdminPageFrameworkLoader_AdminPageWelcome_Welcome.php:53
+msgid "Change Log"
+msgstr ""
+
+#: admin/dashboard/welcome/AdminPageFrameworkLoader_AdminPageWelcome_Welcome.php:66
+msgid "Credit"
+msgstr ""
+
+#: admin/dashboard/welcome/AdminPageFrameworkLoader_AdminPageWelcome_Welcome.php:77
+msgid "Admin Page Framework is created by the following contributors."
+msgstr ""
+
+#: admin/dashboard/welcome/AdminPageFrameworkLoader_AdminPageWelcome_Welcome.php:98
+msgid "Star the repository and get Involved!"
+msgstr ""
+
+#: admin/dashboard/welcome/AdminPageFrameworkLoader_AdminPageWelcome_Welcome.php:154
+msgid "No valid changlog was found."
+msgstr ""
+
+#: admin/dashboard/welcome/AdminPageFrameworkLoader_AdminPageWelcome_Welcome.php:190
+#, php-format
+msgid "View %s"
+msgstr ""
+
+#: admin/demo/AdminPageFrameworkLoader_Demo.php:77
+msgid ""
+"Check out the functionality of Admin Page Framework by enabling the demo."
+msgstr ""
+
+#: utility/AdminPageFrameworkLoader_Utility.php:32
+#, php-format
+msgid "The URL is not valid: %1$s"
+msgstr ""
+
+#: utility/AdminPageFrameworkLoader_Utility.php:35
+msgid "Header already sent."
+msgstr ""
+
+#: utility/AdminPageFrameworkLoader_Utility.php:44
+#, php-format
+msgid "Could not be redirected to %1$s."
+msgstr ""
