@@ -137,7 +137,7 @@ class AdminPageFramework_Form extends AdminPageFramework_Form_Controller {
         /**
          * Allows the main routine to modify form element definitions including sectionsets and fieldsets.
          */
-        'secitonsets_before_registration'   => null,
+        'sectionsets_before_registration'   => null,
         'fieldsets_before_registration'     => null,
 
         /**
@@ -266,8 +266,9 @@ class AdminPageFramework_Form extends AdminPageFramework_Form_Controller {
 
         /**
          * Formats the argument array.
-         * @return      array       The formatted argument array.
-         * @since       3.7.0
+         * @param  array $aArguments
+         * @return array       The formatted argument array.
+         * @since  3.7.0
          */
         private function ___getArgumentsFormatted( $aArguments ) {
 

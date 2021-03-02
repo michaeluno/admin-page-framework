@@ -282,7 +282,7 @@ class AdminPageFramework_Form_Model extends AdminPageFramework_Form_Base {
          
             // Let the main routine modify the sectionsets definition array.
             $this->aSectionsets = $this->callBack(
-                $this->aCallbacks[ 'secitonsets_before_registration' ],
+                $this->aCallbacks[ 'sectionsets_before_registration' ],
                 array(
                     $this->aSectionsets,    // 1st parameter
                 )

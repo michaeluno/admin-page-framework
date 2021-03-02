@@ -538,7 +538,7 @@ abstract class AdminPageFramework_Property_Base extends AdminPageFramework_Frame
             'is_sectionset_visible'             => array( $this->oCaller, '_replyToDetermineSectionsetVisibility' ),
             'is_fieldset_visible'               => array( $this->oCaller, '_replyToDetermineFieldsetVisibility' ),
 
-            'secitonsets_before_registration'   => array( $this->oCaller, '_replyToModifySectionsets' ),
+            'sectionsets_before_registration'   => array( $this->oCaller, '_replyToModifySectionsets' ),
             'fieldsets_before_registration'     => array( $this->oCaller, '_replyToModifyFieldsets' ),
 
             'handle_form_data'                  => array( $this->oCaller, '_replyToHandleSubmittedFormData' ),
