@@ -80,9 +80,7 @@ class AdminPageFramework_Form_Model___DefaultValues extends AdminPageFramework_F
          * @return  array
          */
         private function ___getDefaultValues( $aFieldsets, $aDefaultOptions ) {
-
             foreach( $aFieldsets as $_sSectionPath => $_aItems ) {
-
                 $_aSectionPath   = explode( '|', $_sSectionPath );
                 foreach( $_aItems as $_sFieldPath => $_aFieldset ) {
                     $_aFieldPath = explode( '|', $_sFieldPath );
@@ -91,12 +89,9 @@ class AdminPageFramework_Form_Model___DefaultValues extends AdminPageFramework_F
                         '_default' === $_sSectionPath
                             ? array( $_sFieldPath )
                             : array_merge( $_aSectionPath, $_aFieldPath ), // key address
-                            // : array( $_sSectionID, $_sFieldPath ), // key address
                         $this->___getDefaultValue( $_aFieldset )   // the value to set
                     );
-
                 }
-
             }
             return $aDefaultOptions;
         }
@@ -117,7 +112,7 @@ class AdminPageFramework_Form_Model___DefaultValues extends AdminPageFramework_F
             $_aSubFields = $this->getIntegerKeyElements( $aFieldset );
 
             // If there are no sub-fields
-            if ( count( $_aSubFields ) == 0 ) {
+            if ( count( $_aSubFields ) === 0 ) {
                 return $this->getElement(
                     $aFieldset,           // subject
                     'value',        // key
