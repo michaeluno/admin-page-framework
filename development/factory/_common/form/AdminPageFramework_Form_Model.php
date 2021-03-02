@@ -142,7 +142,7 @@ class AdminPageFramework_Form_Model extends AdminPageFramework_Form_Base {
      *     array(  
      *         'my_field_id' => array( .... ),
      *         'my_field_id2' => array( .... ),
-     *         'my_secion_id' => array(
+     *         'my_section_id' => array(
      *             'my_field_id' => array( ... ),
      *             'my_field_id2' => array( ... ),
      *             'my_field_id3' => array( ... ),
@@ -165,7 +165,7 @@ class AdminPageFramework_Form_Model extends AdminPageFramework_Form_Base {
         $_aFormDataStructure  = array();
         foreach ( $this->getAsArray( $this->aFieldsets ) as $_sSectionID => $_aFieldsets ) {
 
-            if ( $_sSectionID != '_default' ) {                
+            if ( $_sSectionID !== '_default' ) {
                 $_aFormDataStructure[ $_sSectionID ] = $_aFieldsets;
                 continue;
             }
