@@ -10,8 +10,8 @@
 /**
  * Provides methods to get default form values from given field-sets.
  *
- * @package     AdminPageFramework/Common/Form/Model
- * @since       3.7.0
+ * @package  AdminPageFramework/Common/Form/Model
+ * @since    3.7.0
  * @internal
  */
 class AdminPageFramework_Form_Model___DefaultValues extends AdminPageFramework_Form_Base {
@@ -72,18 +72,14 @@ class AdminPageFramework_Form_Model___DefaultValues extends AdminPageFramework_F
      * @todo Test the result completely, especially for repeated sections.
      */
     public function get() {
-
-        $_aResult = $this->_getDefaultValues(
-            $this->aFieldsets,
-            array()
-        );
-        return $_aResult;
-
+        return $this->___getDefaultValues( $this->aFieldsets, array() );
     }
         /**
-         * @return      array
+         * @param   array $aFieldsets
+         * @param   array $aDefaultOptions
+         * @return  array
          */
-        private function _getDefaultValues( $aFieldsets, $aDefaultOptions ) {
+        private function ___getDefaultValues( $aFieldsets, $aDefaultOptions ) {
 
             foreach( $aFieldsets as $_sSectionPath => $_aItems ) {
 
@@ -96,7 +92,7 @@ class AdminPageFramework_Form_Model___DefaultValues extends AdminPageFramework_F
                             ? array( $_sFieldPath )
                             : array_merge( $_aSectionPath, $_aFieldPath ), // key address
                             // : array( $_sSectionID, $_sFieldPath ), // key address
-                        $this->_getDefautValue( $_aFieldset )   // the value to set
+                        $this->___getDefaultValue( $_aFieldset )   // the value to set
                     );
 
                 }
@@ -110,10 +106,12 @@ class AdminPageFramework_Form_Model___DefaultValues extends AdminPageFramework_F
          *
          * This is a helper function for the above getDefaultOptions() method.
          *
-         * @since       3.0.0
-         * @since       3.7.0      Moved from `AdminPageFramework_Property_admin_page`.
+         * @param  array $aFieldset
+         * @return mixed
+         * @since  3.0.0
+         * @since  3.7.0 Moved from `AdminPageFramework_Property_admin_page`.
          */
-        private function _getDefautValue( $aFieldset ) {
+        private function ___getDefaultValue( $aFieldset ) {
 
             // Check if sub-fields exist whose keys are numeric
             $_aSubFields = $this->getIntegerKeyElements( $aFieldset );
@@ -121,12 +119,12 @@ class AdminPageFramework_Form_Model___DefaultValues extends AdminPageFramework_F
             // If there are no sub-fields
             if ( count( $_aSubFields ) == 0 ) {
                 return $this->getElement(
-                    $aFieldset,     // subject
+                    $aFieldset,           // subject
                     'value',        // key
-                    $this->getElement(   // default value
-                        $aFieldset,      // subject
-                        'default',       // key
-                        null             // default value
+                    $this->getElement(    // default value
+                        $aFieldset,       // subject
+                        'default',  // key
+                        null      // default value
                     )
                 );
             }
@@ -136,11 +134,11 @@ class AdminPageFramework_Form_Model___DefaultValues extends AdminPageFramework_F
             array_unshift( $_aSubFields, $aFieldset ); // insert the main field into the very first index.
             foreach( $_aSubFields as $_iIndex => $_aField ) {
                 $_aDefault[ $_iIndex ] = $this->getElement(
-                    $_aField,   // subject
-                    'value',    // key
-                    $this->getElement(   // default value
-                        $_aField,   // subject
-                        'default',  // key
+                    $_aField,               // subject
+                    'value',          // key
+                    $this->getElement(      // default value
+                        $_aField,           // subject
+                        'default',    // key
                         null        // default value
                     )
                 );
