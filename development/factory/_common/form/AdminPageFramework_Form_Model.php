@@ -17,6 +17,23 @@
 class AdminPageFramework_Form_Model extends AdminPageFramework_Form_Base {
 
     /**
+     * @var array
+     */
+    public $aArguments;
+
+    /**
+     * @var array
+     */
+    public $aFieldTypeDefinitions;
+
+    /**
+     * @var array
+     */
+    public $aSavedData;
+
+    public $sCapability;
+
+    /**
      * Sets up hooks.
      * @since       3.7.0
      */
@@ -108,7 +125,7 @@ class AdminPageFramework_Form_Model extends AdminPageFramework_Form_Base {
      *             'my_field_id' => array( .... ),
      *             'my_field_id2' => array( .... ),
      *         ),
-     *         'my_secion_id' => array(
+     *         'my_section_id' => array(
      *             'my_field_id' => array( ... ),
      *             'my_field_id2' => array( ... ),
      *             'my_field_id3' => array( ... ),
@@ -204,8 +221,8 @@ class AdminPageFramework_Form_Model extends AdminPageFramework_Form_Base {
         }
 
         // Load field type definitions.
-        $this->_setFieldTypeDefinitions( 'admin_page_framework' );      // site-wide
-        $this->_setFieldTypeDefinitions( $this->aArguments[ 'caller_id' ] );  // per class 
+        $this->_setFieldTypeDefinitions( 'admin_page_framework' );    // site-wide
+        $this->_setFieldTypeDefinitions( $this->aArguments[ 'caller_id' ] );   // per class
         
         // Set the options array
         $this->aSavedData = $this->_getSavedData(
@@ -297,10 +314,11 @@ class AdminPageFramework_Form_Model extends AdminPageFramework_Form_Base {
         /**
          * Loads the default field type definition.
          * 
-         * @since       2.1.5
-         * @since       3.5.0       Changed the visibility scope to protected as it is internal. 
+         * @since    2.1.5
+         * @since    3.5.0       Changed the visibility scope to protected as it is internal.
          * Changed the name from `_loadDefaultFieldTypeDefinitions()` as it applies filters so custom field types also get registered here.
-         * @since       3.7.0      Moved from `AdminPageFramework_Factory_Model`. Changed the visibility scope to private.
+         * @since    3.7.0      Moved from `AdminPageFramework_Factory_Model`. Changed the visibility scope to private.
+         * @param    string $_sCallerID
          * @internal
          */
         private function _setFieldTypeDefinitions( $_sCallerID ) {
@@ -349,7 +367,8 @@ class AdminPageFramework_Form_Model extends AdminPageFramework_Form_Base {
             }     
             
         /**
-         * @return      array
+         * @param   array $aDefaultValues
+         * @return  array
          */
         private function _getSavedData( $aDefaultValues ) {
 
@@ -385,9 +404,7 @@ class AdminPageFramework_Form_Model extends AdminPageFramework_Form_Base {
      * @return      array       An array holding default values of form data.
      */
     public function getDefaultFormValues() {
-        $_oDefaultValues = new AdminPageFramework_Form_Model___DefaultValues(
-            $this->aFieldsets
-        );
+        $_oDefaultValues = new AdminPageFramework_Form_Model___DefaultValues( $this->aFieldsets );
         return $_oDefaultValues->get();
     }
             
@@ -398,7 +415,6 @@ class AdminPageFramework_Form_Model extends AdminPageFramework_Form_Base {
      * 
      * @since       3.7.0
      * @param       array       $aSavedData
-     * @param       boolean     $bOnlyFieldsets     Whether to format only the fieldsets. The taxonomy field factory uses this parameter.
      */
     protected function _formatElementDefinitions( array $aSavedData ) {
                 
@@ -429,12 +445,10 @@ class AdminPageFramework_Form_Model extends AdminPageFramework_Form_Base {
      * Retrieves the settings error array set by the user in the validation callback.
      * 
      * @since       3.0.4    
-     * @since       3.6.3       Changed the visibility scope to public as a delegation class needs to access this method.
-     * @since       3.7.0      Moved from `AdminPageFramework_Factory_Model`.
-     * Changed the name from `_getFieldErrors()`. 
+     * @since       3.6.3      Changed the visibility scope to public as a delegation class needs to access this method.
+     * @since       3.7.0      Moved from `AdminPageFramework_Factory_Model`. Changed the name from `_getFieldErrors()`.
      * @access      public      The field type class accesses this method to render nested fields.
      * @internal
-     * @param       boolean     $bDelete    whether or not the transient should be deleted after retrieving it. 
      * @return      array
      */
     public function getFieldErrors() {
@@ -448,11 +462,11 @@ class AdminPageFramework_Form_Model extends AdminPageFramework_Form_Base {
      * 
      * To get the set input, call `$this->oProp->aLastInput`.
      * 
-     * @since       3.4.1
-     * @since       3.7.0      Changed the name from `_setLastInput()`.
-     * @since       3.7.0      Moved from `AdminPageFramework_Factory_Model`.
-     * @since       3.7.8      Changed the return value to void.
-     * @return      void
+     * @since    3.4.1
+     * @since    3.7.0 Changed the name from `_setLastInput()`.
+     * @since    3.7.0 Moved from `AdminPageFramework_Factory_Model`.
+     * @since    3.7.8 Changed the return value to void.
+     * @param    array $aLastInputs
      * @internal
      */
     public function setLastInputs( array $aLastInputs ) {

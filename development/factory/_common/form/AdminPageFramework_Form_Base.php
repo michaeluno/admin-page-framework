@@ -48,6 +48,19 @@ abstract class AdminPageFramework_Form_Base extends AdminPageFramework_Form_Util
     );
 
     /**
+     * @var array
+     */
+    public $aCallbacks;
+    /**
+     * @var array
+     */
+    public $aSectionsets;
+    /**
+     * @var array
+     */
+    public $aFieldsets;
+
+    /**
      * Checks if a given array holds fieldsets or not.
      *
      * @todo        It seems this method is not used. If so deprecate it.
@@ -66,11 +79,14 @@ abstract class AdminPageFramework_Form_Base extends AdminPageFramework_Form_Util
      * 1. Check if the given ID is not a section.
      * 2. Parse stored fields and check their ID. If one matches, return false.
      *
+     * @param       string  $sID
+     * @return      boolean
      * @since       3.0.0
-     * @since       3.7.0      Moved from `AdminPageFramework_FormDefinition_Base`.
+     * @since       3.7.0   Moved from `AdminPageFramework_FormDefinition_Base`.
+     * @todo Find a way for nested sections.
      */
     public function isSection( $sID ) {
-// @todo Find a way for nested sections.
+
         // Integer IDs are not accepted as they are reserved for sub-sections.
         if ( $this->isNumericInteger( $sID ) ) {
             return false;
@@ -87,11 +103,11 @@ abstract class AdminPageFramework_Form_Base extends AdminPageFramework_Form_Util
         }
 
         // Since numeric IDs are denied at the beginning of the method, the elements will not be sub-sections.
-        $_bIsSeciton = false;
+        $_bIsSection = false;
         foreach( $this->aFieldsets as $_sSectionID => $_aFields ) {
 
             if ( $_sSectionID == $sID ) {
-                $_bIsSeciton = true;
+                $_bIsSection = true;
             }
 
             // a field using the ID is found, and it precedes a section match.
@@ -100,8 +116,7 @@ abstract class AdminPageFramework_Form_Base extends AdminPageFramework_Form_Util
             }
 
         }
-
-        return $_bIsSeciton;
+        return $_bIsSection;
 
     }
 
@@ -111,16 +126,14 @@ abstract class AdminPageFramework_Form_Base extends AdminPageFramework_Form_Util
      * To allow guests to view the form set an empty value to it.
      *
      * @since       3.7.0
+     * @param       string  $sCapability
      * @return      boolean
      */
     public function canUserView( $sCapability ) {
-
         if ( ! $sCapability  ) {
             return true;
         }
-
         return ( boolean ) current_user_can( $sCapability );
-
     }
 
     /**
@@ -131,10 +144,7 @@ abstract class AdminPageFramework_Form_Base extends AdminPageFramework_Form_Util
      * @return      boolean
      */
     public function isInThePage() {
-        return $this->callBack(
-            $this->aCallbacks[ 'is_in_the_page' ],
-            true
-        );
+        return $this->callBack( $this->aCallbacks[ 'is_in_the_page' ], true );
     }
 
     /**
