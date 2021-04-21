@@ -53,7 +53,7 @@ class AdminPageFramework_Form_View___FieldsetRows extends AdminPageFramework_Fra
     /**
      * Returns the output of table rows of fieldsets.
      *
-     * The each row has an eclosing `<td>` tag.
+     * The each row has an enclosing `<td>` tag.
      *
      * @return      string
      * @since       3.7.0
@@ -76,7 +76,7 @@ class AdminPageFramework_Form_View___FieldsetRows extends AdminPageFramework_Fra
             );
 
             $_aFieldset = $_oFieldsetOutputFormatter->get();
-            if ( ! $_aFieldset[ 'if' ] ) {
+            if ( ! $this->callBack( $this->aCallbacks[ 'is_fieldset_visible' ], array( true, $_aFieldset ) ) ) {
                 continue;
             }
 
