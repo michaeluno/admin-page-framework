@@ -27,7 +27,7 @@ class AdminPageFramework_Utility extends AdminPageFramework_Utility_HTMLAttribut
     static public function getHTTPRequestSanitized( array $aRequest, $bStripSlashes ) {
         foreach( $aRequest as $_isIndex => $_mValue ) {
             if ( is_array( $_mValue ) ) {
-                $aRequest[ $_isIndex ] = self::getHTTPRequestSanitized( $_mValue, $bStripSlashes );
+                $aRequest[ $_isIndex ] = self::getHTTPRequestSanitized( $_mValue, false );  // do not double-strip
                 continue;
             }
             if ( is_string( $_mValue ) ) {
