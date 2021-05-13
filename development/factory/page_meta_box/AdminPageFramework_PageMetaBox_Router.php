@@ -57,19 +57,18 @@ abstract class AdminPageFramework_PageMetaBox_Router extends AdminPageFramework_
 
     }
         /**
-         * @return bool
-         * @since   3.8.19
+         * @return boolean
+         * @since  3.8.19
          */
         private function ___isAddedPage( $sPageSlug ) {
 
-            // for cases that page slugs are stored with numeric index
-            if ( ! $this->oUtil->isAssociative( $this->oProp->aPageSlugs )
-                 && ! in_array( $sPageSlug, $this->oProp->aPageSlugs )
-            ) {
-                return false;
+            // Case: page slugs are stored with numeric index
+            if ( ! $this->oUtil->isAssociative( $this->oProp->aPageSlugs ) ) {
+                return in_array( $sPageSlug, $this->oProp->aPageSlugs, true );
             }
-            // for cases that page slugs are stored as keys
-            return in_array( $sPageSlug, array_keys( $this->oProp->aPageSlugs ) );
+
+            // Case: page slugs are stored as keys
+            return in_array( $sPageSlug, array_keys( $this->oProp->aPageSlugs ), true );
 
         }
 
