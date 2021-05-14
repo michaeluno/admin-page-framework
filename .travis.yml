@@ -48,3 +48,6 @@ after_script: |
         php ocular.phar code-coverage:upload --format=php-clover 'coverage.xml';
         php test/coverage-checker.php 'coverage.xml' 80;
     fi
+
+services:
+    - mysql
