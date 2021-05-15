@@ -3,7 +3,7 @@ Contributors:       Michael Uno, miunosoft, pcraig3
 Donate link:        http://michaeluno.jp/en/donate
 Tags:               admin pages, developers, options, settings, API, framework, library, meta box, custom post type, fields, widgets, forms, plugins, themes
 Requires at least:  3.4
-Tested up to:       5.7.1
+Tested up to:       5.7.2
 Stable tag:         3.8.27
 License:            GPLv2 or later
 License URI:        http://www.gnu.org/licenses/gpl-2.0.html
@@ -538,6 +538,9 @@ Alternately, you may use the `options_{instantiated class name}` filter to suppr
 See examples, https://gist.github.com/michaeluno/c30713fcfe0d9d45d89f, https://gist.github.com/michaeluno/fcfac27825aa8a35b90f,
 
 == Changelog ==
+
+= 3.8.28 - 2021/05/15 =
+- Fixed a bug that page meta box did not appear without specifying in-page tabs in PHP 8 or above.
 
 = 3.8.27 - 2021/04/21 =
 - Fixed a bug that the `capability` field argument did not hide the field title.
