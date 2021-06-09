@@ -67,6 +67,7 @@ class APF_Demo_Test {
         $_aTabClasses = array(
             'APF_Demo_Test_AjaxField',
             'APF_Demo_Test_Transients',
+            'APF_Demo_Test_ClassAttributes',
         );
         foreach ( $_aTabClasses as $_sTabClassName ) {
             if ( ! class_exists( $_sTabClassName ) ) {
