@@ -38,7 +38,7 @@ class AdminPageFramework_WPUtility_Meta extends AdminPageFramework_WPUtility_Opt
      * @since       3.8.0
      */
     static public function getSavedTermMetaArray( $iTermID, array $aKeys ) {
-        return self::getMetaDataByKeys( $iUserID, $aKeys, 'term' );
+        return self::getMetaDataByKeys( $iTermID, $aKeys, 'term' );
     }
 
     /**

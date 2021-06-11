@@ -39,7 +39,7 @@ class AdminPageFramework_ErrorReporting {
 
     public function __construct( $iLevel=null ) {
         $this->_iLevel = null !== $iLevel
-            ? $iLeevl
+            ? $iLevel
             : error_reporting();
     }
 
