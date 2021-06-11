@@ -49,7 +49,7 @@ abstract class AdminPageFramework_PageMetaBox_Controller extends AdminPageFramew
      */
     public function enqueueScripts( $aSRCs, $sPageSlug='', $sTabSlug='', $aCustomArgs=array() ) {
         if ( method_exists( $this->oResource, '_enqueueScripts' ) ) {
-            return $this->oResource->_enqueueScripts( $sSRC, $sPageSlug, $sTabSlug, $aCustomArgs );
+            return $this->oResource->_enqueueScripts( $aSRCs, $sPageSlug, $sTabSlug, $aCustomArgs );
         }
     }
     /**
