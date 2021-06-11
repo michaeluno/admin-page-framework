@@ -187,7 +187,7 @@ class AdminPageFramework_ArrayHandler extends AdminPageFramework_FrameworkUtilit
             return;
         }
 
-        $this->unsetDimensionalArrayElement( $this->aData, $aKeys );
+        $this->unsetDimensionalArrayElement( $this->aData, $_asKeys );
 
     }
 
