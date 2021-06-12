@@ -111,7 +111,7 @@ abstract class AdminPageFramework_Factory_View extends AdminPageFramework_Factor
          * @since       3.5.7
          * @return      string      the input class attribute.
          */
-        public function _replyToGetInputClassAttribute( /* $sClsssAttribute, $aField, $sKey, $iSectionIndex */ ) {
+        public function _replyToGetInputClassAttribute( /* $sClassAttribute, $aField, $sKey, $iSectionIndex */ ) {
             $_aParams = func_get_args() + array( null, null, null, null );
             return $_aParams[ 0 ];
         }

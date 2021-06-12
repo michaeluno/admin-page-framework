@@ -1,7 +1,13 @@
-# Externals
+# Externals and Dependencies
 /tool/minifier/class/library/
 /tool/beautifier/class/library/
 */PHP_Beautifier
+vendor/
+
+# Temporary directories.
+_del/
+_old/
+_bak/
 
 # Editor files.
 .idea
@@ -14,14 +20,11 @@
 # backup files.
 *.old
 *.bak
+*.old.*
+*.bak.*
 
 # PHP script files
 *.phar
-
-# Temporary directories.
-*/_del/
-*/_old/
-*/_bak/
 
 # Compiled source #
 ###################
