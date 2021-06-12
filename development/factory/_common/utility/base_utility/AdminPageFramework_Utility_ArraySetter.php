@@ -303,9 +303,8 @@ abstract class AdminPageFramework_Utility_ArraySetter extends AdminPageFramework
      * @return      array       The modified array.
      */
     static public function dropElementsByType( array $aArray, $aTypes=array( 'array' ) ) {
-        
         foreach( $aArray as $isKey => $vValue ) {
-            if ( in_array( gettype( $vValue ), $aTypes ) ) {
+            if ( in_array( gettype( $vValue ), $aTypes, true ) ) {
                 unset( $aArray[ $isKey ] );
             }
         }
