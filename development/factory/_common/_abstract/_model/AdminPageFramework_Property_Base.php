@@ -87,14 +87,11 @@ abstract class AdminPageFramework_Property_Base extends AdminPageFramework_Frame
 
     /**
      * Stores the extended class name that instantiated the property object.
-     *
-     * @since
      */
     public $sClassName;
 
     /**
      * The MD5 hash string of the extended class name.
-     * @since
      */
     public $sClassHash;
 

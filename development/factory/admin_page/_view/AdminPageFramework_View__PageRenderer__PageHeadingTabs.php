@@ -176,7 +176,6 @@ class AdminPageFramework_View__PageRenderer__PageHeadingTabs extends AdminPageFr
                      * Returns a formatted tab array for a navigation bar item of a link for page heading tabs.
                      * @since       3.5.10
                      * @since       3.6.3       Moved from `AdminPageFramework_Page_View`.
-                     * @since
                      * @internal
                      * @return      array      the HTML output of a navigation bar item of a link.
                      */
