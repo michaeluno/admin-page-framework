@@ -79,6 +79,7 @@ class APF_Demo_Test_ClassAttributes {
                         'fieldset'  =>  'test-fieldset1 test-fieldset2',
                         'fields'    =>  'test-fields',
                         'field'     =>  'test-field',
+                        'test-input'
                     ),
             ),
             array(

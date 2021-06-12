@@ -144,9 +144,14 @@ class AdminPageFramework_Form_Model___Format_EachField extends AdminPageFramewor
         $_aField[ 'attributes' ][ 'class' ] = 'widget' === $_aField[ '_structure_type' ] && is_callable( $this->aCallbacks[ 'hfClass' ] )
             ? call_user_func_array( $this->aCallbacks[ 'hfClass' ], array( $_aField[ 'attributes' ][ 'class' ] ) )
             : $_aField[ 'attributes' ][ 'class' ];
+
+        // 3.8.29+ Do not add class selectors specified for those elements other than the input.
+        $_aClassSelectors = $_aField[ 'class' ];
+        unset( $_aClassSelectors[ 'fieldrow' ], $_aClassSelectors[ 'fieldset' ], $_aClassSelectors[ 'fields' ], $_aClassSelectors[ 'field' ] );
+
         $_aField[ 'attributes' ][ 'class' ] = $this->getClassAttribute(
             $_aField[ 'attributes' ][ 'class' ],
-            $this->dropElementsByType( $_aField[ 'class' ] )
+            $this->dropElementsByType( $_aClassSelectors )
         );
 
         // 3.6.0+
