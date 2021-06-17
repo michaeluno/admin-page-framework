@@ -4,7 +4,7 @@ Donate link:        http://michaeluno.jp/en/donate
 Tags:               admin pages, developers, options, settings, API, framework, library, meta box, custom post type, fields, widgets, forms, plugins, themes
 Requires at least:  3.4
 Tested up to:       5.7.2
-Stable tag:         3.8.28
+Stable tag:         3.8.29
 License:            GPLv2 or later
 License URI:        http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -538,6 +538,14 @@ Alternately, you may use the `options_{instantiated class name}` filter to suppr
 See examples, https://gist.github.com/michaeluno/c30713fcfe0d9d45d89f, https://gist.github.com/michaeluno/fcfac27825aa8a35b90f,
 
 == Changelog ==
+
+= 3.8.29 - 2021/06/17 =
+- Fixed a bug that duplicated class selectors were added to the class attribute of input elements with the `class` field argument when nested elements are specified.
+- Fixed a bug with the `AdminPageFramework_WPUtility_Meta::getSavedTermMetaArray()` method that did not retrieve any values
+- Fixed a bug with the `AdminPageFramework_ArrayHandler::delete()` method that did not delete given array elements properly.
+- Fixed a bug with the `AdminPageFramework_ErrorReporting` class that did not retrieve proper error level labels when a value was passed to the constructor parameter.
+- Fixed a bug with the `addLinkToPluginTitle()` method that did not properly add links when a value of an array was passed.
+- Fixed a bug with the `enqueueScripts()` method of the page metabox factory class that did not enqueue scripts properly.
 
 = 3.8.28 - 2021/05/15 =
 - Fixed a bug that page meta box did not appear without specifying in-page tabs in PHP 8 or above.
