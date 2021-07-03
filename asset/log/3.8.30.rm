@@ -1,1 +1,2 @@
-- Fixed a bug that octet characters in URL query parameters were lost in request data sanitization. 
+- Fixed a bug that octet characters in URL query parameters were lost in request data sanitization.
+- Fixed a bug that normal characters enclosed in the percent signs were stripped in the process of request data sanitization.

@@ -73,14 +73,18 @@ class AdminPageFramework_Utility extends AdminPageFramework_Utility_HTMLAttribut
      */
     static public function getOctetsRemoved( $sString ) {
 
+        $_sPattern = '/'
+            . '([ \t\n\r\f]|^)(?!.*:\/\/).*'        // allow '://' to precede before octets
+            . '\K'                                  // ignore preceding matches
+            . '%[a-f0-9]{2}'                        // octets to remove
+            . '(?!\w*%\W)'                          // allow something like %description% %de%
+            . '/i';
         $_iPos = 0;
-        // %[a-f0-9]{2} - octets
-        // ([ \t\n\r\f]|^)(?!.*:\/\/).*\K - preceding with ://
-        while ( preg_match( '/([ \t\n\r\f]|^)(?!.*:\/\/).*\K%[a-f0-9]{2}/i', $sString, $_aMatches, PREG_OFFSET_CAPTURE, $_iPos ) ) {
+        while ( preg_match( $_sPattern, $sString, $_aMatches, PREG_OFFSET_CAPTURE, $_iPos ) ) {
             if ( ! isset( $_aMatches[ 0 ][ 0 ], $_aMatches[ 0 ][ 1 ] ) ) {
                 break;
             }
-            $_iPos    = $_aMatches[ 0 ][ 1 ];
+            $_iPos   = $_aMatches[ 0 ][ 1 ];
             $sString = substr( $sString, 0, $_iPos )
                 . substr( $sString, $_iPos + strlen( $_aMatches[ 0 ][ 0 ] ) );
         }
