@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<phpdocumentor
+        configVersion="3"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="https://www.phpdoc.org"
+        xsi:noNamespaceSchemaLocation="https://docs.phpdoc.org/latest/phpdoc.xsd"
+>
+    <title>Admin Page Framework Documentation</title>
+    <paths>
+        <output>documentation/api</output>
+        <cache>documentation/cache</cache>
+    </paths>
+    <version number="3.8.29">
+        <folder>3.8.29</folder>
+        <api format="php">
+            <source dsn=".">
+                <path>./development</path>
+            </source>
+            <ignore hidden="true" symlinks="true">
+              <!--1 or more repetitions:-->
+              <path>tests/**/*</path>
+              <path>development/cli</path>
+            </ignore>            
+            <extensions>
+              <!--1 or more repetitions:-->
+              <extension>php</extension>
+            </extensions>
+            <!--Optional:-->
+            <visibility>public</visibility>            
+            <ignore-tags ignore-tags="extends" />
+            <!--Optional:-->
+            <default-package-name>Test</default-package-name>
+            <!--Optional:-->
+            <include-source>true</include-source>
+            <!--Optional:-->
+            <markers>
+              <!--1 or more repetitions:-->
+              <marker>@todo</marker>
+              <marker>TODO</marker>
+              <marker>FIXME</marker>
+            </markers>            
+        </api>
+    </version>    
+    <template name="default"/>
+</phpdocumentor>

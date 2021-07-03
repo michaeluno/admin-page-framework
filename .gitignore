@@ -4,6 +4,9 @@
 */PHP_Beautifier
 vendor/
 
+# Documentation generated files
+documentation/
+
 # Temporary directories.
 _del/
 _old/

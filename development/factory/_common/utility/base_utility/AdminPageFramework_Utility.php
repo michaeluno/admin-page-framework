@@ -54,19 +54,39 @@ class AdminPageFramework_Utility extends AdminPageFramework_Utility_HTMLAttribut
                 $_sFiltered = preg_replace( '/[\r\n\t ]+/', ' ', $_sFiltered );
             }
             $_sFiltered = trim( $_sFiltered );
-        
-            $_bFound = false;
-            while ( preg_match( '/%[a-f0-9]{2}(?=(%[a-f0-9]{2})|[\W])/i', $_sFiltered, $_aMatches ) ) {
-                $_sFiltered = str_replace( $_aMatches[ 0 ], '', $_sFiltered );
-                $_bFound    = true;
-            }
-            if ( $_bFound ) {
-                // Strip out the whitespace that may now exist after removing the octets.
-                $_sFiltered = trim( preg_replace( '/ +/', ' ', $_sFiltered ) );
-            }
-            return $_sFiltered;
+
+            return self::getOctetsRemoved( $_sFiltered );
 
         }
+
+    /**
+     * Removes octets from string.
+     *
+     * Used for sanitizing $REQUEST data for mostly form inputs.
+     * This is originally employing the code of the _sanitize_text_fields() function.
+     * But modified to allow URL query parameters.
+     *
+     * @param  string $sString
+     * @return string A string data that octets are removed
+     * @see    _sanitize_text_fields()
+     * @since  3.8.30
+     */
+    static public function getOctetsRemoved( $sString ) {
+
+        $_iPos = 0;
+        // %[a-f0-9]{2} - octets
+        // ([ \t\n\r\f]|^)(?!.*:\/\/).*\K - preceding with ://
+        while ( preg_match( '/([ \t\n\r\f]|^)(?!.*:\/\/).*\K%[a-f0-9]{2}/i', $sString, $_aMatches, PREG_OFFSET_CAPTURE, $_iPos ) ) {
+            if ( ! isset( $_aMatches[ 0 ][ 0 ], $_aMatches[ 0 ][ 1 ] ) ) {
+                break;
+            }
+            $_iPos    = $_aMatches[ 0 ][ 1 ];
+            $sString = substr( $sString, 0, $_iPos )
+                . substr( $sString, $_iPos + strlen( $_aMatches[ 0 ][ 0 ] ) );
+        }
+        return $sString;
+
+    }
 
     /**
      * @var   array

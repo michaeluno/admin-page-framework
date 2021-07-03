@@ -1,0 +1,1 @@
+- Fixed a bug that octet characters in URL query parameters were lost in request data sanitization. 
