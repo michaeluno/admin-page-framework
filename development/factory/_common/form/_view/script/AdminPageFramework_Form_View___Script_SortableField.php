@@ -60,14 +60,14 @@ class AdminPageFramework_Form_View___Script_SortableField extends AdminPageFrame
         );
 
         // Callback the registered functions.
-        _oSortable.bind( 'sortstop', function() {
+        _oSortable.on( 'sortstop', function() {
             $( this ).callBackStoppedSortingFields( 
                 $( this ).data( 'type' ),
                 $( this ).attr( 'id' ),
                 0  // call type 0: fields, 1: sections
             );  
         });
-        _oSortable.bind( 'sortupdate', function() {
+        _oSortable.on( 'sortupdate', function() {
             $( this ).callBackSortedFields( 
                 $( this ).data( 'type' ),
                 $( this ).attr( 'id' ),

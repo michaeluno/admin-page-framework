@@ -77,7 +77,7 @@ class AdminPageFramework_Form_View___Script_SortableSection extends AdminPageFra
         
         if ( ! _bIsTabbed ) {
             
-            _oSortable.bind( 'sortstop', function() {
+            _oSortable.on( 'sortstop', function() {
                                     
                 jQuery( this ).find( 'caption > .admin-page-framework-section-title:not(.admin-page-framework-collapsible-sections-title,.admin-page-framework-collapsible-section-title)' ).first().show();
                 jQuery( this ).find( 'caption > .admin-page-framework-section-title:not(.admin-page-framework-collapsible-sections-title,.admin-page-framework-collapsible-section-title)' ).not( ':first' ).hide();

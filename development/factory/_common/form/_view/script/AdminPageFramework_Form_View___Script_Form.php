@@ -77,7 +77,7 @@ class AdminPageFramework_Form_View___Script_Form extends AdminPageFramework_Form
      * Gets triggered when a widget of the framework is saved.
      * @since    3.7.0
      */
-    $( document ).bind( 'admin-page-framework_saved_widget', function( event, oWidget ){
+    $( document ).on( 'admin-page-framework_saved_widget', function( event, oWidget ){
         jQuery( '.admin-page-framework-form-loading' ).remove();
     });    
     

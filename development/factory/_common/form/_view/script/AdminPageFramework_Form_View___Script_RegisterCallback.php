@@ -46,7 +46,7 @@ class AdminPageFramework_Form_View___Script_RegisterCallback extends AdminPageFr
     /**
      * Gets triggered when the + (add) button of a repeatable field is pressed.
      */  
-    $( document ).bind( 'admin-page-framework_added_repeatable_field', function( oEvent, sFieldType, sID, iCallType, iSectionIndex, iFieldIndex ){          
+    $( document ).on( 'admin-page-framework_added_repeatable_field', function( oEvent, sFieldType, sID, iCallType, iSectionIndex, iFieldIndex ){          
         var _oThisNode = jQuery( oEvent.target );
         $.each( $.fn.aAdminPageFrameworkAddRepeatableFieldCallbacks, function( iIndex, aCallback ) {
             var _hfCallback  = aCallback[ 0 ];
@@ -79,7 +79,7 @@ class AdminPageFramework_Form_View___Script_RegisterCallback extends AdminPageFr
      * @param       iCallType           0: repeated field, 1: repeated section.
      * @param       oModelContainer     The container that has data of model strings to generate incremented IDs and names.
      */
-    $( document ).bind( 'admin-page-framework_repeated_field', function( oEvent, iCallType, oModelContainer ){
+    $( document ).on( 'admin-page-framework_repeated_field', function( oEvent, iCallType, oModelContainer ){
 
         var _oThis     = jQuery( oEvent.target );
         var sFieldType = $( oEvent.target ).data( 'type' );
@@ -135,7 +135,7 @@ class AdminPageFramework_Form_View___Script_RegisterCallback extends AdminPageFr
      * Gets triggered when sorting sections stops.
      * @since       3.8.0
      */
-    $( document ).bind( 'admin-page-framework_stopped_sorting_sections', function( oEvent ){  
+    $( document ).on( 'admin-page-framework_stopped_sorting_sections', function( oEvent ){  
 
         var _oThisNode = jQuery( oEvent.target );
         $.each( $.fn.aAdminPageFrameworkStoppedSortingSectionsCallbacks, function( iIndex, aCallback ) {
@@ -153,7 +153,7 @@ class AdminPageFramework_Form_View___Script_RegisterCallback extends AdminPageFr
      * Supposed to get triggered when a repeatable field remove button is pressed.
      * @remark      Currently not used.
      */
-    /* $( document ).bind( 'admin-page-framework_removed_field', function( oEvent, sFieldType, sID, iCallType, iSectionIndex, iFieldIndex ){
+    /* $( document ).on( 'admin-page-framework_removed_field', function( oEvent, sFieldType, sID, iCallType, iSectionIndex, iFieldIndex ){
         var _oThisNode = jQuery( oEvent.target );
         $.each( $.fn.aAdminPageFrameworkRemoveRepeatableFieldCallbacks, function( iIndex, aCallback ) {
             var _hfCallback  = aCallback[ 0 ];
@@ -207,7 +207,7 @@ class AdminPageFramework_Form_View___Script_RegisterCallback extends AdminPageFr
      * Gets triggered when a widget of the framework is saved.
      * @since    3.2.0 
      */
-    $( document ).bind( 'admin-page-framework_saved_widget', function( event, oWidget ){
+    $( document ).on( 'admin-page-framework_saved_widget', function( event, oWidget ){
         $.each( $.fn.aAdminPageFrameworkAddedWidgetCallbacks, function( iIndex, aCallback ) {
             var _hfCallback  = aCallback[ 0 ];
             var _aFieldTypes = aCallback[ 1 ];

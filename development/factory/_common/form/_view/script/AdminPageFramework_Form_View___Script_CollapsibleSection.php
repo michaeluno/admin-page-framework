@@ -55,7 +55,7 @@ class AdminPageFramework_Form_View___Script_CollapsibleSection extends AdminPage
      * Gets triggered when a widget of the framework is saved.
      * @since    3.7.0
      */
-    jQuery( document ).bind( 'admin-page-framework_saved_widget', function( event, oWidget ){
+    jQuery( document ).on( 'admin-page-framework_saved_widget', function( event, oWidget ){
         jQuery( oWidget ).initializeAdminPageFrameworkCollapsibleSections();
     });    
     
