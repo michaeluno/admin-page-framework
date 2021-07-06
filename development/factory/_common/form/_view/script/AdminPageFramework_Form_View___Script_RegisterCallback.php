@@ -55,8 +55,8 @@ class AdminPageFramework_Form_View___Script_RegisterCallback extends AdminPageFr
             // 2 here is reserved for built-in field types.
             if ( 2 < _aFieldTypes.length && -1 === $.inArray( sFieldType, _aFieldTypes ) ) {
                 return true; // continue
-            }            
-            if ( ! $.isFunction( _hfCallback ) ) { 
+            }             
+            if ( 'function' !== typeof _hfCallback ) { 
                 return true; // continue
             }   
             // Show console warnings for a deprecated method.
@@ -123,8 +123,8 @@ class AdminPageFramework_Form_View___Script_RegisterCallback extends AdminPageFr
             }            
             if ( -1 === $.inArray( sFieldType, _aFieldTypes ) ) {
                 return true;    // continue
-            }
-            if ( ! $.isFunction( _hfCallback ) ) { 
+            } 
+            if ( 'function' !== typeof _hfCallback ) { 
                 return true;    // continue
             }
             _hfCallback( _oThis, _aModel );
@@ -141,7 +141,7 @@ class AdminPageFramework_Form_View___Script_RegisterCallback extends AdminPageFr
         $.each( $.fn.aAdminPageFrameworkStoppedSortingSectionsCallbacks, function( iIndex, aCallback ) {
             var _hfCallback  = aCallback[ 0 ];
             var _aFieldTypes = aCallback[ 1 ];       
-            if ( ! $.isFunction( _hfCallback ) ) { 
+            if ( 'function' !== typeof _hfCallback ) {             
                 return true;    // continue
             }               
             _hfCallback( _oThisNode );
@@ -160,8 +160,8 @@ class AdminPageFramework_Form_View___Script_RegisterCallback extends AdminPageFr
             var _aFieldTypes = aCallback[ 1 ];       
             if ( 2 < _aFieldTypes.length && -1 === $.inArray( sFieldType, _aFieldTypes ) ) {
                 return true; // continue
-            }            
-            if ( ! $.isFunction( _hfCallback ) ) { 
+            }             
+            if ( 'function' !== typeof _hfCallback ) { 
                 return true;    // continue
             }   
             _hfCallback( _oThisNode, sFieldType, sID, iCallType, iSectionIndex, iFieldIndex );
@@ -178,8 +178,8 @@ class AdminPageFramework_Form_View___Script_RegisterCallback extends AdminPageFr
             var _aFieldTypes = aCallback[ 1 ]; // '_nested', 'inline_mixed' are bult-in
             if ( 2 < _aFieldTypes.length && -1 === $.inArray( sFieldType, _aFieldTypes ) ) {
                 return true; // continue
-            }            
-            if ( jQuery.isFunction( _hfCallback ) ) { 
+            }             
+            if ( 'function' === typeof _hfCallback ) { 
                 _hfCallback( oThisNode, sFieldType, sID, iCallType ); 
             }
         });
@@ -197,7 +197,7 @@ class AdminPageFramework_Form_View___Script_RegisterCallback extends AdminPageFr
             if ( 2 < _aFieldTypes.length && -1 === $.inArray( sFieldType, _aFieldTypes ) ) {
                 return true; // continue
             }
-            if ( jQuery.isFunction( _hfCallback ) ) { 
+            if ( 'function' === typeof _hfCallback ) { 
                 _hfCallback( oThisNode, sFieldType, sID, iCallType ); 
             }
         });
@@ -211,7 +211,7 @@ class AdminPageFramework_Form_View___Script_RegisterCallback extends AdminPageFr
         $.each( $.fn.aAdminPageFrameworkAddedWidgetCallbacks, function( iIndex, aCallback ) {
             var _hfCallback  = aCallback[ 0 ];
             var _aFieldTypes = aCallback[ 1 ];
-            if ( ! $.isFunction( _hfCallback ) ) { 
+            if ( 'function' !== typeof _hfCallback ) { 
                 return true;    // continue
             }   
             _hfCallback( oWidget ); 
