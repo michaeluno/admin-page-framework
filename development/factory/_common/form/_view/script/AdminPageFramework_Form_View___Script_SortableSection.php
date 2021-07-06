@@ -47,8 +47,8 @@ class AdminPageFramework_Form_View___Script_SortableSection extends AdminPageFra
             ? _oTarget.find( 'ul.admin-page-framework-section-tabs' )
             : _oTarget;
 
-        _oTarget.unbind( 'sortupdate' );
-        _oTarget.unbind( 'sortstop' );
+        _oTarget.off( 'sortupdate' );
+        _oTarget.off( 'sortstop' );
         
         var _aSortableOptions = { 
                 items: _bIsTabbed

@@ -50,8 +50,8 @@ class AdminPageFramework_Form_View___Script_SortableField extends AdminPageFrame
             ? $( '#' + sFieldsContainerID + '.sortable' )
             : this;
         
-        _oTarget.unbind( 'sortupdate' );
-        _oTarget.unbind( 'sortstop' );
+        _oTarget.off( 'sortupdate' );
+        _oTarget.off( 'sortstop' );
         var _oSortable  = _oTarget.sortable(
             // the options for the sortable plugin
             { 

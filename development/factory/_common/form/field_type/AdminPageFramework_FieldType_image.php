@@ -188,8 +188,8 @@ JAVASCRIPTS;
  * The fMultiple parameter does not do anything. It is there to be consistent with the one for the WordPress version 3.5 or above.
  */
 setAdminPageFrameworkImageUploader = function( sInputID, fMultiple, fExternalSource ) {
-    jQuery( '#select_image_' + sInputID ).unbind( 'click' ); // for repeatable fields
-    jQuery( '#select_image_' + sInputID ).click( function() {
+    jQuery( '#select_image_' + sInputID ).off( 'click' ); // for repeatable fields
+    jQuery( '#select_image_' + sInputID ).on( 'click', function() {
         var sPressedID                  = jQuery( this ).attr( 'id' );     
         window.sInputID                 = sPressedID.substring( 13 ); // remove the select_image_ prefix and set a property to pass it to the editor callback method.
         window.original_send_to_editor  = window.send_to_editor;
@@ -263,8 +263,8 @@ setAdminPageFrameworkImageUploader = function( sInputID, fMultiple, fExternalSou
     var _oCustomImageUploader;
 
     // The input element.
-    jQuery( '#' + sInputID + '[data-show_preview=\"1\"]' ).unbind( 'change' ); // for repeatable fields
-    jQuery( '#' + sInputID + '[data-show_preview=\"1\"]' ).change( function( e ) {
+    jQuery( '#' + sInputID + '[data-show_preview=\"1\"]' ).off( 'change' ); // for repeatable fields
+    jQuery( '#' + sInputID + '[data-show_preview=\"1\"]' ).on( 'change', function( e ) {
         
         var _sImageURL = jQuery( this ).val();
         
@@ -287,8 +287,8 @@ setAdminPageFrameworkImageUploader = function( sInputID, fMultiple, fExternalSou
     } );
     
     // The Select button element.
-    jQuery( '#select_image_' + sInputID ).unbind( 'click' ); // for repeatable fields
-    jQuery( '#select_image_' + sInputID ).click( function( e ) {
+    jQuery( '#select_image_' + sInputID ).off( 'click' ); // for repeatable fields
+    jQuery( '#select_image_' + sInputID ).on( 'click', function( e ) {
      
         // Reassign the input id from the pressed element ( do not use the passed parameter value to the caller function ) for repeatable sections.
         var sInputID = jQuery( this ).attr( 'id' ).substring( 13 ); // remove the select_image_ prefix and set a property to pass it to the editor callback method.

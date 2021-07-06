@@ -86,8 +86,8 @@ class AdminPageFramework_Form_View___Script_SectionTab extends AdminPageFramewor
                 $( this ).addClass( 'nav-tab' );
                 $( this ).children( 'a' ).addClass( 'anchor' );
                 
-                $( this ).unbind( 'click' ); // for refreshing 
-                $( this ).click( function( e ){
+                $( this ).off( 'click' ); // for refreshing 
+                $( this ).on( 'click', function( e ){
                          
                     e.preventDefault(); // Prevents jumping to the anchor which moves the scroll bar.
                     

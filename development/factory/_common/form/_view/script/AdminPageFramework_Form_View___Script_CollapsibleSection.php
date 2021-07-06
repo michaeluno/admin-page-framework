@@ -116,8 +116,8 @@ class AdminPageFramework_Form_View___Script_CollapsibleSection extends AdminPage
                 }                
                 
                 // Expand or collapse this panel
-                jQuery( _oButton ).unbind( 'click' );       // for initially dropped (created) widgets
-                _oButton.click( function(){                  
+                jQuery( _oButton ).off( 'click' );       // for initially dropped (created) widgets
+                _oButton.on( 'click', function(){                  
                     
                     var _oButtons = _bForSections
                         ? jQuery( this ).closest( '.admin-page-framework-sectionset' ).siblings().andSelf().find( '> .admin-page-framework-collapsible-toggle-all-button-container' )
@@ -168,9 +168,8 @@ class AdminPageFramework_Form_View___Script_CollapsibleSection extends AdminPage
          * This is for widgets as the initial model widgets placed on the left side is dragged-and-dropped to a sidebar definition container.
          * Then the event binding will be lost so it needs to be rebound.
          */
-        jQuery( this ).unbind( 'click' );   
-        
-        jQuery( this ).click( function( event, sContext ){
+        jQuery( this ).off( 'click' );          
+        jQuery( this ).on( 'click', function( event, sContext ){
        
             if ( _isFieldElement( event.target ) ) {
                 return true;

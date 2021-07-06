@@ -77,9 +77,9 @@ class AdminPageFramework_Form_View___Script_RepeatableField extends AdminPageFra
          */
         var _oRepeatableAddButtons = $( nodeThis ).find( '.repeatable-field-add-button' );
              
-        _oRepeatableAddButtons.unbind( 'click' );
-        _oRepeatableAddButtons.click( function() {
-// @todo event.preventDefault();        
+        _oRepeatableAddButtons.off( 'click' );
+        _oRepeatableAddButtons.on( 'click', function() {
+        
             // 3.8.13+ 
             if ( $( this ).parent().data( 'disabled' ) ) {
                 var _aDisabled = $( this ).parent().data( 'disabled' );
@@ -94,9 +94,9 @@ class AdminPageFramework_Form_View___Script_RepeatableField extends AdminPageFra
         /* The Remove button behavior */
         var _oRepeatableRemoveButton = $( nodeThis ).find( '.repeatable-field-remove-button' );
                               
-        _oRepeatableRemoveButton.unbind( 'click' );
-        _oRepeatableRemoveButton.click( function() {
-// @todo event.preventDefault();        
+        _oRepeatableRemoveButton.off( 'click' );
+        _oRepeatableRemoveButton.on( 'click', function() {
+       
             $( this ).removeAdminPageFrameworkRepeatableField();
             return false; // will not click after that
         });

@@ -166,8 +166,8 @@ JAVASCRIPTS;
                      * The fMultiple parameter does not do anything. It is there to be consistent with the one for the WordPress version 3.5 or above.
                      */
                     setAdminPageFrameworkMediaUploader = function( sInputID, fMultiple, fExternalSource ) {
-                        jQuery( '#select_media_' + sInputID ).unbind( 'click' ); // for repeatable fields
-                        jQuery( '#select_media_' + sInputID ).click( function() {
+                        jQuery( '#select_media_' + sInputID ).off( 'click' ); // for repeatable fields
+                        jQuery( '#select_media_' + sInputID ).on( 'click', function() {
                             var sPressedID = jQuery( this ).attr( 'id' );
                             window.sInputID = sPressedID.substring( 13 ); // remove the select_media_ prefix and set a property to pass it to the editor callback method.
                             window.original_send_to_editor = window.send_to_editor;
