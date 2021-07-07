@@ -204,7 +204,9 @@ class AdminPageFramework_Form_View___Script_RepeatableField extends AdminPageFra
         nodeNewField.updateAdminPageFrameworkRepeatableFields();
         
         // It seems radio buttons of the original field need to be reassigned. Otherwise, the checked items will be gone.
-        nodeFieldContainer.find( 'input[type=radio][checked=checked]' ).prop( 'checked', 'checked' );
+        nodeFieldContainer.find( 'input[type=radio][checked=checked]' )
+            .prop( 'checked', true )
+            .attr( 'checked', 'checked' );        
         
         // Call back the registered functions.
         

@@ -92,7 +92,41 @@ CSSRULES;
      * @return      string
      */
     protected function getScripts() {
-        return '';
+        $_aJSArray = json_encode( $this->aFieldTypeSlugs );
+        /* The below function will be triggered when a new repeatable field is added. Since the APF repeater script does not
+            renew the upload button and the preview elements (while it does on the input tag value), the renewal task must be dealt here separately. */
+        return <<<JAVASCRIPTS
+jQuery( document ).ready( function(){
+
+    jQuery().registerAdminPageFrameworkCallbacks( { 
+        
+        /**
+         * Called when a field of this field type gets repeated.
+         */
+        repeated_field: function( oCloned, aModel ) {            
+            oCloned.find( 'input[type=radio]' )
+                .off( 'change' )                                    
+                .on( 'change', function( e ) {
+            
+                // Uncheck the other radio buttons
+                // prop( 'checked', ... ) does not seem to take effect so use .attr( 'checked' ) also.
+                // removeAttr( 'checked' ) causes JQMIGRATE warnings for its deprecation.  
+                jQuery( this ).closest( '.admin-page-framework-field' ).find( 'input[type=radio]' )
+                    .prop( 'checked', false )
+                    .attr( 'checked', false ); 
+                                    
+                // Make sure the clicked item is checked                
+                jQuery( this )
+                    .prop( 'checked', true )
+                    .attr( 'checked', 'checked' );       
+            });                           
+        },
+    },
+    {$_aJSArray}
+    );
+});
+JAVASCRIPTS;
+
     }
 
     /**
@@ -162,12 +196,18 @@ CSSRULES;
 
             $_sScript = <<<JAVASCRIPTS
 jQuery( document ).ready( function(){
-    jQuery( 'input[type=radio][data-id=\"{$sInputID}\"]' ).on( 'change', function() {
+    jQuery( 'input[type=radio][data-id=\"{$sInputID}\"]' ).on( 'change', function( e ) {
+    
         // Uncheck the other radio buttons
-        jQuery( this ).closest( '.admin-page-framework-field' ).find( 'input[type=radio][data-id=\"{$sInputID}\"]' ).prop( 'checked', false );
-
+        jQuery( this ).closest( '.admin-page-framework-field' ).find( 'input[type=radio][data-id=\"{$sInputID}\"]' )
+            .prop( 'checked', false )
+            .attr( 'checked', false );
+        
         // Make sure the clicked item is checked
-        jQuery( this ).prop( 'checked', true );
+        jQuery( this )  
+            .prop( 'checked', true )
+            .attr( 'checked', 'checked' );
+
     });
 });                 
 JAVASCRIPTS;
