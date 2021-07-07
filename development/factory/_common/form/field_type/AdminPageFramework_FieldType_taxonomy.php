@@ -203,7 +203,7 @@ var enableAdminPageFrameworkTabbedBox = function( nodeTabBoxContainer ) {
                 jQuery( this ).addClass( 'active' );
             }
                 
-            jQuery( this ).click( function( e ){
+            jQuery( this ).on( 'click', function( e ){
                      
                 // Prevents jumping to the anchor which moves the scroll bar.
                 e.preventDefault();

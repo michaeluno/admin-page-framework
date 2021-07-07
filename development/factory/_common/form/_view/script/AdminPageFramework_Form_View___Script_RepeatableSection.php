@@ -68,7 +68,7 @@ class AdminPageFramework_Form_View___Script_RepeatableSection extends AdminPageF
 
         // The Add button behavior - if the tag id is given, multiple buttons will be selected. 
         // Otherwise, a section node is given and single button will be selected.
-        $( _oThis ).find( '.repeatable-section-add-button' ).click( function() {
+        $( _oThis ).find( '.repeatable-section-add-button' ).on( 'click', function() {
         
             // 3.8.13+ 
             if ( $( this ).parent().data( 'disabled' ) ) {
@@ -82,7 +82,7 @@ class AdminPageFramework_Form_View___Script_RepeatableSection extends AdminPageF
         });
         
         // The Remove button behavior 
-        $( _oThis ).find( '.repeatable-section-remove-button' ).click( function() {
+        $( _oThis ).find( '.repeatable-section-remove-button' ).on( 'click', function() {
             $( this ).removeAdminPageFrameworkRepeatableSection();
             return false; // will not click after that
         });     

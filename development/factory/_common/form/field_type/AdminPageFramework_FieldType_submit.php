@@ -255,7 +255,7 @@ CSSRULES;
         return <<<JAVASCRIPTS
 jQuery( document ).ready( function(){
     jQuery( '.admin-page-framework-field-submit .submit-confirm-container input[type=checkbox]' ).each( function( index, value ){
-        jQuery( this ).closest( '.admin-page-framework-field-submit' ).find( 'input[type=submit]' ).click( function( event ){
+        jQuery( this ).closest( '.admin-page-framework-field-submit' ).find( 'input[type=submit]' ).on( 'click', function( event ){
             var _fieldSubmit = jQuery( this ).closest( '.admin-page-framework-field-submit' );  
             _fieldSubmit.find( '.submit-confirmation-warning' ).remove(); // previous error message
             var _confirmCheckbox = jQuery( this ).closest( '.admin-page-framework-field-submit' ).find( '.submit-confirm-container input[type=checkbox]' );

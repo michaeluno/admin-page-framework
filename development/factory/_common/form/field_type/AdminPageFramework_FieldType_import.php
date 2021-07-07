@@ -85,7 +85,7 @@ class AdminPageFramework_FieldType_import extends AdminPageFramework_FieldType_s
         $_sMessageNoFile = $this->oMsg->get( 'import_no_file' );
         return <<<JAVASCRIPT
 jQuery( document ).ready( function() {
-    jQuery( '.admin-page-framework-field-import input[type=submit]' ).click( function( event ) {
+    jQuery( '.admin-page-framework-field-import input[type=submit]' ).on( 'click', function( event ) {
         var _iFiles = jQuery( this ).closest( '.admin-page-framework-field-import' ).find( 'input[type=file]' ).get( 0 ).files.length;
         if ( 0 === _iFiles ) {
             alert( '{$_sMessageNoFile}' );
