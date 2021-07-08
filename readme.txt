@@ -4,7 +4,7 @@ Donate link:        http://michaeluno.jp/en/donate
 Tags:               admin pages, developers, options, settings, API, framework, library, meta box, custom post type, fields, widgets, forms, plugins, themes
 Requires at least:  3.4
 Tested up to:       5.7.2
-Stable tag:         3.8.29
+Stable tag:         3.8.30
 License:            GPLv2 or later
 License URI:        http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -70,7 +70,6 @@ Also, use the framework as a library and your plugin or theme does not have to r
 <h4>Bundled Custom Field Types</h4>
 With custom field types, you can create more detailed customized field outputs. The demo component includes the following example custom field types.
 
-- `ace` - a rich code editor.
 - `sample` - a sample custom field type with a JavaScript script.
 - `github` - displays GitHub buttons.
 - `path` - lets the user select file paths on the server.
@@ -538,6 +537,12 @@ Alternately, you may use the `options_{instantiated class name}` filter to suppr
 See examples, https://gist.github.com/michaeluno/c30713fcfe0d9d45d89f, https://gist.github.com/michaeluno/fcfac27825aa8a35b90f,
 
 == Changelog ==
+
+= 3.8.30 - 2021/07/09 =
+- Fixed a bug with repeatable radio buttons that initial selection remained in the original field after repeating.
+- Fixed some JQMIGRATE browser console warnings.
+- Fixed a bug that octet characters in URL query parameters were lost in request data sanitization.
+- Fixed a bug that normal characters enclosed in the percent signs were stripped in the process of request data sanitization.
 
 = 3.8.29 - 2021/06/17 =
 - Fixed a bug that duplicated class selectors were added to the class attribute of input elements with the `class` field argument when nested elements are specified.
