@@ -149,7 +149,7 @@
                             return;
                         }
                         if ( data.note ) {
-                            console.log( 'APF Select2 Field Type: ' + data.note );
+                            debugLog( data.note );
                         }
 
                         // First, release the lock so that the values will be avaiable.
@@ -220,6 +220,12 @@
                 .children( '.admin-page-framework-input-container' )
                 .css( 'width', '100%' );
             _aOptions[ 'width' ] = '100%';
+        }
+
+        // Icons
+        if ( _oSelect2Target.data( 'hasIcons' ) ) {
+            _aOptions.templateResult    = templateResultForIcon;
+            _aOptions.templateSelection = templateResultForIcon;
         }
 
         /**
@@ -321,6 +327,14 @@
 
         }
 
+    }
+
+    function templateResultForIcon( state ) {
+        var _oIconDefinition = $( state.element ).closest( '.admin-page-framework-field' ).find( '.custom-icon-definition[data-value=' + state.id + ']' );
+        if ( _oIconDefinition.length ) {
+            return $( "<span class='select2-custom-icon-container'><span class='select2-custom-icon'>" + _oIconDefinition.html() + "</span><span class='select2-custom-icon-label'>" + state.text + "</span></span>" ) ;
+        }
+        return state.text;
     }
 
         /**

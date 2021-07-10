@@ -75,7 +75,7 @@ if ( ! class_exists( 'Select2CustomFieldType' ) ) :
  * </ul>
  *
  * @since       3.8.7
- * @version     0.0.4
+ * @version     0.1.0
  * @supports    IE8 or above. (uses JSON object)
  * @requires    Admin Page Framework 3.8.20
  */
@@ -94,6 +94,7 @@ class Select2CustomFieldType extends AdminPageFramework_FieldType_select {
     protected $aDefaultKeys = array(
 
         'label'             => array(),
+        'icon'              => array(),
         'is_multiple'       => false,
         'attributes'        => array(
             'select'    => array(
@@ -203,17 +204,44 @@ class Select2CustomFieldType extends AdminPageFramework_FieldType_select {
 
         $_aOptions = $this->_getSelect2OptionsFormatted( $aField[ 'options' ], $aField );
 
+        $_bHasIcons = ! empty( $aField[ 'icon' ] );
+
         $aField[ 'attributes' ][ 'select' ] = array(
+            'data-has-icons'   => $_bHasIcons,
             'data-type'       => 'select2',
             'data-field_id'   => $aField[ 'field_id' ],   // checked in the background with the `doOnFieldRegistration()` method using AJAX.
             'data-section_id' => $aField[ 'section_id' ], // checked in the background with the `doOnFieldRegistration()` method using AJAX.
         )   + $this->getDataAttributeArray( $_aOptions )
             + $this->getElementAsArray( $aField, array( 'attributes', 'select', ) );
 
-        return parent::getField( $aField ) // the select field
-            . $_sInputForEncodedValue;     // a nested input that stores an encoded selection value.
+        $_sIconDefinitions = $this->___getIconDefinitions( $this->getAsArray( $aField[ 'icon' ] ) );
+
+        return parent::getField( $aField )  // the select field
+            . $_sInputForEncodedValue       // a nested input that stores an encoded selection value.
+            . $_sIconDefinitions            // icons
+            ;
 
     }
+        /**
+         * @param array $aIcons
+         *
+         * @return string
+         * @since  0.1.0
+         */
+        private function ___getIconDefinitions( array $aIcons ) {
+            $_sOutput = '';
+            foreach( $aIcons as $_sSelectOptionValue => $_sIconHTML ) {
+                $_sOutput .= "<span class='custom-icon-definition' data-value='{$_sSelectOptionValue}'>"
+                         . $_sIconHTML
+                    . "</span>";
+            }
+            return $_sOutput
+                ? "<div class='custom-icon-definitions'>"
+                        . $_sOutput
+                    . "</div>"
+                : '';
+        }
+
 
         /**
          * @return      string
