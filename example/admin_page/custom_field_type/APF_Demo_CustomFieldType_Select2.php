@@ -59,6 +59,8 @@ class APF_Demo_CustomFieldType_Select2 {
         // validation_{page slug}_{tab slug}
         add_filter( 'validation_' . $this->sClassName . '_' . $this->sSectionID, array( $this, 'validate' ), 10, 4 );
 
+        $_sAdminDirPath = str_replace( get_bloginfo( 'url' ) . '/', ABSPATH, get_admin_url() );
+
          // Section
         $oAdminPage->addSettingSections(
             $this->sPageSlug, // the target page slug
@@ -216,6 +218,150 @@ EOD
                         . "</pre>",
                 ),
             ),
+            array(
+                'field_id'  => 'dash_icons',
+                'type'      => 'select2',
+                'title'     => __( 'Dash-icons', 'admin-page-framework-loader' ),
+                'label'     => array(
+                    'dashicons-admin-post'   => 'dashicons-admin-post',
+                    'dashicons-admin-site'   => 'dashicons-admin-site',
+                    'dashicons-format-image' => 'dashicons-format-image',
+                    'dashicons-format-aside' => 'dashicons-format-aside',
+                ),
+                'icon'      => array(
+                    'dashicons-admin-post'   => '<span class="dashicons dashicons-admin-post"></span>',
+                    'dashicons-admin-site'   => '<span class="dashicons dashicons-admin-site"></span>',
+                    'dashicons-format-image' => '<span class="dashicons dashicons-format-image"></span>',
+                    'dashicons-format-aside' => '<span class="dashicons dashicons-format-aside"></span>',
+                ),
+                'description'   => array(
+                    "<pre>"
+                        . esc_html(
+<<<EOD
+array(
+    'field_id'  => 'dash_icons',
+    'type'      => 'select2',
+    'title'     => __( 'Dash-icons', 'admin-page-framework-loader' ),
+    'label'     => array(
+        'dashicons-admin-post'   => 'dashicons-admin-post',
+        'dashicons-admin-site'   => 'dashicons-admin-site',
+        'dashicons-format-image' => 'dashicons-format-image',
+        'dashicons-format-aside' => 'dashicons-format-aside',
+    ),
+    'icon'      => array(
+        'dashicons-admin-post'   => '<span class="dashicons dashicons-admin-post"></span>',
+        'dashicons-admin-site'   => '<span class="dashicons dashicons-admin-site"></span>',
+        'dashicons-format-image' => '<span class="dashicons dashicons-format-image"></span>',
+        'dashicons-format-aside' => '<span class="dashicons dashicons-format-aside"></span>',
+    ),
+)
+EOD
+                        )
+                        . "</pre>",
+                ),            
+            ),
+            array(
+                'field_id'  => 'svgs',
+                'type'      => 'select2',
+                'title'     => __( 'SVG Icons', 'admin-page-framework-loader' ),
+                'label'     => array(
+                    'blue'      => __( 'Blue', 'admin-page-framework-loader' ),
+                    'red'       => __( 'Red', 'admin-page-framework-loader' ),
+                    'black'     => __( 'Black', 'admin-page-framework-loader' ),
+                ),
+                'icon'      => array(
+                    'blue'    => "<svg height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'>"
+                                  . "<defs>"
+                                        . "<g id='exclamation'>"
+                                            . "<path d='M0 0h24v24H0z' fill='none'/><path d='M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z'>"
+                                        . "</g>"
+                                  . "</defs>"
+                                  . "<use xlink:href='#exclamation' fill='blue'></use>"
+                                . "</svg>",
+                    'red'      => "<svg height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'>"
+                                  . "<use xlink:href='#exclamation' fill='red'></use>"
+                                . "</svg>",
+                    'black'    => "<svg height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'>"
+                                  . "<use xlink:href='#exclamation' fill='black'></use>"
+                                . "</svg>",
+                ),
+                'description'   => array(
+                    "<pre>"
+                        . esc_html(
+<<<EOD
+array(
+    'field_id'  => 'svgs',
+    'type'      => 'select2',
+    'title'     => __( 'SVG Icons', 'admin-page-framework-loader' ),
+    'label'     => array(
+        'blue'      => __( 'Blue', 'admin-page-framework-loader' ),
+        'red'       => __( 'Red', 'admin-page-framework-loader' ),
+        'black'     => __( 'Black', 'admin-page-framework-loader' ),
+    ),
+    'icon'      => array(
+        'blue'    => "<svg height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'>"
+                      . "<defs>"
+                            . "<g id='exclamation'>"
+                                . "<path d='M0 0h24v24H0z' fill='none'/><path d='M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z'>"
+                            . "</g>"
+                      . "</defs>"
+                      . "<use xlink:href='#exclamation' fill='blue'></use>"
+                    . "</svg>",
+        'red'      => "<svg height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'>"
+                      . "<use xlink:href='#exclamation' fill='red'></use>"
+                    . "</svg>",
+        'black'    => "<svg height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'>"
+                      . "<use xlink:href='#exclamation' fill='black'></use>"
+                    . "</svg>",
+    ),
+)
+EOD
+                        )
+                        . "</pre>",
+                ),
+            ),
+            array(
+                'field_id'  => 'images',
+                'type'      => 'select2',
+                'title'     => __( 'Image Icons', 'admin-page-framework-loader' ),
+                'label'     => array(
+                    'align-none'     => __( 'None', 'admin-page-framework-loader' ),
+                    'align-left'     => __( 'Left', 'admin-page-framework-loader' ),
+                    'align-center'   => __( 'Center', 'admin-page-framework-loader' ),
+                    'align-right'    => __( 'Right', 'admin-page-framework-loader' ),
+                ),
+                'icon'      => array(
+                    'align-none'     => "<img src='" . admin_url( '/images/align-none.png' ) . "' />",
+                    'align-left'     => "<img src='" . admin_url( '/images/align-left.png' ) . "' />",
+                    'align-center'   => "<img src='" . admin_url( '/images/align-center.png' ) . "' />",
+                    'align-right'    => "<img src='" . admin_url( '/images/align-right.png' ) . "' />",
+                ),
+                'description'   => array(
+                    "<pre>"
+                        . esc_html(
+<<<EOD
+array(
+    'field_id'  => 'images',
+    'type'      => 'select2',
+    'title'     => __( 'Image Icons', 'admin-page-framework-loader' ),
+    'label'     => array(
+        'align-none'     => __( 'None', 'admin-page-framework-loader' ),
+        'align-left'     => __( 'Left', 'admin-page-framework-loader' ),
+        'align-center'   => __( 'Center', 'admin-page-framework-loader' ),
+        'align-right'    => __( 'Right', 'admin-page-framework-loader' ),
+    ),
+    'icon'      => array(
+        'align-none'     => "<img src='" . admin_url( '/images/align-none.png' ) . "' />",
+        'align-left'     => "<img src='" . admin_url( '/images/align-left.png' ) . "' />",
+        'align-center'   => "<img src='" . admin_url( '/images/align-center.png' ) . "' />",
+        'align-right'    => "<img src='" . admin_url( '/images/align-right.png' ) . "' />",
+    ),
+)
+EOD
+                        )
+                        . "</pre>",
+                ),
+            ),            
             array(
                 'field_id'        => 'ajax',
                 'type'            => 'select2',
