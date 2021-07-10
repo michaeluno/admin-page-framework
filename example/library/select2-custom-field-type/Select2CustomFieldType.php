@@ -307,7 +307,7 @@ class Select2CustomFieldType extends AdminPageFramework_FieldType_select {
             return;
         }
 
-        // Will exist in the function.
+        // Will exit in the function.
         wp_send_json(
             call_user_func_array(
                 $_asCallable,   // callable
