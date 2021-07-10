@@ -111,7 +111,7 @@
                                     action:             'dummy_select2_field_type_action',
                                     q:                  params.term, // search term
                                     page:               params.page, // pagination number
-                                    doing_select2_ajax: true, // ensure it is called from here
+                                    doing_select2_ajax: AdminPageFrameworkSelect2FieldType.nonce, // ensure it is called from here
                                     field_id:           _oSelect2Target.data( 'field_id' ), // will be checked in the background                                        
                                     section_id:         _oSelect2Target.data( 'section_id' ), // will be checked in the background                                        
                                 };
@@ -173,7 +173,7 @@
                         data: {
                             action: 'dummy_select2_field_type_action',
                             tag: _sTerm,
-                            doing_select2_ajax: true, // ensure it is called from here
+                            doing_select2_ajax: AdminPageFrameworkSelect2FieldType.nonce, // ensure it is called from here
                             field_id:           _oSelect2Target.data( 'field_id' ), // will be checked in the background                                        
                             section_id:         _oSelect2Target.data( 'section_id' ), // will be checked in the background                                                                            
                         },

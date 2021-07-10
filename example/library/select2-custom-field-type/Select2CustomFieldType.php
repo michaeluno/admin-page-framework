@@ -154,6 +154,7 @@ class Select2CustomFieldType extends AdminPageFramework_FieldType_select {
                 'translation'   => array(
                     'debugMode' => $_bDebugMode,
                     'ajaxURL'   => admin_url( 'admin-ajax.php' ),
+                    'nonce'     => wp_create_nonce( get_class( $this ) ),
                 ),
             ),
         );
@@ -347,6 +348,11 @@ class Select2CustomFieldType extends AdminPageFramework_FieldType_select {
             ) {
                 return false;
             }
+
+            if ( ! wp_verify_nonce( $aRequest[ 'doing_select2_ajax' ], get_class( $this ) ) ) {
+                return false;
+            }
+
             if ( $aFieldset[ 'field_id' ] !== $aRequest[ 'field_id' ] ) {
                 return false;
             }
