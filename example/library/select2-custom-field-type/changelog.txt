@@ -1,5 +1,8 @@
 # Change Log
 
+= 0.0.6 - =
+- Moved the internal stylesheet to a separate file.
+
 = 0.0.5 - 2019/05/30 =
 - Updated select2 from v4.0.6-rc.1 to v4.0.7.
 - Fixed a bug that initialization failed for repeated fields.

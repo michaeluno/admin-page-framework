@@ -155,6 +155,7 @@ class Select2CustomFieldType extends AdminPageFramework_FieldType_select {
             $this->isDebugMode()
                 ? dirname( __FILE__ ) . '/select2/css/select2.css'
                 : dirname( __FILE__ ) . '/select2/css/select2.min.css',
+            dirname( __FILE__ ) . '/css/style.css',
         );
     }
 
@@ -556,22 +557,7 @@ class Select2CustomFieldType extends AdminPageFramework_FieldType_select {
      * Returns the field type specific CSS rules.
      */
     protected function getStyles() {
-        return "
-.admin-page-framework-field-select2 .select2-container {     
-    min-width: 200px;
-    width: auto;
-}
-
-.admin-page-framework-field-select2 {
-    max-width: 96%;
-}
-
-/* Make a room for repeatable buttons */
-.repeatable .admin-page-framework-field-select2 > .admin-page-framework-select-label > label > .admin-page-framework-input-container {
-    max-width: 84%;
-}
-
-        ";
+        return "";
     }
 
     /**

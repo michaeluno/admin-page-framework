@@ -1,0 +1,13 @@
+.admin-page-framework-field-select2 .select2-container {
+    min-width: 200px;
+    width: auto;
+}
+
+.admin-page-framework-field-select2 {
+    max-width: 96%;
+}
+
+/* Make a room for repeatable buttons */
+.repeatable .admin-page-framework-field-select2 > .admin-page-framework-select-label > label > .admin-page-framework-input-container {
+    max-width: 84%;
+}
