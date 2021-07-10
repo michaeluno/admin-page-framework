@@ -294,7 +294,7 @@ EOD
                     'tokenSeparators'       => array( ',', ),
                 ),
                 'callback'        => array(
-                    // use a static class method or a funcion rather than an instantiated object method for faster processing.
+                    // use a static class method or a function rather than an instantiated object method for faster processing.
                     'search'    => __CLASS__ . '::getTerms',
                     'new_tag'   => __CLASS__ . '::createTerm',
                 ),
