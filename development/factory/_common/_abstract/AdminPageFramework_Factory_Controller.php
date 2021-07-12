@@ -70,10 +70,13 @@ abstract class AdminPageFramework_Factory_Controller extends AdminPageFramework_
      * @since       3.0.4       The method itself has existed since v3.0.0 but moved to this factory class.
      * @param       array       The sources of the stylesheet to enqueue: the url, the absolute file path, or the relative path to the root directory of WordPress. Example: `array( '/css/mystyle.css', '/css/mystyle2.css' )`
      * @param       array       (optional) The another source argument array.
-     * @return      array       The array holing the queued items.
+     * @return      string[]    AN array holing the queued item handle IDs.
      * @internal
      */
-    public function enqueueStyles( $aSRCs, $_vArg2=null ) {}
+    public function enqueueStyles( /* $aSRCs, $aCustomArgs=array() */ ) {
+        $_aParams = func_get_args() + array( array(), array() );
+        return $this->oResource->_enqueueResourcesByType( $_aParams[ 0 ], $_aParams[ 1 ], 'style' );
+    }
 
     /**
      * Enqueues a style of the given source.
@@ -90,10 +93,13 @@ abstract class AdminPageFramework_Factory_Controller extends AdminPageFramework_
      *     <li>**media** - (optional, string) the description of the field which is inserted into the after the input field tag.</li>
      *     <li>**attributes** - (optional, array) [3.3.0+] attributes array. `array( 'data-id' => '...' )`</li>
      * </ul>
-     * @return      string      The style handle ID. If the passed url is not a valid url string, an empty string will be returned.
+     * @return      string      The added style handle ID. If the passed url is not a valid url string, an empty string will be returned.
      * @internal
      */
-    public function enqueueStyle( $sSRC, $_vArg2=null ) {}
+    public function enqueueStyle( /* $sSRC, $aCustomArgs=array() */ ) {
+        $_aParams = func_get_args() + array( array(), array() );
+        return $this->oResource->_enqueueResourceByType( $_aParams[ 0 ], $_aParams[ 1 ], 'style' );
+    }
 
     /**
      * Enqueues scripts by the given sources.
@@ -111,10 +117,14 @@ abstract class AdminPageFramework_Factory_Controller extends AdminPageFramework_
      * @since       3.0.4       The method itself has existed since v3.0.0 but moved to this factory class.
      * @param       array       The sources of the style-sheets to enqueue: the URL, the absolute file path, or the relative path to the root directory of WordPress. Example: '/js/myscript.js'.
      * @param       array       (optional) Ad additional source list array.
-     * @return      array        The array holding the queued items.
+     * @return      string[]    An array holding the queued item handle IDs.
      * @internal
      */
-    public function enqueueScripts( $aSRCs, $_vArg2=null ) {}
+    public function enqueueScripts( /* $aSRCs, $aCustomArgs=array() */ ) {
+        $_aParams = func_get_args() + array( array(), array() );
+        return $this->oResource->_enqueueResourcesByType( $_aParams[ 0 ], $_aParams[ 1 ], 'script' );
+    }
+
     /**
      * Enqueues a script by the given source.
      *
@@ -146,7 +156,10 @@ abstract class AdminPageFramework_Factory_Controller extends AdminPageFramework_
      * @return      string      The script handle ID. If the passed url is not a valid url string, an empty string will be returned.
      * @internal
      */
-    public function enqueueScript( $sSRC, $_vArg2=null ) {}
+    public function enqueueScript( /* $sSRC, $aCustomArgs=array() */ ) {
+        $_aParams = func_get_args() + array( array(), array() );
+        return $this->oResource->_enqueueResourceByType( $_aParams[ 0 ], $_aParams[ 1 ], 'script' );
+    }
 
     /*
      * Help Pane

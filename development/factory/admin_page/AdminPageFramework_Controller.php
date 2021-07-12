@@ -114,8 +114,16 @@ abstract class AdminPageFramework_Controller extends AdminPageFramework_View {
      * @param       array       $aCustomArgs    (optional) The argument array for more advanced parameters.
      * @return      array       The array holing the queued items.
      */
-    public function enqueueStyles( $aSRCs, $sPageSlug='', $sTabSlug='', $aCustomArgs=array() ) {
-        return $this->oResource->_enqueueStyles( $aSRCs, $sPageSlug, $sTabSlug, $aCustomArgs );
+    public function enqueueStyles( /* $aSRCs, $sPageSlug='', $sTabSlug='', $aCustomArgs=array() */ ) {
+        $_aParams = func_get_args() + array( array(), '', '', array() );
+        return $this->oResource->_enqueueResourcesByType(
+            $_aParams[ 0 ],
+            array(
+                'sPageSlug' => $_aParams[ 1 ],
+                'sTabSlug'  => $_aParams[ 2 ],
+            ) + $_aParams[ 3 ],
+            'style'
+        );
     }
     /**
      * Enqueues a style by page slug and tab slug.
@@ -149,8 +157,16 @@ abstract class AdminPageFramework_Controller extends AdminPageFramework_View {
      * </ul>
      * @return      string      The style handle ID. If the passed url is not a valid url string, an empty string will be returned.
      */
-    public function enqueueStyle( $sSRC, $sPageSlug='', $sTabSlug='', $aCustomArgs=array() ) {
-        return $this->oResource->_enqueueStyle( $sSRC, $sPageSlug, $sTabSlug, $aCustomArgs );
+    public function enqueueStyle( /* $sSRC, $sPageSlug='', $sTabSlug='', $aCustomArgs=array() */ ) {
+        $_aParams = func_get_args() + array( '', '', '', array() );
+        return $this->oResource->_enqueueResourceByType(
+            $_aParams[ 0 ],
+            array(
+                'sPageSlug' => $_aParams[ 1 ],
+                'sTabSlug'  => $_aParams[ 2 ],
+            ) + $_aParams[ 3 ],
+            'style'
+        );
     }
     /**
      * Enqueues scripts by page slug and tab slug.
@@ -174,8 +190,16 @@ abstract class AdminPageFramework_Controller extends AdminPageFramework_View {
      * @param       array       (optional) The argument array for more advanced parameters.
      * @return      array        The array holding the queued items.
      */
-    public function enqueueScripts( $aSRCs, $sPageSlug='', $sTabSlug='', $aCustomArgs=array() ) {
-        return $this->oResource->_enqueueScripts( $aSRCs, $sPageSlug, $sTabSlug, $aCustomArgs );
+    public function enqueueScripts( /* $aSRCs, $sPageSlug='', $sTabSlug='', $aCustomArgs=array() */ ) {
+        $_aParams = func_get_args() + array( array(), '', '', array() );
+        return $this->oResource->_enqueueResourcesByType(
+            $_aParams[ 0 ],
+            array(
+                'sPageSlug' => $_aParams[ 1 ],
+                'sTabSlug'  => $_aParams[ 2 ],
+            ) + $_aParams[ 3 ],
+            'script'
+        );
     }
     /**
      * Enqueues a script by page slug and tab slug.
@@ -198,10 +222,10 @@ abstract class AdminPageFramework_Controller extends AdminPageFramework_View {
      * @since       3.0.0       Changed the scope to public
      * @since       3.3.1       Moved from `AdminPageFramework`.
      * @see         http://codex.wordpress.org/Function_Reference/wp_enqueue_script
-     * @param       string      The URL of the stylesheet to enqueue, the absolute file path, or the relative path to the root directory of WordPress. Example: '/js/myscript.js'.
-     * @param       string      (optional) The page slug that the script should be added to. If not set, it applies to all the pages created by the framework.
-     * @param       string      (optional) The tab slug that the script should be added to. If not set, it applies to all the in-page tabs in the page.
-     * @param       array       (optional) The argument array for more advanced parameters.
+     * @param       string      $sSRC The URL of the stylesheet to enqueue, the absolute file path, or the relative path to the root directory of WordPress. Example: '/js/myscript.js'.
+     * @param       string      $sPageSlug (optional) The page slug that the script should be added to. If not set, it applies to all the pages created by the framework.
+     * @param       string      $sTabSlug (optional) The tab slug that the script should be added to. If not set, it applies to all the in-page tabs in the page.
+     * @param       array       $aCustomArgs (optional) The argument array for more advanced parameters.
      * <h4>Argument Array</h4>
      * <ul>
      *     <li>**handle_id** - (optional, string) The handle ID of the script.</li>
@@ -213,8 +237,16 @@ abstract class AdminPageFramework_Controller extends AdminPageFramework_View {
      * </ul>
      * @return      string      The script handle ID. If the passed url is not a valid url string, an empty string will be returned.
      */
-    public function enqueueScript( $sSRC, $sPageSlug='', $sTabSlug='', $aCustomArgs=array() ) {
-        return $this->oResource->_enqueueScript( $sSRC, $sPageSlug, $sTabSlug, $aCustomArgs );
+    public function enqueueScript( /* $sSRC, $sPageSlug='', $sTabSlug='', $aCustomArgs=array() */ ) {
+        $_aParams = func_get_args() + array( '', '', '', array() );
+        return $this->oResource->_enqueueResourceByType(
+            $_aParams[ 0 ],
+            array(
+                'sPageSlug' => $_aParams[ 1 ],
+                'sTabSlug'  => $_aParams[ 2 ],
+            ) + $_aParams[ 3 ],
+            'script'
+        );
     }
 
     /**

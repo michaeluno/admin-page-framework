@@ -143,8 +143,9 @@ abstract class AdminPageFramework_Resource_Base extends AdminPageFramework_Frame
      * @internal
      */
 
-    public function _forceToEnqueueStyle( $sSRC, $aCustomArgs=array() ) {}
-    public function _forceToEnqueueScript( $sSRC, $aCustomArgs=array() ) {}
+    // @deprecated 3.8.31 Unused
+    // public function _forceToEnqueueStyle( $sSRC, $aCustomArgs=array() ) {}
+    // public function _forceToEnqueueScript( $sSRC, $aCustomArgs=array() ) {}
 
     /**
      * A helper function for the _replyToEnqueueScripts() and the `_replyToEnqueueStyle()` methods.
@@ -542,6 +543,22 @@ abstract class AdminPageFramework_Resource_Base extends AdminPageFramework_Frame
     }
 
     /**
+     * A plural version of _enqueueResourceByType()
+     * @since  3.8.31
+     * @param  array    $aSRCs          An array of SRCs
+     * @param  array    $aCustomArgs    A custom argument array.
+     * @param  string   $sType          Accepts 'style' or 'script'
+     * @return string[] Added resource handle IDs.
+     */
+    public function _enqueueResourcesByType( $aSRCs, array $aCustomArgs=array(), $sType='style' ) {
+        $_aHandleIDs = array();
+        foreach( $aSRCs as $_sSRC ) {
+            $_aHandleIDs[] = call_user_func_array( array( $this, '_enqueueResourceByType' ), array( $_sSRC, $aCustomArgs, $sType ) );
+        }
+        return $_aHandleIDs;
+    }
+
+    /**
      * Enqueues a resource.
      *
      * @since       3.5.3
@@ -552,7 +569,7 @@ abstract class AdminPageFramework_Resource_Base extends AdminPageFramework_Frame
      * @return      string      The script handle ID if added. If the passed url is not a valid url string, an empty string will be returned.
      * @internal
      */
-    protected function _enqueueResourceByType( $sSRC, array $aCustomArgs=array(), $sType='style' ) {
+    public function _enqueueResourceByType( $sSRC, array $aCustomArgs=array(), $sType='style' ) {
 
         $sSRC       = trim( $sSRC );
         if ( empty( $sSRC ) ) {

@@ -116,62 +116,6 @@ abstract class AdminPageFramework_Widget_Controller extends AdminPageFramework_W
      */
     public function load() {}
 
-    /*
-     * Head Tag Methods
-     */
-    /**
-     * {@inheritdoc}
-     *
-     * {@inheritdoc}
-     *
-     * @since       3.2.0
-     * @internal    Temporarily marked internal
-     */
-    public function enqueueStyles( $aSRCs, $aCustomArgs=array() ) {
-        if ( method_exists( $this->oResource, '_enqueueStyles' ) ) {
-            return $this->oResource->_enqueueStyles( $aSRCs, array( $this->oProp->sPostType ), $aCustomArgs );
-        }
-    }
-    /**
-     * {@inheritdoc}
-     *
-     * {@inheritdoc}
-     *
-     * @since       3.2.0
-     * @internal    Temporarily marked internal
-     */
-    public function enqueueStyle( $sSRC, $aCustomArgs=array() ) {
-        if ( method_exists( $this->oResource, '_enqueueStyle' ) ) {
-            return $this->oResource->_enqueueStyle( $sSRC, array( $this->oProp->sPostType ), $aCustomArgs );
-        }
-    }
-    /**
-     * {@inheritdoc}
-     *
-     * {@inheritdoc}
-     *
-     * @since       3.2.0
-     * @internal    Temporarily marked internal
-     */
-    public function enqueueScripts( $aSRCs, $aCustomArgs=array() ) {
-        if ( method_exists( $this->oResource, '_enqueueScripts' ) ) {
-            return $this->oResource->_enqueueScripts( $aSRCs, array( $this->oProp->sPostType ), $aCustomArgs );
-        }
-    }
-    /**
-     * {@inheritdoc}
-     *
-     * {@inheritdoc}
-     *
-     * @since           3.2.0
-     * @internal    Temporarily marked internal
-     */
-    public function enqueueScript( $sSRC, $aCustomArgs=array() ) {
-        if ( method_exists( $this->oResource, '_enqueueScript' ) ) {
-            return $this->oResource->_enqueueScript( $sSRC, array( $this->oProp->sPostType ), $aCustomArgs );
-        }
-    }
-
     /**
      * Sets the widget arguments.
      *

@@ -15,5 +15,4 @@
  * @package         AdminPageFramework/Factory/TermMeta
  * @internal
  */
-abstract class AdminPageFramework_TermMeta_Controller extends AdminPageFramework_TermMeta_View {
-}
+abstract class AdminPageFramework_TermMeta_Controller extends AdminPageFramework_TermMeta_View {}

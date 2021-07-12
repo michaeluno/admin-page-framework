@@ -67,48 +67,76 @@ abstract class AdminPageFramework_PostType_Controller extends AdminPageFramework
      *
      * {@inheritdoc}
      *
-     * @since       3.0.0
-     * @return      array       An array holding the handle IDs of queued items.
+     * @since  3.0.0
+     * @since  3.8.31    Removed parameters to be compatible with the base class.
+     * @return array     An array holding the handle IDs of queued items.
      */
-    public function enqueueStyles( $aSRCs, $aCustomArgs=array() ) {
-        if ( method_exists( $this->oResource, '_enqueueStyles' ) ) {
-            return $this->oResource->_enqueueStyles( $aSRCs, array( $this->oProp->sPostType ), $aCustomArgs );
-        }
+    public function enqueueStyles( /* $aSRCs, $aCustomArgs=array() */ ) {
+        $_aParams = func_get_args() + array( array(), array() );
+        return $this->oResource->_enqueueResourcesByType(
+            $_aParams[ 0 ],
+            array(
+                'aPostTypes' => array( $this->oProp->sPostType ),
+            ) + $_aParams[ 1 ],
+            'style'
+        );
     }
     /**
      * {@inheritdoc}
      *
      * {@inheritdoc}
      *
+     * @since  3.0.0
+     * @since  3.8.31    Removed parameters to be compatible with the base class.
+     * @return string    The added resource handle iD.
      */
-    public function enqueueStyle( $sSRC, $aCustomArgs=array() ) {
-        if ( method_exists( $this->oResource, '_enqueueStyle' ) ) {
-            return $this->oResource->_enqueueStyle( $sSRC, array( $this->oProp->sPostType ), $aCustomArgs );
-        }
+    public function enqueueStyle( /* $sSRC, $aCustomArgs=array() */ ) {
+        $_aParams = func_get_args() + array( '', array() );
+        return $this->oResource->_enqueueResourceByType(
+            $_aParams[ 0 ],
+            array(
+                'aPostTypes' => array( $this->oProp->sPostType ),
+            ) + $_aParams[ 1 ],
+            'style'
+        );
     }
     /**
      * {@inheritdoc}
      *
      * {@inheritdoc}
      *
-     * @return      array       An array holding the handle IDs of queued items.
+     * @return array     An array holding the handle IDs of queued items.
+     * @since  3.0.0
+     * @since  3.8.31    Removed parameters to be compatible with the base class.
      */
-    public function enqueueScripts( $aSRCs, $aCustomArgs=array() ) {
-        if ( method_exists( $this->oResource, '_enqueueScripts' ) ) {
-            return $this->oResource->_enqueueScripts( $aSRCs, array( $this->oProp->sPostType ), $aCustomArgs );
-        }
+    public function enqueueScripts( /* $aSRCs, $aCustomArgs=array() */ ) {
+        $_aParams = func_get_args() + array( array(), array() );
+        return $this->oResource->_enqueueResourcesByType(
+            $_aParams[ 0 ],
+            array(
+                'aPostTypes' => array( $this->oProp->sPostType ),
+            ) + $_aParams[ 1 ],
+            'script'
+        );
     }
     /**
      * {@inheritdoc}
      *
      * {@inheritdoc}
      *
-     * @since       3.0.0
+     * @since  3.0.0
+     * @since  3.8.31 Removed parameters to be compatible with the base class.
+     * @return string The added resource handle iD.
      */
-    public function enqueueScript( $sSRC, $aCustomArgs=array() ) {
-        if ( method_exists( $this->oResource, '_enqueueScript' ) ) {
-            return $this->oResource->_enqueueScript( $sSRC, array( $this->oProp->sPostType ), $aCustomArgs );
-        }
+    public function enqueueScript( /* $sSRC, $aCustomArgs=array() */ ) {
+        $_aParams = func_get_args() + array( '', array() );
+        return $this->oResource->_enqueueResourceByType(
+            $_aParams[ 0 ],
+            array(
+                'aPostTypes' => array( $this->oProp->sPostType ),
+            ) + $_aParams[ 1 ],
+            'script'
+        );
     }
 
     /*

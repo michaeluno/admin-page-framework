@@ -19,5 +19,4 @@
  * @extends     AdminPageFramework_Resource_taxonomy_field
  * @internal
  */
-class AdminPageFramework_Resource_term_meta extends AdminPageFramework_Resource_taxonomy_field {
-}
+class AdminPageFramework_Resource_term_meta extends AdminPageFramework_Resource_taxonomy_field {}

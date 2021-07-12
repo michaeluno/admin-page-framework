@@ -51,9 +51,17 @@ abstract class AdminPageFramework_MetaBox_Controller extends AdminPageFramework_
      * {@inheritdoc}
      *
      * @since 3.0.0
+     * @since 3.8.31    Removed parameters to be compatible with the base class.
      */
-    public function enqueueStyles( $aSRCs, $aPostTypes=array(), $aCustomArgs=array() ) {
-        return $this->oResource->_enqueueStyles( $aSRCs, $aPostTypes, $aCustomArgs );
+    public function enqueueStyles( /* $aSRCs, $aPostTypes=array(), $aCustomArgs=array() */ ) {
+        $_aParams = func_get_args() + array( array(), array(), array() );
+        return $this->oResource->_enqueueResourcesByType(
+            $_aParams[ 0 ],
+            array(
+                'aPostTypes' => empty( $_aParams[ 1 ] ) ? $this->oProp->aPostTypes : $_aParams[ 1 ],
+            ) + $_aParams[ 2 ],
+            'style'
+        );
     }
     /**
      * Enqueues a style by post type.
@@ -61,8 +69,9 @@ abstract class AdminPageFramework_MetaBox_Controller extends AdminPageFramework_
      *
      * {@inheritdoc}
      *
-     * @since       3.0.0
      * @see         http://codex.wordpress.org/Function_Reference/wp_enqueue_style
+     * @since       3.0.0
+     * @since       3.8.31      Removed parameters to be compatible with the base class.
      * @param       string      The source of the stylesheet to enqueue: the URL, the absolute file path, or the relative path to the root directory of WordPress. Example: '/css/mystyle.css'.
      * <h4>Custom Argument Array</h4>
      * <ul>
@@ -75,16 +84,31 @@ abstract class AdminPageFramework_MetaBox_Controller extends AdminPageFramework_
      * @param       array       (optional) The argument array for more advanced parameters.
      * @return      string The script handle ID. If the passed url is not a valid url string, an empty string will be returned.
      */
-    public function enqueueStyle( $sSRC, $aPostTypes=array(), $aCustomArgs=array() ) {
-        return $this->oResource->_enqueueStyle( $sSRC, $aPostTypes, $aCustomArgs );
+    public function enqueueStyle( /* $sSRC, $aPostTypes=array(), $aCustomArgs=array() */ ) {
+        $_aParams = func_get_args() + array( '', array(), array() );
+        return $this->oResource->_enqueueResourceByType(
+            $_aParams[ 0 ],
+            array(
+                'aPostTypes' => empty( $_aParams[ 1 ] ) ? $this->oProp->aPostTypes : $_aParams[ 1 ],
+            ) + $_aParams[ 2 ],
+            'style'
+        );
     }
     /**
      * Enqueues scripts by page slug and tab slug.
      *
      * @since 3.0.0
+     * @since 3.8.31      Removed parameters to be compatible with the base class.
      */
-    public function enqueueScripts( $aSRCs, $aPostTypes=array(), $aCustomArgs=array() ) {
-        return $this->oResource->_enqueueScripts( $aSRCs, $aPostTypes, $aCustomArgs );
+    public function enqueueScripts( /* $aSRCs, $aPostTypes=array(), $aCustomArgs=array() */ ) {
+        $_aParams = func_get_args() + array( array(), array(), array() );
+        return $this->oResource->_enqueueResourcesByType(
+            $_aParams[ 0 ],
+            array(
+                'aPostTypes' => empty( $_aParams[ 1 ] ) ? $this->oProp->aPostTypes : $_aParams[ 1 ],
+            ) + $_aParams[ 2 ],
+            'script'
+        );
     }
     /**
      * Enqueues a script by post type.
@@ -103,6 +127,7 @@ abstract class AdminPageFramework_MetaBox_Controller extends AdminPageFramework_
      * );</code>
      *
      * @since       2.1.2
+     * @since       3.8.31      Removed parameters to be compatible with the base class.
      * @see         http://codex.wordpress.org/Function_Reference/wp_enqueue_script
      * @param       string The source of the stylesheet to enqueue: the URL, the absolute file path, or the relative path to the root directory of WordPress. Example: `/js/myscript.js`.
      * <h4>Custom Argument Array</h4>
@@ -118,8 +143,15 @@ abstract class AdminPageFramework_MetaBox_Controller extends AdminPageFramework_
      * @param       array       (optional) The argument array for more advanced parameters.
      * @return      string The script handle ID. If the passed url is not a valid url string, an empty string will be returned.
      */
-    public function enqueueScript( $sSRC, $aPostTypes=array(), $aCustomArgs=array() ) {
-        return $this->oResource->_enqueueScript( $sSRC, $aPostTypes, $aCustomArgs );
+    public function enqueueScript( /* $sSRC, $aPostTypes=array(), $aCustomArgs=array() */ ) {
+        $_aParams = func_get_args() + array( '', array(), array() );
+        return $this->oResource->_enqueueResourceByType(
+            $_aParams[ 0 ],
+            array(
+                'aPostTypes' => empty( $_aParams[ 1 ] ) ? $this->oProp->aPostTypes : $_aParams[ 1 ],
+            ) + $_aParams[ 2 ],
+            'script'
+        );
     }
 
 }
