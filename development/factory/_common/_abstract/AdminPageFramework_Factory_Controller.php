@@ -98,7 +98,7 @@ abstract class AdminPageFramework_Factory_Controller extends AdminPageFramework_
      */
     public function enqueueStyle( /* $sSRC, $aCustomArgs=array() */ ) {
         $_aParams = func_get_args() + array( array(), array() );
-        return $this->oResource->_enqueueResourceByType( $_aParams[ 0 ], $_aParams[ 1 ], 'style' );
+        return $this->oResource->_addEnqueuingResourceByType( $_aParams[ 0 ], $_aParams[ 1 ], 'style' );
     }
 
     /**
@@ -158,7 +158,7 @@ abstract class AdminPageFramework_Factory_Controller extends AdminPageFramework_
      */
     public function enqueueScript( /* $sSRC, $aCustomArgs=array() */ ) {
         $_aParams = func_get_args() + array( array(), array() );
-        return $this->oResource->_enqueueResourceByType( $_aParams[ 0 ], $_aParams[ 1 ], 'script' );
+        return $this->oResource->_addEnqueuingResourceByType( $_aParams[ 0 ], $_aParams[ 1 ], 'script' );
     }
 
     /*

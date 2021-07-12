@@ -159,7 +159,7 @@ abstract class AdminPageFramework_Controller extends AdminPageFramework_View {
      */
     public function enqueueStyle( /* $sSRC, $sPageSlug='', $sTabSlug='', $aCustomArgs=array() */ ) {
         $_aParams = func_get_args() + array( '', '', '', array() );
-        return $this->oResource->_enqueueResourceByType(
+        return $this->oResource->_addEnqueuingResourceByType(
             $_aParams[ 0 ],
             array(
                 'sPageSlug' => $_aParams[ 1 ],
@@ -239,7 +239,7 @@ abstract class AdminPageFramework_Controller extends AdminPageFramework_View {
      */
     public function enqueueScript( /* $sSRC, $sPageSlug='', $sTabSlug='', $aCustomArgs=array() */ ) {
         $_aParams = func_get_args() + array( '', '', '', array() );
-        return $this->oResource->_enqueueResourceByType(
+        return $this->oResource->_addEnqueuingResourceByType(
             $_aParams[ 0 ],
             array(
                 'sPageSlug' => $_aParams[ 1 ],

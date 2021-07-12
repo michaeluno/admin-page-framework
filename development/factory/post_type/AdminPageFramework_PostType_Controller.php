@@ -92,7 +92,7 @@ abstract class AdminPageFramework_PostType_Controller extends AdminPageFramework
      */
     public function enqueueStyle( /* $sSRC, $aCustomArgs=array() */ ) {
         $_aParams = func_get_args() + array( '', array() );
-        return $this->oResource->_enqueueResourceByType(
+        return $this->oResource->_addEnqueuingResourceByType(
             $_aParams[ 0 ],
             array(
                 'aPostTypes' => array( $this->oProp->sPostType ),
@@ -130,7 +130,7 @@ abstract class AdminPageFramework_PostType_Controller extends AdminPageFramework
      */
     public function enqueueScript( /* $sSRC, $aCustomArgs=array() */ ) {
         $_aParams = func_get_args() + array( '', array() );
-        return $this->oResource->_enqueueResourceByType(
+        return $this->oResource->_addEnqueuingResourceByType(
             $_aParams[ 0 ],
             array(
                 'aPostTypes' => array( $this->oProp->sPostType ),

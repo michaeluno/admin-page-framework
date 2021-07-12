@@ -544,7 +544,7 @@ abstract class AdminPageFramework_Resource_Base extends AdminPageFramework_Frame
     }
 
     /**
-     * A plural version of _enqueueResourceByType()
+     * A plural version of _addEnqueuingResourceByType()
      * @since  3.8.31
      * @param  array    $aSRCs          An array of SRCs
      * @param  array    $aCustomArgs    A custom argument array.
@@ -554,23 +554,24 @@ abstract class AdminPageFramework_Resource_Base extends AdminPageFramework_Frame
     public function _enqueueResourcesByType( $aSRCs, array $aCustomArgs=array(), $sType='style' ) {
         $_aHandleIDs = array();
         foreach( $aSRCs as $_sSRC ) {
-            $_aHandleIDs[] = call_user_func_array( array( $this, '_enqueueResourceByType' ), array( $_sSRC, $aCustomArgs, $sType ) );
+            $_aHandleIDs[] = call_user_func_array( array( $this, '_addEnqueuingResourceByType' ), array( $_sSRC, $aCustomArgs, $sType ) );
         }
         return $_aHandleIDs;
     }
 
     /**
-     * Enqueues a resource.
+     * Store an enqueuing resource item to the property by type to process later at once.
      *
      * @since       3.5.3
      * @since       3.8.31      Moved from `AdminPageFramework_Resource_admin_page`.
+     * @since       3.8.31      Renamed from `_enqueueResourceByType()`
      * @param       string      $sSRC           The source path or url.
      * @param       array       $aCustomArgs    A custom argument array.
      * @param       string      $sType          Accepts 'style' or 'script'
      * @return      string      The script handle ID if added. If the passed url is not a valid url string, an empty string will be returned.
      * @internal
      */
-    public function _enqueueResourceByType( $sSRC, array $aCustomArgs=array(), $sType='style' ) {
+    public function _addEnqueuingResourceByType( $sSRC, array $aCustomArgs=array(), $sType='style' ) {
 
         $sSRC       = trim( $sSRC );
         if ( empty( $sSRC ) ) {

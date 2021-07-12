@@ -86,7 +86,7 @@ abstract class AdminPageFramework_MetaBox_Controller extends AdminPageFramework_
      */
     public function enqueueStyle( /* $sSRC, $aPostTypes=array(), $aCustomArgs=array() */ ) {
         $_aParams = func_get_args() + array( '', array(), array() );
-        return $this->oResource->_enqueueResourceByType(
+        return $this->oResource->_addEnqueuingResourceByType(
             $_aParams[ 0 ],
             array(
                 'aPostTypes' => empty( $_aParams[ 1 ] ) ? $this->oProp->aPostTypes : $_aParams[ 1 ],
@@ -145,7 +145,7 @@ abstract class AdminPageFramework_MetaBox_Controller extends AdminPageFramework_
      */
     public function enqueueScript( /* $sSRC, $aPostTypes=array(), $aCustomArgs=array() */ ) {
         $_aParams = func_get_args() + array( '', array(), array() );
-        return $this->oResource->_enqueueResourceByType(
+        return $this->oResource->_addEnqueuingResourceByType(
             $_aParams[ 0 ],
             array(
                 'aPostTypes' => empty( $_aParams[ 1 ] ) ? $this->oProp->aPostTypes : $_aParams[ 1 ],

@@ -50,11 +50,11 @@ abstract class AdminPageFramework_PageMetaBox_Controller extends AdminPageFramew
      * @since 3.8.31 Removed parameters to be compatible with the base class.
      */
     public function enqueueStyle( /* $sSRC, $sPageSlug='', $sTabSlug='', $aCustomArgs=array() */ ) {
-        if ( ! method_exists( $this->oResource, '_enqueueResourceByType' ) ) {
+        if ( ! method_exists( $this->oResource, '_addEnqueuingResourceByType' ) ) {
             return '';
         }
         $_aParams = func_get_args() + array( '', '', '', array() );
-        return $this->oResource->_enqueueResourceByType(
+        return $this->oResource->_addEnqueuingResourceByType(
             $_aParams[ 0 ],
             array(
                 'sPageSlug' => $_aParams[ 1 ],
@@ -97,11 +97,11 @@ abstract class AdminPageFramework_PageMetaBox_Controller extends AdminPageFramew
      * @return string The script handle ID. If the passed url is not a valid url string, an empty string will be returned.
      */
     public function enqueueScript( /* $sSRC, $sPageSlug='', $sTabSlug='', $aCustomArgs=array() */ ) {
-        if ( ! method_exists( $this->oResource, '_enqueueResourceByType' ) ) {
+        if ( ! method_exists( $this->oResource, '_addEnqueuingResourceByType' ) ) {
             return '';
         }
         $_aParams = func_get_args() + array( '', '', '', array() );
-        return $this->oResource->_enqueueResourceByType(
+        return $this->oResource->_addEnqueuingResourceByType(
             $_aParams[ 0 ],
             array(
                 'sPageSlug' => $_aParams[ 1 ],
