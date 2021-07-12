@@ -28,10 +28,7 @@ class APF_Demo_Test {
             return;
         }
 
-        add_action(
-            'set_up_' . $this->_sClassName,
-            array( $this, 'replyToSetUp' )
-        );
+        add_action( 'set_up_' . $this->_sClassName, array( $this, 'replyToSetUp' ) );
 
     }
 
@@ -68,6 +65,7 @@ class APF_Demo_Test {
             'APF_Demo_Test_AjaxField',
             'APF_Demo_Test_Transients',
             'APF_Demo_Test_ClassAttributes',
+            'APF_Demo_Test_Resources',
         );
         foreach ( $_aTabClasses as $_sTabClassName ) {
             if ( ! class_exists( $_sTabClassName ) ) {

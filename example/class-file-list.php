@@ -92,6 +92,7 @@ $_aClassFiles = array(
     "APF_Demo_Test"=> AdminPageFrameworkLoader_Registry::$sDirPath . "/example/admin_page/test/APF_Demo_Test.php", 
     "APF_Demo_Test_AjaxField"=> AdminPageFrameworkLoader_Registry::$sDirPath . "/example/admin_page/test/APF_Demo_Test_AjaxField.php", 
     "APF_Demo_Test_ClassAttributes"=> AdminPageFrameworkLoader_Registry::$sDirPath . "/example/admin_page/test/APF_Demo_Test_ClassAttributes.php", 
+    "APF_Demo_Test_Resources"=> AdminPageFrameworkLoader_Registry::$sDirPath . "/example/admin_page/test/APF_Demo_Test_Resources.php", 
     "APF_Demo_Test_Transients"=> AdminPageFrameworkLoader_Registry::$sDirPath . "/example/admin_page/test/APF_Demo_Test_Transients.php", 
     "APF_Demo_Test_PageMetaBoxSide"=> AdminPageFrameworkLoader_Registry::$sDirPath . "/example/admin_page/test/page_meta_box/APF_Demo_Test_PageMetaBoxSide.php", 
     "APF_BasicUsage"=> AdminPageFrameworkLoader_Registry::$sDirPath . "/example/basic_usage/APF_BasicUsage.php", 
