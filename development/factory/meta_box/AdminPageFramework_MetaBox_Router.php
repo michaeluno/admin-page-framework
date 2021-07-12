@@ -18,6 +18,11 @@
 abstract class AdminPageFramework_MetaBox_Router extends AdminPageFramework_Factory {
 
     /**
+     * @var AdminPageFramework_Resource_post_meta_box
+     */
+    protected $oResource;
+
+    /**
      * Constructs the class object instance of AdminPageFramework_MetaBox.
      *
      * Mainly sets up properties and hooks.

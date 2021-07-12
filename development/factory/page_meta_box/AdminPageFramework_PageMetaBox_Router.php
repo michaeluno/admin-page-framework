@@ -19,6 +19,11 @@
 abstract class AdminPageFramework_PageMetaBox_Router extends AdminPageFramework_MetaBox_View {
 
     /**
+     * @var AdminPageFramework_Resource_page_meta_box
+     */
+    protected $oResource;
+
+    /**
      * Determines whether the meta box class components should be loaded in the currently loading page.
      *
      * @since       3.1.3

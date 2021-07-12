@@ -72,6 +72,7 @@ abstract class AdminPageFramework_Factory_Router {
      * Provides the methods to insert head tag elements.
      *
      * @since   3.3.0   Changed the name from $oHeadTag as it has become to deal with footer elements.
+     * @var AdminPageFramework_Resource_Base
      */
     protected $oResource;
 
