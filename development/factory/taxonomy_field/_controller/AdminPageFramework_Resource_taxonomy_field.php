@@ -31,7 +31,7 @@ class AdminPageFramework_Resource_taxonomy_field extends AdminPageFramework_Reso
      * @internal
      */
     protected function _enqueueSRCByCondition( $aEnqueueItem ) {
-        return $this->_enqueueSRC( $aEnqueueItem );
+        $this->_enqueueSRC( $aEnqueueItem );
     }
 
 }

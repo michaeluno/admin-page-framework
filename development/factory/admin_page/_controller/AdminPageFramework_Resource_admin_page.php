@@ -153,7 +153,7 @@ class AdminPageFramework_Resource_admin_page extends AdminPageFramework_Resource
 
         // If the page slug is not specified and the currently loading page is one of the pages that is added by the framework,
         if ( ! $sPageSlug && $this->oProp->isPageAdded( $sCurrentPageSlug ) ) { // means script-global(among pages added by the framework)
-            return $this->_enqueueSRC( $aEnqueueItem );
+            $this->_enqueueSRC( $aEnqueueItem );
         }
 
         // If both tab and page slugs are specified,
@@ -161,7 +161,7 @@ class AdminPageFramework_Resource_admin_page extends AdminPageFramework_Resource
             ( $sPageSlug && $sCurrentPageSlug == $sPageSlug )
             && ( $sTabSlug && $sCurrentTabSlug == $sTabSlug )
         ) {
-            return $this->_enqueueSRC( $aEnqueueItem );
+            $this->_enqueueSRC( $aEnqueueItem );
         }
 
         // If the tab slug is not specified and the page slug is specified,
@@ -170,7 +170,7 @@ class AdminPageFramework_Resource_admin_page extends AdminPageFramework_Resource
             ( $sPageSlug && ! $sTabSlug )
             && ( $sCurrentPageSlug == $sPageSlug )
         ) {
-            return $this->_enqueueSRC( $aEnqueueItem );
+            $this->_enqueueSRC( $aEnqueueItem );
         }
 
     }

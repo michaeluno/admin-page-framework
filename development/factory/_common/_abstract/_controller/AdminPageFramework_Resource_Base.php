@@ -36,6 +36,7 @@ abstract class AdminPageFramework_Resource_Base extends AdminPageFramework_Frame
 
         /* The system internal keys. */
         'sSRC'          => null,
+        'sSRCRaw'       => null,
         'aPostTypes'    => array(),     // for meta box class
         'sPageSlug'     => null,
         'sTabSlug'      => null,
@@ -157,7 +158,7 @@ abstract class AdminPageFramework_Resource_Base extends AdminPageFramework_Frame
      * @remark      This method should be redefined in the extended class.
      */
     protected function _enqueueSRCByCondition( $aEnqueueItem ) {
-        return $this->_enqueueSRC( $aEnqueueItem );
+        $this->_enqueueSRC( $aEnqueueItem );
     }
 
     /*
