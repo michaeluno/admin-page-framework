@@ -43,17 +43,17 @@ class AdminPageFramework_Form_View__Resource extends AdminPageFramework_Framewor
              return;
         }
 
-        $this->_setHooks();
+        $this->___setHooks();
 
     }
 
         /**
          * @since       3.7.0
          */
-        private function _setHooks() {
+        private function ___setHooks() {
 
             if ( is_admin() ) {
-                $this->_setAdminHooks();
+                $this->___setAdminHooks();
                 return;
             }
 
@@ -79,7 +79,7 @@ class AdminPageFramework_Form_View__Resource extends AdminPageFramework_Framewor
             new AdminPageFramework_Form_View__Resource__Head( $this->oForm, 'wp_head' );
 
         }
-            private function _setAdminHooks() {
+            private function ___setAdminHooks() {
 
                 // Hook the admin header to insert custom admin stylesheets and scripts.
                 add_action( 'admin_enqueue_scripts', array( $this, '_replyToEnqueueScripts' ) );
@@ -116,7 +116,7 @@ class AdminPageFramework_Form_View__Resource extends AdminPageFramework_Framewor
             return;
         }
         foreach( $this->oForm->getResources( 'src_scripts' ) as $_isIndex => $_asEnqueue ) {
-            $this->_enqueueScript( $_asEnqueue );
+            $this->___enqueueScript( $_asEnqueue );
             $this->oForm->unsetResources( array( 'src_scripts', $_isIndex ) );  // no longer needed
         }
     }
@@ -129,9 +129,9 @@ class AdminPageFramework_Form_View__Resource extends AdminPageFramework_Framewor
          * @return      void
          * @since       3.7.0
          */
-        private function _enqueueScript( $asEnqueue ) {
+        private function ___enqueueScript( $asEnqueue ) {
 
-            $_aEnqueueItem = $this->_getFormattedEnqueueScript( $asEnqueue );
+            $_aEnqueueItem = $this->___getFormattedEnqueueScript( $asEnqueue );
 
             // Do not load the same items multiple times.
             if ( isset( self::$_aEnqueued[ $_aEnqueueItem[ 'src' ] ] ) ) {
@@ -161,7 +161,7 @@ class AdminPageFramework_Form_View__Resource extends AdminPageFramework_Framewor
              * @return      array
              * @since       3.7.0
              */
-            private function _getFormattedEnqueueScript( $asEnqueue ) {
+            private function ___getFormattedEnqueueScript( $asEnqueue ) {
                 static $_iCallCount = 1;
                 $_aEnqueueItem = $this->getAsArray( $asEnqueue ) + array(
                     'handle_id'     => 'script_form_' . $this->oForm->aArguments[ 'caller_id' ] . '_' . $_iCallCount,
@@ -191,13 +191,13 @@ class AdminPageFramework_Form_View__Resource extends AdminPageFramework_Framewor
             return;
         }
         foreach( $this->oForm->getResources( 'src_styles' ) as $_isIndex => $_asEnqueueItem ) {
-            $this->_enqueueStyle( $_asEnqueueItem );
+            $this->___enqueueStyle( $_asEnqueueItem );
             $this->oForm->unsetResources( array( 'src_styles', $_isIndex ) ); // no longer needed
         }
 
     }
-        private function _enqueueStyle( $asEnqueue ) {
-            $_aEnqueueItem = $this->_getFormattedEnqueueStyle( $asEnqueue );
+        private function ___enqueueStyle( $asEnqueue ) {
+            $_aEnqueueItem = $this->___getFormattedEnqueueStyle( $asEnqueue );
             wp_enqueue_style(
                 $_aEnqueueItem[ 'handle_id' ],
                 $_aEnqueueItem[ 'src' ],
@@ -209,7 +209,7 @@ class AdminPageFramework_Form_View__Resource extends AdminPageFramework_Framewor
             /**
              * @return      array
              */
-            private function _getFormattedEnqueueStyle( $asEnqueue ) {
+            private function ___getFormattedEnqueueStyle( $asEnqueue ) {
                 static $_iCallCount = 1;
                 $_aEnqueueItem = $this->getAsArray( $asEnqueue ) + array(
                     'handle_id'     => 'style_form_' . $this->oForm->aArguments[ 'caller_id' ] . '_' . $_iCallCount,
@@ -239,7 +239,7 @@ class AdminPageFramework_Form_View__Resource extends AdminPageFramework_Framewor
         if ( ! $this->oForm->isInThePage() ) {
             return;
         }
-        $_sCSSRules = $this->_getFormattedInternalStyles(
+        $_sCSSRules = $this->___getFormattedInternalStyles(
             $this->oForm->getResources( 'internal_styles' )
         );
 
@@ -249,7 +249,7 @@ class AdminPageFramework_Form_View__Resource extends AdminPageFramework_Framewor
                     . $_sCSSRules
                 . "</style>";
         }
-        $_sIECSSRules = $this->_getFormattedInternalStyles(
+        $_sIECSSRules = $this->___getFormattedInternalStyles(
             $this->oForm->getResources( 'internal_styles_ie' )
         );
         if ( $_sIECSSRules ) {
@@ -267,7 +267,7 @@ class AdminPageFramework_Form_View__Resource extends AdminPageFramework_Framewor
          * @since       3.7.0
          * @string
          */
-        private function _getFormattedInternalStyles( array $aInternalStyles ) {
+        private function ___getFormattedInternalStyles( array $aInternalStyles ) {
             return implode( PHP_EOL, array_unique( $aInternalStyles ) );
         }
 
