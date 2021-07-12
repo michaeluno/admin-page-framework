@@ -10,7 +10,7 @@
  */
 
 /**
- * Adds a tab of the set page to the loader plugin.
+ * Adds a tab of the test page to the loader plugin.
  *
  * @since       3.8.23
  */
