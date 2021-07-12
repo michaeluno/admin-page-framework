@@ -430,7 +430,6 @@ abstract class AdminPageFramework_Resource_Base extends AdminPageFramework_Frame
 
     }
 
-
     /**
      * Appends the CSS rules of the framework in the head tag.
      *
@@ -470,7 +469,6 @@ abstract class AdminPageFramework_Resource_Base extends AdminPageFramework_Frame
         $this->_printClassSpecificScripts( $this->_sClassSelector_Script . '-' . $this->oProp->sStructureType );
 
     }
-
 
     /**
      * Performs actual enqueuing items.
@@ -542,5 +540,75 @@ abstract class AdminPageFramework_Resource_Base extends AdminPageFramework_Frame
             unset( $this->oProp->aEnqueuingScripts[ $_sKey ] );
         }
     }
+
+    /**
+     * Enqueues a resource.
+     *
+     * @since       3.5.3
+     * @since       3.8.31      Moved from `AdminPageFramework_Resource_admin_page`.
+     * @param       string      $sSRC           The source path or url.
+     * @param       array       $aCustomArgs    A custom argument array.
+     * @param       string      $sType          Accepts 'style' or 'script'
+     * @return      string      The script handle ID if added. If the passed url is not a valid url string, an empty string will be returned.
+     * @internal
+     */
+    protected function _enqueueResourceByType( $sSRC, array $aCustomArgs=array(), $sType='style' ) {
+
+        $sSRC       = trim( $sSRC );
+        if ( empty( $sSRC ) ) {
+            return '';
+        }
+        $_sRawSRC   = wp_normalize_path( $sSRC );
+        $_sSRC      = $this->getResolvedSRC( $_sRawSRC );
+
+        // Get the property name for the type
+        $_sContainerPropertyName     = $this->___getContainerPropertyNameByType( $sType );
+        $_sEnqueuedIndexPropertyName = $this->___getEnqueuedIndexPropertyNameByType( $sType );
+
+        $this->oProp->{$_sContainerPropertyName}[ $_sSRC ] = array_filter( $this->getAsArray( $aCustomArgs ), array( $this, 'isNotNull' ) )
+            + array(
+                'sSRCRaw'   => $_sRawSRC,
+                'sSRC'      => $_sSRC,
+                'sType'     => $sType,
+                'handle_id' => $sType . '_' . $this->oProp->sClassName . '_' .  ( ++$this->oProp->{$_sEnqueuedIndexPropertyName} ),
+            )
+            + self::$_aStructure_EnqueuingResources;
+
+        // Store the attributes in another container by url.
+        $this->oProp->aResourceAttributes[ $this->oProp->{$_sContainerPropertyName}[ $_sSRC ]['handle_id'] ] = $this->oProp->{$_sContainerPropertyName}[ $_sSRC ]['attributes'];
+
+        return $this->oProp->{$_sContainerPropertyName}[ $_sSRC ][ 'handle_id' ];
+
+    }
+        /**
+         * Returns the property name that contains the information of resources by type.
+         * @since   3.5.3
+         * @since   3.8.31      Moved from `AdminPageFramework_Resource_admin_page`.
+         * @return  string      the property name that contains the information of resources by type.
+         */
+        private function ___getContainerPropertyNameByType( $sType ) {
+            switch ( $sType ) {
+                default:
+                case 'style':
+                    return 'aEnqueuingStyles';
+                case 'script':
+                    return 'aEnqueuingScripts';
+            }
+        }
+        /**
+         * Returns the property name that contains the added count of resources by type.
+         * @since   3.5.3
+         * @since   3.8.31      Moved from `AdminPageFramework_Resource_admin_page`.
+         * @return  string      the property name that contains the added count of resources by type.
+         */
+        private function ___getEnqueuedIndexPropertyNameByType( $sType ) {
+            switch ( $sType ) {
+                default:
+                case 'style':
+                    return 'iEnqueuedStyleIndex';
+                case 'script':
+                    return 'iEnqueuedScriptIndex';
+            }
+        }
 
 }

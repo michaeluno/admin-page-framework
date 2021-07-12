@@ -58,31 +58,13 @@ class AdminPageFramework_Resource_post_meta_box extends AdminPageFramework_Resou
      * @internal
      */
     public function _enqueueStyle( $sSRC, $aPostTypes=array(), $aCustomArgs=array() ) {
-
-        $sSRC = trim( $sSRC );
-        if ( empty( $sSRC ) ) { return ''; }
-        $sSRC       = $this->getResolvedSRC( $sSRC );
-
-        // Setting the key based on the url prevents duplicate items
-        $_sSRCHash  = md5( $sSRC );
-        if ( isset( $this->oProp->aEnqueuingStyles[ $_sSRCHash ] ) ) { return ''; }
-
-        $this->oProp->aEnqueuingStyles[ $_sSRCHash ] = $this->uniteArrays(
-            ( array ) $aCustomArgs,
+        return $this->_enqueueResourceByType(
+            $sSRC,
             array(
-                'sSRC'          => $sSRC,
-                'aPostTypes'    => empty( $aPostTypes ) ? $this->oProp->aPostTypes : $aPostTypes,
-                'sType'         => 'style',
-                'handle_id'     => 'style_' . $this->oProp->sClassName . '_' .  ( ++$this->oProp->iEnqueuedStyleIndex ),
-            ),
-            self::$_aStructure_EnqueuingResources
+                'aPostTypes' => empty( $aPostTypes ) ? $this->oProp->aPostTypes : $aPostTypes,
+            ) + $aCustomArgs,
+            'style'
         );
-
-        // Store the attributes in another container by url.
-        $this->oProp->aResourceAttributes[ $this->oProp->aEnqueuingStyles[ $_sSRCHash ]['handle_id'] ] = $this->oProp->aEnqueuingStyles[ $_sSRCHash ]['attributes'];
-
-        return $this->oProp->aEnqueuingStyles[ $_sSRCHash ][ 'handle_id' ];
-
     }
 
     /**
@@ -92,13 +74,11 @@ class AdminPageFramework_Resource_post_meta_box extends AdminPageFramework_Resou
      * @internal
      */
     public function _enqueueScripts( $aSRCs, $aPostTypes=array(), $aCustomArgs=array() ) {
-
         $_aHandleIDs = array();
         foreach( ( array ) $aSRCs as $_sSRC ) {
             $_aHandleIDs[] = $this->_enqueueScript( $_sSRC, $aPostTypes, $aCustomArgs );
         }
         return $_aHandleIDs;
-
     }
     /**
      * Enqueues a script by post type slug.
@@ -121,35 +101,13 @@ class AdminPageFramework_Resource_post_meta_box extends AdminPageFramework_Resou
      * @internal
      */
     public function _enqueueScript( $sSRC, $aPostTypes=array(), $aCustomArgs=array() ) {
-
-        $sSRC       = trim( $sSRC );
-        if ( empty( $sSRC ) ) {
-            return '';
-        }
-        $sSRC       = $this->getResolvedSRC( $sSRC );
-
-        // Setting the key based on the url prevents duplicate items
-        $_sSRCHash  = md5( $sSRC );
-        if ( isset( $this->oProp->aEnqueuingScripts[ $_sSRCHash ] ) ) {
-            return '';
-        }
-
-        $this->oProp->aEnqueuingScripts[ $_sSRCHash ] = $this->uniteArrays(
-            ( array ) $aCustomArgs,
+        return $this->_enqueueResourceByType(
+            $sSRC,
             array(
-                'sSRC'          => $sSRC,
-                'aPostTypes'    => empty( $aPostTypes ) ? $this->oProp->aPostTypes : $aPostTypes,
-                'sType'         => 'script',
-                'handle_id'     => 'script_' . $this->oProp->sClassName . '_' .  ( ++$this->oProp->iEnqueuedScriptIndex ),
-            ),
-            self::$_aStructure_EnqueuingResources
+                'aPostTypes' => empty( $aPostTypes ) ? $this->oProp->aPostTypes : $aPostTypes,
+            ) + $aCustomArgs,
+            'script'
         );
-
-        // Store the attributes in another container by url.
-        $this->oProp->aResourceAttributes[ $this->oProp->aEnqueuingScripts[ $_sSRCHash ]['handle_id'] ] = $this->oProp->aEnqueuingScripts[ $_sSRCHash ]['attributes'];
-
-        return $this->oProp->aEnqueuingScripts[ $_sSRCHash ][ 'handle_id' ];
-
     }
 
     /**
@@ -180,12 +138,10 @@ class AdminPageFramework_Resource_post_meta_box extends AdminPageFramework_Resou
      * @internal
      */
     protected function _enqueueSRCByCondition( $aEnqueueItem ) {
-
         $_sCurrentPostType = isset( $_GET[ 'post_type' ] ) ? $_GET[ 'post_type' ] : ( isset( $GLOBALS[ 'typenow' ] ) ? $GLOBALS[ 'typenow' ] : null );
         if ( in_array( $_sCurrentPostType, $aEnqueueItem[ 'aPostTypes' ], true ) ) {
-            return $this->_enqueueSRC( $aEnqueueItem );
+            $this->_enqueueSRC( $aEnqueueItem );
         }
-
     }
 
 }
