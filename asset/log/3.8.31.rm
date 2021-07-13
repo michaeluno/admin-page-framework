@@ -1,0 +1,1 @@
+- Added the ability to automatically load .min files if they exist when enqueuing resource files. 

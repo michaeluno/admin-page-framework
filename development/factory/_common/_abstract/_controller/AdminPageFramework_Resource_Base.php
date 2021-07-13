@@ -482,11 +482,13 @@ abstract class AdminPageFramework_Resource_Base extends AdminPageFramework_Frame
      */
     protected function _enqueueSRC( $aEnqueueItem ) {
 
+        $_sSRC = $this->___getSRCFormatted( $aEnqueueItem );
+
         // For styles
         if ( 'style' === $aEnqueueItem[ 'sType' ] ) {
             wp_enqueue_style(
                 $aEnqueueItem[ 'handle_id' ],
-                $aEnqueueItem[ 'sSRC' ],
+                $_sSRC,
                 $aEnqueueItem[ 'dependencies' ],
                 $aEnqueueItem[ 'version' ],
                 $aEnqueueItem[ 'media' ]
@@ -497,7 +499,7 @@ abstract class AdminPageFramework_Resource_Base extends AdminPageFramework_Frame
         // For scripts
         wp_enqueue_script(
             $aEnqueueItem[ 'handle_id' ],
-            $aEnqueueItem[ 'sSRC' ],
+            $_sSRC,
             $aEnqueueItem[ 'dependencies' ],
             $aEnqueueItem[ 'version' ],
             did_action( 'admin_body_class' ) || ( boolean ) $aEnqueueItem[ 'in_footer' ]
@@ -508,6 +510,54 @@ abstract class AdminPageFramework_Resource_Base extends AdminPageFramework_Frame
         }
 
     }
+        /**
+         * Adds
+         * @param  array $aEnqueueItem
+         * @return string
+         * @since  3.8.31
+         */
+        private function ___getSRCFormatted( array $aEnqueueItem ) {
+
+            if ( ! $this->oProp->bAutoloadMinifiedResource ) {
+                return $aEnqueueItem[ 'sSRC' ];
+            }
+
+            // If the site debug mode is on, use the one that user gave.
+            if ( $this->isDebugMode() ) {
+                return $aEnqueueItem[ 'sSRC' ];
+            }
+
+            // If the user gave a url, use it.
+            if ( $this->isURL( $aEnqueueItem[ 'sSRCRaw' ] ) ) {
+                return $aEnqueueItem[ 'sSRC' ];
+            }
+
+
+            // At this point, the user gave a path.
+            $_sMinPrefix = '.min';
+
+            // If the user already handles a min version, then use it.
+            if ( false !== stripos( $aEnqueueItem[ 'sSRC' ], $_sMinPrefix ) ) {
+                return $aEnqueueItem[ 'sSRC' ];
+            }
+
+            $_aPathParts = pathinfo( $aEnqueueItem[ 'sSRCRaw' ] )
+                + array( 'dirname' => '', 'filename' => '', 'basename' => '', 'extension' => '' ); // avoid undefined index warnings
+
+            // If there is no extension, avoid using a minified version.
+            if ( ! $_aPathParts[ 'extension' ] ) {
+                return $aEnqueueItem[ 'sSRC' ];
+            }
+
+            $_aPathPartsURL = pathinfo( $aEnqueueItem[ 'sSRC' ] )
+                + array( 'dirname' => '', 'filename' => '', 'basename' => '', 'extension' => '' ); // avoid undefined index warnings
+
+            $_sPathMinifiedVersion = $_aPathParts[ 'dirname' ] . '/' . $_aPathParts[ 'filename' ] . $_sMinPrefix . '.' . $_aPathParts[ 'extension' ];
+            return file_exists( $_sPathMinifiedVersion )
+                ? $_aPathPartsURL[ 'dirname' ] . '/' . $_aPathPartsURL[ 'filename' ] . $_sMinPrefix . '.' . $_aPathPartsURL[ 'extension' ]
+                : $aEnqueueItem[ 'sSRC' ];
+
+        }
 
     /**
      * Takes care of added enqueuing scripts by checking the currently loading page.

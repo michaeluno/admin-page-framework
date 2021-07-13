@@ -393,6 +393,13 @@ abstract class AdminPageFramework_Property_Base extends AdminPageFramework_Frame
     public $aQuery = array();
 
     /**
+     * @var boolean Whether to auto-lad minified version of a resource file.
+     * For example, enqueuing `htdocs/something.js`, will automatically be converted to `htdocs/something.min.js` if the path exists.
+     * @since 3.8.31
+     */
+    public $bAutoloadMinifiedResource = true;
+
+    /**
      * Sets up necessary property values.
      *
      * @remark      This class gets instantiated in every factory class so the constructor should be lightest as possible.
