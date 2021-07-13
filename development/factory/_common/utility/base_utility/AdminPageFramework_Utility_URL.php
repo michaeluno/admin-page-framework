@@ -18,6 +18,15 @@
 abstract class AdminPageFramework_Utility_URL extends AdminPageFramework_Utility_Path {
 
     /**
+     * @param  string  $sString The string to check.
+     * @return boolean True if it is a valid URL. Otherwise, false.
+     * @since  3.8.31
+     */
+    static public function isURL( $sString ) {
+        return false !== filter_var( $sString, FILTER_VALIDATE_URL );
+    }
+
+    /**
      * Retrieves the query value from the given URL with a key.
      *
      * @since       2.0.0
