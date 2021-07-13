@@ -48,7 +48,7 @@ class APF_Demo_Test_Resources {
          add_action( 'do_' . $this->sPageSlug . '_' . $this->sTabSlug, array( $this, 'replyToDoTab' ) );
 
         $this->oFactory->enqueueScript( dirname( __FILE__ ) . '/asset/js/test-js2.js' );
-        $this->oFactory->enqueueStyle( dirname( __FILE__ ) . '/asset/css/test-style2.css' );
+        $this->oFactory->enqueueStyles( array( dirname( __FILE__ ) . '/asset/css/test-style2.css' ) );
 
     }
 
