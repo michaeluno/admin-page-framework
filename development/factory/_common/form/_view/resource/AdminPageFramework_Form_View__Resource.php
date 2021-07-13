@@ -144,9 +144,7 @@ class AdminPageFramework_Form_View__Resource extends AdminPageFramework_Framewor
                 $_aEnqueueItem[ 'src' ],
                 $_aEnqueueItem[ 'dependencies' ],
                 $_aEnqueueItem[ 'version' ],
-                did_action( 'admin_body_class' )
-                    ? true
-                    : $_aEnqueueItem[ 'in_footer' ]
+                did_action( 'admin_body_class' ) || ( boolean ) $_aEnqueueItem['in_footer']
             );
             if ( $_aEnqueueItem[ 'translation' ] ) {
                 wp_localize_script(
@@ -174,7 +172,7 @@ class AdminPageFramework_Form_View__Resource extends AdminPageFramework_Framewor
                 if ( is_string( $asEnqueue ) ) {
                     $_aEnqueueItem[ 'src' ] = $asEnqueue;
                 }
-                $_aEnqueueItem[ 'src' ] = $this->getResolvedSRC( $_aEnqueueItem[ 'src' ] );
+                $_aEnqueueItem[ 'src' ] = $this->___getSRCFormatted( $_aEnqueueItem );
                 $_iCallCount++;
                 return $_aEnqueueItem;
             }
@@ -221,9 +219,64 @@ class AdminPageFramework_Form_View__Resource extends AdminPageFramework_Framewor
                 if ( is_string( $asEnqueue ) ) {
                     $_aEnqueueItem[ 'src' ] = $asEnqueue;
                 }
-                $_aEnqueueItem[ 'src' ] = $this->getResolvedSRC( $_aEnqueueItem[ 'src' ] );
+                $_aEnqueueItem[ 'src' ] = $this->___getSRCFormatted( $_aEnqueueItem );
                 $_iCallCount++;
                 return $_aEnqueueItem;
+            }
+
+            /**
+             * Formats the SRC value.
+             *
+             * Also, adds the ability to auto-load a .min file if exists when a path is given (not url).
+             *
+             * @param   array $aEnqueueItem
+             * @return  string
+             * @since   3.8.31
+             * @remark  This is identical to the AdminPageFramework_Resource_Base::___getSRCFormatted() method.
+             * @see     AdminPageFramework_Resource_Base::___getSRCFormatted()
+             */
+            private function ___getSRCFormatted( array $aEnqueueItem ) {
+                $_sSRCRaw = wp_normalize_path( $aEnqueueItem[ 'src' ] );
+                $_sSRC    = $this->getResolvedSRC( $_sSRCRaw ); // at this point, it is a URL
+
+                if ( ! $this->oForm->aArguments[ 'autoload_min_resource' ] ) {
+                    return $_sSRC;
+                }
+
+                // If the site debug mode is on, use the one that user gave.
+                if ( $this->isDebugMode() ) {
+                    return $_sSRC;
+                }
+
+                // If the user gave a url, use it.
+                if ( $this->isURL( $_sSRCRaw ) ) {
+                    return $_sSRC;
+                }
+
+                // At this point, the user gave a path.
+                $_sMinPrefix = '.min';
+
+                // If the user already handles a min version, then use it.
+                if ( false !== stripos( $_sSRC, $_sMinPrefix ) ) {
+                    return $_sSRC;
+                }
+
+                $_aPathParts = pathinfo( $_sSRCRaw )
+                    + array( 'dirname' => '', 'filename' => '', 'basename' => '', 'extension' => '' ); // avoid undefined index warnings
+
+                // If there is no extension, avoid using a minified version.
+                if ( ! $_aPathParts[ 'extension' ] ) {
+                    return $_sSRC;
+                }
+
+                $_aPathPartsURL = pathinfo( $_sSRC )
+                    + array( 'dirname' => '', 'filename' => '', 'basename' => '', 'extension' => '' ); // avoid undefined index warnings
+
+                $_sPathMinifiedVersion = $_aPathParts[ 'dirname' ] . '/' . $_aPathParts[ 'filename' ] . $_sMinPrefix . '.' . $_aPathParts[ 'extension' ];
+                return file_exists( $_sPathMinifiedVersion )
+                    ? $_aPathPartsURL[ 'dirname' ] . '/' . $_aPathPartsURL[ 'filename' ] . $_sMinPrefix . '.' . $_aPathPartsURL[ 'extension' ]
+                    : $_sSRC;
+
             }
 
     /**

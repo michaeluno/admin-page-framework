@@ -511,7 +511,8 @@ abstract class AdminPageFramework_Resource_Base extends AdminPageFramework_Frame
 
     }
         /**
-         * Adds
+         * Formats the SRC value.
+         * If a path is given and a .min file exists, it will be loaded.
          * @param  array $aEnqueueItem
          * @return string
          * @since  3.8.31

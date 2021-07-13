@@ -220,6 +220,13 @@ class AdminPageFramework_Form extends AdminPageFramework_Form_Controller {
          */
         'register_if_action_already_done'   => true,
 
+        /**
+         * Decides whether to autoload .min resource files if exist.
+         * This value is automatically assigned by the property class of the factory class.
+         * @see AdminPageFramework_Property_Base
+         * @var boolean
+         */
+        'autoload_min_resource' => true,
     );
 
     /**

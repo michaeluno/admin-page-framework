@@ -320,6 +320,7 @@ abstract class AdminPageFramework_Property_Base extends AdminPageFramework_Frame
         'caller_id'                         => '',
         'structure_type'                    => '',
         'action_hook_form_registration'     => '',
+        'autoload_min_resource'             => true,    // will be overridden by the $bAutoloadMinifiedResource property.
     );
 
     /**
@@ -512,6 +513,7 @@ abstract class AdminPageFramework_Property_Base extends AdminPageFramework_Frame
             'action_hook_form_registration'     => $this->bIsAdminAjax
                 ? 'admin_init'  // 3.8.14
                 : $this->_sFormRegistrationHook,
+            'autoload_min_resource'             => $this->bAutoloadMinifiedResource,    // [3.8.31]
         ) + $this->aFormArguments;
     }
     /**
