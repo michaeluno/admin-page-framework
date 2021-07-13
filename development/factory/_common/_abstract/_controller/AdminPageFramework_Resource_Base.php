@@ -500,7 +500,7 @@ abstract class AdminPageFramework_Resource_Base extends AdminPageFramework_Frame
             $aEnqueueItem[ 'sSRC' ],
             $aEnqueueItem[ 'dependencies' ],
             $aEnqueueItem[ 'version' ],
-            did_action( 'admin_body_class' ) ? true : $aEnqueueItem[ 'in_footer' ]
+            did_action( 'admin_body_class' ) || ( boolean ) $aEnqueueItem[ 'in_footer' ]
         );
 
         if ( $aEnqueueItem[ 'translation' ] ) {
