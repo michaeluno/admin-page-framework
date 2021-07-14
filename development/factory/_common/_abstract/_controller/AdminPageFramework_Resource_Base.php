@@ -254,7 +254,7 @@ abstract class AdminPageFramework_Resource_Base extends AdminPageFramework_Frame
             $_sStyle     = $this->isDebugMode() ? $_sStyle : $this->getCSSMinified( $_sStyle );
             $_sStyle     = trim( $_sStyle );
             if ( $_sStyle ) {
-                echo "<style type='text/css' id='" . esc_attr( strtolower( $sIDPrefix ) ) . "'>"
+                return "<style type='text/css' id='" . esc_attr( strtolower( $sIDPrefix ) ) . "'>"
                         . $_sStyle
                     . "</style>";
             }
