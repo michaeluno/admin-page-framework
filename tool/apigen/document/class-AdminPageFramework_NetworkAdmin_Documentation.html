@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+	<title>Class AdminPageFramework_NetworkAdmin_Documentation | Admin Page Framework Documentation</title>
+
+	<script type="text/javascript" src="resources/combined.js?475558095"></script>
+	<script type="text/javascript" src="elementlist.js?892721890"></script>
+	<link rel="stylesheet" type="text/css" media="all" href="resources/bootstrap.min.css?2514636104" />
+	<link rel="stylesheet" type="text/css" media="all" href="resources/style.css?585075909" />
+
+	<script type="text/javascript">
+		var _gaq = _gaq || [];
+		_gaq.push(['_setAccount', "UA-23639348-8"]);
+		_gaq.push(['_trackPageview']);
+
+		(function() {
+			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		})();
+	</script>
+</head>
+
+<body>
+	<div id="navigation" class="navbar navbar-fixed-top">
+		<div class="navbar-inner">
+			<div class="container">
+				<a href="index.html" class="brand">Admin Page Framework Documentation</a>
+				<div class="nav-collapse">
+                                        <div class="search">
+                    <form id="search" class="form-search">
+                        <input type="hidden" name="cx" value="" />
+                        <input type="hidden" name="ie" value="UTF-8" />
+                        <input type="text" name="q" class="search-query" placeholder="Search" />
+                    </form>           
+                    </div>
+				</div><!-- end #nav-collapse -->
+			</div><!-- end .container -->
+		</div><!-- end .navbar-inner -->
+	</div><!-- end #navigation -->
+
+	<div id="left">
+        <div id="menu">
+
+
+            <div id="groups">
+                <h3>Packages</h3>
+                <ul>
+                    <li class="active main"><a href="package-AdminPageFramework.html">AdminPageFramework<span></span></a>
+                            <ul>
+                    <li class="main"><a href="package-AdminPageFramework.Common.html">Common<span></span></a>
+                            <ul>
+                    <li class="main"><a href="package-AdminPageFramework.Common.Factory.html">Factory</a>
+                            </li>
+                    <li class="main"><a href="package-AdminPageFramework.Common.Form.html">Form<span></span></a>
+                            <ul>
+                    <li class="main"><a href="package-AdminPageFramework.Common.Form.FieldType.html">FieldType</a>
+                            </li>
+                                </ul></li>
+                    <li class="main"><a href="package-AdminPageFramework.Common.Utility.html">Utility</a>
+                            </li>
+                                </ul></li>
+                    <li class="active main"><a href="package-AdminPageFramework.Factory.html">Factory<span></span></a>
+                            <ul>
+                    <li class="main"><a href="package-AdminPageFramework.Factory.AdminPage.html">AdminPage</a>
+                            </li>
+                    <li class="main"><a href="package-AdminPageFramework.Factory.MetaBox.html">MetaBox</a>
+                            </li>
+                    <li class="active main"><a href="package-AdminPageFramework.Factory.NetworkAdmin.html">NetworkAdmin</a>
+                            </li>
+                    <li class="main"><a href="package-AdminPageFramework.Factory.PageMetaBox.html">PageMetaBox</a>
+                            </li>
+                    <li class="main"><a href="package-AdminPageFramework.Factory.PostType.html">PostType</a>
+                            </li>
+                    <li class="main"><a href="package-AdminPageFramework.Factory.TaxonomyField.html">TaxonomyField</a>
+                            </li>
+                    <li class="main"><a href="package-AdminPageFramework.Factory.TermMeta.html">TermMeta</a>
+                            </li>
+                    <li class="main"><a href="package-AdminPageFramework.Factory.UserMeta.html">UserMeta</a>
+                            </li>
+                    <li class="main"><a href="package-AdminPageFramework.Factory.Widget.html">Widget</a>
+                            </li>
+                                </ul></li>
+                    <li class="main"><a href="package-AdminPageFramework.Utility.html">Utility</a>
+                            </li>
+                                </ul></li>
+                </ul>
+            </div><!-- end #groups -->
+
+
+            <div id="elements">
+                <h3>Classes</h3>
+                <ul>
+                    <li>
+                        
+                        
+                        <a href="class-AdminPageFramework_NetworkAdmin.html">
+                            AdminPageFramework_NetworkAdmin
+                        </a>
+                    </li>
+                    <li class="active">
+                        
+                </ul>
+
+
+
+
+
+                
+                <h3>Resources</h3>                
+                <ul>
+                    <li><a href="http://admin-page-framework.michaeluno.jp/tutorials/" target="_blank">Tutorials</a></li>
+                    <li><a href="https://wordpress.org/support/plugin/admin-page-framework" target="_blank">Support</a></li>
+                    <li><a href="https://github.com/michaeluno/admin-page-framework/issues" target="_blank">Reporting Issues</a></li>
+                </ul>
+                
+            </div><!-- end #elements -->
+            
+        </div><!-- end #menu -->      
+        
+    </div><!-- end #left -->
+    
+<div id="splitter"></div>
+
+<div id="right">
+
+	<div id="rightInner">
+<div id="content" class="class">
+	<h1>Class AdminPageFramework_NetworkAdmin_Documentation</h1>
+
+
+                <p class="summary-image  main-image">
+                    <a href="http://admin-page-framework.michaeluno.jp/image/factory/network_admin.png"><img alt="" src="http://admin-page-framework.michaeluno.jp/image/factory/network_admin.png" /></a>
+                </p>
+    
+	<div class="description">
+	
+<p>Provides an abstract base to create admin pages in the network administration
+area.</p>
+
+<p>The functionality is basically the same as the admin page factory class
+(<code><a href="class-AdminPageFramework.html">AdminPageFramework</a></code>) except it serves in the network administration
+area.</p>
+
+<h2>Creating an Admin Page in the Network Admin Area</h2>
+
+<ol>
+	<li>Define your own class by extending the <code><a href="class-AdminPageFramework_NetworkAdmin.html">AdminPageFramework_NetworkAdmin</a></code> class.</li>
+
+	<li>Set a top-level menu with the <code><a href="class-AdminPageFramework_Controller_Menu.html#_setRootMenuPage">AdminPageFramework_Controller_Menu::setRootMenuPage()</a></code> method.</li>
+
+	<li>Add page items with the <code><a href="class-AdminPageFramework_Controller_Menu.html#_addSubMenuItems">AdminPageFramework_Controller_Menu::addSubMenuItems()</a></code> method.</li>
+
+	<li>To insert contents, use the <code><a href="class-AdminPageFramework_View.html#_content">AdminPageFramework_View::content()</a></code> method and
+	return custom outputs.</li>
+</ol>
+
+<p>For details of method parameters, see the links of the methods.</p>
+
+<h3>Example</h3>
+
+<pre>
+<span
+class="php-keyword1">class</span> APFDoc_CreateNetworkAdminPages <span
+class="php-keyword1">extends</span> AdminPageFramework_NetworkAdmin {
+
+    <span
+class="php-keyword1">public</span> <span
+class="php-keyword1">function</span> setUp() {
+
+        <span
+class="php-comment">// Create a top-level menu.</span>
+        <span
+class="php-var">$this</span>-&gt;setRootMenuPage( <span
+class="php-quote">'My Admin Pages'</span> );
+
+        <span
+class="php-comment">// Add sub menu items.</span>
+        <span
+class="php-var">$this</span>-&gt;addSubMenuItems(
+            <span
+class="php-keyword1">array</span>(
+                <span
+class="php-quote">'title'</span>         =&gt; <span
+class="php-quote">'My Page A'</span>,    <span
+class="php-comment">// page title</span>
+                <span
+class="php-quote">'page_slug'</span>     =&gt; <span
+class="php-quote">'my_page_a'</span>,    <span
+class="php-comment">// page slug</span>
+            ),
+            <span
+class="php-keyword1">array</span>(
+                <span
+class="php-quote">'title'</span>         =&gt; <span
+class="php-quote">'My Page B'</span>,    <span
+class="php-comment">// page title</span>
+                <span
+class="php-quote">'page_slug'</span>     =&gt; <span
+class="php-quote">'my_page_b'</span>,    <span
+class="php-comment">// page slug</span>
+            )
+        );
+
+    }
+
+    <span
+class="php-keyword1">public</span> <span
+class="php-keyword1">function</span> content( <span
+class="php-var">$sHTML</span> ) {
+        <span
+class="php-keyword1">return</span> <span class="php-var">$sHTML</span> . <span
+class="php-quote">&quot;&lt;p&gt;Hello world!&lt;/p&gt;&quot;</span>;
+    }
+
+}
+<span
+class="php-keyword1">new</span> APFDoc_CreateNetworkAdminPages;
+</pre>
+
+<h2>Adding In-page Tabs in Network Admin Pages</h2>
+ Use the <code><a href="class-AdminPageFramework_Controller_Page.html#_addInPageTabs">AdminPageFramework_Controller_Page::addInPageTabs()</a></code> method. For
+examples, see <code><a href="class-AdminPageFramework.html">AdminPageFramework</a></code>.
+<h2>Creating Forms in Network Admin Pages</h2>
+ Use the <code><a href="class-AdminPageFramework_Factory_Controller.html#_addSettingField">AdminPageFramework_Factory_Controller::addSettingField()</a></code> to
+register fields and <code><a href="class-AdminPageFramework_Factory_Controller.html#_addSettingSections">AdminPageFramework_Factory_Controller::addSettingSections()</a></code> methods for
+sections. For examples, see <code><a href="class-AdminPageFramework.html">AdminPageFramework</a></code>.
+<h2>Retrieving Form Data of Network Admin Pages</h2>
+ Use the [get_site_option()](<a
+href="https://codex.wordpress.org/Function_Reference/get_site_option">https://codex.wordpress.org/Function_Reference/get_site_option</a>)
+by passing the option key. The option key is by default the extended class name
+unless you set your own key in the first parameter of the constructor. To
+extract values from the returned multi-dimensional array, you may want to use
+the <code>AdminPageFramework_Utility::getElement()</code> method.
+<h3>Example</h3>
+
+<pre>
+<span class="php-var">$_aData</span>         = get_site_option( <span
+class="php-quote">'APFDoc_CreateNetworkAdminPages'</span>, <span
+class="php-keyword1">array</span>() );
+<span
+class="php-var">$_oUtil</span>         = <span
+class="php-keyword1">new</span> AdminPageFramework_Utility;
+<span
+class="php-var">$_sMyFieldValue</span> = <span
+class="php-var">$_oUtil</span>-&gt;getElement(
+     <span
+class="php-var">$_aData</span>,    <span
+class="php-comment">// subject array</span>
+     <span
+class="php-keyword1">array</span>( <span
+class="php-quote">'my_section_id'</span>, <span
+class="php-quote">'my_field_id'</span> ),    <span
+class="php-comment">// dimensional path</span>
+     <span
+class="php-quote">'my default value'</span>         <span
+class="php-comment">// default value</span>
+);
+</pre>
+
+<h2>Hooks</h2>
+ The same hooks of <code><a href="class-AdminPageFramework.html">AdminPageFramework</a></code> are used.
+	</div>
+
+
+
+        
+	<div class="alert alert-info">
+		<b>Abstract</b><br />
+		
+		
+		<b>Package:</b> <a href="package-AdminPageFramework.html">AdminPageFramework</a>\<a href="package-AdminPageFramework.Factory.html">Factory</a>\<a href="package-AdminPageFramework.Factory.NetworkAdmin.html">NetworkAdmin</a><br />
+
+				<b>Since:</b>
+				3.3.0<br />
+				<b>Extends:</b>
+				AdminPageFramework<br />
+				<b>Heading:</b>
+				Network Admin Page<br />
+				<b>Image:</b>
+				<a
+href="http://admin-page-framework.michaeluno.jp/image/factory/network_admin.png">http://admin-page-framework.michaeluno.jp/image/factory/network_admin.png</a><br />
+		<b>Located at</b> document/factory/AdminPageFramework_NetworkAdmin_Documentation.php<br />
+	</div>
+
+
+
+
+
+
+
+    
+    <div class="element-relationships">
+        <h2>Related</h2>
+
+
+
+
+
+    </div><!-- .element-relationships -->
+    
+</div>
+	</div>
+
+	<div id="footer">
+        <div class="footer-left">
+            <p>If you find undocumented functionality, please report it <a href="https://github.com/michaeluno/admin-page-framework/issues" target="_blank">here</a>.</p>
+        </div>
+        <div class="footer-right">
+            <a href="http://admin-page-framework.michaeluno.jp">Admin Page Framework</a>
+        </div>
+	</div>
+</div>
+</body>
+</html>

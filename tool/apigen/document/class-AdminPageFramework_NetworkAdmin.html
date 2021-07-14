@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+	<title>Class AdminPageFramework_NetworkAdmin | Admin Page Framework Documentation</title>
+
+	<script type="text/javascript" src="resources/combined.js?475558095"></script>
+	<script type="text/javascript" src="elementlist.js?892721890"></script>
+	<link rel="stylesheet" type="text/css" media="all" href="resources/bootstrap.min.css?2514636104" />
+	<link rel="stylesheet" type="text/css" media="all" href="resources/style.css?585075909" />
+
+	<script type="text/javascript">
+		var _gaq = _gaq || [];
+		_gaq.push(['_setAccount', "UA-23639348-8"]);
+		_gaq.push(['_trackPageview']);
+
+		(function() {
+			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		})();
+	</script>
+</head>
+
+<body>
+	<div id="navigation" class="navbar navbar-fixed-top">
+		<div class="navbar-inner">
+			<div class="container">
+				<a href="index.html" class="brand">Admin Page Framework Documentation</a>
+				<div class="nav-collapse">
+                                        <div class="search">
+                    <form id="search" class="form-search">
+                        <input type="hidden" name="cx" value="" />
+                        <input type="hidden" name="ie" value="UTF-8" />
+                        <input type="text" name="q" class="search-query" placeholder="Search" />
+                    </form>           
+                    </div>
+				</div><!-- end #nav-collapse -->
+			</div><!-- end .container -->
+		</div><!-- end .navbar-inner -->
+	</div><!-- end #navigation -->
+
+	<div id="left">
+        <div id="menu">
+
+
+            <div id="groups">
+                <h3>Packages</h3>
+                <ul>
+                    <li class="active main"><a href="package-AdminPageFramework.html">AdminPageFramework<span></span></a>
+                            <ul>
+                    <li class="main"><a href="package-AdminPageFramework.Common.html">Common<span></span></a>
+                            <ul>
+                    <li class="main"><a href="package-AdminPageFramework.Common.Factory.html">Factory</a>
+                            </li>
+                    <li class="main"><a href="package-AdminPageFramework.Common.Form.html">Form<span></span></a>
+                            <ul>
+                    <li class="main"><a href="package-AdminPageFramework.Common.Form.FieldType.html">FieldType</a>
+                            </li>
+                                </ul></li>
+                    <li class="main"><a href="package-AdminPageFramework.Common.Utility.html">Utility</a>
+                            </li>
+                                </ul></li>
+                    <li class="active main"><a href="package-AdminPageFramework.Factory.html">Factory<span></span></a>
+                            <ul>
+                    <li class="main"><a href="package-AdminPageFramework.Factory.AdminPage.html">AdminPage</a>
+                            </li>
+                    <li class="main"><a href="package-AdminPageFramework.Factory.MetaBox.html">MetaBox</a>
+                            </li>
+                    <li class="active main"><a href="package-AdminPageFramework.Factory.NetworkAdmin.html">NetworkAdmin</a>
+                            </li>
+                    <li class="main"><a href="package-AdminPageFramework.Factory.PageMetaBox.html">PageMetaBox</a>
+                            </li>
+                    <li class="main"><a href="package-AdminPageFramework.Factory.PostType.html">PostType</a>
+                            </li>
+                    <li class="main"><a href="package-AdminPageFramework.Factory.TaxonomyField.html">TaxonomyField</a>
+                            </li>
+                    <li class="main"><a href="package-AdminPageFramework.Factory.TermMeta.html">TermMeta</a>
+                            </li>
+                    <li class="main"><a href="package-AdminPageFramework.Factory.UserMeta.html">UserMeta</a>
+                            </li>
+                    <li class="main"><a href="package-AdminPageFramework.Factory.Widget.html">Widget</a>
+                            </li>
+                                </ul></li>
+                    <li class="main"><a href="package-AdminPageFramework.Utility.html">Utility</a>
+                            </li>
+                                </ul></li>
+                </ul>
+            </div><!-- end #groups -->
+
+
+            <div id="elements">
+                <h3>Classes</h3>
+                <ul>
+                    <li class="active">
+                        
+                        
+                        <a href="class-AdminPageFramework_NetworkAdmin.html">
+                            AdminPageFramework_NetworkAdmin
+                        </a>
+                    </li>
+                    <li>
+                        
+                </ul>
+
+
+
+
+
+                
+                <h3>Resources</h3>                
+                <ul>
+                    <li><a href="http://admin-page-framework.michaeluno.jp/tutorials/" target="_blank">Tutorials</a></li>
+                    <li><a href="https://wordpress.org/support/plugin/admin-page-framework" target="_blank">Support</a></li>
+                    <li><a href="https://github.com/michaeluno/admin-page-framework/issues" target="_blank">Reporting Issues</a></li>
+                </ul>
+                
+            </div><!-- end #elements -->
+            
+        </div><!-- end #menu -->      
+        
+    </div><!-- end #left -->
+    
+<div id="splitter"></div>
+
+<div id="right">
+
+	<div id="rightInner">
+<div id="content" class="class">
+	<h1>Class AdminPageFramework_NetworkAdmin</h1>
+
+
+    
+	<div class="description">
+	
+<p>The factory class to be extended to creates network admin pages.</p>
+
+<p>The user defines their own class by extending this class with the
+<code>setUp()</code> method overridden to define admin pages.</p>
+
+	</div>
+
+
+
+        
+	<div class="alert alert-info">
+		<b>Abstract</b><br />
+		
+		
+		<b>Package:</b> <a href="package-AdminPageFramework.html">AdminPageFramework</a>\<a href="package-AdminPageFramework.Factory.html">Factory</a>\<a href="package-AdminPageFramework.Factory.NetworkAdmin.html">NetworkAdmin</a><br />
+
+				<b>Since:</b>
+				3.1.0<br />
+				<b>Extends:</b>
+				AdminPageFramework<br />
+				<b>Remark:</b>
+				This class stems from several abstract classes.<br />
+		<b>Located at</b> factory/network_admin_page/AdminPageFramework_NetworkAdmin.php<br />
+	</div>
+
+
+
+		<h2>Methods summary</h2>
+		<table class="summary table table-bordered table-striped" id="methods">
+		<tr data-order="__construct" id="___construct">
+
+			<td class="attributes"><code>
+				 public 
+				
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#___construct">#</a>
+			<code>__construct( <span>string <var>$sOptionKey</var> = <span class="php-keyword1">null</span></span>, <span>string <var>$sCallerPath</var> = <span class="php-keyword1">null</span></span>, <span>string <var>$sCapability</var> = <span class="php-quote">'manage_network'</span></span>, <span>string <var>$sTextDomain</var> = <span class="php-quote">'admin-page-framework'</span> </span> )</code>
+
+
+			<div class="description detailed">
+				
+<p>Registers necessary callbacks ans sets up internal components including
+properties.</p>
+
+<h4>Example</h4>
+
+<pre>
+<span class="php-keyword1">new</span> MyNetworkAdminPageClass( <span
+class="php-quote">'my_custom_option_key'</span>, __FILE__ );
+</pre>
+
+
+
+					<h4>Parameters</h4>
+					<div class="list"><dl>
+						<dt><var>$sOptionKey</var></dt>
+						<dd><code>string</code><br>$sOptionKey (optional) specifies the option key name to store in the options
+table. If this is not set, the instantiated class name will be used.</dd>
+						<dt><var>$sCallerPath</var></dt>
+						<dd><code>string</code><br>$sCallerPath (optional) used to retrieve the plugin/theme details to auto-insert
+the information into the page footer.</dd>
+						<dt><var>$sCapability</var></dt>
+						<dd><code>string</code><br>$sCapability (optional) sets the overall access level to the admin pages created
+by the framework. The used capabilities are listed <a
+href="http://codex.wordpress.org/Roles_and_Capabilities">here</a>. The
+capability can be set per page, tab, setting section, setting field. Default:
+<code>manage_options.</code></dd>
+						<dt><var>$sTextDomain</var></dt>
+						<dd><code>string</code><br>$sTextDomain (optional) the <a
+href="http://codex.wordpress.org/I18n_for_WordPress_Developers#Text_Domains"
+target="_blank">text domain</a> used for the framework's system messages.
+Default: <code>admin-page-framework</code>.</dd>
+					</dl></div>
+
+					<h4>Returns</h4>
+					<div class="list">
+						<code></code><br>returns nothing.<br />
+					</div>
+
+
+					<h4>Since</h4>
+					<div class="list">
+							3.1.0<br />
+					</div>
+					<h4>See</h4>
+					<div class="list">
+							<a
+href="http://codex.wordpress.org/Roles_and_Capabilities">http://codex.wordpress.org/Roles_and_Capabilities</a><br />
+							<a
+href="http://codex.wordpress.org/I18n_for_WordPress_Developers#Text_Domains">http://codex.wordpress.org/I18n_for_WordPress_Developers#Text_Domains</a><br />
+					</div>
+
+					<h4>Overrides</h4>
+					<div class="list"><code><a href="class-AdminPageFramework.html#___construct">AdminPageFramework::__construct</a></code></div>
+
+			</div>
+			</div></td>
+		</tr>
+		<tr data-order="getOption" id="_getOption">
+
+			<td class="attributes"><code>
+				 public static
+				mixed
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#_getOption">#</a>
+			<code>getOption( <span>string <var>$sOptionKey</var></span>, <span>string <var>$asKey</var> = <span class="php-keyword1">null</span> </span>, <span>mixed <var>$vDefault</var> = <span class="php-keyword1">null</span> </span> )</code>
+
+
+			<div class="description detailed">
+				
+<p>Retrieves the saved option value from the given option key and the
+dimensional array key representation.</p>
+
+<h4>Example</h4>
+
+<pre>
+<span
+class="php-var">$aData</span>       = AdminPageFramework::getOption( <span
+class="php-quote">'APF'</span> );
+<span
+class="php-var">$aSection</span>    = AdminPageFramework::getOption( <span
+class="php-quote">'APF'</span>, <span
+class="php-quote">'my_section'</span> );
+<span
+class="php-var">$sText</span>       = AdminPageFramework::getOption( <span
+class="php-quote">'APF'</span>, <span class="php-keyword1">array</span>( <span
+class="php-quote">'my_section'</span>, <span
+class="php-quote">'my_text_field'</span> ), <span
+class="php-quote">'foo'</span> );
+<span
+class="php-var">$sColor</span>      = AdminPageFramework::getOption( <span
+class="php-quote">'APF'</span>, <span
+class="php-quote">'my_color_field'</span>, <span
+class="php-quote">'#FFF'</span> );
+</pre>
+
+
+
+					<h4>Parameters</h4>
+					<div class="list"><dl>
+						<dt><var>$sOptionKey</var></dt>
+						<dd><code>string</code><br>$sOptionKey the option key of the options table.</dd>
+						<dt><var>$asKey</var></dt>
+						<dd><code>string</code><br>$asKey the representation of dimensional array keys. If the returning option
+structure is like the following, <code> array( 'a' =&gt; array( 'b' =&gt; array(
+'c' =&gt; 'ccc', ), ), ) </code> then the value 'ccc' can be retrieved with the
+key representation array of <code> array( 'a', 'b', 'c' ) </code></dd>
+						<dt><var>$vDefault</var></dt>
+						<dd><code>mixed</code><br>$vDefault the default value that will be returned if nothing is stored.</dd>
+					</dl></div>
+
+					<h4>Returns</h4>
+					<div class="list">
+						<code>mixed</code><br>If the field ID is not specified.<br />
+					</div>
+
+
+					<h4>Since</h4>
+					<div class="list">
+							3.1.0<br />
+					</div>
+
+					<h4>Overrides</h4>
+					<div class="list"><code><a href="class-AdminPageFramework_Controller.html#_getOption">AdminPageFramework_Controller::getOption</a></code></div>
+
+			</div>
+			</div></td>
+		</tr>
+		</table>
+
+
+		<h3>Magic methods summary</h3>
+        
+         
+
+
+
+
+
+		<h2>Properties summary</h2>
+        
+        
+        
+        
+
+    
+    <div class="element-relationships">
+        <h2>Related</h2>
+
+
+
+
+
+    </div><!-- .element-relationships -->
+    
+</div>
+	</div>
+
+	<div id="footer">
+        <div class="footer-left">
+            <p>If you find undocumented functionality, please report it <a href="https://github.com/michaeluno/admin-page-framework/issues" target="_blank">here</a>.</p>
+        </div>
+        <div class="footer-right">
+            <a href="http://admin-page-framework.michaeluno.jp">Admin Page Framework</a>
+        </div>
+	</div>
+</div>
+</body>
+</html>
