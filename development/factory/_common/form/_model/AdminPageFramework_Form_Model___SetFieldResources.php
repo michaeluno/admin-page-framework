@@ -117,7 +117,7 @@ class AdminPageFramework_Form_Model___SetFieldResources extends AdminPageFramewo
          * @return      void
          */
         private function ___set( $aAllFieldsets ) {
-            foreach( $aAllFieldsets as $_sSecitonID => $_aFieldsets ) {
+            foreach( $aAllFieldsets as $_aFieldsets ) {
                 $this->___setFieldResourcesBySection( $_aFieldsets );
             }
         }
