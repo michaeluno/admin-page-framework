@@ -81,6 +81,7 @@ abstract class AdminPageFramework_Resource_Base extends AdminPageFramework_Frame
     /**
      * A property object.
      *
+     * @var         AdminPageFramework_Property_Base
      * @remark      Set in the constructor.
      */
     public $oProp;
