@@ -46,11 +46,20 @@ abstract class AdminPageFramework_Resource_Base extends AdminPageFramework_Frame
         'handle_id'     => null,
         'dependencies'  => array(),
         'version'       => false,       // although the type should be string, the wp_enqueue_...() functions want false as the default value.
+        'attributes'    => array(),     // [3.3.0+] - the attribute array @deprecated 3.9.0
+        'conditional'   => null,        // [3.9.0+] Comments for IE 6, lte IE 7 etc. @see wp_style_add_data() and wp_script_add_data()
+
+        // script specific
         'translation'   => array(),     // only for scripts
         'in_footer'     => false,       // only for scripts
-        'media'         => 'all',       // only for styles
-        'attributes'    => array(),     // 3.3.0+ - the attribute array
 
+        // style specific
+        'media'         => 'all',       // only for styles
+        /// [3.9.0+] @see wp_style_add_data()
+        'rtl'           => null,        // bool|string To declare an RTL stylesheet.
+        'suffix'        => null,        // string      Optional suffix, used in combination with RTL.
+        'alt'           => null,        // bool        For rel="alternate stylesheet".
+        'title'         => null,        // string      For preferred/alternate stylesheets.
     );
 
     /**
@@ -503,30 +512,55 @@ abstract class AdminPageFramework_Resource_Base extends AdminPageFramework_Frame
 
         // For styles
         if ( 'style' === $aEnqueueItem[ 'sType' ] ) {
+            $this->___enqueueStyle( $_sSRC, $aEnqueueItem );
+            return;
+        }
+
+        $this->___enqueueScript( $_sSRC, $aEnqueueItem );
+
+    }
+        /**
+         * @param string $sSRC
+         * @param array $aEnqueueItem
+         * @since 3.9.0
+         */
+        private function ___enqueueScript( $sSRC, array $aEnqueueItem ) {
+            wp_enqueue_script(
+                $aEnqueueItem[ 'handle_id' ],
+                $sSRC,
+                $aEnqueueItem[ 'dependencies' ],
+                $aEnqueueItem[ 'version' ],
+                did_action( 'admin_body_class' ) || ( boolean ) $aEnqueueItem[ 'in_footer' ]
+            );
+            if ( $aEnqueueItem[ 'translation' ] ) {
+                wp_localize_script( $aEnqueueItem[ 'handle_id' ], $aEnqueueItem[ 'handle_id' ], $aEnqueueItem[ 'translation' ] );
+            }
+            if ( $aEnqueueItem[ 'conditional' ] ) {
+                wp_script_add_data( $aEnqueueItem[ 'handle_id' ], 'conditional', $aEnqueueItem[ 'conditional' ] );
+            }
+        }
+        /**
+         * @param string $sSRC
+         * @param array $aEnqueueItem
+         * @since 3.9.0
+         */
+        private function ___enqueueStyle( $sSRC, array $aEnqueueItem ) {
             wp_enqueue_style(
                 $aEnqueueItem[ 'handle_id' ],
-                $_sSRC,
+                $sSRC,
                 $aEnqueueItem[ 'dependencies' ],
                 $aEnqueueItem[ 'version' ],
                 $aEnqueueItem[ 'media' ]
             );
-            return;
+            $_aAddData = array( 'conditional', 'rtl', 'suffix', 'alt', 'title' );
+            foreach( $_aAddData as $_sDataKey ) {
+                if ( ! isset( $aEnqueueItem[ $_sDataKey ] ) ) {
+                    continue;
+                }
+                wp_style_add_data( $aEnqueueItem[ 'handle_id' ], $_sDataKey, $aEnqueueItem[ $_sDataKey ] );
+            }
         }
 
-        // For scripts
-        wp_enqueue_script(
-            $aEnqueueItem[ 'handle_id' ],
-            $_sSRC,
-            $aEnqueueItem[ 'dependencies' ],
-            $aEnqueueItem[ 'version' ],
-            did_action( 'admin_body_class' ) || ( boolean ) $aEnqueueItem[ 'in_footer' ]
-        );
-
-        if ( $aEnqueueItem[ 'translation' ] ) {
-            wp_localize_script( $aEnqueueItem[ 'handle_id' ], $aEnqueueItem[ 'handle_id' ], $aEnqueueItem[ 'translation' ] );
-        }
-
-    }
         /**
          * Formats the SRC value.
          * If a path is given and a .min file exists, it will be loaded.

@@ -154,6 +154,9 @@ class AdminPageFramework_Form_View__Resource extends AdminPageFramework_Framewor
                     $_aEnqueueItem[ 'translation' ]
                 );
             }
+            if ( $_aEnqueueItem[ 'conditional' ] ) {
+                wp_script_add_data( $_aEnqueueItem[ 'handle_id' ], 'conditional', $_aEnqueueItem[ 'conditional' ] );
+            }
 
         }
             /**
@@ -169,6 +172,7 @@ class AdminPageFramework_Form_View__Resource extends AdminPageFramework_Framewor
                     'version'       => null,
                     'in_footer'     => false,
                     'translation'   => null,
+                    'conditional'   => null,
                 );
                 if ( is_string( $asEnqueue ) ) {
                     $_aEnqueueItem[ 'src' ] = $asEnqueue;
@@ -195,6 +199,10 @@ class AdminPageFramework_Form_View__Resource extends AdminPageFramework_Framewor
         }
 
     }
+        /**
+         * @param array|string $asEnqueue
+         * @since 3.9.0
+         */
         private function ___enqueueStyle( $asEnqueue ) {
             $_aEnqueueItem = $this->___getFormattedEnqueueStyle( $asEnqueue );
             wp_enqueue_style(
@@ -204,6 +212,13 @@ class AdminPageFramework_Form_View__Resource extends AdminPageFramework_Framewor
                 $_aEnqueueItem[ 'version' ],
                 $_aEnqueueItem[ 'media' ]
             );
+            $_aAddData = array( 'conditional', 'rtl', 'suffix', 'alt', 'title' );
+            foreach( $_aAddData as $_sDataKey ) {
+                if ( ! isset( $aEnqueueItem[ $_sDataKey ] ) ) {
+                    continue;
+                }
+                wp_style_add_data( $aEnqueueItem[ 'handle_id' ], $_sDataKey, $aEnqueueItem[ $_sDataKey ] );
+            }
         }
             /**
              * @return      array
@@ -212,10 +227,11 @@ class AdminPageFramework_Form_View__Resource extends AdminPageFramework_Framewor
                 static $_iCallCount = 1;
                 $_aEnqueueItem = $this->getAsArray( $asEnqueue ) + array(
                     'handle_id'     => 'style_form_' . $this->oForm->aArguments[ 'caller_id' ] . '_' . $_iCallCount,
-                    'src'           => null,
-                    'dependencies'  => null,
-                    'version'       => null,
-                    'media'         => null,
+                    'src'           => null,    'dependencies'  => null,
+                    'version'       => null,    'media'         => null,
+                    'conditional'   => null,
+                    'rtl'           => null,    'suffix'        => null,
+                    'alt'           => null,    'title'         => null,
                 );
                 if ( is_string( $asEnqueue ) ) {
                     $_aEnqueueItem[ 'src' ] = $asEnqueue;

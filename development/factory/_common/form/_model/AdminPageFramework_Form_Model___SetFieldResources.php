@@ -86,11 +86,10 @@ class AdminPageFramework_Form_Model___SetFieldResources extends AdminPageFramewo
                 'handle_id' => 'admin-page-framework-form',
                 'src'       => AdminPageFramework_Registry::$sDirPath . '/factory/_common/form/asset/css/form.css',
             );
-            // @todo 3.9.0 Implement the ability to load resources with conditions
             $this->aResources[ 'src_styles' ][] = array(
-                'handle_id' => 'admin-page-framework-form-ie',
-                'src'       => AdminPageFramework_Registry::$sDirPath . '/factory/_common/form/asset/css/form-ie.css',
-                'condition' => 'IE',
+                'handle_id'   => 'admin-page-framework-form-ie',
+                'src'         => AdminPageFramework_Registry::$sDirPath . '/factory/_common/form/asset/css/form-ie.css',
+                'conditional' => 'IE',
             );
 
             // Version-specific styles
