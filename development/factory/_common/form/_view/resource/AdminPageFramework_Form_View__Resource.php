@@ -321,7 +321,7 @@ class AdminPageFramework_Form_View__Resource extends AdminPageFramework_Framewor
          * @string
          */
         private function ___getFormattedInternalStyles( array $aInternalStyles ) {
-            return implode( PHP_EOL, array_unique( $aInternalStyles ) );
+            return trim( implode( PHP_EOL, array_unique( $aInternalStyles ) ) );
         }
 
     /**
@@ -336,6 +336,7 @@ class AdminPageFramework_Form_View__Resource extends AdminPageFramework_Framewor
         }
 
         $_sScript = implode( PHP_EOL, array_unique( $this->oForm->getResources( 'internal_scripts' ) ) );
+        $_sScript = trim( $_sScript );
         if ( $_sScript ) {
             $_sID = $this->sanitizeSlug( strtolower( $this->oForm->aArguments[ 'caller_id' ] ) );
             echo "<script type='text/javascript' id='internal-script-{$_sID}' class='admin-page-framework-form-script'>"
