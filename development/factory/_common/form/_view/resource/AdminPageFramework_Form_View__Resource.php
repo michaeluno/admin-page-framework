@@ -21,6 +21,7 @@ class AdminPageFramework_Form_View__Resource extends AdminPageFramework_Framewor
 
     /**
      * Stores the form object to let this class access the resource array.
+     * @var AdminPageFramework_Form
      */
     public $oForm;
 
