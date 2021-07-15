@@ -561,6 +561,36 @@ abstract class AdminPageFramework_Resource_Base extends AdminPageFramework_Frame
         }
 
     /**
+     * Enqueues framework required common scripts.
+     * @since 3.9.0
+     */
+    public function _replyToEnqueueCommonScripts() {
+        if ( $this->hasBeenCalled( 'COMMON_EXTERNAL_SCRIPTS: ' . get_class( $this ) . '::' . __METHOD__ ) ) {
+            return;
+        }
+        // Currently no common JS script is needed
+        // $this->_addEnqueuingResourceByType(
+        //     AdminPageFramework_Registry::$sDirPath . '/factory/_common/asset/js/common.js',
+        //     array(
+        //         'dependencies' => array( 'jquery' ),
+        //         'in_footer' => true,
+        //     ),
+        //     'script'
+        // );
+    }
+    /**
+     * Enqueues framework required common stylesheets.
+     * @since    3.9.0
+     * @callback action wp_enqueue_scripts
+     */
+    public function _replyToEnqueueCommonStyles() {
+        if ( $this->hasBeenCalled( 'COMMON_EXTERNAL_STYLES: ' . get_class( $this ) . '::' . __METHOD__ ) ) {
+            return;
+        }
+        $this->_addEnqueuingResourceByType( AdminPageFramework_Registry::$sDirPath . '/factory/_common/asset/css/common.css', array(), 'style' );
+    }
+
+    /**
      * Takes care of added enqueuing scripts by checking the currently loading page.
      *
      * @remark      A callback for the admin_enqueue_scripts hook.
