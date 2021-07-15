@@ -687,7 +687,7 @@ abstract class AdminPageFramework_Resource_Base extends AdminPageFramework_Frame
                 'sSRCRaw'   => $_sRawSRC,
                 'sSRC'      => $_sSRC,
                 'sType'     => $sType,
-                'handle_id' => $sType . '_' . $this->oProp->sClassName . '_' .  ( ++$this->oProp->{$_sEnqueuedIndexPropertyName} ),
+                'handle_id' => $sType . '_' . strtolower( $this->oProp->sClassName ) . '_' .  ( ++$this->oProp->{$_sEnqueuedIndexPropertyName} ),
             )
             + self::$_aStructure_EnqueuingResources;
 
