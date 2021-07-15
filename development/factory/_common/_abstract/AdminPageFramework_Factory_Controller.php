@@ -67,6 +67,7 @@ abstract class AdminPageFramework_Factory_Controller extends AdminPageFramework_
     /**
      * Enqueues styles of the given sources.
      *
+     *
      * @since       3.0.4       The method itself has existed since v3.0.0 but moved to this factory class.
      * @param       array       The sources of the stylesheet to enqueue: the url, the absolute file path, or the relative path to the root directory of WordPress. Example: `array( '/css/mystyle.css', '/css/mystyle2.css' )`
      * @param       array       (optional) The another source argument array.
@@ -91,7 +92,12 @@ abstract class AdminPageFramework_Factory_Controller extends AdminPageFramework_
      *     <li>**dependencies** - (optional, array) The dependency array. For more information, see <a href="http://codex.wordpress.org/Function_Reference/wp_enqueue_style">codex</a>.</li>
      *     <li>**version** - (optional, string) The stylesheet version number.</li>
      *     <li>**media** - (optional, string) the description of the field which is inserted into the after the input field tag.</li>
-     *     <li>**attributes** - (optional, array) [3.3.0+] attributes array. `array( 'data-id' => '...' )`</li>
+     *     <li>**<s>attributes</s>** - (optional, array) [3.9.0] deprecated [3.3.0+] attributes array. `array( 'data-id' => '...' )`</li>
+     *     <li>**conditional** - (optional, string) [3.9.0+] A browser specific conditional statement with HTML comments such as `lte IE 7`, `IE` etc.</li>
+     *     <li>**rtl** - (optional, boolean|string) [3.9.0+] To declare an RTL stylesheet.</li>
+     *     <li>**suffix** - (optional, string) [3.9.0+] An optional suffix, used in combination with RTL.</li>
+     *     <li>**alt** - (optional, boolean) [3.9.0+] For rel="alternate stylesheet".</li>
+     *     <li>**title** - (optional, string) [3.9.0+] For preferred/alternate stylesheets.</li>
      * </ul>
      * @return      string      The added style handle ID. If the passed url is not a valid url string, an empty string will be returned.
      * @internal
@@ -151,7 +157,8 @@ abstract class AdminPageFramework_Factory_Controller extends AdminPageFramework_
      *     <li>**version** - (optional, string) The stylesheet version number.</li>
      *     <li>**translation** - (optional, array) The translation array. The handle ID will be used for the object name.</li>
      *     <li>**in_footer** - (optional, boolean) Whether to enqueue the script before `</head>` or before`</body>` Default: `false`.</li>
-     *     <li>**attributes** - (optional, array) [3.3.0+] attributes array. `array( 'data-id' => '...' )`</li>
+     *     <li>**<s>attributes</s>** - (optional, array) [3.9.0] deprecated [3.3.0+] attributes array. `array( 'data-id' => '...' )`</li>
+     *     <li>**conditional** - (optional, string) [3.9.0+] A browser specific conditional statement with HTML comments such as `lte IE 7`, `IE` etc.</li>
      * </ul>
      * @return      string      The script handle ID. If the passed url is not a valid url string, an empty string will be returned.
      * @internal
