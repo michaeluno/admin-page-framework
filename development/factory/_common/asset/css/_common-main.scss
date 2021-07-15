@@ -1,0 +1,30 @@
+/* Regular Heading Titles - the meta box container element affects the styles of regular main content output. So it needs to be fixed. */
+.admin-page-framework-container #poststuff .admin-page-framework-content h3 {
+    font-weight: bold;
+    font-size: 1.3em;
+    margin: 1em 0;
+    padding: 0;
+    font-family: 'Open Sans', sans-serif;
+}
+
+/* Tab Navigation Bar */
+.nav-tab.tab-disabled,
+.nav-tab.tab-disabled:hover {
+    font-weight: normal;
+    color: #AAAAAA;
+}
+
+/* In-page tabs */
+.admin-page-framework-in-page-tab .nav-tab.nav-tab-active {
+    border-bottom-width: 2px;
+}
+/* Give a space between generic admin notice containers and the in-page navigation tabs */
+.wrap .admin-page-framework-in-page-tab div.error,
+.wrap .admin-page-framework-in-page-tab div.updated {
+    margin-top: 15px;
+}
+
+/* To give the footer area more space */
+//#wpbody-content {
+//    padding-bottom: 140px;
+//}

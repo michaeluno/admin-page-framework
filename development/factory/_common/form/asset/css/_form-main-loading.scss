@@ -1,0 +1,11 @@
+.admin-page-framework-form-loading {
+    position: absolute;
+    background-image: url({$_sSpinnerURL});
+    background-repeat: no-repeat;
+    background-size: 32px 32px;
+    background-position: center;
+    display: block !important;
+    width: 92%;
+    height: 70%;
+    opacity: 0.5;
+}

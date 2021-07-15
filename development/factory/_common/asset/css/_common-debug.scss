@@ -1,0 +1,28 @@
+/* Debug containers */
+pre.dump-array {
+    border: 1px solid #ededed;
+    margin: 24px 2em;
+    margin: 1.714285714rem 2em;
+    padding: 24px;
+    padding: 1.714285714rem;
+    overflow-x: auto;
+    white-space: pre-wrap;
+    background-color: #FFF;
+    margin-bottom: 2em;
+    width: auto;
+}
+
+/* Page Load Stats */
+#admin-page-framework-page-load-stats {
+    clear: both;
+    display: inline-block;
+    width: 100%
+}
+#admin-page-framework-page-load-stats li{
+    display: inline;
+    margin-right: 1em;
+}
+/* To give the footer area more space */
+#wpbody-content {
+    padding-bottom: 140px;
+} 

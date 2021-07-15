@@ -62,7 +62,6 @@ class AdminPageFramework_Form_Model___SetFieldResources extends AdminPageFramewo
         $this->___set( $this->aFieldsets );
         return $this->aResources;
     }
-
         /**
          *
          */
@@ -74,7 +73,58 @@ class AdminPageFramework_Form_Model___SetFieldResources extends AdminPageFramewo
 
             new AdminPageFramework_Form_View___Script_RegisterCallback;
 
+            $this->___setCommonFormExternalStylesheets();
             $this->___setCommonFormInternalCSSRules();
+
+        }
+        /**
+         * Sets stylesheets for form elements.
+         * @since 3.9.0
+         */
+        private function ___setCommonFormExternalStylesheets() {
+            $this->aResources[ 'src_styles' ][] = array(
+                'handle_id' => 'admin-page-framework-form',
+                'src'       => AdminPageFramework_Registry::$sDirPath . '/factory/_common/form/asset/css/form.css',
+            );
+            // @todo 3.9.0 Implement the ability to load resources with conditions
+            $this->aResources[ 'src_styles' ][] = array(
+                'handle_id' => 'admin-page-framework-form-ie',
+                'src'       => AdminPageFramework_Registry::$sDirPath . '/factory/_common/form/asset/css/form-ie.css',
+                'condition' => 'IE',
+            );
+
+            // Version-specific styles
+
+            // WordPress 5.3 or above
+            if ( version_compare( $GLOBALS[ 'wp_version' ], '5.3', '>=' ) ) {
+                $this->aResources[ 'src_styles' ][] = array(
+                    'handle_id' => 'admin-page-framework-form-5_3-or-above',
+                    'src'       => AdminPageFramework_Registry::$sDirPath . '/factory/_common/form/asset/css/form-5_3-or-above.css',
+                );
+            }
+            // WordPress 4.7 or above
+            if ( version_compare( $GLOBALS[ 'wp_version' ], '4.7', '>=' ) ) {
+                $this->aResources[ 'src_styles' ][] = array(
+                    'handle_id' => 'admin-page-framework-form-4_7-or-above',
+                    'src'       => AdminPageFramework_Registry::$sDirPath . '/factory/_common/form/asset/css/form-4_7-or-above.css',
+                );
+            }
+
+            // WordPress below 3.8
+            if ( version_compare( $GLOBALS[ 'wp_version' ], '3.8', '<' ) ) {
+                $this->aResources[ 'src_styles' ][] = array(
+                    'handle_id' => 'admin-page-framework-form-4_8-below',
+                    'src'       => AdminPageFramework_Registry::$sDirPath . '/factory/_common/form/asset/css/form-3_8-below.css',
+                );
+            }
+
+            // WordPress 3.8 or above
+            if ( version_compare( $GLOBALS[ 'wp_version' ], '3.8', '>=' ) ) {
+                $this->aResources[ 'src_styles' ][] = array(
+                    'handle_id' => 'admin-page-framework-form-3_8-or-above',
+                    'src'       => AdminPageFramework_Registry::$sDirPath . '/factory/_common/form/asset/css/form-3_8-or-above.css',
+                );
+            }
 
         }
         /**

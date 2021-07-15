@@ -1,0 +1,4 @@
+// Fixes that the section tabs' bottom borders are not aligned
+.admin-page-framework-content ul.admin-page-framework-section-tabs > li.admin-page-framework-section-tab {
+    margin-bottom: -2px;
+}

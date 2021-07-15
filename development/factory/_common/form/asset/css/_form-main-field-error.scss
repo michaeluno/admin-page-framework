@@ -1,0 +1,15 @@
+.field-error,
+.section-error
+{
+  color: red;
+  float: left;
+  clear: both;
+  margin-bottom: 0.5em;
+}
+.repeatable-section-error,
+.repeatable-field-error {
+  float: right;
+  clear: both;
+  color: red;
+  margin-left: 1em;
+}

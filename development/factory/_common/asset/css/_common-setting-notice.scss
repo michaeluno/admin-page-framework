@@ -1,0 +1,11 @@
+/* Settings Notice */
+.wrap div.updated.admin-page-framework-settings-notice-container,
+.wrap div.error.admin-page-framework-settings-notice-container,
+.media-upload-form div.error.admin-page-framework-settings-notice-container
+{
+    clear: both;
+    margin-top: 16px;
+}
+.wrap div.error.confirmation.admin-page-framework-settings-notice-container {
+    border-color: #368ADD;
+}

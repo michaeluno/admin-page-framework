@@ -266,7 +266,7 @@ abstract class AdminPageFramework_Resource_Base extends AdminPageFramework_Frame
                     "style_common_admin_page_framework",            // 3.2.1+
                     "style_common_{$this->oProp->sClassName}",
                 ),
-                AdminPageFramework_CSS::getDefaultCSS()
+                '' // AdminPageFramework_CSS::getDefaultCSS() @deprecated 3.9.0 No longer uses internal stylesheets
             );
             $_sStyle     = $this->isDebugMode() ? $_sStyle : $this->getCSSMinified( $_sStyle );
             $_sStyle     = trim( $_sStyle );

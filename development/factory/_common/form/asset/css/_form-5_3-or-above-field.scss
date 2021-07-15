@@ -1,0 +1,43 @@
+/* dashicons */
+.admin-page-framework-field .button.button-small.dashicons:before {
+    position: relative;
+    top: -5.4px;
+}
+@media screen and (max-width: 782px) {
+    .admin-page-framework-field .button.button-small.dashicons:before {
+        top: -6.2%;
+    }
+    .admin-page-framework-field .button.button-small.dashicons {
+        min-width: 2.4em;
+    }
+}
+
+/* repeatable field button */
+.admin-page-framework-repeatable-field-buttons .repeatable-field-button.button.button-small {
+    min-width: 2.4em;
+    padding: 0;
+}
+.repeatable-field-button .dashicons {
+    position: relative;
+    top: 4.4px;
+    font-size: 16px;
+}
+@media screen and (max-width: 782px) {
+    .admin-page-framework-repeatable-field-buttons {
+        margin: 0.5em 0 0 0.28em;
+    }
+    .repeatable-field-button .dashicons {
+        position: relative;
+        top: 10px;
+        font-size: 18px;
+    }
+    .admin-page-framework-repeatable-field-buttons .repeatable-field-button.button.button-small {
+        margin-top: 0;
+        margin-bottom: 0;
+        min-width: 2.6em;
+        min-height: 2.4em;
+    }
+    .admin-page-framework-fields.sortable .admin-page-framework-repeatable-field-buttons {
+        margin: 0;
+    }
+}
