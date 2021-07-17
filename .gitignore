@@ -3,16 +3,17 @@
 /tool/beautifier/class/library/
 */PHP_Beautifier
 vendor/
+node_modules/
 
 # Documentation generated files
 documentation/
 
-# Temporary directories.
+# Temporary directories
 _del/
 _old/
 _bak/
 
-# Editor files.
+# Editor files
 .idea
 
 # Files containing sensitive information
@@ -20,7 +21,7 @@ _bak/
 *.ini
 *config.neon
 
-# backup files.
+# Backup files
 *.old
 *.bak
 *.old.*
