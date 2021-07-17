@@ -74,7 +74,6 @@ class AdminPageFramework_Form_Model___SetFieldResources extends AdminPageFramewo
             new AdminPageFramework_Form_View___Script_RegisterCallback;
 
             $this->___setCommonFormExternalStylesheets();
-            $this->___setCommonFormInternalCSSRules();
 
         }
         /**
@@ -123,32 +122,6 @@ class AdminPageFramework_Form_Model___SetFieldResources extends AdminPageFramewo
                     'handle_id' => 'admin-page-framework-form-3_8-or-above',
                     'src'       => AdminPageFramework_Registry::$sDirPath . '/factory/_common/form/asset/css/form-3_8-or-above.css',
                 );
-            }
-
-        }
-        /**
-         *
-         */
-        private function ___setCommonFormInternalCSSRules() {
-
-            $_aClassNames = array(
-                'AdminPageFramework_Form_View___CSS_Form',
-                'AdminPageFramework_Form_View___CSS_Field',
-                'AdminPageFramework_Form_View___CSS_Section',
-                'AdminPageFramework_Form_View___CSS_CollapsibleSection',
-                'AdminPageFramework_Form_View___CSS_FieldError',
-                'AdminPageFramework_Form_View___CSS_ToolTip',
-            );
-            foreach( $_aClassNames as $_sClassName ) {
-                $_oCSS = new $_sClassName;
-                $this->aResources[ 'internal_styles' ][] = $_oCSS->get();
-            }
-            $_aClassNamesForIE = array(
-                'AdminPageFramework_Form_View___CSS_CollapsibleSectionIE',
-            );
-            foreach( $_aClassNamesForIE as $_sClassName ) {
-                $_oCSS = new $_sClassName;
-                $this->aResources[ 'internal_styles_ie' ][] = $_oCSS->get();
             }
 
         }
