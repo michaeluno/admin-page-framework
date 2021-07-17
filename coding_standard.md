@@ -32,7 +32,7 @@ class MyClass {
 - '_' - local variables.
 
 ```php
-function doMyfunc( $sPrameter ) {
+function doMyfunction( $sParameter ) {
     
     $_sLocalVariable = $sParameter;
 
@@ -41,7 +41,7 @@ function doMyfunc( $sPrameter ) {
 
 ### Data Type Based Prefix
 
-When the used types are mixed place them in alphabetical order.
+When the used types are mixed, place them in the alphabetical order.
 
 - `a+` - array (often combined with the data type used inside the array)
 - `b+` - boolean
@@ -61,9 +61,9 @@ When the used types are mixed place them in alphabetical order.
 
 ```php
 $sMyString    = 'Hello World';
-$iCount        = 43;
-$aMyArray    = array();
-$asValue    = $bIsString ? 'My String' : array( 'My Array' );
+$iCount       = 43;
+$aMyArray     = array();
+$asValue      = $bIsString ? 'My String' : array( 'My Array' );
 ```    
 
 ## Array Key Naming
@@ -86,7 +86,7 @@ private $_aLibraryInfo = array(
 );
 ```
 
-Or add a prefix    of an underscore.
+Or add a prefix of an underscore.
 
 ```php
 private $_aLibraryInfo = array(
@@ -158,7 +158,7 @@ Use double underscores (`__`) for classes that undertake the task and have to re
 
 ```
 
-Use triple underscores (`___`) for sub classes that only used by the caller class but does not use the caller class object and complete the task by itself.
+Use triple underscores (`___`) for sub-classes that only used by the caller class but does not use the caller class object and complete the task by itself.
 
 ```php
 
@@ -166,7 +166,7 @@ Use triple underscores (`___`) for sub classes that only used by the caller clas
    
         public function do() {
         
-            if ( $bValue ) {
+            if ( $this->bValue ) {
                 $_oConditionX = new MyClass___ConditionX;
                 return $_oConditionX->get();
             }
