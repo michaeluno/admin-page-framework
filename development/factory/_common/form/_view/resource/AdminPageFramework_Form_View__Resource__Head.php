@@ -22,6 +22,7 @@ class AdminPageFramework_Form_View__Resource__Head extends AdminPageFramework_Fr
 
     /**
      * Stores a form object.
+     * @var AdminPageFramework_Form_Base
      */
     public $oForm;
 
@@ -45,7 +46,6 @@ class AdminPageFramework_Form_View__Resource__Head extends AdminPageFramework_Fr
     /**
      * Inserts JavaScript scripts which must be inserted head.
      * @since       3.7.0
-     * @return      string
      */
     public function _replyToInsertRequiredInternalScripts() {
 
