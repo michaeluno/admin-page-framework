@@ -156,7 +156,6 @@ class AdminPageFramework_Form_View___Sectionsets extends AdminPageFramework_Form
         return $this->_getSpinnerOutput( $_sOutput )
             .   "<div id='{$_sElementID}' class='admin-page-framework-sctionsets admin-page-framework-form-js-on'>"
                 . $_sOutput
-                . AdminPageFramework_Form_View___Script_SectionTab::getEnabler()
                 . $_oDebugInfo->get()
             . "</div>"
             ;

@@ -240,7 +240,6 @@ $aClassFiles = array(
     "AdminPageFramework_Form_View___Script_CollapsibleSection"=> AdminPageFramework_Registry::$sDirPath . "/factory/_common/form/_view/script/AdminPageFramework_Form_View___Script_CollapsibleSection.php",
     "AdminPageFramework_Form_View___Script_MediaUploader"=> AdminPageFramework_Registry::$sDirPath . "/factory/_common/form/_view/script/AdminPageFramework_Form_View___Script_MediaUploader.php", 
     "AdminPageFramework_Form_View___Script_RepeatableSection"=> AdminPageFramework_Registry::$sDirPath . "/factory/_common/form/_view/script/AdminPageFramework_Form_View___Script_RepeatableSection.php", 
-    "AdminPageFramework_Form_View___Script_SectionTab"=> AdminPageFramework_Registry::$sDirPath . "/factory/_common/form/_view/script/AdminPageFramework_Form_View___Script_SectionTab.php",
     "AdminPageFramework_Form_View___CollapsibleSectionTitle"=> AdminPageFramework_Registry::$sDirPath . "/factory/_common/form/_view/sectionset/AdminPageFramework_Form_View___CollapsibleSectionTitle.php",
     "AdminPageFramework_Form_View___FieldTitle"=> AdminPageFramework_Registry::$sDirPath . "/factory/_common/form/_view/sectionset/AdminPageFramework_Form_View___FieldTitle.php", 
     "AdminPageFramework_Form_View___FieldsetRow"=> AdminPageFramework_Registry::$sDirPath . "/factory/_common/form/_view/sectionset/AdminPageFramework_Form_View___FieldsetRow.php", 
