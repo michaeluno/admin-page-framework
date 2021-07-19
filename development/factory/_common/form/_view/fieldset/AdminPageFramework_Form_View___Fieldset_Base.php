@@ -197,7 +197,7 @@ JAVASCRIPTS;
                         . "<a " . $this->___getRemoveButtonAttributes( $sFieldsContainerID, $_sSmallButtonSelector, $iFieldCount ) . ">"
                             . "<span class='dashicons dashicons-minus'></span>"
                         . "</a>"
-                        . "<a " . $this->___getAddButtonAttribtes( $_aArguments, $sFieldsContainerID, $_sSmallButtonSelector ) . ">"
+                        . "<a " . $this->___getAddButtonAttributes( $_aArguments, $sFieldsContainerID, $_sSmallButtonSelector ) . ">"
                             . "<span class='dashicons dashicons-plus-alt2'></span>"
                         ."</a>"
                     . "</div>"
@@ -210,7 +210,7 @@ JAVASCRIPTS;
                     . "<a " . $this->___getRemoveButtonAttributes( $sFieldsContainerID, $_sSmallButtonSelector, $iFieldCount ) . ">"
                         . "-"
                     . "</a>"
-                    . "<a " . $this->___getAddButtonAttribtes( $_aArguments, $sFieldsContainerID, $_sSmallButtonSelector ) . ">"
+                    . "<a " . $this->___getAddButtonAttributes( $_aArguments, $sFieldsContainerID, $_sSmallButtonSelector ) . ">"
                         . "+"
                     ."</a>"
                 . "</div>"
@@ -226,7 +226,7 @@ JAVASCRIPTS;
              * @param       array       $aArguments
              * @return      string
              */
-            private function ___getAddButtonAttribtes( $aArguments, $sFieldsContainerID, $sSmallButtonSelector ) {
+            private function ___getAddButtonAttributes( $aArguments, $sFieldsContainerID, $sSmallButtonSelector ) {
                 $_sPlusButtonAttributes = array(
                     'class'     => 'repeatable-field-add-button button-secondary repeatable-field-button button'
                         . $sSmallButtonSelector,
