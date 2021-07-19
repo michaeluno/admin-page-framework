@@ -369,11 +369,12 @@ class AdminPageFramework_Form_View___Sectionsets extends AdminPageFramework_Form
                     }
                     // Add the sortable sections enabler script. 3.6.0+
                     if ( ! empty( $_aSection[ 'sortable' ] ) ) {
-                        $_aOutputs[ 'section_contents' ][] = AdminPageFramework_Form_View___Script_SortableSection::getEnabler(
-                            $_sSectionsID,
-                            $_aSection[ 'sortable' ],
-                            $this->oMsg
-                        );
+                        // @deprecated 3.9.0
+                        // $_aOutputs[ 'section_contents' ][] = AdminPageFramework_Form_View___Script_SortableSection::getEnabler(
+                        //     $_sSectionsID,
+                        //     $_aSection[ 'sortable' ],
+                        //     $this->oMsg
+                        // );
                         $_aOutputs[ 'section_contents' ][] = $this->_getSortableSectionFlagTag( $_aSection );
                     }
 
