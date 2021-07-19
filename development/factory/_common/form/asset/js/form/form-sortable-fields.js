@@ -1,9 +1,17 @@
 (function($) {
+
+    // Initialize
+    $( document ).ready( function() {
+        $( '.admin-page-framework-fields.sortable' ).each( function() {
+            $( this ).enableAdminPageFrameworkSortableFields();
+        } );
+    });
+
     $.fn.enableAdminPageFrameworkSortableFields = function( sFieldsContainerID ) {
 
         var _oTarget    = 'string' === typeof sFieldsContainerID
             ? $( '#' + sFieldsContainerID + '.sortable' )
-            : this;
+            : $( this );
 
         _oTarget.off( 'sortupdate' );
         _oTarget.off( 'sortstop' );

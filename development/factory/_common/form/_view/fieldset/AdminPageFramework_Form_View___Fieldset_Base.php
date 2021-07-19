@@ -282,24 +282,5 @@ JAVASCRIPTS;
                     . ' ' . $this->getDataAttributes( $aArguments );
             }
 
-    /**
-     * Returns the sortable fields script.
-     * 
-     * @since 3.0.0
-     */    
-    protected function _getSortableFieldEnablerScript( $sFieldsContainerID ) {        
-    
-        $_sScript = <<<JAVASCRIPTS
-    jQuery( document ).ready( function() {
-        jQuery( this ).enableAdminPageFrameworkSortableFields( '$sFieldsContainerID' );
-    });
-JAVASCRIPTS;
-        return "<script type='text/javascript' class='admin-page-framework-sortable-field-enabler-script'>"
-                . '/* <![CDATA[ */'
-                . $_sScript
-                . '/* ]]> */'
-            . "</script>";
-            
-    }
         
 }

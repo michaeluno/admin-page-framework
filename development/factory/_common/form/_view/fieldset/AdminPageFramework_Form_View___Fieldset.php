@@ -386,11 +386,12 @@ class AdminPageFramework_Form_View___Fieldset extends AdminPageFramework_Form_Vi
                         ? $this->_getRepeaterFieldEnablerScript( 'fields-' . $aField[ 'tag_id' ], $iFieldsCount, $aField[ 'repeatable' ] )
                         : '';
 
+                    // @deprecated 3.9.0
                     // Add the sortable script - if the number of fields is only one, no need to sort the field.
                     // Repeatable fields can make the number increase so here it checks the repeatability.
-                    $_aOutput[] = ! empty( $aField[ 'sortable' ] ) && ( $iFieldsCount > 1 || ! empty( $aField[ 'repeatable' ] ) )
-                        ? $this->_getSortableFieldEnablerScript( 'fields-' . $aField[ 'tag_id' ] )
-                        : '';
+                    // $_aOutput[] = ! empty( $aField[ 'sortable' ] ) && ( $iFieldsCount > 1 || ! empty( $aField[ 'repeatable' ] ) )
+                    //     ? $this->_getSortableFieldEnablerScript( 'fields-' . $aField[ 'tag_id' ] )
+                    //     : '';
 
                     return implode( PHP_EOL, $_aOutput );
 
