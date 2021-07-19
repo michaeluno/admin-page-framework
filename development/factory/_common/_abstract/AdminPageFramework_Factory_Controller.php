@@ -156,6 +156,7 @@ abstract class AdminPageFramework_Factory_Controller extends AdminPageFramework_
      *     <li>**dependencies** - (optional, array) The dependency array. For more information, see <a href="http://codex.wordpress.org/Function_Reference/wp_enqueue_script">codex</a>.</li>
      *     <li>**version** - (optional, string) The stylesheet version number.</li>
      *     <li>**translation** - (optional, array) The translation array. The handle ID will be used for the object name.</li>
+     *     <li>**translation_var** - (optional, array) [3.9.0] The object variable name of the translation data passed to the JavaScript script. If not given, the handle ID will be used. When the handle ID must contain a hyphen, use this argument.</li>
      *     <li>**in_footer** - (optional, boolean) Whether to enqueue the script before `</head>` or before`</body>` Default: `false`.</li>
      *     <li>**<s>attributes</s>** - (optional, array) [3.9.0] deprecated [3.3.0+] attributes array. `array( 'data-id' => '...' )`</li>
      *     <li>**conditional** - (optional, string) [3.9.0+] A browser specific conditional statement with HTML comments such as `lte IE 7`, `IE` etc.</li>

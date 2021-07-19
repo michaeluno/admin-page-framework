@@ -35,31 +35,32 @@ abstract class AdminPageFramework_Resource_Base extends AdminPageFramework_Frame
     protected static $_aStructure_EnqueuingResources = array(
 
         /* The system internal keys. */
-        'sSRC'          => null,
-        'sSRCRaw'       => null,
-        'aPostTypes'    => array(),     // for meta box class
-        'sPageSlug'     => null,
-        'sTabSlug'      => null,
-        'sType'         => null,        // script or style
+        'sSRC'              => null,
+        'sSRCRaw'           => null,
+        'aPostTypes'        => array(),     // for meta box class
+        'sPageSlug'         => null,
+        'sTabSlug'          => null,
+        'sType'             => null,        // script or style
 
         /* The below keys are for users. */
-        'handle_id'     => null,
-        'dependencies'  => array(),
-        'version'       => false,       // although the type should be string, the wp_enqueue_...() functions want false as the default value.
-        'attributes'    => array(),     // [3.3.0+] - the attribute array @deprecated 3.9.0
-        'conditional'   => null,        // [3.9.0+] Comments for IE 6, lte IE 7 etc. @see wp_style_add_data() and wp_script_add_data()
+        'handle_id'         => null,
+        'dependencies'      => array(),
+        'version'           => false,       // although the type should be string, the wp_enqueue_...() functions want false as the default value.
+        'attributes'        => array(),     // [3.3.0+] - the attribute array @deprecated 3.9.0
+        'conditional'       => null,        // [3.9.0+] Comments for IE 6, lte IE 7 etc. @see wp_style_add_data() and wp_script_add_data()
 
         // script specific
-        'translation'   => array(),     // only for scripts
-        'in_footer'     => false,       // only for scripts
+        'translation'       => array(),     // only for scripts
+        'translation_var'   => '',          // [3.9.0+] the object name of the passed translation data to JavaScript script
+        'in_footer'         => false,       // only for scripts
 
         // style specific
-        'media'         => 'all',       // only for styles
+        'media'             => 'all',       // only for styles
         /// [3.9.0+] @see wp_style_add_data()
-        'rtl'           => null,        // bool|string To declare an RTL stylesheet.
-        'suffix'        => null,        // string      Optional suffix, used in combination with RTL.
-        'alt'           => null,        // bool        For rel="alternate stylesheet".
-        'title'         => null,        // string      For preferred/alternate stylesheets.
+        'rtl'               => null,        // bool|string To declare an RTL stylesheet.
+        'suffix'            => null,        // string      Optional suffix, used in combination with RTL.
+        'alt'               => null,        // bool        For rel="alternate stylesheet".
+        'title'             => null,        // string      For preferred/alternate stylesheets.
     );
 
     /**
@@ -533,7 +534,11 @@ abstract class AdminPageFramework_Resource_Base extends AdminPageFramework_Frame
                 did_action( 'admin_body_class' ) || ( boolean ) $aEnqueueItem[ 'in_footer' ]
             );
             if ( $aEnqueueItem[ 'translation' ] ) {
-                wp_localize_script( $aEnqueueItem[ 'handle_id' ], $aEnqueueItem[ 'handle_id' ], $aEnqueueItem[ 'translation' ] );
+                wp_localize_script(
+                    $aEnqueueItem[ 'handle_id' ],
+                    empty( $aEnqueueItem[ 'translation_var' ] ) ? $aEnqueueItem[ 'handle_id' ] : $aEnqueueItem[ 'translation_var' ],
+                    $aEnqueueItem[ 'translation' ]
+                );
             }
             if ( $aEnqueueItem[ 'conditional' ] ) {
                 wp_script_add_data( $aEnqueueItem[ 'handle_id' ], 'conditional', $aEnqueueItem[ 'conditional' ] );

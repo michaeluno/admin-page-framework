@@ -150,7 +150,7 @@ class AdminPageFramework_Form_View__Resource extends AdminPageFramework_Framewor
             if ( $_aEnqueueItem[ 'translation' ] ) {
                 wp_localize_script(
                     $_aEnqueueItem[ 'handle_id' ],
-                    $_aEnqueueItem[ 'handle_id' ],
+                    empty( $_aEnqueueItem[ 'translation_var' ] ) ? $_aEnqueueItem[ 'handle_id' ] : $_aEnqueueItem[ 'translation_var' ],
                     $_aEnqueueItem[ 'translation' ]
                 );
             }
@@ -166,13 +166,14 @@ class AdminPageFramework_Form_View__Resource extends AdminPageFramework_Framewor
             private function ___getFormattedEnqueueScript( $asEnqueue ) {
                 static $_iCallCount = 1;
                 $_aEnqueueItem = $this->getAsArray( $asEnqueue ) + array(
-                    'handle_id'     => 'script_form_' . $this->oForm->aArguments[ 'caller_id' ] . '_' . $_iCallCount,
-                    'src'           => null,
-                    'dependencies'  => null,
-                    'version'       => null,
-                    'in_footer'     => false,
-                    'translation'   => null,
-                    'conditional'   => null,
+                    'handle_id'         => 'admin-page-framework-script-form-' . $this->oForm->aArguments[ 'caller_id' ] . '_' . $_iCallCount,
+                    'src'               => null,
+                    'dependencies'      => null,
+                    'version'           => null,
+                    'in_footer'         => false,
+                    'translation'       => null,
+                    'conditional'       => null,
+                    'translation_var'   => null,
                 );
                 if ( is_string( $asEnqueue ) ) {
                     $_aEnqueueItem[ 'src' ] = $asEnqueue;
@@ -226,7 +227,7 @@ class AdminPageFramework_Form_View__Resource extends AdminPageFramework_Framewor
             private function ___getFormattedEnqueueStyle( $asEnqueue ) {
                 static $_iCallCount = 1;
                 $_aEnqueueItem = $this->getAsArray( $asEnqueue ) + array(
-                    'handle_id'     => 'style_form_' . $this->oForm->aArguments[ 'caller_id' ] . '_' . $_iCallCount,
+                    'handle_id'     => 'admin-page-framework-style-form-' . $this->oForm->aArguments[ 'caller_id' ] . '_' . $_iCallCount,
                     'src'           => null,    'dependencies'  => null,
                     'version'       => null,    'media'         => null,
                     'conditional'   => null,
