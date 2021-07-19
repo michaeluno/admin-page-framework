@@ -83,10 +83,7 @@ abstract class AdminPageFramework_Form_View___Fieldset_Base extends AdminPageFra
             'hfInputName'       => null,
             'hfInputNameFlat'   => null,
             'hfClass'           => null,    // the class attribute
-        );        
-        
-        // 2. Load necessary JavaScript scripts.
-        $this->_loadScripts( $this->aFieldset[ '_structure_type' ] );
+        );
 
     }    
         /**
@@ -133,41 +130,7 @@ abstract class AdminPageFramework_Form_View___Fieldset_Base extends AdminPageFra
             return $_aDefaultKeys;
             
         }    
-    
-        /**
-         * Flags whether scripts are loaded or not.
-         * 
-         * @since   3.2.0
-         */
-        static private $_bIsLoadedJSScripts          = false;
-        static private $_bIsLoadedJSScripts_Widget   = false;
-        
-        /**
-         * Inserts necessary JavaScript scripts for fields.
-         * 
-         * @since   3.0.0
-         * @since   3.2.0   Added the `$sFieldsType` parameter.
-         * @internal
-         */
-        private function _loadScripts( $sStructureType='' ) {
 
-            if ( 'widget' === $sStructureType && ! self::$_bIsLoadedJSScripts_Widget ) {
-                new AdminPageFramework_Form_View___Script_Widget;
-                self::$_bIsLoadedJSScripts_Widget = true;
-            }
-            
-            if ( self::$_bIsLoadedJSScripts ) { 
-                return; 
-            }
-            self::$_bIsLoadedJSScripts = true;
-            
-            new AdminPageFramework_Form_View___Script_Utility;
-            new AdminPageFramework_Form_View___Script_OptionStorage;
-            new AdminPageFramework_Form_View___Script_AttributeUpdator;
-            new AdminPageFramework_Form_View___Script_RepeatableField( $this->oMsg );
-            new AdminPageFramework_Form_View___Script_SortableField;
-                        
-        }
     
     /**
      * Returns the repeatable fields script.

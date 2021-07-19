@@ -245,13 +245,14 @@ class AdminPageFramework_Form_Model extends AdminPageFramework_Form_Base {
             // return;
         // } 
         
-        // Set field resources (assets) such as javascripts and stylesheets.
+        // Set field resources (assets) such as JavaScript scripts and stylesheets.
         $_oFieldResources = new AdminPageFramework_Form_Model___SetFieldResources(
             $this->aArguments,
             $this->aFieldsets,
             self::$_aResources,
             $this->aFieldTypeDefinitions,   // must be called after performing `_setFieldTypeDefinitions()`.
-            $this->aCallbacks
+            $this->aCallbacks,
+            $this->oMsg
         );
         self::$_aResources = $_oFieldResources->get(); // updates the property
 

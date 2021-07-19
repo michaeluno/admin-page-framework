@@ -72,6 +72,12 @@ abstract class AdminPageFramework_Form_Base extends AdminPageFramework_Form_Util
     // }
 
     /**
+     * Stores the message object.
+     * @var AdminPageFramework_Message
+     */
+    public $oMsg;
+
+    /**
      * Determines whether the given ID is of a registered form section.
      *
      * Consider the possibility that the given ID may be used both for a section and a field.

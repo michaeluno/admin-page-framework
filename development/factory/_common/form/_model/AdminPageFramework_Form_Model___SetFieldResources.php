@@ -31,10 +31,16 @@ class AdminPageFramework_Form_Model___SetFieldResources extends AdminPageFramewo
     );
 
     /**
+     * Stores the message object.
+     * @var AdminPageFramework_Message
+     */
+    public $oMsg;
+
+    /**
      * Sets up hooks.
      * @since       3.7.0
      */
-    public function __construct( /* $aArguments, $aFieldsets, $aResources, $aFieldTypeDefinitions, $aCallbacks */ ) {
+    public function __construct( /* $aArguments, $aFieldsets, $aResources, $aFieldTypeDefinitions, $aCallbacks, $oMsg */ ) {
 
         $_aParameters = func_get_args() + array(
             $this->aArguments,
@@ -42,12 +48,14 @@ class AdminPageFramework_Form_Model___SetFieldResources extends AdminPageFramewo
             $this->aResources,
             $this->aFieldTypeDefinitions,
             $this->aCallbacks,
+            $this->oMsg,
         );
         $this->aArguments               = $_aParameters[ 0 ];
         $this->aFieldsets               = $_aParameters[ 1 ];
         $this->aResources               = $_aParameters[ 2 ];
         $this->aFieldTypeDefinitions    = $_aParameters[ 3 ];
         $this->aCallbacks               = $_aParameters[ 4 ] + $this->aCallbacks;
+        $this->oMsg                     = $_aParameters[ 5 ];
 
     }
 
@@ -58,73 +66,87 @@ class AdminPageFramework_Form_Model___SetFieldResources extends AdminPageFramewo
      * @return      array
      */
     public function get() {
-        $this->___setCommon();
+        $this->___setCommons();
         $this->___set( $this->aFieldsets );
         return $this->aResources;
     }
         /**
          *
          */
-        private function ___setCommon() {
+        private function ___setCommons() {
 
             if ( $this->hasBeenCalled( __METHOD__ ) ) {
                 return;
             }
-
-            new AdminPageFramework_Form_View___Script_RegisterCallback;
-
+            $this->___setCommonFormJavaScriptScripts();
             $this->___setCommonFormExternalStylesheets();
 
         }
-        /**
-         * Sets stylesheets for form elements.
-         * @since 3.9.0
-         */
-        private function ___setCommonFormExternalStylesheets() {
-            $this->aResources[ 'src_styles' ][] = array(
-                'handle_id' => 'admin-page-framework-form',
-                'src'       => AdminPageFramework_Registry::$sDirPath . '/factory/_common/form/asset/css/form.css',
-            );
-            $this->aResources[ 'src_styles' ][] = array(
-                'handle_id'   => 'admin-page-framework-form-ie',
-                'src'         => AdminPageFramework_Registry::$sDirPath . '/factory/_common/form/asset/css/form-ie.css',
-                'conditional' => 'IE',
-            );
-
-            // Version-specific styles
-
-            // WordPress 5.3 or above
-            if ( version_compare( $GLOBALS[ 'wp_version' ], '5.3', '>=' ) ) {
-                $this->aResources[ 'src_styles' ][] = array(
-                    'handle_id' => 'admin-page-framework-form-5_3-or-above',
-                    'src'       => AdminPageFramework_Registry::$sDirPath . '/factory/_common/form/asset/css/form-5_3-or-above.css',
+            private function ___setCommonFormJavaScriptScripts() {
+                $_aData = array(
+                    'messages' => array(
+                        'cannotAddMore'     => $this->oMsg->get( 'allowed_maximum_number_of_fields' ),
+                        'cannotRemoveMore'  => $this->oMsg->get( 'allowed_minimum_number_of_fields' ),
+                    ),
+                );
+                $this->aResources[ 'src_scripts' ][] = array(
+                    'handle_id'         => 'admin-page-framework-script-form-main',
+                    'src'               => AdminPageFramework_Registry::$sDirPath . '/factory/_common/form/asset/js/form.bundle.js',
+                    'dependencies'      => array( 'jquery' ),
+                    'in_footer'         => true,
+                    'translation'       => $_aData,
+                    'translation_var'   => 'AdminPageFrameworkScriptFormMain',
                 );
             }
-            // WordPress 4.7 or above
-            if ( version_compare( $GLOBALS[ 'wp_version' ], '4.7', '>=' ) ) {
+            /**
+             * Sets stylesheets for form elements.
+             * @since 3.9.0
+             */
+            private function ___setCommonFormExternalStylesheets() {
                 $this->aResources[ 'src_styles' ][] = array(
-                    'handle_id' => 'admin-page-framework-form-4_7-or-above',
-                    'src'       => AdminPageFramework_Registry::$sDirPath . '/factory/_common/form/asset/css/form-4_7-or-above.css',
+                    'handle_id' => 'admin-page-framework-form',
+                    'src'       => AdminPageFramework_Registry::$sDirPath . '/factory/_common/form/asset/css/form.css',
                 );
-            }
-
-            // WordPress below 3.8
-            if ( version_compare( $GLOBALS[ 'wp_version' ], '3.8', '<' ) ) {
                 $this->aResources[ 'src_styles' ][] = array(
-                    'handle_id' => 'admin-page-framework-form-4_8-below',
-                    'src'       => AdminPageFramework_Registry::$sDirPath . '/factory/_common/form/asset/css/form-3_8-below.css',
+                    'handle_id'   => 'admin-page-framework-form-ie',
+                    'src'         => AdminPageFramework_Registry::$sDirPath . '/factory/_common/form/asset/css/form-ie.css',
+                    'conditional' => 'IE',
                 );
-            }
 
-            // WordPress 3.8 or above
-            if ( version_compare( $GLOBALS[ 'wp_version' ], '3.8', '>=' ) ) {
-                $this->aResources[ 'src_styles' ][] = array(
-                    'handle_id' => 'admin-page-framework-form-3_8-or-above',
-                    'src'       => AdminPageFramework_Registry::$sDirPath . '/factory/_common/form/asset/css/form-3_8-or-above.css',
-                );
-            }
+                // Version-specific styles
 
-        }
+                // WordPress 5.3 or above
+                if ( version_compare( $GLOBALS[ 'wp_version' ], '5.3', '>=' ) ) {
+                    $this->aResources[ 'src_styles' ][] = array(
+                        'handle_id' => 'admin-page-framework-form-5_3-or-above',
+                        'src'       => AdminPageFramework_Registry::$sDirPath . '/factory/_common/form/asset/css/form-5_3-or-above.css',
+                    );
+                }
+                // WordPress 4.7 or above
+                if ( version_compare( $GLOBALS[ 'wp_version' ], '4.7', '>=' ) ) {
+                    $this->aResources[ 'src_styles' ][] = array(
+                        'handle_id' => 'admin-page-framework-form-4_7-or-above',
+                        'src'       => AdminPageFramework_Registry::$sDirPath . '/factory/_common/form/asset/css/form-4_7-or-above.css',
+                    );
+                }
+
+                // WordPress below 3.8
+                if ( version_compare( $GLOBALS[ 'wp_version' ], '3.8', '<' ) ) {
+                    $this->aResources[ 'src_styles' ][] = array(
+                        'handle_id' => 'admin-page-framework-form-4_8-below',
+                        'src'       => AdminPageFramework_Registry::$sDirPath . '/factory/_common/form/asset/css/form-3_8-below.css',
+                    );
+                }
+
+                // WordPress 3.8 or above
+                if ( version_compare( $GLOBALS[ 'wp_version' ], '3.8', '>=' ) ) {
+                    $this->aResources[ 'src_styles' ][] = array(
+                        'handle_id' => 'admin-page-framework-form-3_8-or-above',
+                        'src'       => AdminPageFramework_Registry::$sDirPath . '/factory/_common/form/asset/css/form-3_8-or-above.css',
+                    );
+                }
+
+            }
 
         /**
          * Registers the given fields.
