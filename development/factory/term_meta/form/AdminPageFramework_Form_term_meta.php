@@ -60,9 +60,6 @@ class AdminPageFramework_Form_term_meta extends AdminPageFramework_Form_Meta {
         // Format and update sectionset and fieldset definitions.
         $this->_formatElementDefinitions( $this->aSavedData );
 
-        // Load scripts for forms.
-        new AdminPageFramework_Form_View___Script_Form;
-
         $_oFormTables = new AdminPageFramework_Form_View___Sectionsets(
             // Arguments which determine the object behaviour
             array(
