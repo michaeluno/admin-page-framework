@@ -172,9 +172,7 @@ class AdminPageFramework_FieldType_taxonomy extends AdminPageFramework_FieldType
      * @internal
      * @return      void
      */
-    protected function setUp() {
-        new AdminPageFramework_Form_View___Script_CheckboxSelector;
-    }
+    protected function setUp() {}
 
     /**
      * Returns the field type specific JavaScript script.
