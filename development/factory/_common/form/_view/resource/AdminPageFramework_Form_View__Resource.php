@@ -135,7 +135,8 @@ class AdminPageFramework_Form_View__Resource extends AdminPageFramework_Framewor
             $_aEnqueueItem = $this->___getFormattedEnqueueScript( $asEnqueue );
 
             // Do not load the same items multiple times.
-            if ( isset( self::$_aEnqueued[ $_aEnqueueItem[ 'src' ] ] ) ) {
+            // Checking if src is not empty is because there is a case that src is empty to just use handle ID to enqueue an item
+            if ( ! empty( $_aEnqueueItem[ 'src' ] ) && isset( self::$_aEnqueued[ $_aEnqueueItem[ 'src' ] ] ) ) {
                 return;
             }
             self::$_aEnqueued[ $_aEnqueueItem[ 'src' ] ] = $_aEnqueueItem;
