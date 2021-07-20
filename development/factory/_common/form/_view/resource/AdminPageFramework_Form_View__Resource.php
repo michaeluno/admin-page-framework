@@ -116,11 +116,33 @@ class AdminPageFramework_Form_View__Resource extends AdminPageFramework_Framewor
         if ( ! $this->oForm->isInThePage() ) {
             return;
         }
+        $_aRegister = $this->oForm->getResources( 'register' );
+        foreach( $this->getElementAsArray( $_aRegister, array( 'scripts' ) ) as $_iIndex => $_aRegister ) {
+            $this->___registerScript( $_aRegister );
+        }
         foreach( $this->oForm->getResources( 'src_scripts' ) as $_isIndex => $_asEnqueue ) {
             $this->___enqueueScript( $_asEnqueue );
             $this->oForm->unsetResources( array( 'src_scripts', $_isIndex ) );  // no longer needed
         }
     }
+        /**
+         * @param array $aRegister
+         * @since 3.9.0
+        */
+        private function ___registerScript( array $aRegister ) {
+            $aRegister = $aRegister + array(
+                'handle_id'     => '',          'src'       => '',
+                'dependencies'  => array(),     'version'   => false,
+                'in_footer'     => false,
+            );
+            wp_register_script(
+                $aRegister[ 'handle_id' ],
+                $aRegister[ 'src' ],
+                $aRegister[ 'dependencies' ],
+                $aRegister[ 'version' ],
+                $aRegister[ 'in_footer' ]
+            );
+        }
         /**
          * Stores flags of enqueued items.
          * @since       3.7.0
@@ -195,12 +217,34 @@ class AdminPageFramework_Form_View__Resource extends AdminPageFramework_Framewor
         if ( ! $this->oForm->isInThePage() ) {
             return;
         }
+        $_aRegister = $this->oForm->getResources( 'register' );
+        foreach( $this->getElementAsArray( $_aRegister, array( 'styles' ) ) as $_iIndex => $_aRegister ) {
+            $this->___registerStyle( $_aRegister );
+        }
         foreach( $this->oForm->getResources( 'src_styles' ) as $_isIndex => $_asEnqueueItem ) {
             $this->___enqueueStyle( $_asEnqueueItem );
             $this->oForm->unsetResources( array( 'src_styles', $_isIndex ) ); // no longer needed
         }
 
     }
+        /**
+         * @param array $aRegister
+         * @since 3.9.0
+         */
+        private function ___registerStyle( array $aRegister ) {
+            $_aRegister = $aRegister + array(
+                'handle_id'     => null,     'src'           => null,
+                'dependencies'  => array(),  'version'       => false,
+                'media'         => 'all',
+            );
+            wp_register_style(
+                $_aRegister[ 'handle_id' ],
+                $_aRegister[ 'src' ],
+                $_aRegister[ 'dependencies' ],
+                $_aRegister[ 'version' ],
+                $_aRegister[ 'media' ]
+            );
+        }
         /**
          * @param array|string $asEnqueue
          * @since 3.9.0
