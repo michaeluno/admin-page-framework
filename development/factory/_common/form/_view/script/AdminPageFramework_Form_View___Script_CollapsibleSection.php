@@ -26,8 +26,8 @@ class AdminPageFramework_Form_View___Script_CollapsibleSection extends AdminPage
      */
     public function construct() {
 
-        wp_enqueue_script( 'juery' );
-        wp_enqueue_script( 'juery-ui-accordion' );
+        wp_enqueue_script( 'jquery' );
+        wp_enqueue_script( 'jquery-ui-accordion' );
 
     }
 
