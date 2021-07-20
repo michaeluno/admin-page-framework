@@ -45,6 +45,11 @@ abstract class AdminPageFramework_Form_Base extends AdminPageFramework_Form_Util
         'internal_scripts'   => array(),
         'src_styles'         => array(),
         'src_scripts'        => array(),
+        // [3.9.0+] Stores resources to register
+        'register'           => array(
+            'styles'         => array(),
+            'scripts'        => array(),
+        ),
     );
 
     /**

@@ -33,6 +33,11 @@ class AdminPageFramework_Form_Model___FieldTypeResource extends AdminPageFramewo
         'internal_scripts'   => array(),
         'src_styles'         => array(),
         'src_scripts'        => array(),
+        // [3.9.0+] Stores resources to register
+        'register'           => array(
+            'styles'         => array(),
+            'scripts'        => array(),
+        ),
     );
 
     /**
