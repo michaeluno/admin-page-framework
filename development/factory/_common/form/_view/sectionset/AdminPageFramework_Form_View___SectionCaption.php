@@ -84,12 +84,12 @@ class AdminPageFramework_Form_View___SectionCaption extends AdminPageFramework_F
                 return "<caption class='admin-page-framework-section-caption' style='display:none;'></caption>";
             }
 
-            $_oArgumentFormater = new AdminPageFramework_Form_Model___Format_CollapsibleSection(
+            $_oArgumentFormatter = new AdminPageFramework_Form_Model___Format_CollapsibleSection(
                 $aSectionset[ 'collapsible' ],
                 $aSectionset[ 'title' ],
                 $aSectionset
             );
-            $_abCollapsible = $_oArgumentFormater->get();
+            $_abCollapsible = $_oArgumentFormatter->get();
 
             $_oCollapsibleSectionTitle = new AdminPageFramework_Form_View___CollapsibleSectionTitle(
                 array(
