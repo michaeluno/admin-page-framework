@@ -23,9 +23,7 @@ class AdminPageFramework_Form_View___CollapsibleSectionTitle extends AdminPageFr
         'section_index'     => null,
         'collapsible'       => array(),
         'container_type'    => 'section', // section or sections
-
         'sectionset'        => array(),  // 3.7.0+ sectionset definition array
-
     );
     public $aFieldsets               = array();
     public $aSavedData              = array();
@@ -47,7 +45,7 @@ class AdminPageFramework_Form_View___CollapsibleSectionTitle extends AdminPageFr
         if ( empty( $this->aArguments[ 'collapsible' ] ) ) {
             return '';
         }
-        return $this->_getCollapsibleSectionTitleBlock(
+        return $this->___getCollapsibleSectionTitleBlock(
             $this->aArguments[ 'collapsible' ],
             $this->aArguments[ 'container_type' ],
             $this->aArguments[ 'section_index' ]
@@ -61,7 +59,7 @@ class AdminPageFramework_Form_View___CollapsibleSectionTitle extends AdminPageFr
          * @param       array|boolean   $aCollapsible       The collapsible argument.
          * @param       string          $sContainer          The position context. Accepts either 'sections' or 'section'. If the set position in the argument array does not match this value, the method will return an empty string.
          */
-        private function _getCollapsibleSectionTitleBlock( array $aCollapsible, $sContainer='sections', $iSectionIndex=null ) {
+        private function ___getCollapsibleSectionTitleBlock( array $aCollapsible, $sContainer='sections', $iSectionIndex=null ) {
 
             if ( $sContainer !== $aCollapsible[ 'container' ] ) {
                 return '';
@@ -124,13 +122,11 @@ class AdminPageFramework_Form_View___CollapsibleSectionTitle extends AdminPageFr
      * @since   3.6.0       Moved from `AdminPageFramework_FormPart_Table`.
      */
     protected function _getCollapsibleSectionsEnablerScript() {
-
         if ( self::$_bLoaded ) {
             return;
         }
         self::$_bLoaded = true;
         new AdminPageFramework_Form_View___Script_CollapsibleSection( $this->oMsg );
-
     }
 
 }
