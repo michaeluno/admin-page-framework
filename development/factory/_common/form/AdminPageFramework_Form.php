@@ -168,6 +168,13 @@ class AdminPageFramework_Form extends AdminPageFramework_Form_Controller {
         'field_errors'              => null,
 
         /**
+         * Returns the form object.
+         * `array( $this, 'replyToGetSelf' )` will be assigned in the constructor.
+         * @since  3.9.0
+         */
+        'get_form_object'           => null,
+
+        /**
          * Field elements
          */
         'hfID'                              => null, // the input id attribute
@@ -259,7 +266,11 @@ class AdminPageFramework_Form extends AdminPageFramework_Form_Controller {
             $this->oMsg,
         );
         $this->aArguments     = $this->___getArgumentsFormatted( $_aParameters[ 0 ] );
-        $this->aCallbacks     = $this->getAsArray( $_aParameters[ 1 ] ) + $this->aCallbacks;
+        $this->aCallbacks     = $this->getAsArray( $_aParameters[ 1 ] )
+            + array(
+                'get_form_object' => array( $this, 'replyToGetSelf' ),
+            )
+            + $this->aCallbacks;
         $this->oMsg           = $_aParameters[ 2 ] ? $_aParameters[ 2 ] : new $this->aSubClasses[ 'message' ];
 
         // Sub-class objects

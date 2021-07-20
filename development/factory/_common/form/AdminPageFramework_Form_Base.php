@@ -166,4 +166,15 @@ abstract class AdminPageFramework_Form_Base extends AdminPageFramework_Form_Util
         return $this->getObjectInfo( $this );
     }
 
+    /**
+     * Returns the form object.
+     * This method is for a callback and return the form object. This will be used by delegation classes which need to access the form object
+     * such as a collapsible section handle class that needs to enqueue resource using the form public method.
+     * @since 3.9.0
+     * @return AdminPageFramework_Form_Base
+     */
+    public function replyToGetSelf() {
+        return $this;
+    }
+
 }
