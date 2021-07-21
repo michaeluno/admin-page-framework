@@ -137,7 +137,7 @@ class AdminPageFramework_Form_View__Resource extends AdminPageFramework_Framewor
             );
             wp_register_script(
                 $aRegister[ 'handle_id' ],
-                $aRegister[ 'src' ],
+                $this->___getSRCFormatted( $aRegister ),
                 $aRegister[ 'dependencies' ],
                 $aRegister[ 'version' ],
                 $aRegister[ 'in_footer' ]
@@ -239,7 +239,7 @@ class AdminPageFramework_Form_View__Resource extends AdminPageFramework_Framewor
             );
             wp_register_style(
                 $_aRegister[ 'handle_id' ],
-                $_aRegister[ 'src' ],
+                $this->___getSRCFormatted( $_aRegister ),
                 $_aRegister[ 'dependencies' ],
                 $_aRegister[ 'version' ],
                 $_aRegister[ 'media' ]
