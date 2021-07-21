@@ -129,69 +129,37 @@ abstract class AdminPageFramework_Form_View___Fieldset_Base extends AdminPageFra
             
             return $_aDefaultKeys;
             
-        }    
-
-    
-    /**
-     * Returns the repeatable fields script.
-     * 
-     * @since 2.1.3
-     */
-    protected function _getRepeaterFieldEnablerScript( $sFieldsContainerID, $iFieldCount, $aSettings ) {
-        
-        $_sSmallButtons         = '"' . $this->___getRepeatableButtonHTML( $sFieldsContainerID, ( array ) $aSettings, $iFieldCount, true ) . '"';
-        $_sNestedFieldsButtons  = '"' . $this->___getRepeatableButtonHTML( $sFieldsContainerID, ( array ) $aSettings, $iFieldCount, false ) . '"';
-        $_aJSArray              = json_encode( $aSettings );
-        $_sScript               = <<<JAVASCRIPTS
-jQuery( document ).ready( function() {
-    var _oButtonPlaceHolders = jQuery( '#{$sFieldsContainerID} > .admin-page-framework-field.without-child-fields .repeatable-field-buttons' );
-    /* If the button place-holder is set in the field type definition, replace it with the created output */
-    if ( _oButtonPlaceHolders.length > 0 ) {
-        _oButtonPlaceHolders.replaceWith( $_sSmallButtons );
-    } 
-    /* Otherwise, insert the button element at the beginning of the field tag */
-    else { 
-        /**
-         * Adds the buttons
-         * Check whether the button container already exists for WordPress 3.5.1 or below.
-         * @todo 3.8.0 Examine the below conditional line whether the behavior does not break for nested fields.
-         */
-        if ( ! jQuery( '#{$sFieldsContainerID} .admin-page-framework-repeatable-field-buttons' ).length ) { 
-            jQuery( '#{$sFieldsContainerID} > .admin-page-framework-field.without-nested-fields' ).prepend( $_sSmallButtons );
         }
-        /**
-         * Support for nested fields.
-         * For nested fields, add the buttons to the fields tag.
-         */
-        jQuery( '#{$sFieldsContainerID} > .admin-page-framework-field.with-nested-fields' ).prepend( $_sNestedFieldsButtons );
-        
-        /**
-         * Support for inline mixed fields.
-         */
-        // jQuery( '#{$sFieldsContainerID} > .admin-page-framework-field.with-mixed-fields' ).prepend( $_sNestedFieldsButtons );
-        
-    }     
-    jQuery( '#{$sFieldsContainerID}' ).updateAdminPageFrameworkRepeatableFields( $_aJSArray ); // Update the fields     
-});
-JAVASCRIPTS;
-        return "<script type='text/javascript'>" 
-                . '/* <![CDATA[ */'
-                . $_sScript 
-                . '/* ]]> */'
-            . "</script>";
-        
+
+    /**
+     * @since  3.9.0
+     * @return string The repeatable field buttons output. The JavaScript script will use this.
+     */
+    protected function _getRepeatableFieldButtons( $sFieldsContainerID, $iFieldCount, $aSettings ) {
+        if ( empty( $aSettings ) ) {
+            return '';
+        }
+        $_aSettings  = $this->getAsArray( $aSettings );
+        $_oFormatter = new AdminPageFramework_Form_Model___Format_RepeatableField( $_aSettings, $this->oMsg ); // @todo Move this formatting routine to the field-set formatter class.
+        $_aSettings  = $_oFormatter->get();
+        return "<div class='hidden repeatable-field-buttons-model' " . $this->getDataAttributes( $_aSettings ) . ">"
+                . $this->___getRepeatableButtonHTML( $sFieldsContainerID, $_aSettings, $iFieldCount, false )
+            . "</div>";
     }
+
         /**
          * Creates an HTML button output for repeatable field buttons.
-         * @since       3.8.0
-         * @return      string
+         * @since   3.8.0
+         * @return  string
+         * @param   string  $sFieldsContainerID
+         * @param   array   $aArguments             It is assumed this is already formatted with `AdminPageFramework_Form_Model___Format_RepeatableField`.
+         * @param   integer $iFieldCount
+         * @param   boolean $bSmall                 @deprecated
          */
         private function ___getRepeatableButtonHTML( $sFieldsContainerID, array $aArguments, $iFieldCount, $bSmall=true ) {
 
-            // @todo Move this formatting routine to the field-set formatter class.
-            $_oFormatter             = new AdminPageFramework_Form_Model___Format_RepeatableField( $aArguments, $this->oMsg );
-            $_aArguments             = $_oFormatter->get();
-            $_sSmallButtonSelector   = $bSmall ? ' button-small' : '';
+            $_aArguments            = $aArguments;
+            $_sSmallButtonSelector  = $bSmall ? ' button-small' : '';
             if ( version_compare( $GLOBALS[ 'wp_version' ], '5.3', '>=' ) ) {
                 return "<div " . $this->___getContainerAttributes( $_aArguments ) . " >"
                         . "<a " . $this->___getRemoveButtonAttributes( $sFieldsContainerID, $_sSmallButtonSelector, $iFieldCount ) . ">"
@@ -282,5 +250,4 @@ JAVASCRIPTS;
                     . ' ' . $this->getDataAttributes( $aArguments );
             }
 
-        
 }

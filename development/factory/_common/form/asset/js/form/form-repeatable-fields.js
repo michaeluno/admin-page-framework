@@ -1,5 +1,53 @@
 (function ( $ ) {
 
+    // Initialize repeatable buttons
+    $( document ).ready( function() {
+        $( '.admin-page-framework-fields.repeatable' ).each( function() {
+            var _buttonModel = $( this ).siblings( '.repeatable-field-buttons-model' );
+            if ( ! _buttonModel.length ) {
+                return true;
+            }
+            var _aSettings           = _buttonModel.data();
+            var _buttonContainer     = _buttonModel.children( '.admin-page-framework-repeatable-field-buttons' ).first();
+            _buttonModel.remove();
+            var _buttonsNestedFields = $( _buttonContainer );
+            var _buttonsSmall        = $( _buttonContainer );
+            _buttonsSmall.find( '.repeatable-field-button' ).addClass( 'button-small' );
+
+            var _oButtonPlaceHolders = $( this ).find( '.admin-page-framework-field.without-child-fields .repeatable-field-buttons' );
+            /* If the button place-holder is set in the field type definition, replace it with the created output */
+            if ( _oButtonPlaceHolders.length > 0 ) {
+                _oButtonPlaceHolders.replaceWith( _buttonsSmall );
+            }
+            /* Otherwise, insert the button element at the beginning of the field tag */
+            else {
+                /**
+                 * Adds the buttons
+                 * Check whether the button container already exists for WordPress 3.5.1 or below.
+                 * @todo 3.8.0 Examine the below conditional line whether the behavior does not break for nested fields.
+                 */
+                if ( ! $( this ).find( '.admin-page-framework-repeatable-field-buttons' ).length ) {
+                    $( this ).find( '.admin-page-framework-field.without-nested-fields' ).prepend( _buttonsSmall );
+                }
+                /**
+                 * Support for nested fields.
+                 * For nested fields, add the buttons to the fields tag.
+                 */
+                $( this ).find( '.admin-page-framework-field.with-nested-fields' ).prepend( _buttonsNestedFields );
+
+                /**
+                 * Support for inline mixed fields.
+                 * @todo not sure why this is commented out. Remove this if it's okay.
+                 */
+                // $( this ).find( '.admin-page-framework-field.with-mixed-fields' ).prepend( _buttonsNestedFields );
+
+            }
+            $( this ).updateAdminPageFrameworkRepeatableFields( _aSettings ); // Update the fields
+
+        } );
+
+    });    
+
     /**
      * The passed data from PHP.
      * @var AdminPageFrameworkScriptFormMain
@@ -316,6 +364,7 @@
             .filter( function() {
                 return $( this ).closest( '.admin-page-framework-fields' ).attr( 'id' ) === _sFieldsContainerID;  // Avoid dealing with nested field's elements.
             });
+        var _iFadeout = 500;
         if ( sMinNumberOfFields != 0 && _oInnerFields.length <= sMinNumberOfFields ) {
             var _oRepeatableButtons     = nodeFieldContainer.find( '.admin-page-framework-repeatable-field-buttons' )
                 .filter( function() {
@@ -333,13 +382,13 @@
             } else {
                 nodeLastRepeaterButtons.before( nodeMessage );
             }
-            var _iFadeout = _aOptions ? _aOptions[ 'fadeout' ] : 500;
+            _iFadeout = _aOptions ? _aOptions[ 'fadeout' ] : 500;
             nodeMessage.delay( 2000 ).fadeOut( _iFadeout );
             return;
         }
 
         /* Remove the field */
-        var _iFadeout = _aOptions ? _aOptions[ 'fadeout' ] : 500;
+        _iFadeout = _aOptions ? _aOptions[ 'fadeout' ] : 500;
         nodeFieldContainer.fadeOut( _iFadeout, function() {
             $( this ).remove();
             var nodeRemoveButtons = nodeFieldsContainer.find( '.repeatable-field-remove-button' )

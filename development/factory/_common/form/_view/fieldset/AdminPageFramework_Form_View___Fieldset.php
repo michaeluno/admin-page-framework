@@ -314,8 +314,7 @@ class AdminPageFramework_Form_View___Fieldset extends AdminPageFramework_Form_Vi
                 // Dimensional keys of repeatable and sortable fields
                 $_aOutput[] = $this->_getDynamicElementFlagFieldInputTag( $aField );
 
-                // Repeatable and sortable scripts
-                $_aOutput[] = $this->_getFieldScripts( $aField, $iFieldsCount );
+                $_aOutput[] = $this->_getRepeatableFieldButtons( 'fields-' . $aField[ 'tag_id' ], $iFieldsCount, $aField[ 'repeatable' ] );
 
                 return implode( PHP_EOL, array_filter( $_aOutput ) );
 
@@ -370,31 +369,5 @@ class AdminPageFramework_Form_View___Fieldset extends AdminPageFramework_Form_Vi
                             )
                         );
                     }
-
-                /**
-                 * Returns the output of JavaScript scripts for the field (and its sub-fields).
-                 *
-                 * @since       3.1.0
-                 * @return      string
-                 */
-                private function _getFieldScripts( $aField, $iFieldsCount ) {
-
-                    $_aOutput   = array();
-
-                    // Add the repeater script
-                    $_aOutput[] = ! empty( $aField[ 'repeatable' ] )
-                        ? $this->_getRepeaterFieldEnablerScript( 'fields-' . $aField[ 'tag_id' ], $iFieldsCount, $aField[ 'repeatable' ] )
-                        : '';
-
-                    // @deprecated 3.9.0
-                    // Add the sortable script - if the number of fields is only one, no need to sort the field.
-                    // Repeatable fields can make the number increase so here it checks the repeatability.
-                    // $_aOutput[] = ! empty( $aField[ 'sortable' ] ) && ( $iFieldsCount > 1 || ! empty( $aField[ 'repeatable' ] ) )
-                    //     ? $this->_getSortableFieldEnablerScript( 'fields-' . $aField[ 'tag_id' ] )
-                    //     : '';
-
-                    return implode( PHP_EOL, $_aOutput );
-
-                }
 
 }
