@@ -1,4 +1,4 @@
-/*! Admin Page Framework - Form Collapsible Sections 1.0.0 */
+/*! Admin Page Framework - Form Collapsible Sections 1.0.1 */
 ( function( $ ) {
 
     $( document ).ready( function() {
@@ -76,8 +76,8 @@
                 _oButton.on( 'click', function(){
 
                     var _oButtons = _bForSections
-                        ? $( this ).closest( '.admin-page-framework-sectionset' ).siblings().andSelf().find( '> .admin-page-framework-collapsible-toggle-all-button-container' )
-                        : $( this ).siblings( '.admin-page-framework-collapsible-toggle-all-button-container' ).andSelf();
+                        ? $( this ).closest( '.admin-page-framework-sectionset' ).siblings().addBack().find( '> .admin-page-framework-collapsible-toggle-all-button-container' )
+                        : $( this ).siblings( '.admin-page-framework-collapsible-toggle-all-button-container' ).addBack();
                     _oButtons.toggleClass( 'flipped' );
                     if ( _bForSections ) {
                         _oButton.parent().parent().children().children( '* > .admin-page-framework-collapsible-title' ).each( function() {
