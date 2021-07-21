@@ -515,12 +515,13 @@ JAVASCRIPTS;
                 );
         }
         /**
-         * @param   $aArguments
+         * @param   array  $aArguments
+         * @param   AdminPageFramework_Message $oMsg
          * @return  string
          * @since   3.8.13
          */
         static private function ___getContainerAttributes( array $aArguments, $oMsg ) {
-            $_aAttriubtes = array(
+            $_aAttributes = array(
                 'class' => self::getClassAttribute(
                     'admin-page-framework-repeatable-section-buttons',
                     empty( $aArguments[ 'disabled' ] ) ? '' : 'disabled'
@@ -531,7 +532,7 @@ JAVASCRIPTS;
             if ( empty( $aArguments[ 'disabled' ] ) ) {
                 unset( $aArguments[ 'disabled' ] );
             }
-            return self::getAttributes( $_aAttriubtes ) . ' ' . self::getDataAttributes( $aArguments );
+            return self::getAttributes( $_aAttributes ) . ' ' . self::getDataAttributes( $aArguments );
         }
         /**
          * @return  string
@@ -552,7 +553,7 @@ JAVASCRIPTS;
         }
 
         /**
-         * @since       3.8.13
+         * @since  3.8.13
          * @return string
          */
         static private function ___getAddButtonAttributes( $sContainerTagID, $oMsg, $aArguments ) {
