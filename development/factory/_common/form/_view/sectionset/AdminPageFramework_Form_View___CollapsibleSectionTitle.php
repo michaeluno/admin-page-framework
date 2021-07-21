@@ -45,12 +45,22 @@ class AdminPageFramework_Form_View___CollapsibleSectionTitle extends AdminPageFr
         if ( empty( $this->aArguments[ 'collapsible' ] ) ) {
             return '';
         }
+        $this->___enqueueScript();
         return $this->___getCollapsibleSectionTitleBlock(
             $this->aArguments[ 'collapsible' ],
             $this->aArguments[ 'container_type' ],
             $this->aArguments[ 'section_index' ]
         );
     }
+        private function ___enqueueScript() {
+            /**
+             * @var AdminPageFramework_Form $_oForm
+             */
+            $_oForm = $this->callBack( $this->aCallbacks[ 'get_form_object' ], array() );
+            $_oForm->addResource( 'src_scripts', array(
+                'handle_id' => 'admin-page-framework-script-form-collapsible-sections',
+            ) );
+        }
         /**
          * Returns the output of a title block of the given collapsible section.
          *
@@ -77,8 +87,7 @@ class AdminPageFramework_Form_View___CollapsibleSectionTitle extends AdminPageFr
             $_aSectionset        = $this->aArguments[ 'sectionset' ];
             $_sSectionTitleTagID = str_replace( '|', '_', $_aSectionset[ '_section_path' ]  ) . '_' . $iSectionIndex;
 
-            return $this->_getCollapsibleSectionsEnablerScript()
-                . "<div " . $this->getAttributes(
+            return "<div " . $this->getAttributes(
                     array(
                         'id'    => $_sSectionTitleTagID,
                         'class' => $this->getClassAttribute(
@@ -108,25 +117,5 @@ class AdminPageFramework_Form_View___CollapsibleSectionTitle extends AdminPageFr
                     . "</div>";
 
         }
-
-    /**
-     * Indicates whether the collapsible script is loaded or not.
-     *
-     * @since   3.4.0
-     * @since   3.6.0       Moved from `AdminPageFramework_FormPart_Table`.
-     */
-    static private $_bLoaded = false;
-    /**
-     * Returns the enabler script of collapsible sections.
-     * @since   3.4.0
-     * @since   3.6.0       Moved from `AdminPageFramework_FormPart_Table`.
-     */
-    protected function _getCollapsibleSectionsEnablerScript() {
-        if ( self::$_bLoaded ) {
-            return;
-        }
-        self::$_bLoaded = true;
-        new AdminPageFramework_Form_View___Script_CollapsibleSection( $this->oMsg );
-    }
 
 }

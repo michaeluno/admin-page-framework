@@ -89,9 +89,12 @@ class AdminPageFramework_Form_Model___SetFieldResources extends AdminPageFramewo
         }
             private function ___setCommonFormJavaScriptScripts() {
                 $_aData = array(
-                    'messages' => array(
-                        'cannotAddMore'     => $this->oMsg->get( 'allowed_maximum_number_of_fields' ),
-                        'cannotRemoveMore'  => $this->oMsg->get( 'allowed_minimum_number_of_fields' ),
+                    'wpVersion' => $GLOBALS[ 'wp_version' ],
+                    'messages'  => array(
+                        'cannotAddMore'                 => $this->oMsg->get( 'allowed_maximum_number_of_fields' ),
+                        'cannotRemoveMore'              => $this->oMsg->get( 'allowed_minimum_number_of_fields' ),
+                        'toggleAll'                     => $this->oMsg->get( 'toggle_all' ),
+                        'toggleAllCollapsibleSections'  => $this->oMsg->get( 'toggle_all_collapsible_sections' ),
                     ),
                 );
                 $this->aResources[ 'src_scripts' ][] = array(
@@ -99,8 +102,16 @@ class AdminPageFramework_Form_Model___SetFieldResources extends AdminPageFramewo
                     'src'               => AdminPageFramework_Registry::$sDirPath . '/factory/_common/form/asset/js/form.bundle.js',
                     'dependencies'      => array( 'jquery' ),
                     'in_footer'         => true,
+                    'version'           => AdminPageFramework_Registry::VERSION,
                     'translation'       => $_aData,
                     'translation_var'   => 'AdminPageFrameworkScriptFormMain',
+                );
+                $this->aResources[ 'register' ][ 'scripts' ][] = array(
+                    'handle_id'         => 'admin-page-framework-script-form-collapsible-sections',
+                    'src'               => AdminPageFramework_Registry::$sDirPath . '/factory/_common/form/asset/js/form-collapsible-sections.bundle.js',
+                    'dependencies'      => array( 'jquery', 'jquery-ui-accordion', 'admin-page-framework-script-form-main' ),
+                    'in_footer'         => true,
+                    'version'           => AdminPageFramework_Registry::VERSION,
                 );
             }
             /**
