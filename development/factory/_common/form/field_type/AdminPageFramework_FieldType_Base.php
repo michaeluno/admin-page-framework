@@ -336,10 +336,10 @@ abstract class AdminPageFramework_FieldType_Base extends AdminPageFramework_Form
         wp_enqueue_script( 'jquery' );     
         wp_enqueue_script( 'thickbox' );
         wp_enqueue_style( 'thickbox' );
-    
-        if ( function_exists( 'wp_enqueue_media' ) ) {     
-            // If the WordPress version is 3.5 or above,
-            new AdminPageFramework_Form_View___Script_MediaUploader( $this->oMsg );
+
+        // If the WordPress version is 3.5 or above,
+        if ( function_exists( 'wp_enqueue_media' ) ) {
+            add_action( is_admin() ? 'admin_footer' : 'wp_footer', array( $this, 'replyToEnqueueScriptsForMediaUpload' ), 1 );
         } else {
             wp_enqueue_script( 'media-upload' );    
         }
@@ -349,6 +349,17 @@ abstract class AdminPageFramework_FieldType_Base extends AdminPageFramework_Form
         }
         
     }
+        /**
+         * Enqueues scripts for media upload.
+         * These must be done after the `admin-page-framework-script-form-media-uploader` script is registered.
+         * The `enqueueMediaUploader()` method maybe called earlier than that, so do it in the footer action hook.
+         * @since    3.9.0
+         * @callback action wp_footer|admin_footer
+         */
+        public function replyToEnqueueScriptsForMediaUpload() {
+            wp_enqueue_media();
+            wp_enqueue_script( 'admin-page-framework-script-form-media-uploader' );
+        }
 
         /**
          * Replaces the label text of a button used in the media uploader.

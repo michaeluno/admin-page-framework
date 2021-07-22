@@ -1,87 +1,12 @@
-<?php
-/**
- * Admin Page Framework
- *
- * http://admin-page-framework.michaeluno.jp/
- * Copyright (c) 2013-2021, Michael Uno; Licensed MIT
- *
- */
-
-/**
- * Provides JavaScript scripts to handle widget events.
- *
- * @since       3.2.0
- * @package     AdminPageFramework/Common/Form/View/JavaScript
- * @internal
- */
-class AdminPageFramework_Form_View___Script_MediaUploader extends AdminPageFramework_Form_View___Script_Base {
-
-    /**
-     * The user constructor.
-     *
-     * @since       3.3.1
-     * @since       3.5.0       Made the scope `protected` from `public` to be consistent with other classes.
-     * @since       3.7.0      Changed the scoper from `protected`.
-     * @return      void
-     */
-    public function construct() {
-
-        if ( ! function_exists( 'wp_enqueue_media' ) ) {
-            return;
-        }
-        wp_enqueue_script( 'jquery' );
-
-        // wp_enqueue_media() should not be called right away as the WordPress built-in featured image image-uploader gets affected.
-        add_action(
-            is_admin()
-                ? 'admin_footer'
-                : 'wp_footer',
-            array( $this, '_replyToEnqueueMedia' ),
-            1
-        );
-
-    }
-        /**
-         * Calls the wp_enqueue_media() function to avoid breaking featured image functionality.
-         *
-         * @since       3.3.2.1
-         * @callback    action      admin_footer
-         * @return      void
-         */
-        public function _replyToEnqueueMedia() {
-            wp_enqueue_media();
-        }
-
-    /**
-     * Return the script.
-     * @since       3.3.1
-     * @param       $oMsg       object      The message object.
-     * @return      string      The inline JavaScript script.
-     */
-    static public function getScript( /* $oMsg */ ) {
-
-        $_aParams   = func_get_args() + array( null );
-        $_oMsg      = $_aParams[ 0 ];
-
-        // means the WordPress version is 3.4.x or below
-        if ( ! function_exists( 'wp_enqueue_media' ) ) {
-            return "";
-        }
-
-        // Labels
-        $_sReturnToLibrary  = esc_js( $_oMsg->get( 'return_to_library' ) );
-        $_sSelect           = esc_js( $_oMsg->get( 'select' ) );
-        $_sInsert           = esc_js( $_oMsg->get( 'insert' ) );
-
-        /**
-         * Returns the custom uploader frame object.
-         *
-         * @since   3.3.1
-         */
-        return <<<JAVASCRIPTS
 (function ( $ ) {
-            
+
+    /**
+     * @var AdminPageFrameworkScriptFormMediaUploader
+     */
+    var translation = AdminPageFrameworkScriptFormMediaUploader;
+
     getAdminPageFrameworkCustomMediaUploaderSelectObject = function() {
+
         return wp.media.view.MediaFrame.Select.extend({
 
             initialize: function() {
@@ -130,7 +55,7 @@ class AdminPageFramework_Form_View___Script_MediaUploader extends AdminPageFrame
                     new wp.media.controller.Embed( options ),
                 ]);
 
-                if ( wp.media.view.settings.post.featuredImageId ) {     
+                if ( wp.media.view.settings.post.featuredImageId ) {
                     this.states.add( new wp.media.controller.FeaturedImage() );
                 }
             },
@@ -142,7 +67,7 @@ class AdminPageFramework_Form_View___Script_MediaUploader extends AdminPageFrame
                 this.on( 'content:create:browse', this.browseContent, this );
                 this.on( 'content:render:upload', this.uploadContent, this );
                 this.on( 'toolbar:create:select', this.createSelectToolbar, this );
-                
+
 
                 this.on( 'menu:create:gallery', this.createMenu, this );
                 this.on( 'toolbar:create:main-insert', this.createToolbar, this );
@@ -211,7 +136,7 @@ class AdminPageFramework_Form_View___Script_MediaUploader extends AdminPageFrame
                 }).render();
 
                 view.toolbar.set( 'backToLibrary', {
-                    text:     '{$_sReturnToLibrary}',
+                    text:     translation.messages.returnToLibrary,
                     priority: -100,
 
                     click: function() {
@@ -223,7 +148,7 @@ class AdminPageFramework_Form_View___Script_MediaUploader extends AdminPageFrame
                 this.content.set( view );
             },
 
-            // Toolbars             
+            // Toolbars
             selectionStatusToolbar: function( view ) {
                 var editable = this.state().get('editable');
 
@@ -248,7 +173,7 @@ class AdminPageFramework_Form_View___Script_MediaUploader extends AdminPageFrame
                 view.set( 'insert', {
                     style:    'primary',
                     priority: 80,
-                    text:     '{$_sSelect}',
+                    text:     translation.messages.select,
                     requires: { selection: true },
 
                     click: function() {
@@ -267,30 +192,25 @@ class AdminPageFramework_Form_View___Script_MediaUploader extends AdminPageFrame
                     state: this.options.state || 'upload'
                 });
             },
-           
+
             mainEmbedToolbar: function( toolbar ) {
-                
+
                 /**
-                 * 3.4.2+ When the vertical menu is switched to the Insert from URL pane, if the library has a value, 
+                 * 3.4.2+ When the vertical menu is switched to the Insert from URL pane, if the library has a value,
                  * it causes an error saying 'undefined is not a funciton' with the line calling library.on(...).
                  * So here we need to unset the 'library' element.
                  */
-                var state = this.state();    
+                var state = this.state();
                 state.set( 'library', false );
 
                 toolbar.view = new wp.media.view.Toolbar.Embed({
                     controller: this,
-                    text: '{$_sInsert}'
+                    text: translation.messages.insert
                 });
-   
-            }        
-            
-        });
-    }            
-    
-}( jQuery ));
-JAVASCRIPTS;
 
+            }
+
+        });
     }
 
-}
+}( jQuery ));

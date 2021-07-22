@@ -130,18 +130,28 @@ class AdminPageFramework_Form_View__Resource extends AdminPageFramework_Framewor
          * @since 3.9.0
         */
         private function ___registerScript( array $aRegister ) {
+
             $aRegister = $aRegister + array(
                 'handle_id'     => '',          'src'       => '',
                 'dependencies'  => array(),     'version'   => false,
                 'in_footer'     => false,
+                'translation'   => array(),     'translation_var'   => '',
             );
-            wp_register_script(
+            $_bRegistered = wp_register_script(
                 $aRegister[ 'handle_id' ],
                 $this->___getSRCFormatted( $aRegister ),
                 $aRegister[ 'dependencies' ],
                 $aRegister[ 'version' ],
                 $aRegister[ 'in_footer' ]
             );
+            if ( $_bRegistered && ! empty( $aRegister[ 'translation' ] ) ) {
+                wp_localize_script(
+                    $aRegister[ 'handle_id' ],
+                    $aRegister[ 'translation_var' ] ? $aRegister[ 'translation_var' ] : $aRegister[ 'translation_var' ],
+                    $this->getAsArray( $aRegister[ 'translation' ] )
+                );
+            }
+
         }
         /**
          * Stores flags of enqueued items.

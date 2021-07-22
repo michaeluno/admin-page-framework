@@ -115,6 +115,24 @@ class AdminPageFramework_Form_Model___SetFieldResources extends AdminPageFramewo
                     'in_footer'         => true,
                     'version'           => AdminPageFramework_Registry::VERSION,
                 );
+                if ( function_exists( 'wp_enqueue_media' ) ) {
+                    $this->aResources[ 'register' ][ 'scripts' ][] = array(
+                        'handle_id'         => 'admin-page-framework-script-form-media-uploader',
+                        'src'               => AdminPageFramework_Registry::$sDirPath . '/factory/_common/form/asset/js/form-media-uploader.bundle.js',
+                        'dependencies'      => array( 'jquery', 'admin-page-framework-script-form-main' ),
+                        'in_footer'         => false,
+                        'version'           => AdminPageFramework_Registry::VERSION,
+                        'translation_var'   => 'AdminPageFrameworkScriptFormMediaUploader',
+                        'translation'       => array(
+                            'messages' => array(
+                                'returnToLibrary' => $this->oMsg->get( 'return_to_library' ),
+                                'select'          => $this->oMsg->get( 'select' ),
+                                'insert'          => $this->oMsg->get( 'insert' ),
+                            ),
+                        ),
+                    );
+                }
+
             }
             /**
              * Sets stylesheets for form elements.

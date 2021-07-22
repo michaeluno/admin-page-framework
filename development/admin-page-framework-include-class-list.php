@@ -237,7 +237,6 @@ $aClassFiles = array(
     "AdminPageFramework_Form_View__Resource"=> AdminPageFramework_Registry::$sDirPath . "/factory/_common/form/_view/resource/AdminPageFramework_Form_View__Resource.php", 
     "AdminPageFramework_Form_View__Resource__Head"=> AdminPageFramework_Registry::$sDirPath . "/factory/_common/form/_view/resource/AdminPageFramework_Form_View__Resource__Head.php", 
     "AdminPageFramework_Form_View___Script_Base"=> AdminPageFramework_Registry::$sDirPath . "/factory/_common/form/_view/script/AdminPageFramework_Form_View___Script_Base.php", 
-    "AdminPageFramework_Form_View___Script_MediaUploader"=> AdminPageFramework_Registry::$sDirPath . "/factory/_common/form/_view/script/AdminPageFramework_Form_View___Script_MediaUploader.php", 
     "AdminPageFramework_Form_View___CollapsibleSectionTitle"=> AdminPageFramework_Registry::$sDirPath . "/factory/_common/form/_view/sectionset/AdminPageFramework_Form_View___CollapsibleSectionTitle.php",
     "AdminPageFramework_Form_View___FieldTitle"=> AdminPageFramework_Registry::$sDirPath . "/factory/_common/form/_view/sectionset/AdminPageFramework_Form_View___FieldTitle.php", 
     "AdminPageFramework_Form_View___FieldsetRow"=> AdminPageFramework_Registry::$sDirPath . "/factory/_common/form/_view/sectionset/AdminPageFramework_Form_View___FieldsetRow.php", 
