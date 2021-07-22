@@ -95,6 +95,8 @@ class AdminPageFramework_Form_Model___SetFieldResources extends AdminPageFramewo
                         'cannotRemoveMore'              => $this->oMsg->get( 'allowed_minimum_number_of_fields' ),
                         'toggleAll'                     => $this->oMsg->get( 'toggle_all' ),
                         'toggleAllCollapsibleSections'  => $this->oMsg->get( 'toggle_all_collapsible_sections' ),
+                        'cannotAddMoreSections'         => $this->oMsg->get( 'allowed_maximum_number_of_sections' ),
+                        'cannotRemoveMoreSections'      => $this->oMsg->get( 'allowed_minimum_number_of_sections' ),
                     ),
                 );
                 $this->aResources[ 'src_scripts' ][] = array(

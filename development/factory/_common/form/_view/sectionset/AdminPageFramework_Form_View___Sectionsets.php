@@ -360,7 +360,7 @@ class AdminPageFramework_Form_View___Sectionsets extends AdminPageFramework_Form
 
                     // Add the repeatable sections enabler script.
                     if ( ! empty( $_aSection[ 'repeatable' ] ) ) {
-                        $_aOutputs[ 'section_contents' ][] = AdminPageFramework_Form_View___Script_RepeatableSection::getEnabler(
+                        $_aOutputs[ 'section_contents' ][] = AdminPageFramework_Form_View___SectionRepeatableButtons::get(
                             $_sSectionsID,
                             $_aOutputs[ 'count_subsections' ],
                             $_aSection[ 'repeatable' ],

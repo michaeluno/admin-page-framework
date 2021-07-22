@@ -74,12 +74,18 @@ class AdminPageFramework_Form_View___Attribute_SectionsTablesContainer extends A
 
                 ),
                 $this->getAOrB(
+                    empty( $this->aSectionset[ 'repeatable' ] ),
+                    null,
+                    'repeatable-section'
+                ),
+                $this->getAOrB(
                     empty( $this->aSectionset[ 'sortable' ] ),
                     null,
                     'sortable-section'
                 )
             ),
             // 3.4.3+ to help find the sections container for custom scripts that groups sections.
+            // @todo fix typo
             'data-seciton_id'   => $this->aSectionset[ 'section_id' ],
 
             // 3.6.0+ - dimensional section address without the option key, used by the 'save' argument and when sorting dynamic elements.
