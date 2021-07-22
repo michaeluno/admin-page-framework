@@ -17,7 +17,7 @@ module.exports = class GulpTaskJSConcat {
     // Concatenate JS files
     src( GulpTaskJSConcat.src )
       .pipe( flatmap(function( stream, dir ) {
-        let _basename = path.basename( dir.path );
+        let _basename = path.basename( dir.path, '.bundle' ); // remove the .bundle suffix
         return src( [ dir.path + '/*.js', '!' + dir.path + '/*.bundle.js', '!' + dir.path + '/*.min.js' ] )
           .pipe( using() )
           .pipe( cache( 'js-concat' ) )
@@ -28,7 +28,7 @@ module.exports = class GulpTaskJSConcat {
     // Concatenate min JS files
     src( GulpTaskJSConcat.src )
       .pipe( flatmap(function( stream, dir ) {
-        let _basename = path.basename( dir.path );
+        let _basename = path.basename( dir.path, '.bundle' ); // remove the .bundle suffix
         return src( [ dir.path + '/*.min.js', '!' + dir.path + '/*.bundle.min.js' ] )
           .pipe( cache( 'js-concat-min' ) )
           .pipe( using() )

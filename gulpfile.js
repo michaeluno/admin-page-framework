@@ -11,7 +11,7 @@ tasks[ 'js-minify' ].src    = [ './development/**/*.js', '!./development/**/*.mi
 exports[ 'js-minify' ]      = tasks[ 'js-minify' ].callback;
 
 // grunt js-concat
-tasks[ 'js-concat' ].src    = [ './development/{*,}/', './development/**/{*,}/' ];
+tasks[ 'js-concat' ].src    = [ './development/{*,}.bundle/', './development/**/{*,}.bundle/' ];
 exports[ 'js-concat' ]      = tasks[ 'js-concat' ].callback;
 
 // grunt watch
