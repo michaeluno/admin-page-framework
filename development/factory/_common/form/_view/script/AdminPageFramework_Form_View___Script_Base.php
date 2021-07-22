@@ -15,5 +15,6 @@
  * @package     AdminPageFramework/Common/Form/View/JavaScript
  * @internal
  * @extends     AdminPageFramework_Factory___Script_Base
+ * @deprecated  3.9.0 Use the enqueue method.
  */
 class AdminPageFramework_Form_View___Script_Base extends AdminPageFramework_Factory___Script_Base {}

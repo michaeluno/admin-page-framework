@@ -16,6 +16,7 @@
  * @package     AdminPageFramework/Common/Factory/JavaScript
  * @internal
  * @extends     AdminPageFramework_FrameworkUtility
+ * @deprecated  3.9.0      Use the enqueue method.
  */
 abstract class AdminPageFramework_Factory___Script_Base extends AdminPageFramework_FrameworkUtility {
 
