@@ -187,7 +187,7 @@ abstract class AdminPageFramework_FieldType extends AdminPageFramework_FieldType
      * @callback    fieldtype   hfDoOnRegistration
      */
     public function _replyToDoOnFieldRegistration( $aField ) {
-        return $this->doOnFieldRegistration( $aField );
+        $this->doOnFieldRegistration( $aField );
     }
 
     protected function _replyToGetEnqueuingScripts() { return $this->getEnqueuingScripts(); }   // should return an array holding the urls of enqueuing items
