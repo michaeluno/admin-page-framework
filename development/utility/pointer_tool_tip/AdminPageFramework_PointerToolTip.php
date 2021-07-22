@@ -69,7 +69,7 @@ class AdminPageFramework_PointerToolTip extends AdminPageFramework_FrameworkUtil
      *
      * @since       3.7.0
      * @see         https://codex.wordpress.org/Plugin_API/Admin_Screen_Reference
-     * @param       array|strin     $asScreenIDs        Screen IDs or page slug.
+     * @param       array|string    $asScreenIDs        Screen IDs or page slug.
      * @param       string          $sPointerID         A unique pointer ID.
      * @param       array           $aPointerData       The pointer data.
      * <h4>Arguments</h4>
