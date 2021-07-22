@@ -8,13 +8,12 @@ const uglify = require( 'gulp-uglify' );
 const path   = require( 'path' );
 const flatmap = require( 'gulp-flatmap' );
 
-module.exports = class GulpTaskJSConcat {
+module.exports = class GulpTaskJSConcatMin {
   static src = '';
   static callback( cb ) {
 
     let _processing = false;
-    src( GulpTaskJSConcat.src )
-      // @see https://stackoverflow.com/a/50655862
+    src( GulpTaskJSConcatMin.src )
       .pipe( flatmap( ( stream, file ) => {
         if ( _processing ) {
           return stream;
@@ -22,10 +21,15 @@ module.exports = class GulpTaskJSConcat {
         _processing = true;
         let _pathDir  = path.dirname( file.path );
         let _baseName = path.basename( _pathDir, '.bundle' );
-        return src( [ _pathDir + '/*.js', '!' + _pathDir + '/*.min.js', '!' + _pathDir + '/*.bundle.js' ] )
+        return src( [ _pathDir + '/*.min.js', '!' + _pathDir + '/*.bundle.js' ] )
           .pipe( using() )
-          .pipe( cache( 'js-concat' ) )
-          .pipe( concat( _baseName + '.bundle.js' ) )
+          .pipe( cache( 'js-concat-min' ) )
+          .pipe( concat( _baseName + '.bundle.min.js' ) )
+          .pipe( uglify({
+              output: {
+                  comments: /^!/
+              }
+          }))
           .pipe( dest( path.dirname( _pathDir ) ) );
       }));
 
