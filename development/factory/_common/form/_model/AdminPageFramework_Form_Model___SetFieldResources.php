@@ -110,7 +110,7 @@ class AdminPageFramework_Form_Model___SetFieldResources extends AdminPageFramewo
                 );
                 $this->aResources[ 'register' ][ 'scripts' ][] = array(
                     'handle_id'         => 'admin-page-framework-script-form-collapsible-sections',
-                    'src'               => AdminPageFramework_Registry::$sDirPath . '/factory/_common/form/asset/js/form-collapsible-sections.bundle.js',
+                    'src'               => AdminPageFramework_Registry::$sDirPath . '/factory/_common/form/asset/js/form-collapsible-sections.js',
                     'dependencies'      => array( 'jquery', 'jquery-ui-accordion', 'admin-page-framework-script-form-main' ),
                     'in_footer'         => true,
                     'version'           => AdminPageFramework_Registry::VERSION,
@@ -118,7 +118,7 @@ class AdminPageFramework_Form_Model___SetFieldResources extends AdminPageFramewo
                 if ( function_exists( 'wp_enqueue_media' ) ) {
                     $this->aResources[ 'register' ][ 'scripts' ][] = array(
                         'handle_id'         => 'admin-page-framework-script-form-media-uploader',
-                        'src'               => AdminPageFramework_Registry::$sDirPath . '/factory/_common/form/asset/js/form-media-uploader.bundle.js',
+                        'src'               => AdminPageFramework_Registry::$sDirPath . '/factory/_common/form/asset/js/form-media-uploader.js',
                         'dependencies'      => array( 'jquery', 'admin-page-framework-script-form-main' ),
                         'in_footer'         => false,
                         'version'           => AdminPageFramework_Registry::VERSION,
