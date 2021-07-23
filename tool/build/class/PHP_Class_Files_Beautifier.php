@@ -189,10 +189,10 @@ class PHP_Class_Files_Beautifier extends PHP_Class_Files_Script_Generator_Base {
 
         // Retrieve file contents.
 
-        // Minifiy Inline CSS Rules
+        // Minify Inline CSS Rules
         $_aFiles = $this->_getInlineCSSMinified( $_aFiles, $aOptions );
 
-        // Minifiy Inline JavaScript Scripts
+        // Minify Inline JavaScript Scripts
         // Currently not used.
         // $_aFiles = $this->_getInlineJavaScriptMinified( $_aFiles, $aOptions );
 
