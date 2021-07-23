@@ -1,5 +1,8 @@
 ## Change Log
 
+### 1.3.1 - 2021/07/23
+- Fixed a bug of an undefined variable 
+
 ### 1.3.0 - 2019/02/17
 - Added the library path option wchich allows the location to download.
 - Fixed PHP Warning:  count(): Parameter must be an array or an object that implements Countable in ...Beautifier.php on line 1513

@@ -13,7 +13,7 @@ if ( ! class_exists( 'PHP_Class_Files_Script_Generator_Base' ) ) {
 /**
  * Copies files in a specified directory into a set destination directory and applies beautification.
  *
- * @version    1.2.0
+ * @version    1.3.1
  */
 class PHP_Class_Files_Beautifier extends PHP_Class_Files_Script_Generator_Base {
 
@@ -604,7 +604,7 @@ class PHP_Class_Files_Beautifier extends PHP_Class_Files_Script_Generator_Base {
      */
     private function ___includeDependencies( array $aOptions ) {
         foreach( $aOptions[ 'libraries' ] as $_sName => $_aLibrary  ) {
-            if ( ! $this->___hasRequirements( $_aLibrary[ 'pre_requirements' ] ) ) {
+            if ( ! $this->___hasRequirements( $_aLibrary[ 'pre_requirements' ], $aOptions ) ) {
                 continue;
             }
             if ( ! $this->___includeDependency( $_sName, $_aLibrary, $aOptions ) ) {
@@ -670,7 +670,7 @@ class PHP_Class_Files_Beautifier extends PHP_Class_Files_Script_Generator_Base {
          * @since   1.3.0
          * @return  boolean
          */
-        private function ___hasRequirements( $aRequirement ) {
+        private function ___hasRequirements( $aRequirement, $aOptions ) {
             foreach( $aRequirement[ 'functions' ] as $_sFunction ) {
                 if ( ! function_exists( $_sFunction ) ) {
                     $this->output(
