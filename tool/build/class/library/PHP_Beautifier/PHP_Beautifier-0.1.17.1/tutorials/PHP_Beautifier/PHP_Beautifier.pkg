@@ -1,0 +1,127 @@
+<refentry id="{@id}">
+  <refnamediv>
+    <refname>Introduction to PHP_Beautifier</refname>
+    <refpurpose>PHP_Beautifier: A tool to beautify PHP 4 and PHP 5 source code. Written in PHP 5.</refpurpose>
+  </refnamediv>
+  <refsynopsisdiv>
+    <refsynopsisdivinfo>
+      <author>
+        <firstname>Claudio</firstname>
+        <surname>Bustos</surname>
+        <email>cdx@users.sourceforge.com</email>
+      </author>
+      <author>
+        <firstname>Jens</firstname>
+        <surname>Bierkandt</surname>
+        <email>scortch@users.sourceforge.com</email>
+      </author>
+    </refsynopsisdivinfo>
+    <synopsis></synopsis>
+  </refsynopsisdiv>
+{@toc}
+ <refsect1 id="{@id intro}">
+  <title>What is PHP_Beautifier?</title>
+    <para>PHP_Beautifier is a Open Source PHP aplication, distributed under the terms of PHP Licence 3.0. This program tries to reformat and beautify PHP 4 and PHP 5 code automatically. </para>
+    <refsect2 id="{@id history}">
+      <title>Who needs it?</title>
+      <itemizedlist>
+        <listitem>
+          <para>developers who get PHP code from other coders and are slightly confused </para>
+        </listitem>
+        <listitem>
+          <para>developers who can't read their own PHP code anymore </para>
+        </listitem>
+        <listitem>
+          <para>developers who want to share their PHP code </para>
+        </listitem>
+      </itemizedlist>
+    </refsect2>
+    <refsect2 id="{@id history}">
+      <title>Little history background</title>
+      <para>The first version of the program, PhpBeautify, was developed on Php 4 by Jens Bierkandt. In 2003 reached the 'stable' state and is the recomended version for the Php 4 users. This version works almost flawlessy, but was difficult to enhance, and have some problem with strange structures, like pascal-like control instructions and 'switch' structures</para>
+      <para>With the stabilization of tokenizer and incoming of PHP 5, the need of a new version of the program arise. So, the code for the new version was developed from scratch by Claudio Bustos in 2004, based on the Php Tokenizer and the use of a Plug-in architecture.</para>
+    </refsect2>
+    <refsect2 id="{@id where}">
+		<title>Where I can get PHP_Beautifier?</title>
+	<para>PHP_Beautifier resources are distributed on two sites: </para>
+	<itemizedlist>
+	<listitem>
+	<para>{@link http://pear.php.net/package/PHP_Beautifier PEAR}: Download, Change Log and bug report</para></listitem>
+	<listitem>
+	<para>{@link http://sourceforge.net/projects/beautifyphp Sourceforge}: News, Control Version (SVN) and Forum 
+	</para></listitem>
+	</itemizedlist>
+	</refsect2>
+	
+  </refsect1>
+  <refsect1 id="{@id features}">
+    <title>Features of PHP_Beautifier</title>
+
+    <itemizedlist>
+      <title>Basic features</title>
+        <listitem>
+        <para>Version independent: Needs PHP5 to work, but can handle PHP 4 and PHP 5 scripts. Should beautify PHP 3, too (if anyone test it, please send a report)</para>
+      </listitem>
+
+	  <listitem>
+        <para>Plataform-independent: Should work on all the plataforms that supports PHP 5. Tested on Windows 98,2000,XP and Linux Gentoo 1.4.6 </para>
+      </listitem>
+      <listitem>
+        <para>Automatic indentation of PHP source code according to given number of spaces </para>
+      </listitem>
+      <listitem>
+        <para>Automatic newlines, if required </para>
+      </listitem>
+      <listitem>
+        <para>You can use the web frontend, command line or, if you prefer, could use the class directly</para>
+      </listitem>
+
+    </itemizedlist>
+
+    <itemizedlist>
+      <title>New features</title>
+      <listitem>
+        <para>Plug-in architecture, by the use of Filters. The control of beautify proccess is delegated on the Filters.</para>
+      </listitem>
+      <listitem>
+        <para>The code to beautify can make callbacks to the base class and the filters. So, you can set the options for the beautify inside the same file. See {@tutorial PHP_Beautifier.callbacks.pkg}</para>
+      </listitem>
+      <listitem>
+        <para>Batch processing. You can beautify multiple files inside directories (recursively, if you want to) and save they in another directory.</para>
+      </listitem>
+    </itemizedlist>
+
+    <itemizedlist>
+      <title>Bugs from PhpBeautify fixed in PHP_Beautifier</title>
+      <listitem>
+        <para>Parse only Php Code. All other tokens (HTML,Comments) are bypassed to the output</para>
+      </listitem>
+      <listitem>
+        <para>HEREDOC parsed without any indentation</para>
+      </listitem>
+      <listitem>
+        <para>Use of braces for indexing a string (ex. $this->myString{1}) doesn't produce strange indentation</para>
+      </listitem>
+      <listitem>
+        <para>Switch statements are indented as spected</para>
+      </listitem>
+    </itemizedlist>
+  </refsect1>
+  <refsect1 id="{@id php4}">
+  <title>Works with PHP 4 scripts? Will be a PHP 4 version?</title>
+  <para>This package needs PHP 5 to run, but can handle any PHP file, including PHP 4 and PHP 5 scripts.</para>
+  <para>In the near future, no. The use of exceptions, overloading &amp; tokenizer  - both experimental on PHP 4 - and passing by reference by default for objects could be simulated, but I prefer to focus my effort on PHP 5. But this only affect the installation of the package; you can beautify script written for PHP 4 and PHP 5, without any problem.</para>
+  </refsect1>
+  <refsect1 id="{@id security}">
+  <title>Is secure to use?</title>
+  <para>The source code of the package beautify itself without any problem. I work with an application with more than 40.000 lines of PHP 4 source code and I did't have any broken file since 0.0.6 version.</para>
+  <para>The package have a test suite to verify all the important functions. Any bug have a test to verify the fix.</para>
+  <para>So, IMHO, you can use this application with confidence. Anyway, you always should make regular backups of your files and use some control version system, like CVS or Subversion.</para>
+  </refsect1>
+  <refsect1 id="{@id short_tags}">
+  <title>Why the beautify doesn't do anything with my code?</title>
+  <para>This package uses native PHP Tokenizer, so needs valid php code, inside php tags. The most frequent problem is the use of short tags, with php.ini 'short_open_tag' set to Off.</para>
+  </refsect1>
+  
+</refentry>
+

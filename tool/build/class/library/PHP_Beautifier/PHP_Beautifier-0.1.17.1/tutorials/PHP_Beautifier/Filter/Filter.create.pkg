@@ -1,0 +1,99 @@
+<refentry id="{@id}" status="draft">
+<refnamediv>
+  <refname>Create Filters</refname>
+  <refpurpose>Facts and strategies to create new Filters</refpurpose>
+ </refnamediv>
+<refsynopsisdiv>
+<refsynopsisdivinfo>
+ <author>
+  <firstname>Claudio</firstname>
+    <surname>Bustos</surname>
+   <email>cdx@users.sourceforge.com</email>
+  </author>
+  <author>
+  <firstname>Jens</firstname>
+    <surname>Bierkandt</surname>
+   <email>scortch@users.sourceforge.com</email>
+  </author>
+  </refsynopsisdivinfo>
+  <synopsis></synopsis>
+</refsynopsisdiv>
+
+{@toc}
+ <refsect1 id="{@id general}">
+<title>General</title>
+<para>Define the name of your filter. PHP_Beautifier try to include the file and the class automatically, so don't use chars that aren't allowed for filenames or class names. Use the direction included in {@tutorial PHP_Beautifier/Filter/Filter.pkg#use.general}</para>
+<para>The class have to extends {@link PHP_Beautifier_Filter} or a subclass. Please, don't use {@link PHP_Beautifier_Filter_Default} as your superclass, because this class handle all the tokens and all the others Filters in the stacks will be omitted. BTW, don't overload handleToken and __call, unless you know what you're doing!</para>
+<para>All the Filters have as property a reference to the object PHP_Beautifier in {@link PHP_Beautifier_Filter::$oBeaut}</para>
+</refsect1>
+ <refsect1 id="{@id tokenizer}">
+<title>Tokenizer sequence</title>
+<para>The process starts in {@link PHP_Beautifier::process()}. The script (in {@link PHP_Beautifier::$text}) is tokenized. Every token is sended to {@link PHP_Beautifier::controlToken()}, then to the method {@link PHP_Beautifier_Filter::handleToken()} for each Filter until one returns true and, last, to {@link PHP_Beautifier::controlTokenPost()}. Last, the method {@link PHP_Beautifier_Filter::postProcess()} is called for every Filter</para>
+<para>Now, the question is, what are the rules for {@link PHP_Beautifier_Filter::handleToken()}? </para>
+      <itemizedlist>
+     <listitem><para>Look on {@link PHP_Beautifier_Filter::$aFilterTokenFunctions} a key equal to the constant of the token; the method to call is the value of that key. </para></listitem>
+	 <listitem><para>If can't find a key on the Filter, look on {@link PHP_Beautifier::$aTokenFunctions} a key equal to the constant of the token; the method to call is the value of that key.</para></listitem>
+	 <listitem><para>Call the method with one argument (the content of the token). If the filter returns {@link PHP_Beautifier_Filter::BYPASS}, the function return false. Else, returns true.</para></listitem>
+	</itemizedlist>
+<para>So, if you want to define your own handlers, create your methods and overload the array {@link PHP_Beautifier_Filter::$aFilterTokenFunctions} with the references. </para>
+<para>For example, if you want to define a handler to create a commentary before a switch statement, you first have to create the public or protected method t_switch (try use the same name of the constant)</para>
+<programlisting role="php">
+<![CDATA[
+public function method t_switch($sText) 
+{
+	$this->oBeaut->add ('/* this is a switch control structure */'.$sText);
+}
+]]>
+</programlisting>
+<para>And create the reference in the array {@link PHP_Beautifier_Filter::$aFilterTokenFunctions}</para>
+<programlisting role="php">
+<![CDATA[
+protected $aFilterTokenFunctions=array('t_switch'=>'t_switch');
+]]>
+</programlisting>
+
+<para>Now, imagine that you need only count how many switch the script contains. You don't need to alter the output, so the best is bypass the control of the token to the next filter. Your method look like this</para>
+<programlisting role="php">
+<![CDATA[
+public function method t_switch($sText) 
+{
+	$this->iNumberOfSwitchs++;
+	return PHP_Beautifier_Filter::BYPASS;
+}
+]]>
+</programlisting>
+
+</refsect1>
+<refsect1 id="{@id methods}">
+<title>Methods of PHP_Beautifier to use by the Filters</title>
+<para>You should use the reference to PHP_Beautifier stored in {@link PHP_Beautifier_Filter::$oBeaut}. So, your code look like</para>
+<programlisting role="php">
+<![CDATA[
+$this->oBeaut->add('something');
+$this->oBeaut->addNewLine();
+$this->oBeaut->addIndent();
+]]>
+</programlisting>
+<para>By default, your method must be responsible of the new line and the indent of the next line, if is pertinent.</para>
+      <itemizedlist>
+	  <title>Add and remove elements</title>
+     <listitem><para>{@link PHP_Beautifier::add()}</para></listitem>
+     <listitem><para>{@link PHP_Beautifier::addNewLine()}</para></listitem>
+     <listitem><para>{@link PHP_Beautifier::addIndent()}</para></listitem>
+     <listitem><para>{@link PHP_Beautifier::removeWhitespace()}</para></listitem>
+     <listitem><para>{@link PHP_Beautifier::pop()}</para></listitem>
+	  </itemizedlist>
+	  <itemizedlist>
+	  <title>Retrieve Information from Next and Previous Tokens</title>
+	 <listitem><para>{@link PHP_Beautifier::getPreviousTokenConstant()}</para></listitem>
+	 <listitem><para>{@link PHP_Beautifier::getPreviousTokenContent()}</para></listitem>
+	 <listitem><para>{@link PHP_Beautifier::getNextTokenConstant()}</para></listitem>
+	 <listitem><para>{@link PHP_Beautifier::getNextTokenContent()}</para></listitem>
+	  </itemizedlist>
+	  <itemizedlist>
+	  <title>Retrieve Information from PHP_Beautifier</title>
+	 <listitem><para>{@link PHP_Beautifier::getSetting()}</para></listitem>
+     <listitem><para>{@link PHP_Beautifier::getMode()}: currently 'function', 'for', 'string_index' and 'include'</para></listitem>
+	  </itemizedlist>
+</refsect1>
+</refentry>

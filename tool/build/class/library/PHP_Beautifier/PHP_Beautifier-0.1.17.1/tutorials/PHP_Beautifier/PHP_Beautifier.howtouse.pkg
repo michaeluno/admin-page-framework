@@ -1,0 +1,36 @@
+<refentry id="{@id}">
+  <refnamediv>
+    <refname>How to use PHP_Beautifier</refname>
+    <refpurpose>Instructions and examples of use</refpurpose>
+  </refnamediv>
+  <refsynopsisdiv>
+    <refsynopsisdivinfo>
+      <author>
+        <firstname>Claudio</firstname>
+        <surname>Bustos</surname>
+        <email>cdx@users.sourceforge.com</email>
+      </author>
+      <author>
+        <firstname>Jens</firstname>
+        <surname>Bierkandt</surname>
+        <email>scortch@users.sourceforge.com</email>
+      </author>
+    </refsynopsisdivinfo>
+    <synopsis></synopsis>
+  </refsynopsisdiv>
+ <refsect1 id="{@id introduction}">
+  <title>Introduction</title>
+    <para>You can use PHP_Beautifier in many ways:</para>
+    <itemizedlist>
+      <listitem>
+        <para>Inside a script, using a instance of the class {@link PHP_Beautifier} or a subclass of {@link PHP_Beautifier_Decorator}, like {@link PHP_Beautifier_Batch}. See {@tutorial PHP_Beautifier/PHP_Beautifier.howtouse.script.pkg}</para>
+      </listitem>
+      <listitem>
+        <para>As a command line tool. By default, the installer puts the script in the path of executables, so you can call it directly using 'php_beautifier'. See {@tutorial PHP_Beautifier/PHP_Beautifier.howtouse.commandline.pkg}</para>
+      </listitem>
+      <listitem>
+        <para>TODO: Webfront to beautifier</para>
+      </listitem>
+    </itemizedlist>
+  </refsect1>
+</refentry>

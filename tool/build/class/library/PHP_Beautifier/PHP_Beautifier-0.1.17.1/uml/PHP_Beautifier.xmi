@@ -1,0 +1,699 @@
+<?xml version = '1.0' encoding = 'UTF-8' ?>
+<XMI xmi.version = '1.2' xmlns:UML = 'org.omg.xmi.namespace.UML' timestamp = 'Sun Jun 13 12:05:45 VET 2004'>
+  <XMI.header>
+    <XMI.documentation>
+      <XMI.exporter>Netbeans XMI Writer</XMI.exporter>
+      <XMI.exporterVersion>1.0</XMI.exporterVersion>
+    </XMI.documentation>
+  </XMI.header>
+  <XMI.content>
+    <UML:Model xmi.id = 'sm$1c3dfe:fd1a5181f3:-7fe4' name = 'PHP_Beautifier'
+      isSpecification = 'false' isRoot = 'false' isLeaf = 'false' isAbstract = 'false'>
+      <UML:Namespace.ownedElement>
+        <UML:Stereotype xmi.id = 'sm$1c3dfe:fd1a5181f3:-7fe3' name = 'Singleton'
+          visibility = 'public' isSpecification = 'false' isRoot = 'false' isLeaf = 'false'
+          isAbstract = 'false'>
+          <UML:Stereotype.baseClass>Class</UML:Stereotype.baseClass>
+        </UML:Stereotype>
+        <UML:Package xmi.id = 'sm$1c3dfe:fd1a5181f3:-7e5f' name = 'java' isSpecification = 'false'
+          isRoot = 'false' isLeaf = 'false' isAbstract = 'false'>
+          <UML:Namespace.ownedElement>
+            <UML:Package xmi.id = 'sm$1c3dfe:fd1a5181f3:-7e5e' name = 'lang' isSpecification = 'false'
+              isRoot = 'false' isLeaf = 'false' isAbstract = 'false'>
+              <UML:Namespace.ownedElement>
+                <UML:DataType xmi.id = 'sm$1c3dfe:fd1a5181f3:-7e5d' name = 'int' isSpecification = 'false'
+                  isRoot = 'false' isLeaf = 'false' isAbstract = 'false'/>
+                <UML:DataType xmi.id = 'sm$1c3dfe:fd1a5181f3:-7e5c' name = 'void' isSpecification = 'false'
+                  isRoot = 'false' isLeaf = 'false' isAbstract = 'false'/>
+                <UML:Class xmi.id = 'sm$1c3dfe:fd1a5181f3:-7e5b' name = 'String[]' isSpecification = 'false'
+                  isRoot = 'false' isLeaf = 'false' isAbstract = 'false' isActive = 'false'/>
+                <UML:Class xmi.id = 'sm$1c3dfe:fd1a5181f3:-7f31' name = 'String' isSpecification = 'false'
+                  isRoot = 'false' isLeaf = 'false' isAbstract = 'false' isActive = 'false'/>
+                <UML:Class xmi.id = 'sm$1c3dfe:fd1a5181f3:-7ee1' name = 'Boolean' isSpecification = 'false'
+                  isRoot = 'false' isLeaf = 'false' isAbstract = 'false' isActive = 'false'/>
+              </UML:Namespace.ownedElement>
+            </UML:Package>
+            <UML:Package xmi.id = 'sm$1c3dfe:fd1a5181f3:-7e5a' name = 'util' isSpecification = 'false'
+              isRoot = 'false' isLeaf = 'false' isAbstract = 'false'>
+              <UML:Namespace.ownedElement>
+                <UML:Class xmi.id = 'sm$1c3dfe:fd1a5181f3:-7f1b' name = 'Hashtable' isSpecification = 'false'
+                  isRoot = 'false' isLeaf = 'false' isAbstract = 'false' isActive = 'false'/>
+              </UML:Namespace.ownedElement>
+            </UML:Package>
+          </UML:Namespace.ownedElement>
+        </UML:Package>
+        <UML:Package xmi.id = 'sm$1c3dfe:fd1a5181f3:-7fdd' name = 'php_beautifier'
+          visibility = 'public' isSpecification = 'false' isRoot = 'false' isLeaf = 'false'
+          isAbstract = 'false'>
+          <UML:ModelElement.clientDependency>
+            <UML:Dependency xmi.idref = 'sm$1c3dfe:fd1a5181f3:-7e62'/>
+          </UML:ModelElement.clientDependency>
+          <UML:Namespace.ownedElement>
+            <UML:Class xmi.id = 'sm$1c3dfe:fd1a5181f3:-7ff6' name = 'PHP_Beautifier'
+              visibility = 'public' isSpecification = 'false' isRoot = 'false' isLeaf = 'false'
+              isAbstract = 'false' isActive = 'false'>
+              <UML:ModelElement.clientDependency>
+                <UML:Dependency xmi.idref = 'sm$1c3dfe:fd1a5181f3:-7da6'/>
+                <UML:Abstraction xmi.idref = 'sm$1c3dfe:fd1a5181f3:-7cf1'/>
+                <UML:Dependency xmi.idref = 'sm$f0b4a3:fd1cdf4c01:-7f54'/>
+              </UML:ModelElement.clientDependency>
+              <UML:ModelElement.stereotype>
+                <UML:Stereotype xmi.idref = 'sm$f0b4a3:fd1cdf4c01:-7ee5'/>
+              </UML:ModelElement.stereotype>
+              <UML:Classifier.feature>
+                <UML:Operation xmi.id = 'sm$1c3dfe:fd1a5181f3:-7fbe' name = 'addFilter'
+                  visibility = 'public' isSpecification = 'false' ownerScope = 'instance'
+                  isQuery = 'false' concurrency = 'sequential' isRoot = 'false' isLeaf = 'false'
+                  isAbstract = 'false'>
+                  <UML:BehavioralFeature.parameter>
+                    <UML:Parameter xmi.id = 'sm$f0b4a3:fd1cdf4c01:-7fe7' name = 'return' isSpecification = 'false'
+                      kind = 'return'>
+                      <UML:Parameter.type>
+                        <UML:Class xmi.idref = 'sm$1c3dfe:fd1a5181f3:-7ee1'/>
+                      </UML:Parameter.type>
+                    </UML:Parameter>
+                  </UML:BehavioralFeature.parameter>
+                </UML:Operation>
+                <UML:Method xmi.id = 'sm$1c3dfe:fd1a5181f3:-7e59' isSpecification = 'false'
+                  isQuery = 'false'>
+                  <UML:Method.body>
+                    <UML:ProcedureExpression xmi.id = 'sm$1c3dfe:fd1a5181f3:-7e58' language = 'java'
+                      body = ''/>
+                  </UML:Method.body>
+                  <UML:Method.specification>
+                    <UML:Operation xmi.idref = 'sm$1c3dfe:fd1a5181f3:-7fbe'/>
+                  </UML:Method.specification>
+                </UML:Method>
+              </UML:Classifier.feature>
+            </UML:Class>
+            <UML:Class xmi.id = 'sm$1c3dfe:fd1a5181f3:-7fa5' name = 'PHP_Beautifier_Batch'
+              visibility = 'public' isSpecification = 'false' isRoot = 'false' isLeaf = 'false'
+              isAbstract = 'false' isActive = 'false'>
+              <UML:ModelElement.clientDependency>
+                <UML:Dependency xmi.idref = 'sm$1c3dfe:fd1a5181f3:-7d11'/>
+              </UML:ModelElement.clientDependency>
+              <UML:ModelElement.stereotype>
+                <UML:Stereotype xmi.idref = 'sm$1c3dfe:fd1a5181f3:-7e3a'/>
+              </UML:ModelElement.stereotype>
+              <UML:GeneralizableElement.generalization>
+                <UML:Generalization xmi.idref = 'sm$1c3dfe:fd1a5181f3:-7e69'/>
+              </UML:GeneralizableElement.generalization>
+              <UML:Classifier.feature>
+                <UML:Operation xmi.id = 'sm$1c3dfe:fd1a5181f3:-7d75' name = 'getBatchEngine'
+                  visibility = 'private' isSpecification = 'false' ownerScope = 'instance'
+                  isQuery = 'false' concurrency = 'sequential' isRoot = 'false' isLeaf = 'false'
+                  isAbstract = 'false'>
+                  <UML:BehavioralFeature.parameter>
+                    <UML:Parameter xmi.id = 'sm$f0b4a3:fd1cdf4c01:-7fd8' name = '$oBatch' isSpecification = 'false'
+                      kind = 'return'>
+                      <UML:Parameter.type>
+                        <UML:Class xmi.idref = 'sm$1c3dfe:fd1a5181f3:-7ea3'/>
+                      </UML:Parameter.type>
+                    </UML:Parameter>
+                  </UML:BehavioralFeature.parameter>
+                </UML:Operation>
+                <UML:Method xmi.id = 'sm$1c3dfe:fd1a5181f3:-7ce0' isSpecification = 'false'
+                  isQuery = 'false'>
+                  <UML:Method.body>
+                    <UML:ProcedureExpression xmi.id = 'sm$1c3dfe:fd1a5181f3:-7cdf' language = 'java'
+                      body = ''/>
+                  </UML:Method.body>
+                  <UML:Method.specification>
+                    <UML:Operation xmi.idref = 'sm$1c3dfe:fd1a5181f3:-7d75'/>
+                  </UML:Method.specification>
+                </UML:Method>
+                <UML:Operation xmi.id = 'sm$1c3dfe:fd1a5181f3:-7d61' name = 'callBeautifier'
+                  visibility = 'public' isSpecification = 'false' ownerScope = 'instance'
+                  isQuery = 'false' concurrency = 'sequential' isRoot = 'false' isLeaf = 'false'
+                  isAbstract = 'false'>
+                  <UML:BehavioralFeature.parameter>
+                    <UML:Parameter xmi.id = 'sm$1c3dfe:fd1a5181f3:-7cab' name = '$oEngine' isSpecification = 'false'
+                      kind = 'in'>
+                      <UML:Parameter.type>
+                        <UML:Class xmi.idref = 'sm$1c3dfe:fd1a5181f3:-7ea3'/>
+                      </UML:Parameter.type>
+                    </UML:Parameter>
+                    <UML:Parameter xmi.id = 'sm$1c3dfe:fd1a5181f3:-7caa' name = '$sMethod' isSpecification = 'false'
+                      kind = 'in'>
+                      <UML:Parameter.type>
+                        <UML:Class xmi.idref = 'sm$1c3dfe:fd1a5181f3:-7f31'/>
+                      </UML:Parameter.type>
+                    </UML:Parameter>
+                  </UML:BehavioralFeature.parameter>
+                </UML:Operation>
+                <UML:Method xmi.id = 'sm$1c3dfe:fd1a5181f3:-7cde' isSpecification = 'false'
+                  isQuery = 'false'>
+                  <UML:Method.body>
+                    <UML:ProcedureExpression xmi.id = 'sm$1c3dfe:fd1a5181f3:-7cdd' language = 'java'
+                      body = ''/>
+                  </UML:Method.body>
+                  <UML:Method.specification>
+                    <UML:Operation xmi.idref = 'sm$1c3dfe:fd1a5181f3:-7d61'/>
+                  </UML:Method.specification>
+                </UML:Method>
+                <UML:Operation xmi.id = 'sm$f0b4a3:fd1cdf4c01:-7ede' name = 'operation_12'
+                  visibility = 'public' isSpecification = 'false' ownerScope = 'instance'
+                  isQuery = 'false' concurrency = 'sequential' isRoot = 'false' isLeaf = 'false'
+                  isAbstract = 'false'>
+                  <UML:BehavioralFeature.parameter>
+                    <UML:Parameter xmi.id = 'sm$f0b4a3:fd1cdf4c01:-7ed1' name = 'return' isSpecification = 'false'
+                      kind = 'return'>
+                      <UML:Parameter.type>
+                        <UML:DataType xmi.idref = 'sm$1c3dfe:fd1a5181f3:-7e5c'/>
+                      </UML:Parameter.type>
+                    </UML:Parameter>
+                  </UML:BehavioralFeature.parameter>
+                </UML:Operation>
+                <UML:Method xmi.id = 'sm$f0b4a3:fd1cdf4c01:-7e67' isSpecification = 'false'
+                  isQuery = 'false'>
+                  <UML:Method.body>
+                    <UML:ProcedureExpression xmi.id = 'sm$f0b4a3:fd1cdf4c01:-7e66' language = 'java'
+                      body = ''/>
+                  </UML:Method.body>
+                  <UML:Method.specification>
+                    <UML:Operation xmi.idref = 'sm$f0b4a3:fd1cdf4c01:-7ede'/>
+                  </UML:Method.specification>
+                </UML:Method>
+              </UML:Classifier.feature>
+            </UML:Class>
+            <UML:Class xmi.id = 'sm$1c3dfe:fd1a5181f3:-7f8e' name = 'PHP_Beautifier_Common'
+              visibility = 'public' isSpecification = 'false' isRoot = 'false' isLeaf = 'true'
+              isAbstract = 'false' isActive = 'false'>
+              <UML:ModelElement.clientDependency>
+                <UML:Dependency xmi.idref = 'sm$f0b4a3:fd1cdf4c01:-7f0e'/>
+              </UML:ModelElement.clientDependency>
+              <UML:Namespace.ownedElement>
+                <UML:Class xmi.id = 'sm$f0b4a3:fd1cdf4c01:-7efb' name = 'Log_Console' visibility = 'public'
+                  isSpecification = 'false' isRoot = 'false' isLeaf = 'false' isAbstract = 'false'
+                  isActive = 'false'/>
+              </UML:Namespace.ownedElement>
+              <UML:Classifier.feature>
+                <UML:Operation xmi.id = 'sm$f0b4a3:fd1cdf4c01:-7fcf' name = 'normalizeDir'
+                  visibility = 'public' isSpecification = 'false' ownerScope = 'classifier'
+                  isQuery = 'false' concurrency = 'sequential' isRoot = 'false' isLeaf = 'false'
+                  isAbstract = 'false'>
+                  <UML:BehavioralFeature.parameter>
+                    <UML:Parameter xmi.id = 'sm$f0b4a3:fd1cdf4c01:-7fc2' name = 'return' isSpecification = 'false'
+                      kind = 'return'>
+                      <UML:Parameter.type>
+                        <UML:DataType xmi.idref = 'sm$1c3dfe:fd1a5181f3:-7e5c'/>
+                      </UML:Parameter.type>
+                    </UML:Parameter>
+                  </UML:BehavioralFeature.parameter>
+                </UML:Operation>
+                <UML:Method xmi.id = 'sm$f0b4a3:fd1cdf4c01:-7efa' isSpecification = 'false'
+                  isQuery = 'false'>
+                  <UML:Method.body>
+                    <UML:ProcedureExpression xmi.id = 'sm$f0b4a3:fd1cdf4c01:-7ef9' language = 'java'
+                      body = ''/>
+                  </UML:Method.body>
+                  <UML:Method.specification>
+                    <UML:Operation xmi.idref = 'sm$f0b4a3:fd1cdf4c01:-7fcf'/>
+                  </UML:Method.specification>
+                </UML:Method>
+                <UML:Operation xmi.id = 'sm$f0b4a3:fd1cdf4c01:-7fbb' name = 'getLog' visibility = 'public'
+                  isSpecification = 'false' ownerScope = 'classifier' isQuery = 'false' concurrency = 'sequential'
+                  isRoot = 'false' isLeaf = 'false' isAbstract = 'false'>
+                  <UML:BehavioralFeature.parameter>
+                    <UML:Parameter xmi.id = 'sm$f0b4a3:fd1cdf4c01:-7fae' name = 'return' isSpecification = 'false'
+                      kind = 'return'>
+                      <UML:Parameter.type>
+                        <UML:Class xmi.idref = 'sm$f0b4a3:fd1cdf4c01:-7fab'/>
+                      </UML:Parameter.type>
+                    </UML:Parameter>
+                  </UML:BehavioralFeature.parameter>
+                </UML:Operation>
+                <UML:Method xmi.id = 'sm$f0b4a3:fd1cdf4c01:-7ef8' isSpecification = 'false'
+                  isQuery = 'false'>
+                  <UML:Method.body>
+                    <UML:ProcedureExpression xmi.id = 'sm$f0b4a3:fd1cdf4c01:-7ef7' language = 'java'
+                      body = ''/>
+                  </UML:Method.body>
+                  <UML:Method.specification>
+                    <UML:Operation xmi.idref = 'sm$f0b4a3:fd1cdf4c01:-7fbb'/>
+                  </UML:Method.specification>
+                </UML:Method>
+              </UML:Classifier.feature>
+            </UML:Class>
+            <UML:Class xmi.id = 'sm$1c3dfe:fd1a5181f3:-7f7b' name = 'PHP_Beautifier_Decorator'
+              visibility = 'public' isSpecification = 'false' isRoot = 'false' isLeaf = 'false'
+              isAbstract = 'true' isActive = 'false'>
+              <UML:ModelElement.clientDependency>
+                <UML:Abstraction xmi.idref = 'sm$1c3dfe:fd1a5181f3:-7cff'/>
+              </UML:ModelElement.clientDependency>
+              <UML:ModelElement.stereotype>
+                <UML:Stereotype xmi.idref = 'sm$1c3dfe:fd1a5181f3:-7e2f'/>
+              </UML:ModelElement.stereotype>
+            </UML:Class>
+            <UML:Class xmi.id = 'sm$1c3dfe:fd1a5181f3:-7fc9' name = 'PHP_Beautifier_Filter'
+              visibility = 'public' isSpecification = 'false' isRoot = 'false' isLeaf = 'false'
+              isAbstract = 'true' isActive = 'false'>
+              <UML:Classifier.feature>
+                <UML:Attribute xmi.id = 'sm$1c3dfe:fd1a5181f3:-7f3c' name = '$aFilterTokenFunctions'
+                  visibility = 'protected' isSpecification = 'false' ownerScope = 'instance'
+                  changeability = 'changeable'>
+                  <UML:StructuralFeature.multiplicity>
+                    <UML:Multiplicity xmi.id = 'sm$1c3dfe:fd1a5181f3:-7e55'>
+                      <UML:Multiplicity.range>
+                        <UML:MultiplicityRange xmi.id = 'sm$1c3dfe:fd1a5181f3:-7e54' lower = '0'
+                          upper = '-1'/>
+                      </UML:Multiplicity.range>
+                    </UML:Multiplicity>
+                  </UML:StructuralFeature.multiplicity>
+                  <UML:StructuralFeature.type>
+                    <UML:Class xmi.idref = 'sm$1c3dfe:fd1a5181f3:-7f31'/>
+                  </UML:StructuralFeature.type>
+                </UML:Attribute>
+                <UML:Attribute xmi.id = 'sm$1c3dfe:fd1a5181f3:-7f26' name = '$aSettings'
+                  visibility = 'protected' isSpecification = 'false' ownerScope = 'instance'
+                  changeability = 'changeable'>
+                  <UML:StructuralFeature.multiplicity>
+                    <UML:Multiplicity xmi.id = 'sm$1c3dfe:fd1a5181f3:-7e53'>
+                      <UML:Multiplicity.range>
+                        <UML:MultiplicityRange xmi.id = 'sm$1c3dfe:fd1a5181f3:-7e52' lower = '0'
+                          upper = '-1'/>
+                      </UML:Multiplicity.range>
+                    </UML:Multiplicity>
+                  </UML:StructuralFeature.multiplicity>
+                  <UML:StructuralFeature.type>
+                    <UML:Class xmi.idref = 'sm$1c3dfe:fd1a5181f3:-7f1b'/>
+                  </UML:StructuralFeature.type>
+                </UML:Attribute>
+                <UML:Attribute xmi.id = 'sm$1c3dfe:fd1a5181f3:-7f10' name = '$aSettingsDefinition'
+                  visibility = 'protected' isSpecification = 'false' ownerScope = 'instance'
+                  changeability = 'changeable'>
+                  <UML:StructuralFeature.multiplicity>
+                    <UML:Multiplicity xmi.id = 'sm$1c3dfe:fd1a5181f3:-7e51'>
+                      <UML:Multiplicity.range>
+                        <UML:MultiplicityRange xmi.id = 'sm$1c3dfe:fd1a5181f3:-7e50' lower = '0'
+                          upper = '-1'/>
+                      </UML:Multiplicity.range>
+                    </UML:Multiplicity>
+                  </UML:StructuralFeature.multiplicity>
+                  <UML:StructuralFeature.type>
+                    <UML:Class xmi.idref = 'sm$1c3dfe:fd1a5181f3:-7f1b'/>
+                  </UML:StructuralFeature.type>
+                </UML:Attribute>
+                <UML:Attribute xmi.id = 'sm$1c3dfe:fd1a5181f3:-7efb' name = '$sDescription'
+                  visibility = 'protected' isSpecification = 'false' ownerScope = 'instance'
+                  changeability = 'changeable'>
+                  <UML:StructuralFeature.type>
+                    <UML:Class xmi.idref = 'sm$1c3dfe:fd1a5181f3:-7f31'/>
+                  </UML:StructuralFeature.type>
+                </UML:Attribute>
+                <UML:Attribute xmi.id = 'sm$1c3dfe:fd1a5181f3:-7eec' name = '$bOn' visibility = 'protected'
+                  isSpecification = 'false' ownerScope = 'instance' changeability = 'changeable'>
+                  <UML:StructuralFeature.type>
+                    <UML:Class xmi.idref = 'sm$1c3dfe:fd1a5181f3:-7ee1'/>
+                  </UML:StructuralFeature.type>
+                </UML:Attribute>
+              </UML:Classifier.feature>
+            </UML:Class>
+            <UML:Association xmi.id = 'sm$1c3dfe:fd1a5181f3:-7ed6' isSpecification = 'false'
+              isRoot = 'false' isLeaf = 'false' isAbstract = 'false'>
+              <UML:Association.connection>
+                <UML:AssociationEnd xmi.id = 'sm$1c3dfe:fd1a5181f3:-7ed3' name = '$oBeaut'
+                  visibility = 'protected' isSpecification = 'false' isNavigable = 'true'
+                  ordering = 'unordered' aggregation = 'composite' targetScope = 'instance'
+                  changeability = 'changeable'>
+                  <UML:AssociationEnd.multiplicity>
+                    <UML:Multiplicity xmi.id = 'sm$1c3dfe:fd1a5181f3:-7e4f'>
+                      <UML:Multiplicity.range>
+                        <UML:MultiplicityRange xmi.id = 'sm$1c3dfe:fd1a5181f3:-7e4e' lower = '1'
+                          upper = '1'/>
+                      </UML:Multiplicity.range>
+                    </UML:Multiplicity>
+                  </UML:AssociationEnd.multiplicity>
+                  <UML:AssociationEnd.participant>
+                    <UML:Class xmi.idref = 'sm$1c3dfe:fd1a5181f3:-7ff6'/>
+                  </UML:AssociationEnd.participant>
+                </UML:AssociationEnd>
+                <UML:AssociationEnd xmi.id = 'sm$1c3dfe:fd1a5181f3:-7eca' name = '$aFilters'
+                  visibility = 'public' isSpecification = 'false' isNavigable = 'true' ordering = 'unordered'
+                  aggregation = 'none' targetScope = 'instance' changeability = 'changeable'>
+                  <UML:AssociationEnd.multiplicity>
+                    <UML:Multiplicity xmi.id = 'sm$1c3dfe:fd1a5181f3:-7e4d'>
+                      <UML:Multiplicity.range>
+                        <UML:MultiplicityRange xmi.id = 'sm$1c3dfe:fd1a5181f3:-7e4c' lower = '1'
+                          upper = '-1'/>
+                      </UML:Multiplicity.range>
+                    </UML:Multiplicity>
+                  </UML:AssociationEnd.multiplicity>
+                  <UML:AssociationEnd.participant>
+                    <UML:Class xmi.idref = 'sm$1c3dfe:fd1a5181f3:-7fc9'/>
+                  </UML:AssociationEnd.participant>
+                </UML:AssociationEnd>
+              </UML:Association.connection>
+            </UML:Association>
+            <UML:Class xmi.id = 'sm$1c3dfe:fd1a5181f3:-7ea3' name = 'PHP_Beautifier_Batch_Engine'
+              visibility = 'public' isSpecification = 'false' isRoot = 'false' isLeaf = 'false'
+              isAbstract = 'true' isActive = 'false'/>
+            <UML:Association xmi.id = 'sm$1c3dfe:fd1a5181f3:-7e81' isSpecification = 'false'
+              isRoot = 'false' isLeaf = 'false' isAbstract = 'false'>
+              <UML:Association.connection>
+                <UML:AssociationEnd xmi.id = 'sm$1c3dfe:fd1a5181f3:-7e7e' visibility = 'public'
+                  isSpecification = 'false' isNavigable = 'false' ordering = 'unordered' aggregation = 'aggregate'
+                  targetScope = 'instance' changeability = 'changeable'>
+                  <UML:AssociationEnd.multiplicity>
+                    <UML:Multiplicity xmi.id = 'sm$1c3dfe:fd1a5181f3:-7e47'>
+                      <UML:Multiplicity.range>
+                        <UML:MultiplicityRange xmi.id = 'sm$1c3dfe:fd1a5181f3:-7e46' lower = '0'
+                          upper = '-1'/>
+                      </UML:Multiplicity.range>
+                    </UML:Multiplicity>
+                  </UML:AssociationEnd.multiplicity>
+                  <UML:AssociationEnd.participant>
+                    <UML:Class xmi.idref = 'sm$1c3dfe:fd1a5181f3:-7ea3'/>
+                  </UML:AssociationEnd.participant>
+                </UML:AssociationEnd>
+                <UML:AssociationEnd xmi.id = 'sm$1c3dfe:fd1a5181f3:-7e75' name = 'oBatch'
+                  visibility = 'public' isSpecification = 'false' isNavigable = 'true' ordering = 'unordered'
+                  aggregation = 'none' targetScope = 'instance' changeability = 'changeable'>
+                  <UML:AssociationEnd.multiplicity>
+                    <UML:Multiplicity xmi.id = 'sm$1c3dfe:fd1a5181f3:-7e45'>
+                      <UML:Multiplicity.range>
+                        <UML:MultiplicityRange xmi.id = 'sm$1c3dfe:fd1a5181f3:-7e44' lower = '1'
+                          upper = '1'/>
+                      </UML:Multiplicity.range>
+                    </UML:Multiplicity>
+                  </UML:AssociationEnd.multiplicity>
+                  <UML:AssociationEnd.participant>
+                    <UML:Class xmi.idref = 'sm$1c3dfe:fd1a5181f3:-7fa5'/>
+                  </UML:AssociationEnd.participant>
+                </UML:AssociationEnd>
+              </UML:Association.connection>
+            </UML:Association>
+            <UML:Generalization xmi.id = 'sm$1c3dfe:fd1a5181f3:-7e69' isSpecification = 'false'>
+              <UML:Generalization.child>
+                <UML:Class xmi.idref = 'sm$1c3dfe:fd1a5181f3:-7fa5'/>
+              </UML:Generalization.child>
+              <UML:Generalization.parent>
+                <UML:Class xmi.idref = 'sm$1c3dfe:fd1a5181f3:-7f7b'/>
+              </UML:Generalization.parent>
+            </UML:Generalization>
+            <UML:Dependency xmi.id = 'sm$1c3dfe:fd1a5181f3:-7da6' isSpecification = 'false'>
+              <UML:ModelElement.stereotype>
+                <UML:Stereotype xmi.idref = 'sm$1c3dfe:fd1a5181f3:-7d9f'/>
+              </UML:ModelElement.stereotype>
+              <UML:Dependency.client>
+                <UML:Class xmi.idref = 'sm$1c3dfe:fd1a5181f3:-7ff6'/>
+              </UML:Dependency.client>
+              <UML:Dependency.supplier>
+                <UML:Class xmi.idref = 'sm$1c3dfe:fd1a5181f3:-7fc9'/>
+              </UML:Dependency.supplier>
+            </UML:Dependency>
+            <UML:Class xmi.id = 'sm$1c3dfe:fd1a5181f3:-7d96' name = 'PHP_Beautifier_Filter_Default'
+              visibility = 'public' isSpecification = 'false' isRoot = 'false' isLeaf = 'false'
+              isAbstract = 'false' isActive = 'false'>
+              <UML:GeneralizableElement.generalization>
+                <UML:Generalization xmi.idref = 'sm$1c3dfe:fd1a5181f3:-7d83'/>
+              </UML:GeneralizableElement.generalization>
+            </UML:Class>
+            <UML:Generalization xmi.id = 'sm$1c3dfe:fd1a5181f3:-7d83' isSpecification = 'false'>
+              <UML:Generalization.child>
+                <UML:Class xmi.idref = 'sm$1c3dfe:fd1a5181f3:-7d96'/>
+              </UML:Generalization.child>
+              <UML:Generalization.parent>
+                <UML:Class xmi.idref = 'sm$1c3dfe:fd1a5181f3:-7fc9'/>
+              </UML:Generalization.parent>
+            </UML:Generalization>
+            <UML:Abstraction xmi.id = 'sm$1c3dfe:fd1a5181f3:-7cff' isSpecification = 'false'>
+              <UML:ModelElement.stereotype>
+                <UML:Stereotype xmi.idref = 'sm$1c3dfe:fd1a5181f3:-7de1'/>
+              </UML:ModelElement.stereotype>
+              <UML:Dependency.client>
+                <UML:Class xmi.idref = 'sm$1c3dfe:fd1a5181f3:-7f7b'/>
+              </UML:Dependency.client>
+              <UML:Dependency.supplier>
+                <UML:Interface xmi.idref = 'sm$1c3dfe:fd1a5181f3:-7d4b'/>
+              </UML:Dependency.supplier>
+            </UML:Abstraction>
+            <UML:Abstraction xmi.id = 'sm$1c3dfe:fd1a5181f3:-7cf1' isSpecification = 'false'>
+              <UML:ModelElement.stereotype>
+                <UML:Stereotype xmi.idref = 'sm$1c3dfe:fd1a5181f3:-7de1'/>
+              </UML:ModelElement.stereotype>
+              <UML:Dependency.client>
+                <UML:Class xmi.idref = 'sm$1c3dfe:fd1a5181f3:-7ff6'/>
+              </UML:Dependency.client>
+              <UML:Dependency.supplier>
+                <UML:Interface xmi.idref = 'sm$1c3dfe:fd1a5181f3:-7d4b'/>
+              </UML:Dependency.supplier>
+            </UML:Abstraction>
+            <UML:Interface xmi.id = 'sm$1c3dfe:fd1a5181f3:-7d4b' name = 'PHP_Beautifier_Interface'
+              visibility = 'public' isSpecification = 'false' isRoot = 'false' isLeaf = 'false'
+              isAbstract = 'false'>
+              <UML:Classifier.feature>
+                <UML:Operation xmi.id = 'sm$f0b4a3:fd1cdf4c01:-7fa3' name = 'process' visibility = 'public'
+                  isSpecification = 'false' ownerScope = 'instance' isQuery = 'false' concurrency = 'sequential'
+                  isRoot = 'false' isLeaf = 'false' isAbstract = 'false'>
+                  <UML:BehavioralFeature.parameter>
+                    <UML:Parameter xmi.id = 'sm$f0b4a3:fd1cdf4c01:-7f96' name = 'return' isSpecification = 'false'
+                      kind = 'return'>
+                      <UML:Parameter.type>
+                        <UML:DataType xmi.idref = 'sm$1c3dfe:fd1a5181f3:-7e5c'/>
+                      </UML:Parameter.type>
+                    </UML:Parameter>
+                  </UML:BehavioralFeature.parameter>
+                </UML:Operation>
+                <UML:Method xmi.id = 'sm$f0b4a3:fd1cdf4c01:-7ef6' isSpecification = 'false'
+                  isQuery = 'false'>
+                  <UML:Method.body>
+                    <UML:ProcedureExpression xmi.id = 'sm$f0b4a3:fd1cdf4c01:-7ef5' language = 'java'
+                      body = ''/>
+                  </UML:Method.body>
+                  <UML:Method.specification>
+                    <UML:Operation xmi.idref = 'sm$f0b4a3:fd1cdf4c01:-7fa3'/>
+                  </UML:Method.specification>
+                </UML:Method>
+                <UML:Operation xmi.id = 'sm$f0b4a3:fd1cdf4c01:-7f8f' name = 'get' visibility = 'public'
+                  isSpecification = 'false' ownerScope = 'instance' isQuery = 'false' concurrency = 'sequential'
+                  isRoot = 'false' isLeaf = 'false' isAbstract = 'false'>
+                  <UML:BehavioralFeature.parameter>
+                    <UML:Parameter xmi.id = 'sm$f0b4a3:fd1cdf4c01:-7f82' name = 'return' isSpecification = 'false'
+                      kind = 'return'>
+                      <UML:Parameter.type>
+                        <UML:Class xmi.idref = 'sm$1c3dfe:fd1a5181f3:-7f31'/>
+                      </UML:Parameter.type>
+                    </UML:Parameter>
+                  </UML:BehavioralFeature.parameter>
+                </UML:Operation>
+                <UML:Method xmi.id = 'sm$f0b4a3:fd1cdf4c01:-7ef4' isSpecification = 'false'
+                  isQuery = 'false'>
+                  <UML:Method.body>
+                    <UML:ProcedureExpression xmi.id = 'sm$f0b4a3:fd1cdf4c01:-7ef3' language = 'java'
+                      body = ''/>
+                  </UML:Method.body>
+                  <UML:Method.specification>
+                    <UML:Operation xmi.idref = 'sm$f0b4a3:fd1cdf4c01:-7f8f'/>
+                  </UML:Method.specification>
+                </UML:Method>
+                <UML:Operation xmi.id = 'sm$f0b4a3:fd1cdf4c01:-7f7b' name = 'show' visibility = 'public'
+                  isSpecification = 'false' ownerScope = 'instance' isQuery = 'false' concurrency = 'sequential'
+                  isRoot = 'false' isLeaf = 'false' isAbstract = 'false'>
+                  <UML:BehavioralFeature.parameter>
+                    <UML:Parameter xmi.id = 'sm$f0b4a3:fd1cdf4c01:-7f6e' name = 'return' isSpecification = 'false'
+                      kind = 'return'>
+                      <UML:Parameter.type>
+                        <UML:DataType xmi.idref = 'sm$1c3dfe:fd1a5181f3:-7e5c'/>
+                      </UML:Parameter.type>
+                    </UML:Parameter>
+                  </UML:BehavioralFeature.parameter>
+                </UML:Operation>
+                <UML:Method xmi.id = 'sm$f0b4a3:fd1cdf4c01:-7ef2' isSpecification = 'false'
+                  isQuery = 'false'>
+                  <UML:Method.body>
+                    <UML:ProcedureExpression xmi.id = 'sm$f0b4a3:fd1cdf4c01:-7ef1' language = 'java'
+                      body = ''/>
+                  </UML:Method.body>
+                  <UML:Method.specification>
+                    <UML:Operation xmi.idref = 'sm$f0b4a3:fd1cdf4c01:-7f7b'/>
+                  </UML:Method.specification>
+                </UML:Method>
+                <UML:Operation xmi.id = 'sm$f0b4a3:fd1cdf4c01:-7f67' name = 'save' visibility = 'public'
+                  isSpecification = 'false' ownerScope = 'instance' isQuery = 'false' concurrency = 'sequential'
+                  isRoot = 'false' isLeaf = 'false' isAbstract = 'false'>
+                  <UML:BehavioralFeature.parameter>
+                    <UML:Parameter xmi.id = 'sm$f0b4a3:fd1cdf4c01:-7f5a' name = 'return' isSpecification = 'false'
+                      kind = 'return'>
+                      <UML:Parameter.type>
+                        <UML:DataType xmi.idref = 'sm$1c3dfe:fd1a5181f3:-7e5c'/>
+                      </UML:Parameter.type>
+                    </UML:Parameter>
+                  </UML:BehavioralFeature.parameter>
+                </UML:Operation>
+                <UML:Method xmi.id = 'sm$f0b4a3:fd1cdf4c01:-7ef0' isSpecification = 'false'
+                  isQuery = 'false'>
+                  <UML:Method.body>
+                    <UML:ProcedureExpression xmi.id = 'sm$f0b4a3:fd1cdf4c01:-7eef' language = 'java'
+                      body = ''/>
+                  </UML:Method.body>
+                  <UML:Method.specification>
+                    <UML:Operation xmi.idref = 'sm$f0b4a3:fd1cdf4c01:-7f67'/>
+                  </UML:Method.specification>
+                </UML:Method>
+              </UML:Classifier.feature>
+            </UML:Interface>
+            <UML:Association xmi.id = 'sm$1c3dfe:fd1a5181f3:-7d2b' isSpecification = 'false'
+              isRoot = 'false' isLeaf = 'false' isAbstract = 'false'>
+              <UML:Association.connection>
+                <UML:AssociationEnd xmi.id = 'sm$1c3dfe:fd1a5181f3:-7d28' visibility = 'public'
+                  isSpecification = 'false' isNavigable = 'false' ordering = 'unordered' aggregation = 'aggregate'
+                  targetScope = 'instance' changeability = 'changeable'>
+                  <UML:AssociationEnd.multiplicity>
+                    <UML:Multiplicity xmi.id = 'sm$1c3dfe:fd1a5181f3:-7cdc'>
+                      <UML:Multiplicity.range>
+                        <UML:MultiplicityRange xmi.id = 'sm$1c3dfe:fd1a5181f3:-7cdb' lower = '1'
+                          upper = '1'/>
+                      </UML:Multiplicity.range>
+                    </UML:Multiplicity>
+                  </UML:AssociationEnd.multiplicity>
+                  <UML:AssociationEnd.participant>
+                    <UML:Class xmi.idref = 'sm$1c3dfe:fd1a5181f3:-7f7b'/>
+                  </UML:AssociationEnd.participant>
+                </UML:AssociationEnd>
+                <UML:AssociationEnd xmi.id = 'sm$1c3dfe:fd1a5181f3:-7d1d' name = 'oBeaut'
+                  visibility = 'protected' isSpecification = 'false' isNavigable = 'true'
+                  ordering = 'unordered' aggregation = 'none' targetScope = 'instance' changeability = 'changeable'>
+                  <UML:AssociationEnd.multiplicity>
+                    <UML:Multiplicity xmi.id = 'sm$1c3dfe:fd1a5181f3:-7cda'>
+                      <UML:Multiplicity.range>
+                        <UML:MultiplicityRange xmi.id = 'sm$1c3dfe:fd1a5181f3:-7cd9' lower = '1'
+                          upper = '1'/>
+                      </UML:Multiplicity.range>
+                    </UML:Multiplicity>
+                  </UML:AssociationEnd.multiplicity>
+                  <UML:AssociationEnd.participant>
+                    <UML:Interface xmi.idref = 'sm$1c3dfe:fd1a5181f3:-7d4b'/>
+                  </UML:AssociationEnd.participant>
+                </UML:AssociationEnd>
+              </UML:Association.connection>
+            </UML:Association>
+            <UML:Dependency xmi.id = 'sm$1c3dfe:fd1a5181f3:-7d11' name = 'getBatchEngine()'
+              isSpecification = 'false'>
+              <UML:ModelElement.stereotype>
+                <UML:Stereotype xmi.idref = 'sm$1c3dfe:fd1a5181f3:-7d9f'/>
+              </UML:ModelElement.stereotype>
+              <UML:Dependency.client>
+                <UML:Class xmi.idref = 'sm$1c3dfe:fd1a5181f3:-7fa5'/>
+              </UML:Dependency.client>
+              <UML:Dependency.supplier>
+                <UML:Class xmi.idref = 'sm$1c3dfe:fd1a5181f3:-7ea3'/>
+              </UML:Dependency.supplier>
+            </UML:Dependency>
+            <UML:Dependency xmi.id = 'sm$f0b4a3:fd1cdf4c01:-7f54' isSpecification = 'false'>
+              <UML:ModelElement.stereotype>
+                <UML:Stereotype xmi.idref = 'sm$1c3dfe:fd1a5181f3:-7cb2'/>
+              </UML:ModelElement.stereotype>
+              <UML:Dependency.client>
+                <UML:Class xmi.idref = 'sm$1c3dfe:fd1a5181f3:-7ff6'/>
+              </UML:Dependency.client>
+              <UML:Dependency.supplier>
+                <UML:Class xmi.idref = 'sm$1c3dfe:fd1a5181f3:-7f8e'/>
+              </UML:Dependency.supplier>
+            </UML:Dependency>
+          </UML:Namespace.ownedElement>
+        </UML:Package>
+        <UML:Dependency xmi.id = 'sm$1c3dfe:fd1a5181f3:-7e62' isSpecification = 'false'>
+          <UML:Dependency.client>
+            <UML:Package xmi.idref = 'sm$1c3dfe:fd1a5181f3:-7fdd'/>
+          </UML:Dependency.client>
+          <UML:Dependency.supplier>
+            <UML:Package xmi.idref = 'sm$1c3dfe:fd1a5181f3:-7fdd'/>
+          </UML:Dependency.supplier>
+        </UML:Dependency>
+        <UML:Stereotype xmi.id = 'sm$1c3dfe:fd1a5181f3:-7e2f' name = 'Decorator'
+          visibility = 'public' isSpecification = 'false' isRoot = 'false' isLeaf = 'false'
+          isAbstract = 'false'>
+          <UML:Stereotype.baseClass>Class</UML:Stereotype.baseClass>
+        </UML:Stereotype>
+        <UML:Stereotype xmi.id = 'sm$1c3dfe:fd1a5181f3:-7de1' name = 'realize' isSpecification = 'false'
+          isRoot = 'false' isLeaf = 'false' isAbstract = 'false'>
+          <UML:Stereotype.baseClass>Abstraction</UML:Stereotype.baseClass>
+        </UML:Stereotype>
+        <UML:Stereotype xmi.id = 'sm$1c3dfe:fd1a5181f3:-7e3a' name = 'ConcreteDecorator'
+          visibility = 'public' isSpecification = 'false' isRoot = 'false' isLeaf = 'false'
+          isAbstract = 'false'>
+          <UML:Stereotype.baseClass>Class</UML:Stereotype.baseClass>
+        </UML:Stereotype>
+        <UML:Stereotype xmi.id = 'sm$1c3dfe:fd1a5181f3:-7db5' name = 'interface'
+          visibility = 'public' isSpecification = 'false' isRoot = 'false' isLeaf = 'false'
+          isAbstract = 'false'>
+          <UML:Stereotype.baseClass>Classifier</UML:Stereotype.baseClass>
+        </UML:Stereotype>
+        <UML:Stereotype xmi.id = 'sm$1c3dfe:fd1a5181f3:-7db4' name = 'PHP_Beautifier_Component'
+          visibility = 'public' isSpecification = 'false' isRoot = 'false' isLeaf = 'false'
+          isAbstract = 'false'>
+          <UML:Stereotype.baseClass>Interface</UML:Stereotype.baseClass>
+        </UML:Stereotype>
+        <UML:Stereotype xmi.id = 'sm$1c3dfe:fd1a5181f3:-7d9f' name = 'instanciate'
+          visibility = 'public' isSpecification = 'false' isRoot = 'false' isLeaf = 'false'
+          isAbstract = 'false'>
+          <UML:Stereotype.baseClass>Dependency</UML:Stereotype.baseClass>
+        </UML:Stereotype>
+        <UML:Stereotype xmi.id = 'sm$1c3dfe:fd1a5181f3:-7cb2' name = 'use' visibility = 'public'
+          isSpecification = 'false' isRoot = 'false' isLeaf = 'false' isAbstract = 'false'>
+          <UML:Stereotype.baseClass>Dependency</UML:Stereotype.baseClass>
+        </UML:Stereotype>
+        <UML:Stereotype xmi.id = 'sm$f0b4a3:fd1cdf4c01:-7eee' name = 'create' visibility = 'public'
+          isSpecification = 'false' isRoot = 'false' isLeaf = 'false' isAbstract = 'false'>
+          <UML:Stereotype.baseClass>BehavioralFeature</UML:Stereotype.baseClass>
+        </UML:Stereotype>
+        <UML:Stereotype xmi.id = 'sm$f0b4a3:fd1cdf4c01:-7eed' name = 'precondition'
+          isSpecification = 'false' isRoot = 'false' isLeaf = 'false' isAbstract = 'false'>
+          <UML:Stereotype.baseClass>Constraint</UML:Stereotype.baseClass>
+        </UML:Stereotype>
+        <UML:Stereotype xmi.id = 'sm$f0b4a3:fd1cdf4c01:-7efc' name = 'invariant'
+          isSpecification = 'false' isRoot = 'false' isLeaf = 'false' isAbstract = 'false'>
+          <UML:Stereotype.baseClass>Constraint</UML:Stereotype.baseClass>
+        </UML:Stereotype>
+        <UML:Package xmi.id = 'sm$f0b4a3:fd1cdf4c01:-7f43' name = 'log' visibility = 'public'
+          isSpecification = 'false' isRoot = 'false' isLeaf = 'false' isAbstract = 'false'>
+          <UML:Namespace.ownedElement>
+            <UML:Class xmi.id = 'sm$f0b4a3:fd1cdf4c01:-7f3a' name = 'Log' visibility = 'public'
+              isSpecification = 'false' isRoot = 'false' isLeaf = 'false' isAbstract = 'true'
+              isActive = 'false'/>
+            <UML:Class xmi.id = 'sm$f0b4a3:fd1cdf4c01:-7fab' name = 'Log_Composite'
+              visibility = 'public' isSpecification = 'false' isRoot = 'false' isLeaf = 'false'
+              isAbstract = 'false' isActive = 'false'>
+              <UML:ModelElement.stereotype>
+                <UML:Stereotype xmi.idref = 'sm$f0b4a3:fd1cdf4c01:-7e6c'/>
+              </UML:ModelElement.stereotype>
+              <UML:GeneralizableElement.generalization>
+                <UML:Generalization xmi.idref = 'sm$f0b4a3:fd1cdf4c01:-7f12'/>
+              </UML:GeneralizableElement.generalization>
+            </UML:Class>
+            <UML:Generalization xmi.id = 'sm$f0b4a3:fd1cdf4c01:-7f12' isSpecification = 'false'>
+              <UML:Generalization.child>
+                <UML:Class xmi.idref = 'sm$f0b4a3:fd1cdf4c01:-7fab'/>
+              </UML:Generalization.child>
+              <UML:Generalization.parent>
+                <UML:Class xmi.idref = 'sm$f0b4a3:fd1cdf4c01:-7f3a'/>
+              </UML:Generalization.parent>
+            </UML:Generalization>
+            <UML:Dependency xmi.id = 'sm$f0b4a3:fd1cdf4c01:-7f0e' isSpecification = 'false'>
+              <UML:ModelElement.stereotype>
+                <UML:Stereotype xmi.idref = 'sm$1c3dfe:fd1a5181f3:-7d9f'/>
+              </UML:ModelElement.stereotype>
+              <UML:Dependency.client>
+                <UML:Class xmi.idref = 'sm$1c3dfe:fd1a5181f3:-7f8e'/>
+              </UML:Dependency.client>
+              <UML:Dependency.supplier>
+                <UML:Class xmi.idref = 'sm$f0b4a3:fd1cdf4c01:-7fab'/>
+              </UML:Dependency.supplier>
+            </UML:Dependency>
+          </UML:Namespace.ownedElement>
+        </UML:Package>
+        <UML:Stereotype xmi.id = 'sm$f0b4a3:fd1cdf4c01:-7e6c' name = 'Composite'
+          visibility = 'public' isSpecification = 'false' isRoot = 'false' isLeaf = 'false'
+          isAbstract = 'false'>
+          <UML:Stereotype.baseClass>Class</UML:Stereotype.baseClass>
+        </UML:Stereotype>
+        <UML:Stereotype xmi.id = 'sm$f0b4a3:fd1cdf4c01:-7ee5' name = 'boundary'
+          visibility = 'public' isSpecification = 'false' isRoot = 'false' isLeaf = 'false'
+          isAbstract = 'false'>
+          <UML:Stereotype.baseClass>Class</UML:Stereotype.baseClass>
+        </UML:Stereotype>
+      </UML:Namespace.ownedElement>
+    </UML:Model>
+  </XMI.content>
+</XMI>
