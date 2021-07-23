@@ -139,53 +139,28 @@ class PHP_Class_Files_Beautifier extends PHP_Class_Files_Script_Generator_Base {
      */
     public function __construct( $sSourceDirPath, $sDestinationDirPath, array $aOptions=array() ) {
 
-        $aOptions  = $this->___getOptionsFormatted( $aOptions );
+        $aOptions = $this->___getOptionsFormatted( $aOptions );
 
         $_sTempDirPath = $this->createTempDir();
         if ( ! $_sTempDirPath ) {
-            $this->output(
-                'Failed to create a temporary directory: ' . $sSourceDirPath,
-                $aOptions
-            );
+            $this->output( 'Failed to create a temporary directory: ' . $sSourceDirPath, $aOptions );
             return;
         }
 
-        $_bSuccess = $this->xcopy(
-            $sSourceDirPath,
-            $_sTempDirPath,
-            0755,
-            $aOptions[ 'search' ]
-        );
+        $_bSuccess = $this->xcopy( $sSourceDirPath, $_sTempDirPath, 0755, $aOptions[ 'search' ] );
         if ( ! $_bSuccess ) {
-            $this->output(
-                'Failed to copy the directory: ' . $sSourceDirPath,
-                $aOptions
-            );
+            $this->output( 'Failed to copy the directory: ' . $sSourceDirPath, $aOptions );
             return;
         }
-        $this->output(
-            'Searching files under the directory: ' . $sSourceDirPath,
-            $aOptions
-        );
+        $this->output( 'Searching files under the directory: ' . $sSourceDirPath, $aOptions );
 
-        $_aFiles = $this->_formatFileArray(
-            $this->_getFileLists(
-                $_sTempDirPath,
-                $aOptions[ 'search' ]
-            )
-        );
-        $this->output(
-            sprintf( 'Found %1$s file(s)', count( $_aFiles ) ),
-            $aOptions
-        );
+        $_aFiles = $this->_formatFileArray( $this->_getFileLists( $_sTempDirPath, $aOptions[ 'search' ] ) );
+        $this->output( sprintf( 'Found %1$s file(s)', count( $_aFiles ) ), $aOptions );
 
         // Generate the output script header comment.
         $aOptions[ 'header_comment' ] = trim( $this->_getHeaderComment( array(), $aOptions ) );
         $this->output( 'File Header', $aOptions );
-        $this->output(
-            $aOptions[ 'header_comment' ],
-            $aOptions
-        );
+        $this->output( $aOptions[ 'header_comment' ], $aOptions );
 
         // Retrieve file contents.
 
@@ -1021,7 +996,7 @@ class PHP_Class_Files_Beautifier extends PHP_Class_Files_Script_Generator_Base {
             return copy( $sSource, $sDestination );
         }
             private function ___isInClassExclusionList( $sSource, $aOptions ) {
-                return in_array( basename( $sSource ), $aOptions['exclude_file_names'], true );
+                return in_array( basename( $sSource ), $aOptions[ 'exclude_file_names' ], true );
             }
         private function ___isInExcludeList( $sDirPath, array $aOptions=array() ) {
 
