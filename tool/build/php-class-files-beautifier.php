@@ -60,7 +60,10 @@ new PHP_Class_Files_Beautifier(
                 'AdminPageFramework_BeautifiedVersionHeader.php',            
             ),
             'is_recursive'            => true,
-        ),                
+        ),
+        'include'               => array(
+            'allowed_extensions'    => array( 'js', 'css', 'map' ),    // e.g. array( 'php', 'inc' )
+        ),
         'combine'              => array(
             'inheritance'       => false,
             'exclude_classes' => array( 

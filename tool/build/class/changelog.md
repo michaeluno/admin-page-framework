@@ -1,10 +1,9 @@
 ## Change Log
 
 ### 1.4.0
+- Added the `include` argument.
 - Added the `exclude_dir_names_regex` and `exclude_file_names_regex` search arguments.
-
-### 1.3.1 - 2021/07/23
-- Fixed a bug of an undefined variable 
+- Fixed a bug of an undefined variable .
 
 ### 1.3.0 - 2019/02/17
 - Added the library path option wchich allows the location to download.

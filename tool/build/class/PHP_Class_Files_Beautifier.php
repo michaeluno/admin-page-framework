@@ -55,6 +55,17 @@ class PHP_Class_Files_Beautifier extends PHP_Class_Files_Script_Generator_Base {
             'is_recursive'              => true,
         ),
 
+        // [1.4.0] Non-PHP files to include. The sub-arguments are the same as the `search` argument.
+        'include'   => array(
+            'allowed_extensions'        => array(),    // e.g. array( 'js', 'css' )
+            'exclude_dir_paths'         => array(),
+            'exclude_dir_names'         => array(),
+            'exclude_dir_names_regex'   => array(),  // [1.4.0+]
+            'exclude_file_names'        => array(),
+            'exclude_file_names_regex'  => array(),  // [1.4.0+]
+            'is_recursive'              => true,
+        ),
+
         // @since 1.3.0 Library options
         'libraries'   => array(
             'PHP_Beautifier'     => array(
@@ -159,6 +170,10 @@ class PHP_Class_Files_Beautifier extends PHP_Class_Files_Script_Generator_Base {
         $_aFiles = $this->_formatFileArray( $this->_getFileLists( $_sTempDirPath, $aOptions[ 'search' ] ) );
         $this->output( sprintf( 'Found %1$s file(s)', count( $_aFiles ) ), $aOptions );
 
+        $_aAdditionalFiles = $this->_getFileLists( $_sTempDirPath, $aOptions[ 'include' ] );
+        $_aAdditionalFiles = array_map( array( $this, '_getPathFormatted' ),  $_aAdditionalFiles );
+        $this->output( sprintf( 'Found %1$s additional file(s)', count( $_aAdditionalFiles ) ), $aOptions );
+
         // Generate the output script header comment.
         $aOptions[ 'header_comment' ] = trim( $this->_getHeaderComment( array(), $aOptions ) );
         $this->output( 'File Header', $aOptions );
@@ -183,7 +198,7 @@ class PHP_Class_Files_Beautifier extends PHP_Class_Files_Script_Generator_Base {
         $_aFiles = $this->___getBeautifiedFiles( $_aFiles, $aOptions );
 
         $this->___createFiles(
-            $_aFiles,               // parsing files
+            array_merge( $_aFiles, $_aAdditionalFiles ),               // parsing files
             $_sTempDirPath,         // temporary directory path
             $sDestinationDirPath,   // destination directory path
             $aOptions
@@ -197,9 +212,11 @@ class PHP_Class_Files_Beautifier extends PHP_Class_Files_Script_Generator_Base {
          */
         private function ___getOptionsFormatted( array $aOptions ) {
             $aOptions                      = $aOptions + self::$_aStructure_Options;
-            $aOptions[ 'libraries' ]       = $aOptions['libraries'] + self::$_aStructure_Options[ 'libraries' ];
-            $aOptions[ 'search' ]          = $aOptions['search'] + self::$_aStructure_Options[ 'search' ];
+            $aOptions[ 'libraries' ]       = $aOptions[ 'libraries' ] + self::$_aStructure_Options[ 'libraries' ];
+            $aOptions[ 'search' ]          = $aOptions[ 'search' ] + self::$_aStructure_Options[ 'search' ];
             $aOptions[ 'search' ][ 'exclude_dir_paths' ] = $this->_formatPaths( $aOptions[ 'search' ][ 'exclude_dir_paths' ] );
+            $aOptions[ 'include' ]         = $aOptions[ 'include' ] + self::$_aStructure_Options[ 'include' ];
+            $aOptions[ 'include' ][ 'exclude_dir_paths' ] = $this->_formatPaths( $aOptions[ 'include' ][ 'exclude_dir_paths' ] );
             $aOptions[ 'carriage_return' ] = php_sapi_name() == 'cli'
                 ? PHP_EOL
                 : '<br />';
@@ -731,17 +748,33 @@ class PHP_Class_Files_Beautifier extends PHP_Class_Files_Script_Generator_Base {
 
         // Make sure to remove old files.
         $this->deleteDir( $sDestinationDirPath );
-        $this->output(
-            'Deleting: ' . $sDestinationDirPath,
-            $aOptions
-        );
+        $this->output( 'Deleting: ' . $sDestinationDirPath, $aOptions );
 
         // Create files.
-        foreach( $aFiles as $_aFile ) {
+        foreach( $aFiles as $_asFile ) {
+
+            // For PHP files, the element is formatted as an array.
+            // If it is not formatted, just copy it.
+            if ( is_scalar( $_asFile ) ) {
+                if ( ! file_exists( $_asFile ) ) {
+                    $this->output( 'The file does not exist: ' . $_asFile, $aOptions );
+                    continue;
+                }
+                $this->output( 'Copying: ' . $_asFile . PHP_EOL . 'To: ' . $this->___getDestinationFilePathFromTempPath( $sDestinationDirPath, $sTempDirPath, $_asFile ), $aOptions );
+                $this->xcopy(
+                    $_asFile,
+                    $this->___getDestinationFilePathFromTempPath( $sDestinationDirPath, $sTempDirPath, $_asFile ),
+                    0755,
+                    $aOptions[ 'include' ]
+                );
+                continue;
+            }
+            // Otherwise, it is a PHP file
             $this->___write(
-                $this->___getDestinationFilePathFromTempPath( $sDestinationDirPath, $sTempDirPath, $_aFile[ 'path' ] ),
-                $_aFile[ 'code' ]
+                $this->___getDestinationFilePathFromTempPath( $sDestinationDirPath, $sTempDirPath, $_asFile[ 'path' ] ),
+                $_asFile[ 'code' ]
             );
+
         }
 
         // Make sure to delete the used files.
@@ -954,7 +987,7 @@ class PHP_Class_Files_Beautifier extends PHP_Class_Files_Script_Generator_Base {
 
         // Simple copy for a file
         if ( is_file( $source ) ) {
-            return $this->___copyFile( $source, $dest, $aOptions );
+            return $this->___copyFile( $source, $dest, $permissions, $aOptions );
         }
 
         // Make destination directory
@@ -986,13 +1019,17 @@ class PHP_Class_Files_Beautifier extends PHP_Class_Files_Script_Generator_Base {
         return true;
 
     }
-        private function ___copyFile( $sSource, $sDestination, array $aOptions=array() ) {
+        private function ___copyFile( $sSource, $sDestination, $iPermissions, array $aOptions=array() ) {
             if ( ! file_exists( $sSource ) ) {
                 return false;
             }
             // check it is in a class exclude list
             if ( $this->___isInClassExclusionList( $sSource, $aOptions ) ) {
                 return false;
+            }
+            $_sPathDirDest = dirname( $sDestination );
+            if ( ! file_exists( $_sPathDirDest ) ) {
+                mkdir( $_sPathDirDest, $iPermissions, true );
             }
             return copy( $sSource, $sDestination );
         }
