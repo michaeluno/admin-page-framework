@@ -12,7 +12,7 @@ if ( ! $bIsCLI ) {
 }
 
 /* Include necessary files */
-require( dirname( dirname( __FILE__ ) ) . '/inclusion_class_list/class/PHP_Class_Files_Inclusion_List_Creator.php' );
+require( dirname( dirname( __FILE__ ) ) . '/class-map/class/PHP_Class_Files_Inclusion_List_Creator.php' );
 
 /* Check the permission to write. */
 if ( ! file_exists( $sResultFilePath ) ) {
