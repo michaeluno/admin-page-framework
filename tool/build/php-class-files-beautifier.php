@@ -51,6 +51,9 @@ new PHP_Class_Files_Beautifier(
             'allowed_extensions'    => array( 'php' ),    // e.g. array( 'php', 'inc' )
             // 'exclude_dir_paths'  => array( $sTargetBaseDir . '/include/class/admin' ),
             'exclude_dir_names'     => array( '_document', 'document', 'cli' ),
+            'exclude_dir_names_regex' => array(
+                '/\.bundle$/'
+            ),
             'exclude_file_names'    => array(
                 'AdminPageFramework_InclusionClassFilesHeader.php',
                 'AdminPageFramework_MinifiedVersionHeader.php',

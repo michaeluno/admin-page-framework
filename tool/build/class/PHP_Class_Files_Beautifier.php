@@ -13,7 +13,7 @@ if ( ! class_exists( 'PHP_Class_Files_Script_Generator_Base' ) ) {
 /**
  * Copies files in a specified directory into a set destination directory and applies beautification.
  *
- * @version    1.3.1
+ * @version    1.4.0
  */
 class PHP_Class_Files_Beautifier extends PHP_Class_Files_Script_Generator_Base {
 
@@ -46,11 +46,13 @@ class PHP_Class_Files_Beautifier extends PHP_Class_Files_Script_Generator_Base {
 
         // Search options
         'search'    =>    array(
-            'allowed_extensions' => array( 'php' ),    // e.g. array( 'php', 'inc' )
-            'exclude_dir_paths'  => array(),
-            'exclude_dir_names'  => array(),
-            'exclude_file_names' => array(),
-            'is_recursive'       => true,
+            'allowed_extensions'        => array( 'php' ),    // e.g. array( 'php', 'inc' )
+            'exclude_dir_paths'         => array(),
+            'exclude_dir_names'         => array(),
+            'exclude_dir_names_regex'   => array(),  // [1.4.0+]
+            'exclude_file_names'        => array(),
+            'exclude_file_names_regex'  => array(),  // [1.4.0+]
+            'is_recursive'              => true,
         ),
 
         // @since 1.3.0 Library options
@@ -996,7 +998,20 @@ class PHP_Class_Files_Beautifier extends PHP_Class_Files_Script_Generator_Base {
             return copy( $sSource, $sDestination );
         }
             private function ___isInClassExclusionList( $sSource, $aOptions ) {
-                return in_array( basename( $sSource ), $aOptions[ 'exclude_file_names' ], true );
+                $_sFileBaseName = basename( $sSource );
+                if ( in_array( $_sFileBaseName, $aOptions[ 'exclude_file_names' ], true ) ) {
+                    return true;
+                }
+                foreach( $aOptions[ 'exclude_file_names_regex' ] as $_sPattern ) {
+                    if( false === @preg_match( $_sPattern, null ) ){
+                        //pattern is broken
+                        $this->output( 'The regex pattern for a file name is malformed: ' . $_sPattern, $aOptions );
+                        continue;
+                    }
+                    if ( preg_match( $_sPattern, $_sFileBaseName ) ) {
+                        return true;
+                    }
+                }
             }
         private function ___isInExcludeList( $sDirPath, array $aOptions=array() ) {
 
@@ -1011,8 +1026,19 @@ class PHP_Class_Files_Beautifier extends PHP_Class_Files_Script_Generator_Base {
             if ( in_array( $sDirPath, $_aExcludeDirPaths, true ) ) {
                 return true;
             }
-            if ( in_array( pathinfo( $sDirPath, PATHINFO_BASENAME ), $_aExcludeDirNames, true ) ) {
+            $_sDirBaseName = pathinfo( $sDirPath, PATHINFO_BASENAME );
+            if ( in_array( $_sDirBaseName, $_aExcludeDirNames, true ) ) {
                 return true;
+            }
+            foreach( $aOptions[ 'exclude_dir_names_regex' ] as $_sPattern ) {
+                if( false === @preg_match( $_sPattern, null ) ){
+                    //pattern is broken
+                    $this->output( 'The regex pattern for directory name is malformed: ' . $_sPattern, $aOptions );
+                    continue;
+                }
+                if ( preg_match( $_sPattern, $_sDirBaseName ) ) {
+                    return true;
+                }
             }
             return false;
 
