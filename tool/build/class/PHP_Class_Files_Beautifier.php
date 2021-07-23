@@ -139,7 +139,7 @@ class PHP_Class_Files_Beautifier extends PHP_Class_Files_Script_Generator_Base {
      */
     public function __construct( $sSourceDirPath, $sDestinationDirPath, array $aOptions=array() ) {
 
-        $aOptions  = $this->_getOptionsFormatted( $aOptions );
+        $aOptions  = $this->___getOptionsFormatted( $aOptions );
 
         $_sTempDirPath = $this->createTempDir();
         if ( ! $_sTempDirPath ) {
@@ -190,14 +190,14 @@ class PHP_Class_Files_Beautifier extends PHP_Class_Files_Script_Generator_Base {
         // Retrieve file contents.
 
         // Minify Inline CSS Rules
-        $_aFiles = $this->_getInlineCSSMinified( $_aFiles, $aOptions );
+        $_aFiles = $this->___getInlineCSSMinified( $_aFiles, $aOptions );
 
         // Minify Inline JavaScript Scripts
         // Currently not used.
-        // $_aFiles = $this->_getInlineJavaScriptMinified( $_aFiles, $aOptions );
+        // $_aFiles = $this->___getInlineJavaScriptMinified( $_aFiles, $aOptions );
 
         // Combine files.
-        $_aFiles = $this->_getCombinedFiles( $_aFiles, $aOptions );
+        $_aFiles = $this->___getCombinedFiles( $_aFiles, $aOptions );
 
         // Include dependencies
         $this->___includeDependencies( $aOptions );
@@ -205,7 +205,7 @@ class PHP_Class_Files_Beautifier extends PHP_Class_Files_Script_Generator_Base {
         // Apply the beautifier
         $_aFiles = $this->___getBeautifiedFiles( $_aFiles, $aOptions );
 
-        $this->_createFiles(
+        $this->___createFiles(
             $_aFiles,               // parsing files
             $_sTempDirPath,         // temporary directory path
             $sDestinationDirPath,   // destination directory path
@@ -218,7 +218,7 @@ class PHP_Class_Files_Beautifier extends PHP_Class_Files_Script_Generator_Base {
          * @since       1.0.0
          * @return      array
          */
-        private function _getOptionsFormatted( array $aOptions ) {
+        private function ___getOptionsFormatted( array $aOptions ) {
             $aOptions                      = $aOptions + self::$_aStructure_Options;
             $aOptions[ 'libraries' ]       = $aOptions['libraries'] + self::$_aStructure_Options[ 'libraries' ];
             $aOptions[ 'search' ]          = $aOptions['search'] + self::$_aStructure_Options[ 'search' ];
@@ -246,7 +246,7 @@ class PHP_Class_Files_Beautifier extends PHP_Class_Files_Script_Generator_Base {
      * @return      array
      * @since       1.1.0
      */
-    private function _getCombinedFiles( $aFiles, $aOptions ) {
+    private function ___getCombinedFiles( $aFiles, $aOptions ) {
 
         $_aCombineOptions = $aOptions[ 'combine' ];
         if ( ! $_aCombineOptions[ 'inheritance' ] ) {
@@ -274,7 +274,7 @@ class PHP_Class_Files_Beautifier extends PHP_Class_Files_Script_Generator_Base {
                 continue;
             }
             // If it is a parent of another class, do nothing.
-            if ( $this->_isParent( $_sClassName, $aFiles, true, $_aCombineOptions[ 'exclude_classes' ] ) ) {
+            if ( $this->___isParent( $_sClassName, $aFiles, true, $_aCombineOptions[ 'exclude_classes' ] ) ) {
                 $_aNew[ $_sClassName ] = $_aFile;
                 continue;
             }
@@ -283,7 +283,7 @@ class PHP_Class_Files_Beautifier extends PHP_Class_Files_Script_Generator_Base {
 
             // Combine code
             $_sThisCode = $_aFile[ 'code' ];
-            foreach( $this->_getAncestorClassNames( $_sClassName, $aFiles, true ) as $_sAnscestorClassName ) {
+            foreach( $this->___getAncestorClassNames( $_sClassName, $aFiles, true ) as $_sAnscestorClassName ) {
                 // Insert the parent code at the top of the code of the parsing file
                 $_sThisCode = $aFiles[ $_sAnscestorClassName ][ 'code' ] . ' ' . $_sThisCode;
                 unset( $aFiles[ $_sAnscestorClassName ] );
@@ -309,7 +309,7 @@ class PHP_Class_Files_Beautifier extends PHP_Class_Files_Script_Generator_Base {
          * @since       1.1.0
          * @return      boolean
          */
-        private function _isParent( $sClassName, $aFiles, $bOnlyInTheSameDirectory=true, array $aExcludingClassNames=array() ) {
+        private function ___isParent( $sClassName, $aFiles, $bOnlyInTheSameDirectory=true, array $aExcludingClassNames=array() ) {
 
             $_sSubjectDirPath = dirname( $aFiles[ $sClassName ][ 'path' ] );
             foreach( $aFiles as $_sClassName => $_aFile ) {
@@ -336,7 +336,7 @@ class PHP_Class_Files_Beautifier extends PHP_Class_Files_Script_Generator_Base {
          * @since       1.1.0
          * @return      array
          */
-        private function _getAncestorClassNames( $sClassName, &$aFiles, $bOnlyInTheSameDirectory=true ) {
+        private function ___getAncestorClassNames( $sClassName, &$aFiles, $bOnlyInTheSameDirectory=true ) {
 
             $_aAncestors = array();
 
@@ -364,7 +364,7 @@ class PHP_Class_Files_Beautifier extends PHP_Class_Files_Script_Generator_Base {
 
             $_aAncestors = array_merge(
                 $_aAncestors,   // for numeric numeric items, the first parameter items will come first
-                $this->_getAncestorClassNames( $_sParentClass, $aFiles, $bOnlyInTheSameDirectory )
+                $this->___getAncestorClassNames( $_sParentClass, $aFiles, $bOnlyInTheSameDirectory )
             );
 
             return $_aAncestors;
@@ -376,9 +376,9 @@ class PHP_Class_Files_Beautifier extends PHP_Class_Files_Script_Generator_Base {
      * @since       1.2.0
      * @deprecated
      */
-    private function _getInlineJavaScriptMinified( array $aFiles, array $aOptions ) {
+    private function ___getInlineJavaScriptMinified( array $aFiles, array $aOptions ) {
 
-        if ( ! $this->_canMinifyInlineJavaScript( $aOptions ) ) {
+        if ( ! $this->___canMinifyInlineJavaScript( $aOptions ) ) {
             return $aFiles;
         }
 
@@ -390,7 +390,7 @@ class PHP_Class_Files_Beautifier extends PHP_Class_Files_Script_Generator_Base {
         $_aNew   = array();
         $_iCount = 0;
         foreach( $aFiles as $_sClassName => $_aFile  ) {
-            $_aFile[ 'code' ] = $this->_getInlineJavaScriptMinifiedCode(
+            $_aFile[ 'code' ] = $this->___getInlineJavaScriptMinifiedCode(
                 $_aFile[ 'code' ],
                 $_aFile[ 'path' ],
                 $aOptions[ 'js_heredoc_keys' ]
@@ -406,7 +406,7 @@ class PHP_Class_Files_Beautifier extends PHP_Class_Files_Script_Generator_Base {
          * @since       1.2.0
          * @return      boolean
          */
-        private function _canMinifyInlineJavaScript( $aOptions ) {
+        private function ___canMinifyInlineJavaScript( $aOptions ) {
 
             // The JSMinPlus.mod library crashes in PHP 5.2.9 or below.
             if ( version_compare( PHP_VERSION, '5.2.9' ) <= 0 ) {
@@ -447,7 +447,7 @@ class PHP_Class_Files_Beautifier extends PHP_Class_Files_Script_Generator_Base {
          * @since       1.2.0
          * @return      string
          */
-        private function _getInlineJavaScriptMinifiedCode( $sCode, $sFilePath, array $aHereDocKeys=array() ) {
+        private function ___getInlineJavaScriptMinifiedCode( $sCode, $sFilePath, array $aHereDocKeys=array() ) {
 
             // Now minify the script.
             $this->_sCurrentIterationFilePath = $sFilePath;
@@ -476,7 +476,7 @@ class PHP_Class_Files_Beautifier extends PHP_Class_Files_Script_Generator_Base {
                 $_sJavaScript = $aMatch[ 2 ];
 
                 // Escape PHP variables enclosed in curly braces such as {$abc}.
-                $_aReplacedPHPVariables = $this->_getPHPVariablesReserved(
+                $_aReplacedPHPVariables = $this->___getPHPVariablesReserved(
                     $_sJavaScript  // by reference - this gets modified in the method
                 );
 
@@ -502,7 +502,7 @@ class PHP_Class_Files_Beautifier extends PHP_Class_Files_Script_Generator_Base {
                  * Modified the given code by replacing PHP variables enclosed in curly braces.
                  * @return      array       Replaced items.
                  */
-                private function _getPHPVariablesReserved( &$sCode ) {
+                private function ___getPHPVariablesReserved( &$sCode ) {
 
                     // Initialize properties.
                     $this->_aReservedPHPVariables = array();
@@ -536,7 +536,7 @@ class PHP_Class_Files_Beautifier extends PHP_Class_Files_Script_Generator_Base {
      * @return      array
      * @since       1.2.0
      */
-    private function _getInlineCSSMinified( array $aFiles, array $aOptions ) {
+    private function ___getInlineCSSMinified( array $aFiles, array $aOptions ) {
 
         $_sCR = $aOptions[ 'carriage_return' ];
         $this->output( 'Minifiying inline CSS rules.', $aOptions );
@@ -627,11 +627,11 @@ class PHP_Class_Files_Beautifier extends PHP_Class_Files_Script_Generator_Base {
             }
             // Download the file
             $_sArchivePath = dirname( __FILE__ ) . '/library/' . $sName . '/' . $sName . '.zip';
-            $_bDownloaded  = $this->_downloadZip( $aLibrary[ 'url' ], $_sArchivePath, $aOptions );
+            $_bDownloaded  = $this->___downloadZip( $aLibrary[ 'url' ], $_sArchivePath, $aOptions );
             if ( ! $_bDownloaded ) {
                 return false;
             }
-            $this->_unZip( $_sArchivePath, $aOptions );
+            $this->___unZip( $_sArchivePath, $aOptions );
 
             // Perform the same routine again
             return $this->___includeDependency( $sName, $aLibrary, $aOptions );
@@ -705,7 +705,7 @@ class PHP_Class_Files_Beautifier extends PHP_Class_Files_Script_Generator_Base {
         $_aNew   = array();
         $_iCount = 0;
         foreach( $aFiles as $_sClassName => $_aFile  ) {
-            $_aFile[ 'code' ] = $this->_getBeautifiedCode(
+            $_aFile[ 'code' ] = $this->___getBeautifiedCode(
                 $_aFile[ 'code' ],
                 $aOptions[ 'header_comment' ]
             );
@@ -724,7 +724,7 @@ class PHP_Class_Files_Beautifier extends PHP_Class_Files_Script_Generator_Base {
          * @see         http://beautifyphp.sourceforge.net/docs/
          * @see         http://beautifyphp.sourceforge.net/docs/PHP_Beautifier/tutorial_PHP_Beautifier.howtouse.script.pkg.html
          */
-        private function _getBeautifiedCode( $sCode, $sHeaderComment='' ) {
+        private function ___getBeautifiedCode( $sCode, $sHeaderComment='' ) {
 
             // Set up a beautified object.
             $_oBeautifier = new PHP_Beautifier();
@@ -754,7 +754,7 @@ class PHP_Class_Files_Beautifier extends PHP_Class_Files_Script_Generator_Base {
      * @since       1.1.0
      * @return      void
      */
-    private function _createFiles( array $aFiles, $sTempDirPath, $sDestinationDirPath, array $aOptions ) {
+    private function ___createFiles( array $aFiles, $sTempDirPath, $sDestinationDirPath, array $aOptions ) {
 
         // Make sure to remove old files.
         $this->deleteDir( $sDestinationDirPath );
@@ -765,8 +765,8 @@ class PHP_Class_Files_Beautifier extends PHP_Class_Files_Script_Generator_Base {
 
         // Create files.
         foreach( $aFiles as $_sClassName => $_aFile ) {
-            $this->_write(
-                $this->_getDestinationFilePathFromTempPath( $sDestinationDirPath, $sTempDirPath, $_aFile[ 'path' ] ),
+            $this->___write(
+                $this->___getDestinationFilePathFromTempPath( $sDestinationDirPath, $sTempDirPath, $_aFile[ 'path' ] ),
                 $_aFile[ 'code' ]
             );
         }
@@ -779,16 +779,16 @@ class PHP_Class_Files_Beautifier extends PHP_Class_Files_Script_Generator_Base {
          * @return      string
          * @since       1.1.0
          */
-        private function _getDestinationFilePathFromTempPath( $sDestinationDirPath, $sTempDirPath, $sFilePath ) {
-            return $this->_getAbsolutePathFromRelative(
+        private function ___getDestinationFilePathFromTempPath( $sDestinationDirPath, $sTempDirPath, $sFilePath ) {
+            return $this->___getAbsolutePathFromRelative(
                 $sDestinationDirPath,
-                $this->_getRelativePath( $sTempDirPath, $sFilePath )
+                $this->___getRelativePath( $sTempDirPath, $sFilePath )
             );
         }
             /**
              * @since       1.1.0
              */
-            private function _getAbsolutePathFromRelative( $sPrefix, $sRelativePath ) {
+            private function ___getAbsolutePathFromRelative( $sPrefix, $sRelativePath ) {
 
                 // removes the heading ./ or .\
                 $sRelativePath  = preg_replace( "/^\.[\/\\\]/", '', $sRelativePath, 1 );
@@ -805,7 +805,7 @@ class PHP_Class_Files_Beautifier extends PHP_Class_Files_Script_Generator_Base {
              * @author            Gordon
              * @see               http://stackoverflow.com/questions/2637945/getting-relative-path-from-absolute-path-in-php/2638272#2638272
              */
-            private function _getRelativePath( $from, $to ) {
+            private function ___getRelativePath( $from, $to ) {
 
                 // some compatibility fixes for Windows paths
                 $from = is_dir($from) ? rtrim($from, '\/') . '/' : $from;
@@ -839,7 +839,7 @@ class PHP_Class_Files_Beautifier extends PHP_Class_Files_Script_Generator_Base {
 
             }
 
-            private function _write( $sFilePath, $sData ) {
+            private function ___write( $sFilePath, $sData ) {
 
                 // Remove the existing file.
                 if ( file_exists( $sFilePath ) ) {
@@ -864,7 +864,7 @@ class PHP_Class_Files_Beautifier extends PHP_Class_Files_Script_Generator_Base {
             /**
              *
              */
-            private function _unZip( $sFilePath, array $aOptions=array() ) {
+            private function ___unZip( $sFilePath, array $aOptions=array() ) {
 
                 if ( ! class_exists( 'ZipArchive' ) ) {
                     if ( $aOptions[ 'output_buffer' ] ) {
@@ -890,7 +890,7 @@ class PHP_Class_Files_Beautifier extends PHP_Class_Files_Script_Generator_Base {
              * Downloads the given url.
              * @since       1.0.0
              */
-            private function _downloadZip( $sURL, $sFilePath, array $aOptions=array() ) {
+            private function ___downloadZip( $sURL, $sFilePath, array $aOptions=array() ) {
 
                 // The cURL extension is required.
                 if ( ! function_exists( 'curl_init' ) ) {
@@ -912,7 +912,7 @@ class PHP_Class_Files_Beautifier extends PHP_Class_Files_Script_Generator_Base {
                     unlink( $sFilePath );
                 }
 
-                $sURL = $this->_getRedirectedURL( $sURL );
+                $sURL = $this->___getRedirectedURL( $sURL );
 
                 $_hZipResource = fopen( $sFilePath , "w" );
                     if ( $aOptions[ 'output_buffer' ] ) {
@@ -945,7 +945,7 @@ class PHP_Class_Files_Beautifier extends PHP_Class_Files_Script_Generator_Base {
              *
              * @since   1.0.0
              */
-            private function _getRedirectedURL( $sURL ) {
+            private function ___getRedirectedURL( $sURL ) {
 
                 $ch = curl_init( $sURL );
                 curl_setopt( $ch, CURLOPT_FOLLOWLOCATION, true); // follow redirects
@@ -981,12 +981,12 @@ class PHP_Class_Files_Beautifier extends PHP_Class_Files_Script_Generator_Base {
 
         // Simple copy for a file
         if ( is_file( $source ) ) {
-            return $this->_copyFile( $source, $dest, $aOptions );
+            return $this->___copyFile( $source, $dest, $aOptions );
         }
 
         // Make destination directory
         if ( ! is_dir( $dest ) ) {
-            if ( ! $this->isInExcludeList( $dest, $aOptions ) ) {
+            if ( ! $this->___isInExcludeList( $dest, $aOptions ) ) {
                 mkdir( $dest, $permissions );
             }
         }
@@ -1000,7 +1000,7 @@ class PHP_Class_Files_Beautifier extends PHP_Class_Files_Script_Generator_Base {
                 continue;
             }
 
-            if ( $this->isInExcludeList( $dir->path, $aOptions ) ) {
+            if ( $this->___isInExcludeList( $dir->path, $aOptions ) ) {
                 continue;
             }
 
@@ -1013,23 +1013,23 @@ class PHP_Class_Files_Beautifier extends PHP_Class_Files_Script_Generator_Base {
         return true;
 
     }
-        private function _copyFile( $sSource, $sDestination, array $aOptions=array() ) {
+        private function ___copyFile( $sSource, $sDestination, array $aOptions=array() ) {
             if ( ! file_exists( $sSource ) ) {
                 return false;
             }
             // check it is in a class exclude list
-            if ( $this->_isInClassExclusionList( $sSource, $aOptions ) ) {
+            if ( $this->___isInClassExclusionList( $sSource, $aOptions ) ) {
                 return false;
             }
             return copy( $sSource, $sDestination );
         }
-            private function _isInClassExclusionList( $sSource, $aOptions ) {
+            private function ___isInClassExclusionList( $sSource, $aOptions ) {
                 return in_array(
                     basename( $sSource ),
                     $aOptions['exclude_file_names']
                 );
             }
-        private function isInExcludeList( $sDirPath, array $aOptions=array() ) {
+        private function ___isInExcludeList( $sDirPath, array $aOptions=array() ) {
 
             $sDirPath          = $this->_getPathFormatted( $sDirPath );
             $_aExcludeDirPaths = isset( $aOptions[ 'exclude_dir_paths' ] )
@@ -1050,7 +1050,7 @@ class PHP_Class_Files_Beautifier extends PHP_Class_Files_Script_Generator_Base {
         }
 
     /**
-     * @return      the created directory path
+     * @return      string  The created directory path
      * @since       1.1.0
      */
     public function createTempDir() {
