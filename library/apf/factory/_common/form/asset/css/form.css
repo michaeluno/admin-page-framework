@@ -1,0 +1,827 @@
+@charset "UTF-8";
+.admin-page-framework-form-warning {
+  font-size: 1em;
+}
+
+/* Form Elements */
+/* TD paddings when the field title is disabled */
+td.admin-page-framework-field-td-no-title {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+/* Fields Container */
+.admin-page-framework-fields {
+  display: table;
+  /* the block property does not give the element the solid height */
+  width: 100%;
+  table-layout: fixed;
+  /* in Firefox, fix the issue that preview images cause the container element to expand */
+}
+
+/* Number Input */
+.admin-page-framework-field input[type=number] {
+  text-align: right;
+}
+
+/* Disabled */
+.admin-page-framework-fields .disabled,
+.admin-page-framework-fields .disabled input,
+.admin-page-framework-fields .disabled textarea,
+.admin-page-framework-fields .disabled select,
+.admin-page-framework-fields .disabled option {
+  color: #BBB;
+}
+
+/* HR */
+.admin-page-framework-fields hr {
+  border: 0;
+  height: 0;
+  border-top: 1px solid #dfdfdf;
+}
+
+/* Delimiter */
+.admin-page-framework-fields .delimiter {
+  display: inline;
+}
+
+/* Description */
+.admin-page-framework-fields-description {
+  margin-bottom: 0;
+}
+
+/* Field Container */
+.admin-page-framework-field {
+  float: left;
+  clear: both;
+  display: inline-block;
+  margin: 1px 0;
+}
+
+.admin-page-framework-field label {
+  display: inline-block;
+  /* for WordPress v3.7.x or below */
+  width: 100%;
+}
+
+/* Field Title */
+@media screen and (max-width: 782px) {
+  .form-table fieldset > label {
+    display: inline-block;
+  }
+}
+.admin-page-framework-field .admin-page-framework-input-label-container {
+  margin-bottom: 0.25em;
+}
+
+@media only screen and (max-width: 780px) {
+  /* For WordPress v3.8 or greater */
+  .admin-page-framework-field .admin-page-framework-input-label-container {
+    margin-top: 0.5em;
+    /* 3.8.13+ for fields in the collapsible section title area. */
+    margin-bottom: 0.5em;
+  }
+}
+.admin-page-framework-field .admin-page-framework-input-label-string {
+  padding-right: 1em;
+  /* for checkbox label strings, a right padding is needed */
+  vertical-align: middle;
+  display: inline-block;
+  /* each (sub)field label can have a fix min-width */
+}
+
+.admin-page-framework-field .admin-page-framework-input-button-container {
+  padding-right: 1em;
+}
+
+.admin-page-framework-field .admin-page-framework-input-container {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.admin-page-framework-field-image .admin-page-framework-input-label-container {
+  vertical-align: middle;
+}
+
+.admin-page-framework-field .admin-page-framework-input-label-container {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+/* Repeatable Fields */
+.repeatable .admin-page-framework-field {
+  clear: both;
+  display: block;
+}
+
+.admin-page-framework-repeatable-field-buttons {
+  float: right;
+  margin: 0.1em 0 0.5em 0.3em;
+  vertical-align: middle;
+}
+
+.admin-page-framework-repeatable-field-buttons .repeatable-field-button {
+  margin: 0 0.1em;
+  font-weight: normal;
+  vertical-align: middle;
+  text-align: center;
+}
+
+@media only screen and (max-width: 960px) {
+  .admin-page-framework-repeatable-field-buttons {
+    margin-top: 0;
+  }
+}
+/* Sortable Section and Fields */
+.admin-page-framework-sections.sortable-section > .admin-page-framework-section,
+.sortable > .admin-page-framework-field {
+  clear: both;
+  float: left;
+  display: inline-block;
+  /* padding: 1em 1.2em 0.78em; @deprecated 3.7.1 */
+  padding: 1em 1.32em 1em;
+  margin: 1px 0 0 0;
+  border-top-width: 1px;
+  border-bottom-width: 1px;
+  border-bottom-style: solid;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+  text-shadow: #fff 0 1px 0;
+  -webkit-box-shadow: 0 1px 0 #fff;
+  box-shadow: 0 1px 0 #fff;
+  -webkit-box-shadow: inset 0 1px 0 #fff;
+  box-shadow: inset 0 1px 0 #fff;
+  -webkit-border-radius: 3px;
+  border-radius: 3px;
+  background: #f1f1f1;
+  background-image: -webkit-gradient(linear, left bottom, left top, from(#ececec), to(#f9f9f9));
+  background-image: -webkit-linear-gradient(bottom, #ececec, #f9f9f9);
+  background-image: -moz-linear-gradient(bottom, #ececec, #f9f9f9);
+  background-image: -o-linear-gradient(bottom, #ececec, #f9f9f9);
+  background-image: linear-gradient(to top, #ececec, #f9f9f9);
+  border: 1px solid #CCC;
+  background: #F6F6F6;
+}
+
+.admin-page-framework-fields.sortable {
+  margin-bottom: 1.2em;
+  /* each sortable field does not have a margin bottom so this rule gives a margin between the fields and the description */
+}
+
+/* Media Upload Buttons */
+.admin-page-framework-field .button.button-small {
+  width: auto;
+}
+
+/* Fonts */
+.font-lighter {
+  font-weight: lighter;
+}
+
+/* Dashicons */
+.admin-page-framework-field .button.button-small.dashicons {
+  font-size: 1.2em;
+  padding-left: 0.2em;
+  padding-right: 0.22em;
+  min-width: 1em;
+  /* 3.8.13+ prevent the icon width from getting to narrow */
+}
+
+@media screen and (max-width: 782px) {
+  .admin-page-framework-field .button.button-small.dashicons {
+    min-width: 1.8em;
+    /* 3.8.13+ prevent the icon width from getting to narrow */
+  }
+}
+/* Image icons vertical alignments 3.8.13+ */
+.admin-page-framework-field .button.button-small.dashicons:before {
+  position: relative;
+  top: 7.2%;
+}
+
+@media screen and (max-width: 782px) {
+  .admin-page-framework-field .button.button-small.dashicons:before {
+    top: 8.2%;
+  }
+}
+/* Field Title 3.8.0+ */
+.admin-page-framework-field-title {
+  font-weight: 600;
+  min-width: 80px;
+  margin-right: 1em;
+}
+
+/* Font-weight 3.8.0+ */
+.admin-page-framework-fieldset {
+  /* This needs to be explicitly defined for the fields placed in the field title area. */
+  font-weight: normal;
+}
+
+/* Input container label 3.8.0+ */
+.admin-page-framework-input-label-container,
+.admin-page-framework-input-label-string {
+  min-width: 140px;
+}
+
+.field-error,
+.section-error {
+  color: red;
+  float: left;
+  clear: both;
+  margin-bottom: 0.5em;
+}
+
+.repeatable-section-error,
+.repeatable-field-error {
+  float: right;
+  clear: both;
+  color: red;
+  margin-left: 1em;
+}
+
+/* Section Table */
+.admin-page-framework-section .form-table {
+  margin-top: 0;
+}
+
+.admin-page-framework-section .form-table td label {
+  display: inline;
+  /* adjusts the horizontal alignment with the th element */
+}
+
+/* Section Tabs */
+.admin-page-framework-section-tabs-contents {
+  margin-top: 1em;
+}
+
+.admin-page-framework-section-tabs {
+  /* The section tabs' container */
+  margin: 0;
+}
+
+.admin-page-framework-tab-content {
+  /* each section including sub-sections of repeatable fields */
+  padding: 0.5em 2em 1.5em 2em;
+  margin: 0;
+  border-style: solid;
+  border-width: 1px;
+  border-color: #dfdfdf;
+  background-color: #fdfdfd;
+}
+
+.admin-page-framework-section-tab {
+  background-color: transparent;
+  vertical-align: bottom;
+  /* for Firefox */
+  margin-bottom: -2px;
+  /* For WP 3.4.4+, 3.8.13 Changed it from -1px for WP 4.7. */
+  margin-left: 0px;
+  margin-right: 0.5em;
+  background-color: #F1F1F1;
+  font-weight: normal;
+}
+
+.admin-page-framework-section-tab:hover {
+  background-color: #F8F8F8;
+}
+
+.admin-page-framework-section-tab.active {
+  background-color: #fdfdfd;
+}
+
+/* Tab title */
+.admin-page-framework-section-tab h4 {
+  margin: 0;
+  /* padding: 8px 14px 10px; */
+  padding: 0.4em 0.8em;
+  font-size: 1.12em;
+  vertical-align: middle;
+  white-space: nowrap;
+  display: inline-block;
+  font-weight: normal;
+}
+
+.admin-page-framework-section-tab.nav-tab {
+  /* padding: 0; */
+  padding: 0.2em 0.4em;
+}
+
+.admin-page-framework-section-tab.nav-tab a {
+  text-decoration: none;
+  color: #464646;
+  vertical-align: inherit;
+  /* for Firefox - without this tiny dots appear */
+  outline: 0;
+  /* for FireFox - remove dotted outline */
+}
+
+.admin-page-framework-section-tab.nav-tab a:focus {
+  /* For FireFox - remove dotted outline when a switchable tab is activated */
+  box-shadow: none;
+}
+
+.admin-page-framework-section-tab.nav-tab.active a {
+  color: #000;
+}
+
+.admin-page-framework-content ul.admin-page-framework-section-tabs > li.admin-page-framework-section-tab {
+  /* Do not show bullets in section tabs */
+  list-style-type: none;
+  /* For WordPress 4.4, make sure to attach the tab to the container */
+  margin: -4px 4px -1px 0;
+}
+
+/* Repeatable Sections */
+.admin-page-framework-repeatable-section-buttons {
+  float: right;
+  clear: right;
+  margin-top: 1em;
+}
+
+.admin-page-framework-repeatable-section-buttons.disabled > .repeatable-section-button {
+  color: #edd;
+  border-color: #edd;
+}
+
+/* Section Caption */
+.admin-page-framework-section-caption {
+  text-align: left;
+  margin: 0;
+}
+
+/* Section Title */
+.admin-page-framework-section .admin-page-framework-section-title {
+  /* background: none; */
+  /* @todo examine what this is for. @deprecated 3.4.0 for repeatable collapsible section titles */
+  /* -webkit-box-shadow: none; */
+  /* @todo examine what this is for. @deprecated 3.4.0 for repeatable collapsible section titles */
+  /* _box-shadow: none; */
+  /* @todo examine what this is for. @deprecated 3.4.0 for repeatable collapsible section titles */
+}
+
+/* Sortable Sections */
+.admin-page-framework-sections.sortable-section > .admin-page-framework-section {
+  /* padding: 1em 2.5em 1.5em 2.5em; */
+  padding: 1em 1.8em 1em 2.6em;
+}
+
+/* Sortable Collapsible Sections */
+.admin-page-framework-sections.sortable-section > .admin-page-framework-section.is_subsection_collapsible {
+  display: block;
+  float: none;
+  border: 0px;
+  padding: 0;
+  background: transparent;
+}
+
+/* Sortable Tabbed Sections */
+.admin-page-framework-sections.sortable-section > .admin-page-framework-tab-content {
+  display: block;
+  float: none;
+  border: 0px;
+  padding: 0.5em 2em 1.5em 2em;
+  margin: 0;
+  border-style: solid;
+  border-width: 1px;
+  border-color: #dfdfdf;
+  background-color: #fdfdfd;
+}
+
+.admin-page-framework-sections.sortable-section > .admin-page-framework-section {
+  margin-bottom: 1em;
+}
+
+.admin-page-framework-section {
+  /* gives a bottom margin between sections. This helps for the debug info in each sectionset and collapsible sections. */
+  margin-bottom: 1em;
+}
+
+.admin-page-framework-sectionset {
+  margin-bottom: 1em;
+  display: inline-block;
+  width: 100%;
+}
+
+/* Nested sections */
+.admin-page-framework-section > .admin-page-framework-sectionset {
+  margin-left: 2em;
+}
+
+/* Collapsible Sections Title Block */
+.admin-page-framework-collapsible-sections-title.admin-page-framework-collapsible-type-box,
+.admin-page-framework-collapsible-section-title.admin-page-framework-collapsible-type-box {
+  font-size: 13px;
+  background-color: #fff;
+  padding: 1em 2.6em 1em 2em;
+  border-top: 1px solid #eee;
+  border-bottom: 1px solid #eee;
+}
+
+.admin-page-framework-collapsible-sections-title.admin-page-framework-collapsible-type-box.collapsed .admin-page-framework-collapsible-section-title.admin-page-framework-collapsible-type-box.collapsed {
+  border-bottom: 1px solid #dfdfdf;
+  margin-bottom: 1em;
+  /* gives a margin for the debug info at the bottom of the meta box */
+}
+
+.admin-page-framework-collapsible-section-title.admin-page-framework-collapsible-type-box {
+  margin-top: 0;
+}
+
+.admin-page-framework-collapsible-section-title.admin-page-framework-collapsible-type-box.collapsed {
+  margin-bottom: 0;
+}
+
+/* Collapsible Sections Title Block  */
+#poststuff .admin-page-framework-collapsible-sections-title.admin-page-framework-collapsible-type-box.admin-page-framework-section-title > .section-title-outer-container > .section-title-container > .section-title,
+#poststuff .admin-page-framework-collapsible-section-title.admin-page-framework-collapsible-type-box.admin-page-framework-section-title > .section-title-outer-container > .section-title-container > .section-title {
+  font-size: 1em;
+  margin: 0 1em 0 0;
+  /* 3.8.13+ The margin-right is required for fields in the section title area. */
+}
+
+#poststuff .admin-page-framework-collapsible-section-title.admin-page-framework-collapsible-type-box.admin-page-framework-section-title > .section-title-outer-container > .section-title-container > fieldset {
+  line-height: 0;
+  /* 3.8.13 to vertically align in the center */
+}
+
+#poststuff .admin-page-framework-collapsible-section-title.admin-page-framework-collapsible-type-box.admin-page-framework-section-title > .section-title-outer-container > .section-title-container > fieldset .admin-page-framework-field {
+  margin: 0;
+  padding: 0;
+}
+
+/* Collapsible Sections Title Dashicon */
+.admin-page-framework-collapsible-sections-title.admin-page-framework-collapsible-type-box.accordion-section-title:after,
+.admin-page-framework-collapsible-section-title.admin-page-framework-collapsible-type-box.accordion-section-title:after {
+  top: 0.88em;
+  /* about half of 2em which is the element height, and slightly higher. */
+  top: 34%;
+  /* about half of 2em which is the element height, and slightly higher. */
+  right: 15px;
+}
+
+.admin-page-framework-collapsible-sections-title.admin-page-framework-collapsible-type-box.accordion-section-title:after,
+.admin-page-framework-collapsible-section-title.admin-page-framework-collapsible-type-box.accordion-section-title:after {
+  content: "";
+}
+
+.admin-page-framework-collapsible-sections-title.admin-page-framework-collapsible-type-box.accordion-section-title.collapsed:after,
+.admin-page-framework-collapsible-section-title.admin-page-framework-collapsible-type-box.accordion-section-title.collapsed:after {
+  content: "";
+}
+
+/**
+ * Collapsible Sections Content Block
+ * @todo ...-content-type-box may have been deprecated. So investigate whether it is not used anywhere and remove it in that case.
+ **/
+.admin-page-framework-collapsible-sections-content.admin-page-framework-collapsible-content.accordion-section-content,
+.admin-page-framework-collapsible-section-content.admin-page-framework-collapsible-content.accordion-section-content,
+.admin-page-framework-collapsible-sections-content.admin-page-framework-collapsible-content-type-box,
+.admin-page-framework-collapsible-section-content.admin-page-framework-collapsible-content-type-box {
+  border: 1px solid #dfdfdf;
+  border-top: 0;
+  background-color: #fff;
+  /* margin-bottom: 1em; */
+  /* gives a margin for the debug info at the bottom of the meta box */
+}
+
+tbody.admin-page-framework-collapsible-content {
+  display: table-caption;
+  /* 'block' will be assigned in JavaScript if the browser is not Chrome */
+  padding: 10px 20px 15px 20px;
+}
+
+/* Collapsible section containers get this class selector in Google Chrome */
+tbody.admin-page-framework-collapsible-content.table-caption {
+  display: table-caption;
+  /* For some reasons, this display mode gives smooth animation in Google Chrome */
+}
+
+/* The Toggle All button */
+.admin-page-framework-collapsible-toggle-all-button-container {
+  margin-top: 1em;
+  margin-bottom: 1em;
+  width: 100%;
+  display: table;
+  /* if block, it gets hidden inside the section toggle bar */
+}
+
+.admin-page-framework-collapsible-toggle-all-button.button {
+  height: 36px;
+  line-height: 34px;
+  padding: 0 16px 6px;
+  font-size: 20px;
+  /* Determines the dashicon size  */
+  width: auto;
+}
+
+/* Vertically flip the toggle button */
+.flipped > .admin-page-framework-collapsible-toggle-all-button.button.dashicons {
+  -moz-transform: scaleY(-1);
+  -webkit-transform: scaleY(-1);
+  transform: scaleY(-1);
+  filter: flipv;
+  /*IE*/
+}
+
+/* Repeatable Section buttons inside the collapsible section title block */
+.admin-page-framework-collapsible-section-title.admin-page-framework-collapsible-type-box .admin-page-framework-repeatable-section-buttons {
+  /* Collapsible section bar has an icon at the right end so the repeatable button needs to be placed before it */
+  margin: 0;
+  /* margin-right: 2em; @deprecated 3.8.13+ The section repeatable buttons are no longer float but positioned with the `position` property. */
+  /* margin-top: -0.32em; @deprecated 3.8.7+ It is placed somewhat high in WP 4.6.1. */
+}
+
+/* When a section_title field is in the caption tag, do not set the margin-top to align vertically */
+.admin-page-framework-collapsible-section-title.admin-page-framework-collapsible-type-box .admin-page-framework-repeatable-section-buttons.section_title_field_sibling {
+  margin-top: 0;
+}
+
+.admin-page-framework-collapsible-section-title.admin-page-framework-collapsible-type-box .repeatable-section-button {
+  background: none;
+  /* for Wordpress v3.7.x or below, the background image need to be removed as well */
+  /* 3.8.13+ Give a fixed button size */
+  line-height: 1.8em;
+  margin: 0;
+  padding: 0;
+  width: 2em;
+  height: 2em;
+  text-align: center;
+}
+
+/* 3.8.13+ Treat the section title area and the repeatable buttons as columns. */
+.admin-page-framework-collapsible-sections-title.admin-page-framework-collapsible-type-box .section-title-height-fixer,
+.admin-page-framework-collapsible-section-title.admin-page-framework-collapsible-type-box .section-title-height-fixer {
+  /* This height fixer element gives vertical alignment to the other column elements in the row. The other columns must not set height. */
+  height: 100%;
+  width: 0;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.admin-page-framework-collapsible-sections-title.admin-page-framework-collapsible-type-box .section-title-outer-container,
+.admin-page-framework-collapsible-section-title.admin-page-framework-collapsible-type-box .section-title-outer-container {
+  width: 88%;
+  display: inline-block;
+  text-align: left;
+  vertical-align: middle;
+}
+
+.admin-page-framework-collapsible-sections-title.admin-page-framework-collapsible-type-box .admin-page-framework-repeatable-section-buttons-outer-container,
+.admin-page-framework-collapsible-section-title.admin-page-framework-collapsible-type-box .admin-page-framework-repeatable-section-buttons-outer-container {
+  width: 10.88%;
+  min-width: 60px;
+  /* for the browser width gets lets than 600px */
+  display: inline-block;
+  text-align: right;
+  vertical-align: middle;
+}
+
+@media only screen and (max-width: 782px) {
+  .admin-page-framework-collapsible-sections-title.admin-page-framework-collapsible-type-box .section-title-outer-container,
+.admin-page-framework-collapsible-section-title.admin-page-framework-collapsible-type-box .section-title-outer-container {
+    width: 87.8%;
+  }
+}
+/* 3.7.0+ For the button type collapsible sections, do not set a white color in the background */
+.accordion-section-content.admin-page-framework-collapsible-content-type-button {
+  background-color: transparent;
+}
+
+/* @todo When fields support a collapsible option, move this rule to a common CSS class as this class is for sections. */
+.admin-page-framework-collapsible-button {
+  color: #888;
+  margin-right: 0.4em;
+  font-size: 0.8em;
+}
+
+/* Toggle the visibility of the buttons */
+.admin-page-framework-collapsible-button-collapse {
+  display: inline;
+}
+
+.collapsed .admin-page-framework-collapsible-button-collapse {
+  display: none;
+}
+
+.admin-page-framework-collapsible-button-expand {
+  display: none;
+}
+
+.collapsed .admin-page-framework-collapsible-button-expand {
+  display: inline;
+}
+
+/* 3.8.0+ In the collapsible section title, the space is too limited so the fields be displayed inline. */
+.admin-page-framework-collapsible-section-title .admin-page-framework-fields {
+  display: inline;
+  vertical-align: middle;
+  /* 3.8.13+ aligning fields in vertically center especially for the collapsible section title era. */
+  line-height: 1em;
+  /* 3.8.13+ this helps aligning fields in vertically center. */
+}
+
+.admin-page-framework-collapsible-section-title .admin-page-framework-field {
+  float: none;
+}
+
+.admin-page-framework-collapsible-section-title .admin-page-framework-fieldset {
+  display: inline;
+  margin-right: 1em;
+  vertical-align: middle;
+  /* to have consistent vertical alignment with section title and fields. */
+}
+
+/* 3.8.7+ Collapsible section titles. To live with the `placement` argument enabled fields, the section title must be vertically centered. */
+#poststuff .admin-page-framework-collapsible-title.admin-page-framework-collapsible-section-title .section-title-container.has-fields .section-title {
+  width: auto;
+  display: inline-block;
+  margin: 0 1em 0 0.4em;
+  vertical-align: middle;
+}
+
+/* Inside Field Title */
+th > label > span > .admin-page-framework-form-tooltip {
+  margin-top: 1px;
+  margin-left: 1em;
+}
+
+/* For admin page fields, put the ? icon to the right hand side */
+.admin-page-framework-content th > .admin-page-framework-form-tooltip {
+  float: right;
+}
+
+.postbox-container th > .admin-page-framework-form-tooltip {
+  margin-left: 1em;
+  float: none;
+}
+
+/* Regular section titles have the `+` button and collapsible title bar has a triangle icon so give a left margin */
+.admin-page-framework-section-title a.admin-page-framework-form-tooltip,
+.admin-page-framework-collapsible-title a.admin-page-framework-form-tooltip {
+  margin-left: 1em;
+  vertical-align: middle;
+  /* 3.8.13+ Fixes vertical alignment, especially in the collapsible section title area. */
+}
+
+.admin-page-framework-section-tab a.admin-page-framework-form-tooltip {
+  margin-left: 0.48em;
+  color: #BEBEBE;
+  vertical-align: middle;
+}
+
+.admin-page-framework-section-tab.nav-tab.active a.admin-page-framework-form-tooltip {
+  color: #BEBEBE;
+}
+
+/* Font sizees */
+/* Question Mark (?) - we want it to be a little bit smaller than the title */
+.admin-page-framework-section-title a.admin-page-framework-form-tooltip > span,
+.admin-page-framework-collapsible-title a.admin-page-framework-form-tooltip > span {
+  font-size: inherit;
+}
+
+.admin-page-framework-form-tooltip > span {
+  font-size: 1.2em;
+  padding-top: 2px;
+  vertical-align: middle;
+  /* Dashicon vertical alignment */
+  display: inline;
+  /* for vertical-align to take effect */
+}
+
+/* Tip Contents - When it is placed inside h2, h3, h4, the tooltip text becomes large so avoid that */
+.admin-page-framework-section-title a.admin-page-framework-form-tooltip > span.admin-page-framework-form-tooltip-content,
+.admin-page-framework-collapsible-title a.admin-page-framework-form-tooltip > span.admin-page-framework-form-tooltip-content,
+a.admin-page-framework-form-tooltip > .admin-page-framework-form-tooltip-content {
+  font-size: 13px;
+  font-weight: normal;
+}
+
+a.admin-page-framework-form-tooltip {
+  /* vertical-align: middle; @deprecated 3.8.7 Withtout this, the element aligns more in vertically center. */
+  outline: none;
+  text-decoration: none;
+  cursor: default;
+  color: #BEBEBE;
+}
+
+a.admin-page-framework-form-tooltip > .admin-page-framework-form-tooltip-content > .admin-page-framework-form-tooltip-title {
+  font-weight: bold;
+}
+
+a.admin-page-framework-form-tooltip strong {
+  line-height: 30px;
+}
+
+a.admin-page-framework-form-tooltip:hover {
+  text-decoration: none;
+}
+
+a.admin-page-framework-form-tooltip > span.admin-page-framework-form-tooltip-content {
+  position: absolute;
+  padding: 14px 20px 14px;
+  width: 320px;
+  line-height: 16px;
+  color: #111;
+  border: 1px solid #DCA;
+  background: #FFFFF4;
+  /* Fade-in-and-out Effect */
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0.4s, opacity 0.4s linear;
+  /* Adjust the position of the tooltip here */
+  margin-top: -28px;
+  margin-left: 8px;
+  /* High z-index is required to appear over the left side bar menu */
+  z-index: 100000;
+}
+
+a.admin-page-framework-form-tooltip:hover > span.admin-page-framework-form-tooltip-content {
+  visibility: visible;
+  opacity: 1;
+  /* Fade-in-and-out Effect */
+}
+
+/* Balloon Left Arrow */
+a.admin-page-framework-form-tooltip:hover > span.admin-page-framework-form-tooltip-content::before {
+  content: " ";
+  position: absolute;
+  top: 40%;
+  right: 100%;
+  /* To the left of the tooltip */
+  margin-top: -5px;
+  border-width: 7px;
+  border-style: solid;
+  border-color: transparent #DCA transparent transparent;
+}
+
+a.admin-page-framework-form-tooltip:hover > span.admin-page-framework-form-tooltip-content::after {
+  content: " ";
+  position: absolute;
+  top: 40%;
+  right: 100%;
+  /* To the left of the tooltip */
+  margin-top: -4px;
+  border-width: 6px;
+  border-style: solid;
+  border-color: transparent #FFFFF4 transparent transparent;
+}
+
+/* Tooltip Box Shadow */
+a.admin-page-framework-form-tooltip > span.admin-page-framework-form-tooltip-content {
+  border-radius: 4px;
+  box-shadow: 5px 5px 8px #CCC;
+  -webkit-box-shadow: 5px 5px 8px rgba(0, 0, 0, 0.2);
+  -moz-box-shadow: 5px 5px 8px rgba(0, 0, 0, 0.2);
+  box-shadow: 5px 5px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Title */
+.admin-page-framework-form-tooltip-title {
+  font-weight: bold;
+  display: block;
+}
+
+/* Debug Info - Field Arguments */
+a.admin-page-framework-form-tooltip.debug-info-field-arguments > span.admin-page-framework-form-tooltip-content {
+  min-width: 640px;
+  background-color: #F8F8F8;
+}
+
+a.admin-page-framework-form-tooltip.debug-info-field-arguments > span.admin-page-framework-form-tooltip-content .dump-array {
+  max-height: 400px;
+  margin: 20px 8px;
+}
+
+/* For smaller screens */
+@media (max-width: 640px) {
+  a.admin-page-framework-form-tooltip.debug-info-field-arguments > span.admin-page-framework-form-tooltip-content {
+    max-width: 280px;
+  }
+}
+a.admin-page-framework-form-tooltip.debug-info-field-arguments:hover > span.admin-page-framework-form-tooltip-content::before {
+  content: " ";
+  position: absolute;
+  top: 36px;
+  right: 100%;
+  /* To the left of the tooltip */
+  margin-top: -5px;
+  border-width: 8px;
+  border-style: solid;
+  border-color: transparent #DCA transparent transparent;
+}
+
+a.admin-page-framework-form-tooltip.debug-info-field-arguments:hover > span.admin-page-framework-form-tooltip-content::after {
+  content: " ";
+  position: absolute;
+  top: 38px;
+  right: 100%;
+  /* To the left of the tooltip */
+  margin-top: -5px;
+  border-width: 6px;
+  border-style: solid;
+  border-color: transparent #F8F8F8 transparent transparent;
+}
+
+/*# sourceMappingURL=form.css.map */
