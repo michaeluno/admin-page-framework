@@ -269,7 +269,7 @@ class PHP_Class_Files_Beautifier extends PHP_Class_Files_Script_Generator_Base {
                 $_aNew[ $_sClassName ] = $_aFile;
                 continue;
             }
-            if ( in_array( $_sClassName, $_aCombineOptions[ 'exclude_classes' ] ) ) {
+            if ( in_array( $_sClassName, $_aCombineOptions[ 'exclude_classes' ], true ) ) {
                 $_aNew[ $_sClassName ] = $_aFile;
                 continue;
             }
@@ -314,7 +314,7 @@ class PHP_Class_Files_Beautifier extends PHP_Class_Files_Script_Generator_Base {
             $_sSubjectDirPath = dirname( $aFiles[ $sClassName ][ 'path' ] );
             foreach( $aFiles as $_sClassName => $_aFile ) {
 
-                if ( in_array( $_sClassName, $aExcludingClassNames ) ) {
+                if ( in_array( $_sClassName, $aExcludingClassNames, true ) ) {
                     continue;
                 }
 
@@ -1021,10 +1021,7 @@ class PHP_Class_Files_Beautifier extends PHP_Class_Files_Script_Generator_Base {
             return copy( $sSource, $sDestination );
         }
             private function ___isInClassExclusionList( $sSource, $aOptions ) {
-                return in_array(
-                    basename( $sSource ),
-                    $aOptions['exclude_file_names']
-                );
+                return in_array( basename( $sSource ), $aOptions['exclude_file_names'], true );
             }
         private function ___isInExcludeList( $sDirPath, array $aOptions=array() ) {
 
@@ -1036,10 +1033,10 @@ class PHP_Class_Files_Beautifier extends PHP_Class_Files_Script_Generator_Base {
                 ? ( array ) $aOptions[ 'exclude_dir_names' ]
                 : array();
 
-            if ( in_array( $sDirPath, $_aExcludeDirPaths ) ) {
+            if ( in_array( $sDirPath, $_aExcludeDirPaths, true ) ) {
                 return true;
             }
-            if ( in_array( pathinfo( $sDirPath, PATHINFO_BASENAME ), $_aExcludeDirNames ) ) {
+            if ( in_array( pathinfo( $sDirPath, PATHINFO_BASENAME ), $_aExcludeDirNames, true ) ) {
                 return true;
             }
             return false;
