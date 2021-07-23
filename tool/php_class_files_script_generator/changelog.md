@@ -1,4 +1,4 @@
-## CHange Log
+## Change Log
 
 ### 1.0.8 - 2015/12/10
 - Added a method to format a path.
