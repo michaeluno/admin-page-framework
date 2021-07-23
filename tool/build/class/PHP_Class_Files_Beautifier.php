@@ -677,13 +677,12 @@ class PHP_Class_Files_Beautifier extends PHP_Class_Files_Script_Generator_Base {
         $this->output( 'Beautifying PHP code.', $aOptions );
 
         $_aNew   = array();
-        $_iCount = 0;
-        foreach( $aFiles as $_sClassName => $_aFile  ) {
+        foreach( $aFiles as $_sFileBasename => $_aFile  ) {
             $_aFile[ 'code' ] = $this->___getBeautifiedCode(
                 $_aFile[ 'code' ],
                 $aOptions[ 'header_comment' ]
             );
-            $_aNew[ $_sClassName ] = $_aFile;
+            $_aNew[ $_sFileBasename ] = $_aFile;
             $this->output( '.', $aOptions );
         }
         $this->output( $_sCR, $aOptions );
@@ -738,7 +737,7 @@ class PHP_Class_Files_Beautifier extends PHP_Class_Files_Script_Generator_Base {
         );
 
         // Create files.
-        foreach( $aFiles as $_sClassName => $_aFile ) {
+        foreach( $aFiles as $_aFile ) {
             $this->___write(
                 $this->___getDestinationFilePathFromTempPath( $sDestinationDirPath, $sTempDirPath, $_aFile[ 'path' ] ),
                 $_aFile[ 'code' ]
