@@ -351,7 +351,7 @@ class PHP_Class_Files_Beautifier extends PHP_Class_Files_Script_Generator_Base {
                 return $_aAncestors;
             }
 
-            // Add the parent class to the returining array.
+            // Add the parent class to the returning array.
             if ( $bOnlyInTheSameDirectory ) {
                 $_sThisDirPath        = dirname( $aFiles[ $sClassName ][ 'path' ] );
                 $_sParentClassDirPath = dirname( $aFiles[ $_sParentClass ][ 'path' ] );
@@ -362,12 +362,11 @@ class PHP_Class_Files_Beautifier extends PHP_Class_Files_Script_Generator_Base {
 
             $_aAncestors[] = $_sParentClass;
 
-            $_aAncestors = array_merge(
+            return array_merge(
                 $_aAncestors,   // for numeric numeric items, the first parameter items will come first
                 $this->___getAncestorClassNames( $_sParentClass, $aFiles, $bOnlyInTheSameDirectory )
             );
-
-            return $_aAncestors;
+            
         }
 
     /**
@@ -383,7 +382,7 @@ class PHP_Class_Files_Beautifier extends PHP_Class_Files_Script_Generator_Base {
         }
 
         $_sCR = $aOptions[ 'carriage_return' ];
-        $this->output( 'Minifiying inline JavaScript scripts.', $aOptions );
+        $this->output( 'Minifying inline JavaScript scripts.', $aOptions );
         $this->output( 'Here-doc Keys: ' . implode( ',', $aOptions[ 'js_heredoc_keys' ] ), $aOptions );
         $aOptions[ 'carriage_return' ] = '';
 
@@ -489,13 +488,11 @@ class PHP_Class_Files_Beautifier extends PHP_Class_Files_Script_Generator_Base {
                     . ';"; ';
 
                 // Restore the reserved PHP variables.
-                $_sJavaScript = str_replace(
+                return str_replace(
                     array_keys( $_aReplacedPHPVariables ), // search - reserved values
                     array_values( $_aReplacedPHPVariables ), // replace - original values
                     $_sJavaScript
                 );
-
-                return $_sJavaScript;
 
             }
                 /**
@@ -510,7 +507,7 @@ class PHP_Class_Files_Beautifier extends PHP_Class_Files_Script_Generator_Base {
                     // Perform replacements to reserve PHP variables.
                     $sCode = preg_replace_callback(
                         '/{\$.[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*?}/ms',
-                        array( $this, '_replyToReservePHPVaraiable' ),
+                        array( $this, '___replyToReservePHPVariable' ),
                         $sCode,
                         -1,
                         $_iCount
@@ -525,7 +522,7 @@ class PHP_Class_Files_Beautifier extends PHP_Class_Files_Script_Generator_Base {
                      * @callback    function        preg_replace_callback
                      * @return      string
                      */
-                    public function _replyToReservePHPVaraiable( $aMatches ) {
+                    private function ___replyToReservePHPVariable( $aMatches ) {
                         $_sReplacement = '__RESERVED_PHP_VARIABLE_' . count( $this->_aReservedPHPVariables );
                         $this->_aReservedPHPVariables[ $_sReplacement ] = $aMatches[ 0 ];   // original
                         return $_sReplacement;
