@@ -30,7 +30,7 @@ class AdminPageFramework_Widget_Factory extends WP_Widget {
 		
         $aArguments = $aArguments 
             + array( 
-                'classname'     => 'admin_page_framework_widget',
+                'classname'     => 'admin-page-framework-widget admin_page_framework_widget',
                 'description'   => '',  
             );
             
