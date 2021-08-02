@@ -23,7 +23,7 @@ module.exports = class GulpTaskJSConcatMin {
         let _baseName = path.basename( _pathDir, '.bundle' );
         return src( [ _pathDir + '/*.min.js', '!' + _pathDir + '/*.bundle.js' ] )
           .pipe( using() )
-          .pipe( cache( 'js-concat-min' ) )
+          // .pipe( cache( 'js-concat-min' ) )
           .pipe( concat( _baseName + '.bundle.min.js' ) )
           .pipe( uglify({
               output: {
