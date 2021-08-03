@@ -621,7 +621,7 @@ abstract class AdminPageFramework_Resource_Base extends AdminPageFramework_Frame
      * @since 3.9.0
      */
     public function _replyToEnqueueCommonScripts() {
-        if ( $this->hasBeenCalled( 'COMMON_EXTERNAL_SCRIPTS: ' . get_class( $this ) . '::' . __METHOD__ ) ) {
+        if ( $this->hasBeenCalled( 'COMMON_EXTERNAL_SCRIPTS: ' . __METHOD__ ) ) {
             return;
         }
         // Currently no common JS script is needed
@@ -640,7 +640,7 @@ abstract class AdminPageFramework_Resource_Base extends AdminPageFramework_Frame
      * @callback action wp_enqueue_scripts
      */
     public function _replyToEnqueueCommonStyles() {
-        if ( $this->hasBeenCalled( 'COMMON_EXTERNAL_STYLES: ' . get_class( $this ) . '::' . __METHOD__ ) ) {
+        if ( $this->hasBeenCalled( 'COMMON_EXTERNAL_STYLES: ' . __METHOD__ ) ) {
             return;
         }
         $this->_addEnqueuingResourceByType(
