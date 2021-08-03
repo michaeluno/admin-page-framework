@@ -22,11 +22,8 @@ module.exports = class GulpTaskJSConcat {
         _processing = true;
         let _pathDir  = path.dirname( file.path );
         let _baseName = path.basename( _pathDir, '.bundle' );
-        return src
-
-        ( [ _pathDir + '/*.js', '!' + _pathDir + '/*.min.js', '!' + _pathDir + '/*.bundle.js' ] )
+        return src( [ _pathDir + '/*.js', '!' + _pathDir + '/*.min.js', '!' + _pathDir + '/*.bundle.js' ] )
           .pipe( using() )
-        //  .pipe( cache( 'js-concat' ) )
           .pipe( concat( _baseName + '.bundle.js' ) )
           .pipe( dest( path.dirname( _pathDir ) ) );
       }));
