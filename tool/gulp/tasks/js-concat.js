@@ -14,6 +14,8 @@ module.exports = class GulpTaskJSConcat {
 
     let _processing = false;
     src( GulpTaskJSConcat.src )
+      .pipe( cache('js-concat' ) )
+      .pipe( using() )
       // @see https://stackoverflow.com/a/50655862
       .pipe( flatmap( ( stream, file ) => {
         if ( _processing ) {

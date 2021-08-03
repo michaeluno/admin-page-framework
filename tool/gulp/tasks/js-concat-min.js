@@ -14,6 +14,8 @@ module.exports = class GulpTaskJSConcatMin {
 
     let _processing = false;
     src( GulpTaskJSConcatMin.src )
+      .pipe( cache('js-concat-min' ) )
+      .pipe( using() )
       .pipe( flatmap( ( stream, file ) => {
         if ( _processing ) {
           return stream;

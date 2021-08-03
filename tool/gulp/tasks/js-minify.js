@@ -8,7 +8,7 @@ const cache  = require( 'gulp-cached' );
 module.exports = class GulpTaskJS {
   static src = '';
   static callback( cb ) {
-    console.log( 'js src:', GulpTaskJS.src );
+    console.log( 'js-minify src:', GulpTaskJS.src );
     src( GulpTaskJS.src )
       .pipe( cache('js-minify' ) )
       .pipe( using() )
