@@ -1,8 +1,8 @@
 const { src, dest } = require( 'gulp' );
 const sass = require( 'gulp-sass' )( require( 'sass' ) );
-const autoprefixer = require('gulp-autoprefixer');
-const rename = require('gulp-rename');
-const sourcemaps = require('gulp-sourcemaps');
+const autoprefixer = require( 'gulp-autoprefixer' );
+const rename = require( 'gulp-rename' );
+const sourcemaps = require( 'gulp-sourcemaps' );
 const using = require( 'gulp-using' );
 const cache  = require( 'gulp-cached' );
 
@@ -11,7 +11,7 @@ module.exports = class GulpTaskSass {
   static callback( cb ) {
     // Normal CSS
     src( GulpTaskSass.src )
-      .pipe( cache('css' ) )
+      .pipe( cache( 'css' ) )
       .pipe( sass().on( 'error', sass.logError ) )
       .pipe( using() )
 
@@ -28,7 +28,7 @@ module.exports = class GulpTaskSass {
 
     // Minified CSS
     src( GulpTaskSass.src )
-      .pipe( cache('css-min' ) )
+      .pipe( cache( 'css-min' ) )
       .pipe( sass().on( 'error', sass.logError ) )
       .pipe( sass( { outputStyle: 'compressed' } ) )
       .pipe( autoprefixer( 'last 10 versions' ) )
