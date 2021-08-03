@@ -619,6 +619,7 @@ abstract class AdminPageFramework_Resource_Base extends AdminPageFramework_Frame
     /**
      * Enqueues framework required common scripts.
      * @since 3.9.0
+     * @deprecated 3.9.0 Unused
      */
     public function _replyToEnqueueCommonScripts() {
         if ( $this->hasBeenCalled( 'COMMON_EXTERNAL_SCRIPTS: ' . __METHOD__ ) ) {
