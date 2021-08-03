@@ -144,7 +144,7 @@ class APF_Demo_Contact_Tab_Feedback {
                 // 'value'             => isset( $_GET['confirmation'] ) && 'email' === $_GET['confirmation']
                     // ? __( 'Send', 'adimn-page-framework-demo' )
                     // : __( 'Preview', 'adimn-page-framework-demo' ),
-                'value'             => __( 'Send', 'adimn-page-framework-demo' ),
+                'value'             => __( 'Send', 'admin-page-framework-demo' ),
                 'attributes'        => array(
                     'field' => array(
                         'style' => 'float:right; clear:none; display: inline;',
