@@ -1,8 +1,18 @@
+/* 3.9.0+ JavaScript based Tooltip */
+.admin-page-framework-form-tooltip-balloon .wp-pointer-content {
+    padding: 12px;
+}
+.admin-page-framework-form-tooltip-balloon.wp-pointer-top .wp-pointer-arrow, .wp-pointer-undefined .wp-pointer-arrow {
+    border-bottom-color: #c3c4c7;
+}
+.wp-pointer-top .wp-pointer-arrow-inner, .wp-pointer-undefined .wp-pointer-arrow-inner {
+    border-bottom-color: #fff;
+}
+
 /* Inside Field Title */
 th > label > span > .admin-page-framework-form-tooltip {
     margin-top: 1px;
     margin-left: 1em;
-
 }
 /* For admin page fields, put the ? icon to the right hand side */
 .admin-page-framework-content th > .admin-page-framework-form-tooltip {
@@ -10,28 +20,23 @@ th > label > span > .admin-page-framework-form-tooltip {
 }
 
 .postbox-container th > .admin-page-framework-form-tooltip {
-    margin-left: 1em;
     float: none;
+    vertical-align: middle;
 }
 
 /* Regular section titles have the `+` button and collapsible title bar has a triangle icon so give a left margin */
 .admin-page-framework-section-title a.admin-page-framework-form-tooltip,
 .admin-page-framework-collapsible-title a.admin-page-framework-form-tooltip {
-    margin-left: 1em;
-    vertical-align: middle; /* 3.8.13+ Fixes vertical alignment, especially in the collapsible section title area. */
+    margin-left: 0.2em;
+    vertical-align: text-top; /* 3.8.13+ Fixes vertical alignment, especially in the collapsible section title area. */
 }
 
 
 .admin-page-framework-section-tab a.admin-page-framework-form-tooltip {
     margin-left: 0.48em;
-    color: #BEBEBE;
     vertical-align: middle;
 }
-.admin-page-framework-section-tab.nav-tab.active a.admin-page-framework-form-tooltip {
-    color: #BEBEBE;
-}
 
-/* Font sizees */
 
 /* Question Mark (?) - we want it to be a little bit smaller than the title */
 .admin-page-framework-section-title a.admin-page-framework-form-tooltip > span,
@@ -46,19 +51,16 @@ th > label > span > .admin-page-framework-form-tooltip {
 }
 
 /* Tip Contents - When it is placed inside h2, h3, h4, the tooltip text becomes large so avoid that */
-.admin-page-framework-section-title a.admin-page-framework-form-tooltip > span.admin-page-framework-form-tooltip-content,
-.admin-page-framework-collapsible-title a.admin-page-framework-form-tooltip > span.admin-page-framework-form-tooltip-content,
-a.admin-page-framework-form-tooltip > .admin-page-framework-form-tooltip-content {
-    font-size: 13px;
-    font-weight: normal;
+.admin-page-framework-form-tooltip .admin-page-framework-form-tooltip-content {
+    /* Prevent the window width gets affected by this element */
+    display: none;
 }
 
 a.admin-page-framework-form-tooltip {
-    /* vertical-align: middle; @deprecated 3.8.7 Withtout this, the element aligns more in vertically center. */
     outline: none;
     text-decoration: none;
     cursor: default;
-    color: #BEBEBE;
+    color: #999;
 }
 a.admin-page-framework-form-tooltip > .admin-page-framework-form-tooltip-content > .admin-page-framework-form-tooltip-title {
     font-weight: bold;
@@ -68,64 +70,6 @@ a.admin-page-framework-form-tooltip strong {
 }
 a.admin-page-framework-form-tooltip:hover {
     text-decoration: none;
-}
-a.admin-page-framework-form-tooltip > span.admin-page-framework-form-tooltip-content {
-
-    position: absolute;
-    padding: 14px 20px 14px;
-    width: 320px;
-    line-height:16px;
-    color: #111;
-    border:1px solid #DCA;
-    background: #FFFFF4;
-
-    /* Fade-in-and-out Effect */
-    visibility: hidden;
-    opacity:0;
-    transition: visibility 0.4s, opacity 0.4s linear;
-
-    /* Adjust the position of the tooltip here */
-    margin-top: -28px;
-    margin-left: 8px;
-
-    /* High z-index is required to appear over the left side bar menu */
-    z-index: 100000;
-
-}
-a.admin-page-framework-form-tooltip:hover > span.admin-page-framework-form-tooltip-content{
-    visibility: visible;
-    opacity:1;    /* Fade-in-and-out Effect */
-}
-
-/* Balloon Left Arrow */
-a.admin-page-framework-form-tooltip:hover > span.admin-page-framework-form-tooltip-content::before {
-    content: ' ';
-    position: absolute;
-    top: 40%;
-    right: 100%; /* To the left of the tooltip */
-    margin-top: -5px;
-    border-width: 7px;
-    border-style: solid;
-    border-color: transparent #DCA transparent transparent;
-}
-a.admin-page-framework-form-tooltip:hover > span.admin-page-framework-form-tooltip-content::after {
-    content: ' ';
-    position: absolute;
-    top: 40%;
-    right: 100%; /* To the left of the tooltip */
-    margin-top: -4px;
-    border-width: 6px;
-    border-style: solid;
-    border-color: transparent #FFFFF4 transparent transparent;
-}
-
-/* Tooltip Box Shadow */
-a.admin-page-framework-form-tooltip > span.admin-page-framework-form-tooltip-content {
-    border-radius:4px;
-    box-shadow: 5px 5px 8px #CCC;
-    -webkit-box-shadow: 5px 5px 8px rgba(0, 0, 0, 0.2);
-    -moz-box-shadow: 5px 5px 8px rgba(0, 0, 0, 0.2);
-    box-shadow: 5px 5px 8px rgba(0, 0, 0, 0.2);
 }
 
 /* Title */

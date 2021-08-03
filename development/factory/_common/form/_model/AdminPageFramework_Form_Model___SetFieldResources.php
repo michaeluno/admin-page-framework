@@ -102,7 +102,7 @@ class AdminPageFramework_Form_Model___SetFieldResources extends AdminPageFramewo
                 $this->aResources[ 'src_scripts' ][] = array(
                     'handle_id'         => 'admin-page-framework-script-form-main',
                     'src'               => AdminPageFramework_Registry::$sDirPath . '/factory/_common/form/asset/js/form.bundle.js',
-                    'dependencies'      => array( 'jquery' ),
+                    'dependencies'      => array( 'jquery', 'wp-pointer' ),
                     'in_footer'         => true,
                     'version'           => AdminPageFramework_Registry::VERSION,
                     'translation'       => $_aData,
@@ -147,6 +147,9 @@ class AdminPageFramework_Form_Model___SetFieldResources extends AdminPageFramewo
                     'handle_id'   => 'admin-page-framework-form-ie',
                     'src'         => AdminPageFramework_Registry::$sDirPath . '/factory/_common/form/asset/css/form-ie.css',
                     'conditional' => 'IE',
+                );
+                $this->aResources[ 'src_styles' ][] = array(
+                    'handle_id' => 'wp-pointer',
                 );
 
                 // Version-specific styles

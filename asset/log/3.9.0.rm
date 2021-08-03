@@ -1,1 +1,3 @@
+- Fixed an issue that tooltips created with the `tip` field argument made the document width wider than the initial width.
+- Refined tooltips.
 - Changed the behavior of loading framework resources (stylesheets and JavaScript scripts) from internally to externally for most cases.    

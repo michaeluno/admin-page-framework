@@ -106,7 +106,7 @@ class AdminPageFramework_Form_View___ToolTip extends AdminPageFramework_Form_Vie
         if ( ! $this->aArguments[ 'content' ] ) {
             return '';
         }
-        return "<a " . $this->_getElementAttributes( 'container', 'admin-page-framework-form-tooltip' ) . ">"
+        return "<a " . $this->_getElementAttributes( 'container', array( 'admin-page-framework-form-tooltip', 'no-js' ) ) . ">"
                 . $this->_getTipLinkIcon()
                 . "<span " . $this->_getElementAttributes( 'content', 'admin-page-framework-form-tooltip-content' ) . ">"
                     . $this->_getTipTitle()
