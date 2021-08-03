@@ -643,7 +643,13 @@ abstract class AdminPageFramework_Resource_Base extends AdminPageFramework_Frame
         if ( $this->hasBeenCalled( 'COMMON_EXTERNAL_STYLES: ' . get_class( $this ) . '::' . __METHOD__ ) ) {
             return;
         }
-        $this->_addEnqueuingResourceByType( AdminPageFramework_Registry::$sDirPath . '/factory/_common/asset/css/common.css', array(), 'style' );
+        $this->_addEnqueuingResourceByType(
+            AdminPageFramework_Registry::$sDirPath . '/factory/_common/asset/css/common.css',
+            array(
+                'version' => AdminPageFramework_Registry::VERSION,
+            ),
+            'style'
+        );
     }
 
     /**
