@@ -1,17 +1,18 @@
 const { src, dest } = require( 'gulp' );
-const sass = require( 'gulp-sass' )( require( 'sass' ) );
-const autoprefixer = require( 'gulp-autoprefixer' );
-const rename = require( 'gulp-rename' );
-const sourcemaps = require( 'gulp-sourcemaps' );
-const using = require( 'gulp-using' );
-const cache  = require( 'gulp-cached' );
+const sass          = require( 'gulp-sass' )( require( 'sass' ) );
+const autoprefixer  = require( 'gulp-autoprefixer' );
+const rename        = require( 'gulp-rename' );
+const sourcemaps    = require( 'gulp-sourcemaps' );
+const using         = require( 'gulp-using' );
+const cache         = require( 'gulp-cached' );
 
 module.exports = class GulpTaskSass {
   static src = '';
   static callback( cb ) {
     // Normal CSS
+    console.log( 'gulp sass called' );
     src( GulpTaskSass.src )
-      .pipe( cache( 'css' ) )
+      // .pipe( cache( 'css' ) )
       .pipe( sass().on( 'error', sass.logError ) )
       .pipe( using() )
 
