@@ -1,1 +1,2 @@
-- Added the ability to automatically load .min files if they exist when enqueuing resource files. 
+- Added the ability to automatically load .min files if they exist when enqueuing resource files.
+- Fixed an incompatibility issue with sites with custom `WP_CONTENT_DIR` and `WP_CONTENT_URL`. 

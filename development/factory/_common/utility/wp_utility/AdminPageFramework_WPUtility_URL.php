@@ -88,21 +88,22 @@ class AdminPageFramework_WPUtility_URL extends AdminPageFramework_Utility {
      * Calculates the URL from the given path.
      *
      * @since   2.1.5
-     * @since   3.7.9   Changed not to escape the returining url.
-     * @static
-     * @access  public
+     * @since   3.7.9  Changed not to escape the returining url.
      * @return  string The source url
      * @param   string $sFilePath
+     * @remark  The parsable path is limited to under the WP_CONTENT_DIR directory.
      */
     static public function getSRCFromPath( $sFilePath ) {
-
-        $_oWPStyles      = new WP_Styles(); // It doesn't matter whether the file is a style or not. Just use the built-in WordPress class to calculate the SRC URL.
-        $_sRelativePath  = AdminPageFramework_Utility::getRelativePath( preg_replace( '/[\/\\\\]wp-content$/', '', rtrim( WP_CONTENT_DIR, '/\\' ) ), $sFilePath );
-        $_sRelativePath  = preg_replace( "/^\.[\/\\\]/", '', $_sRelativePath, 1 ); // removes the heading ./ or .\
-        $_sHref          = trailingslashit( $_oWPStyles->base_url ) . $_sRelativePath;
-        unset( $_oWPStyles ); // for PHP 5.2.x or below
-        return $_sHref;
-
+        $sFilePath        = str_replace('\\', '/', $sFilePath );
+        $_sContentDirPath = str_replace('\\', '/', WP_CONTENT_DIR );
+        if ( false !== strpos( $sFilePath, $_sContentDirPath ) ) {
+            $_sRelativePath = AdminPageFramework_Utility::getRelativePath( WP_CONTENT_DIR , $sFilePath );
+            $_sRelativePath = preg_replace("/^\.[\/\\\]/", '', $_sRelativePath, 1 );
+            return content_url( $_sRelativePath );
+        }
+        $_sRelativePath = AdminPageFramework_Utility::getRelativePath( ABSPATH , $sFilePath );
+        $_sRelativePath = preg_replace("/^\.[\/\\\]/", '', $_sRelativePath, 1 );
+        return trailingslashit( get_bloginfo( 'url' ) ) . $_sRelativePath;
     }
 
     /**

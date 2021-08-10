@@ -366,7 +366,7 @@ class AdminPageFramework_Requirement {
         add_action( 'admin_notices', array( $this, '_replyToPrintAdminNotices' ) );
         $this->aWarnings[] = '<strong>' . $sMessage . '</strong>';
         if ( ! function_exists( 'deactivate_plugins' ) ) {
-            if ( ! @include( preg_replace( '/[\/\\\\]wp-content$/', '', rtrim( WP_CONTENT_DIR, '/\\' ) ) . '/wp-admin/includes/plugin.php' ) ) {
+            if ( ! @include( ABSPATH . 'wp-admin/includes/plugin.php' ) ) {
                 return;
             }
         }
