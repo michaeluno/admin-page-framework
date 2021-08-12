@@ -18,9 +18,26 @@
 class AdminPageFramework_WPUtility_URL extends AdminPageFramework_Utility {
 
     /**
+     * Returns sanitized values of GET HTTP queries.
+     * @param  array|string $asKeys Dimensional keys for the value to retrieve. If empty, the entire array will be returned.
+     * @return string|array
+     * @since  3.8.32
+     */
+    static public function getHTTPQueryGET( $asKeys=array(), $mDefault=null ) {
+        static $_aCache;
+        $_aCache = isset( $_aCache )
+            ? $_aCache
+            : self::getArrayMappedRecursive( 'sanitize_text_field', $_GET );    // sanitization done
+        if ( empty( $asKeys ) ) {
+            return $_aCache;
+        }
+        return self::getElement( $_aCache, $asKeys, $mDefault );
+    }
+
+    /**
      * Retrieves the current URL in the admin page.
      *
-     * @since 2.1.1
+     * @since  2.1.1
      * @return string
      */
     static public function getCurrentAdminURL() {
@@ -56,7 +73,7 @@ class AdminPageFramework_WPUtility_URL extends AdminPageFramework_Utility {
 
         $sSubjectURL = $sSubjectURL
             ? $sSubjectURL
-            : add_query_arg( $_GET, $_sAdminURL );
+            : add_query_arg( self::getHTTPQueryGET(), $_sAdminURL );
 
         return self::getQueryURL( $aAddingQueries, $aRemovingQueryKeys, $sSubjectURL );
 
