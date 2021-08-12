@@ -1,4 +1,4 @@
-/*! Admin Page Framework - Form Main 1.1.0 */
+/*! Admin Page Framework - Form Main 1.1.1 */
 /**
  * This script should be empty and provide the banner (header comment) for the concatenated bundled script (form.bundle.js).
  */
@@ -21,7 +21,7 @@
         // Escape regex characters.
         sModel = sModel.replace(
             /[-[\]{}()*+?.,\\^$|#\s]/g, // Use the g modifier to apply the changes to all the matches.
-            "\\\\$&"  // in a test script this was okay with double-backslashes "\\$&"
+            "\\$&"  // when this script was directory echoed in PHP, backslashes need to be escaped like "\\\\$&"
         );
 
         // Construct a regex needle pattern.

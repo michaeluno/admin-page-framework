@@ -17,7 +17,7 @@
         // Escape regex characters.
         sModel = sModel.replace(
             /[-[\]{}()*+?.,\\^$|#\s]/g, // Use the g modifier to apply the changes to all the matches.
-            "\\\\$&"  // in a test script this was okay with double-backslashes "\\$&"
+            "\\$&"  // when this script was directory echoed in PHP, backslashes need to be escaped like "\\\\$&"
         );
 
         // Construct a regex needle pattern.
