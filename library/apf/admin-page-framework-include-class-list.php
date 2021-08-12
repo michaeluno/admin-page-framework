@@ -10,7 +10,6 @@ $aClassFiles = array(
     "AdminPageFramework_ImportOptions"=> AdminPageFramework_Registry::$sDirPath . "/factory/admin_page/_model/AdminPageFramework_ImportOptions.php", 
     "AdminPageFramework_Property_admin_page"=> AdminPageFramework_Registry::$sDirPath . "/factory/admin_page/_model/AdminPageFramework_Property_admin_page.php", 
     "AdminPageFramework_Model_Menu__RegisterMenu"=> AdminPageFramework_Registry::$sDirPath . "/factory/admin_page/_model/delegate/AdminPageFramework_Model_Menu__RegisterMenu.php", 
-    "AdminPageFramework_Model__FormEmailHandler"=> AdminPageFramework_Registry::$sDirPath . "/factory/admin_page/_model/delegate/AdminPageFramework_Model__FormEmailHandler.php", 
     "AdminPageFramework_Model__FormRedirectHandler"=> AdminPageFramework_Registry::$sDirPath . "/factory/admin_page/_model/delegate/AdminPageFramework_Model__FormRedirectHandler.php", 
     "AdminPageFramework_Model__FormSubmission"=> AdminPageFramework_Registry::$sDirPath . "/factory/admin_page/_model/delegate/AdminPageFramework_Model__FormSubmission.php", 
     "AdminPageFramework_Model__FormSubmission__Validator"=> AdminPageFramework_Registry::$sDirPath . "/factory/admin_page/_model/delegate/validaor/AdminPageFramework_Model__FormSubmission__Validator.php", 
