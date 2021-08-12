@@ -32,7 +32,9 @@ class AdminPageFramework_Resource_post_meta_box extends AdminPageFramework_Resou
      * @internal
      */
     protected function _enqueueSRCByCondition( $aEnqueueItem ) {
-        $_sCurrentPostType = isset( $_GET[ 'post_type' ] ) ? $_GET[ 'post_type' ] : ( isset( $GLOBALS[ 'typenow' ] ) ? $GLOBALS[ 'typenow' ] : null );
+        $_sCurrentPostType = isset( $_GET[ 'post_type' ] )  // sanitization unnecessary
+            ? $this->getHTTPQueryGET( 'post_type' )
+            : ( isset( $GLOBALS[ 'typenow' ] ) ? $GLOBALS[ 'typenow' ] : null );
         // If not specified, enqueue it anyway. The common CSS does not specify post types.
         if ( empty( $aEnqueueItem[ 'aPostTypes' ] ) ) {
             $this->_enqueueSRC( $aEnqueueItem );

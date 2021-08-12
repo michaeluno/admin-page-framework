@@ -42,8 +42,10 @@ class AdminPageFramework_PageLoadInfo_post_type extends AdminPageFramework_PageL
      */ 
     public function _replyToSetPageLoadInfoInFooter() {
 
-        // Some users sets $_GET['post_type'] element even in regular admin pages. In that case, do not load the style to avoid duplicates.
-        if ( isset( $_GET['page'] ) && $_GET['page'] ) { return; }
+        // Some users set `$_GET[ 'post_type' ]` element even in regular admin pages. In that case, do not load the style to avoid duplicates.
+        if ( isset( $_GET[ 'page' ] ) && $_GET[ 'page' ] ) {    // sanitization unnecessary
+            return;
+        }
     
         // For post type pages
         if ( 

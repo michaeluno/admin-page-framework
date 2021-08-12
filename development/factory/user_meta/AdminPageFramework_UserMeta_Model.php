@@ -67,10 +67,10 @@ abstract class AdminPageFramework_UserMeta_Model extends AdminPageFramework_User
             return;
         }
 
-        // Extract the fields data from $_POST
+        // Extract the fields' data from `$_POST`
         // Retrieve the submitted data.
         $_aInputs       = $this->oForm->getSubmittedData(
-            $_POST,     // subject data to be parsed
+            $this->oForm->getHTTPRequestSanitized( $this->oForm->getHTTPRequestSanitized( $_POST, false ) ),     // subject data to be parsed // sanitization done
             true,       // extract data with the fieldset structure
             false       // strip slashes
         );

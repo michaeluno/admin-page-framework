@@ -28,7 +28,7 @@ abstract class AdminPageFramework_Form_Utility extends AdminPageFramework_Framew
      *           [__submit] => (string, length: 6) Submit
      *       )
      * ```
-     * The unset keys stored in $_POST looks like the following. The pipe (|) character is used to delimit dimensional elements.
+     * The unset keys stored in `$_POST` looks like the following. The pipe (|) character is used to delimit dimensional elements.
      * ```
      *   [example_section|example_text] => (string, length: 28) example_section|example_text
      *   [example_section|__submit] => (string, length: 24) example_section|__submit
@@ -46,11 +46,12 @@ abstract class AdminPageFramework_Form_Utility extends AdminPageFramework_Framew
     static public function getInputsUnset( array $aInputs, $sFieldsType, $iSkipDepth=0 ) {
 
         $_sUnsetKey = '__unset_' . $sFieldsType;
-        if ( ! isset( $_POST[ $_sUnsetKey ] ) ) {
+        if ( ! isset( $_POST[ $_sUnsetKey ] ) ) { // sanitization unnecessary
             return $aInputs;
         }
 
-        $_aUnsetElements = array_unique( $_POST[ $_sUnsetKey ] );
+        $_aUnsetElements = self::getHTTPRequestSanitized( self::getElementAsArray( $_POST, array( $_sUnsetKey ) ) );    // sanitization done
+        $_aUnsetElements = array_unique( $_aUnsetElements );
         foreach( $_aUnsetElements as $_sFlatInputName ) {
 
             $_aDimensionalKeys = explode( '|', $_sFlatInputName );

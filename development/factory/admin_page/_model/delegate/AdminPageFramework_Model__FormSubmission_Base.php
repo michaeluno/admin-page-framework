@@ -58,7 +58,7 @@ abstract class AdminPageFramework_Model__FormSubmission_Base extends AdminPageFr
             $_aNameKeys = explode( '|', $_aSubElements[ 'name' ] ); 
             
             // If the element is not found, skip.
-            if ( null === $this->getElement( $_POST, $_aNameKeys, null ) ) {
+            if ( null === $this->getElement( $_POST, $_aNameKeys, null ) ) {    // sanitization unnecessary
                 continue;
             }
             

@@ -161,8 +161,8 @@ abstract class AdminPageFramework_PostType_View extends AdminPageFramework_PostT
         }
 
         if (
-            ! ( isset( $_GET[ 'post_type' ] ) && post_type_exists( $_GET[ 'post_type' ] )
-            && in_array( strtolower( $_GET[ 'post_type' ] ), array( $this->oProp->sPostType ) ) )
+            ! ( isset( $_GET[ 'post_type' ] ) && post_type_exists( $_GET[ 'post_type' ] )   // sanitization unnecessary
+            && strtolower( $_GET[ 'post_type' ] ) == $this->oProp->sPostType )   // sanitization unnecessary
         ) {
             return;
         }
@@ -172,9 +172,7 @@ abstract class AdminPageFramework_PostType_View extends AdminPageFramework_PostT
                 'show_option_all'   => $this->oMsg->get( 'show_all_authors' ),
                 'show_option_none'  => false,
                 'name'              => 'author',
-                'selected'          => empty( $_GET[ 'author' ] )
-                    ? 0
-                    : $_GET[ 'author' ],
+                'selected'          => $this->oUtil->getHTTPQueryGET( 'author', 0 ),
                 'include_selected'  => false,
             )
         );
@@ -219,7 +217,7 @@ abstract class AdminPageFramework_PostType_View extends AdminPageFramework_PostT
                     'taxonomy'          => $_sTaxonomySulg,
                     'name'              => $_oTaxonomy->name,
                     'orderby'           => 'name',
-                    'selected'          => intval( isset( $_GET[ $_sTaxonomySulg ] ) ),
+                    'selected'          => intval( isset( $_GET[ $_sTaxonomySulg ] ) ), // sanitization unnecessary
                     'hierarchical'      => $_oTaxonomy->hierarchical,
                     'show_count'        => true,
                     'hide_empty'        => false,

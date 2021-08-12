@@ -31,10 +31,10 @@ class AdminPageFramework_Model__FormEmailHandler extends AdminPageFramework_Fram
         $this->oFactory         = $oFactory;
 
         // Form emails.
-        if ( ! isset( $_GET[ 'apf_action' ], $_GET[ 'transient' ] ) ) {
+        if ( ! isset( $_GET[ 'apf_action' ], $_GET[ 'transient' ] ) ) { // sanitization unnecessary
             return;
         }
-        if ( 'email' !== $_GET[ 'apf_action' ] ) {
+        if ( 'email' !== $_GET[ 'apf_action' ] ) {  // sanitization unnecessary
             return;
         }
 
@@ -72,11 +72,10 @@ class AdminPageFramework_Model__FormEmailHandler extends AdminPageFramework_Fram
             }
             self::$_bDoneEmail = true;
 
-            $_sTransient = $this->getElement( $_GET, 'transient', '' );
+            $_sTransient = $this->getHTTPQueryGET( 'transient', '' );
             if ( ! $_sTransient ) {
                 return;
             }
-            $_sTransient = sanitize_text_field( $_sTransient );
             $_aFormEmail = $this->getTransient( $_sTransient );
             $this->deleteTransient( $_sTransient );
             if ( ! is_array( $_aFormEmail ) ) {

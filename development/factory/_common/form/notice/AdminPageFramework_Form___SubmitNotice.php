@@ -166,7 +166,7 @@ class AdminPageFramework_Form___SubmitNotice extends AdminPageFramework_Framewor
         }
             
         // By setting false to the 'settings-notice' key, it's possible to disable the notifications set with the framework.
-        if ( isset( $_GET[ 'settings-notice' ] ) && ! $_GET[ 'settings-notice' ] ) { 
+        if ( isset( $_GET[ 'settings-notice' ] ) && ! $_GET[ 'settings-notice' ] ) {    // sanitization unnecessary
             return; 
         }
             

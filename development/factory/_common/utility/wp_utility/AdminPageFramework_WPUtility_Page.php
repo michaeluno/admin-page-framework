@@ -91,12 +91,12 @@ class AdminPageFramework_WPUtility_Page extends AdminPageFramework_WPUtility_HTM
              * Tries to find the post type from the URL query for type.
              */
             static public function getPostTypeByREQUEST() {
-                if ( isset( $_REQUEST[ 'post_type' ] ) ) {
-                    return sanitize_key( $_REQUEST[ 'post_type' ] );
+                if ( isset( $_REQUEST[ 'post_type' ] ) ) {  // sanitization unnecessary
+                    return sanitize_key( sanitize_text_field( $_REQUEST[ 'post_type' ] ) ); // sanitization done
                 }
-                if ( isset( $_GET[ 'post' ] ) && $_GET[ 'post' ] ) {
+                if ( isset( $_GET[ 'post' ] ) && $_GET[ 'post' ] ) {    // sanitization unnecessary
                     // It will perform a database query.
-                    return get_post_type( absint( $_GET[ 'post' ] ) );
+                    return get_post_type( absint( self::getHTTPQueryGET( 'post', 0 ) ) );  // sanitization done
                 }
             }
 
@@ -180,10 +180,10 @@ class AdminPageFramework_WPUtility_Page extends AdminPageFramework_WPUtility_HTM
         }
 
         $_aPostTypes = self::getAsArray( $asPostTypes );
-        if ( ! isset( $_GET[ 'post_type' ] )  ) {
+        if ( ! isset( $_GET[ 'post_type' ] )  ) {   // sanitization unnecessary
             return in_array( 'post', $_aPostTypes, true );
         }
-        return in_array( $_GET[ 'post_type' ], $_aPostTypes, true );
+        return in_array( $_GET[ 'post_type' ], $_aPostTypes, true );    // sanitization unnecessary
 
     }
 

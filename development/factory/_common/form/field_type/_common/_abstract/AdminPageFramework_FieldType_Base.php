@@ -384,13 +384,15 @@ abstract class AdminPageFramework_FieldType_Base extends AdminPageFramework_Form
                 return $sTranslated; 
             }
             
-            if ( isset( $_GET[ 'button_label' ] ) ) {
-                return sanitize_text_field( $_GET[ 'button_label' ] );
+            if ( isset( $_GET[ 'button_label' ] ) ) {   // sanitization unnecessary
+                return $this->getHTTPQueryGET( 'button_label', '' );
             }
 
-            return $this->oProp->sThickBoxButtonUseThis 
-                ? $this->oProp->sThickBoxButtonUseThis 
-                : $this->oMsg->get( 'use_this_image' );
+            return $this->oMsg->get( 'use_this_image' );
+            // @deprecated 3.8.32 Accessing an unreferenced property
+            // return $this->oProp->sThickBoxButtonUseThis
+            //     ? $this->oProp->sThickBoxButtonUseThis
+            //     : $this->oMsg->get( 'use_this_image' );
             
         }
         /**
@@ -405,10 +407,10 @@ abstract class AdminPageFramework_FieldType_Base extends AdminPageFramework_Form
          */
         public function _replyToRemovingMediaLibraryTab( $aTabs ) {
             
-            if ( ! isset( $_REQUEST[ 'enable_external_source' ] ) ) {
+            if ( ! isset( $_REQUEST[ 'enable_external_source' ] ) ) {    // sanitization unnecessary
                 return $aTabs; 
             }
-            if ( ! ( boolean ) $_REQUEST[ 'enable_external_source' ] ) {
+            if ( ! ( boolean ) $_REQUEST[ 'enable_external_source' ] ) { // sanitization unnecessary
                 unset( $aTabs[ 'type_url' ] ); // removes the 'From URL' tab in the thick box.
             }
             return $aTabs;

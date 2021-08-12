@@ -4,7 +4,7 @@ Donate link:        http://michaeluno.jp/en/donate
 Tags:               admin pages, developers, options, settings, API, framework, library, meta box, custom post type, fields, widgets, forms, plugins, themes
 Requires at least:  3.4
 Tested up to:       5.7.2
-Stable tag:         3.8.30
+Stable tag:         3.8.31
 License:            GPLv2 or later
 License URI:        http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -537,6 +537,11 @@ Alternately, you may use the `options_{instantiated class name}` filter to suppr
 See examples, https://gist.github.com/michaeluno/c30713fcfe0d9d45d89f, https://gist.github.com/michaeluno/fcfac27825aa8a35b90f,
 
 == Changelog ==
+
+= 3.8.31 - 2021/08/10 =
+- Added the ability to automatically load .min files if they exist when enqueuing resource files.
+- Added the `icon` argument to the `select2` field type that supports icons to be added to select option elements.
+- Fixed an incompatibility issue with sites with custom `WP_CONTENT_DIR` and `WP_CONTENT_URL`.
 
 = 3.8.30 - 2021/07/09 =
 - Fixed a bug with repeatable radio buttons that initial selection remained in the original field after repeating.

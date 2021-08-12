@@ -161,7 +161,7 @@
  *          'type'              => 'submit',
  *          'label_min_width'   => 0,
  *          'value'             => $oFactory->oUtil->getAOrB(
- *              'email' === $oFactory->oUtil->getElement( $_GET, 'confirmation' ),
+ *              'email' === $oFactory->oUtil->getElement( `$_GET`, 'confirmation' ),
  *              __( 'Send', 'admin-page-framework-demo' ),
  *              __( 'Preview', 'admin-page-framework-demo' )
  *          ), 

@@ -191,9 +191,8 @@ class AdminPageFramework_PointerToolTip extends AdminPageFramework_FrameworkUtil
             if ( in_array( $_sScreenID, $this->aScreenIDs ) ) {
                 return apply_filters( get_class( $this ) . '-' . $_sScreenID, array() );
             }
-
-            if ( isset( $_GET[ 'page' ] ) ) {
-                return apply_filters( get_class( $this ) . '-' . $_GET[ 'page' ], array() );
+            if ( isset( $_GET[ 'page' ] ) ) {   // sanitization unnecessary
+                return apply_filters( get_class( $this ) . '-' . $this->getHTTPQueryGET( 'page' ), array() );
             }
             return array();
 

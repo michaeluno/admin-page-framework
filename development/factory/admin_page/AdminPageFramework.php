@@ -101,11 +101,9 @@ abstract class AdminPageFramework extends AdminPageFramework_Controller {
                 return null;
             }
 
-            $_sCalllerPath = in_array( $GLOBALS[ 'pagenow' ], array( 'plugins.php', ) ) || isset( $_GET[ 'page' ] )
+            return 'plugins.php' === $GLOBALS[ 'pagenow' ] || isset( $_GET[ 'page' ] )     // sanitization unnecessary
                 ? AdminPageFramework_Utility::getCallerScriptPath( __FILE__ ) // not using $oUtil as this method is caller earlier than the base constructor.
                 : null;
-
-            return $_sCalllerPath;
 
         }
 

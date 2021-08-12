@@ -70,7 +70,7 @@ class AdminPageFramework_Property_post_type extends AdminPageFramework_Property_
      */
     public $aColumnHeaders = array(
         'cb'        => '<input type="checkbox" />', // Checkbox for bulk actions.
-        'title'     => 'Title', // Post title. Includes "edit", "quick edit", "trash" and "view" links. If $mode (set from $_REQUEST['mode']) is 'excerpt', a post excerpt is included between the title and links.
+        'title'     => 'Title', // Post title. Includes "edit", "quick edit", "trash" and "view" links. If $mode (set from `$_REQUEST[ 'mode' ]`) is 'excerpt', a post excerpt is included between the title and links.
         'author'    => 'Author', // Post author.
         'comments'  => '<div class="comment-grey-bubble"></div>', // Number of pending comments.
         'date'      => 'Date',     // The date and publish status of the post.

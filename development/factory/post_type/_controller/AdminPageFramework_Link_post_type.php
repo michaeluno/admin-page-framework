@@ -26,7 +26,7 @@ class AdminPageFramework_Link_post_type extends AdminPageFramework_Link_Base {
         parent::__construct( $oProp, $oMsg );
 
         // For post type posts listing table page ( edit.php )
-        if ( isset( $_GET['post_type'] ) && $_GET['post_type'] == $this->oProp->sPostType ) {
+        if ( isset( $_GET[ 'post_type' ] ) && $_GET[ 'post_type' ] === $this->oProp->sPostType ) {  // sanitization unnecessary
             add_action(
                 'get_edit_post_link',
                 array( $this, '_replyToAddPostTypeQueryInEditPostLink' ),

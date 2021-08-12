@@ -52,11 +52,10 @@ class AdminPageFramework_Model__FormSubmission__Validator extends AdminPageFrame
         public function _replyToValidateUserFormInputs( $aInputs, $aRawInputs, $aOptions, $oFactory ) {
 
             // No need to retrieve the default tab slug here because it is an embedded value that is already set in the previous page load.
-            $_sTabSlug          = $this->getElement( $_POST, 'tab_slug', '' );
-            $_sPageSlug         = $this->getElement( $_POST, 'page_slug', '' );
+            $_sTabSlug          = sanitize_text_field( $this->getElement( $_POST, 'tab_slug', '' ) );       // sanitization done
+            $_sPageSlug         = sanitize_text_field( $this->getElement( $_POST, 'page_slug', '' ) );      // sanitization done
 
-            $_aSubmits          = $this->getElementAsArray( $_POST, '__submit', array() );
-            $_aSubmits          = $this->getHTTPRequestSanitized( $_aSubmits, true );
+            $_aSubmits          = $this->getHTTPRequestSanitized( $this->getElementAsArray( $_POST, '__submit', array() ) );    // sanitization done
             $_sPressedInputName = $this->_getPressedSubmitButtonData( $_aSubmits, 'name' );
             $_sSubmitSectionID  = $this->_getPressedSubmitButtonData( $_aSubmits, 'section_id' );
 

@@ -152,7 +152,7 @@ class AdminPageFramework_FormEmail extends AdminPageFramework_FrameworkUtility {
             private function _getPathFromURL( $sURL ) {
 
                 // If it is on the server, this works.
-                $_sPath = realpath( str_replace( get_bloginfo( 'url' ), dirname( WP_CONTENT_DIR ), $sURL ) );
+                $_sPath = $this->___getPathFromURLWithinSite( $sURL );
                 if ( $_sPath ) {
                     return $_sPath;
                 }
@@ -167,6 +167,25 @@ class AdminPageFramework_FormEmail extends AdminPageFramework_FrameworkUtility {
                 return '';
 
             }
+                /**
+                 * @return string|false
+                 * @since 3.8.31
+                 */
+                private function ___getPathFromURLWithinSite( $sURL ) {
+                    $_sPath = realpath( str_replace(
+                        content_url(),
+                        WP_CONTENT_DIR,
+                        $sURL
+                    ) );
+                    if ( $_sPath ) {
+                        return $_sPath;
+                    }
+                    return realpath( str_replace(
+                        get_bloginfo( 'url' ),
+                        ABSPATH,
+                        $sURL
+                    ) );
+                }
        /**
          * Sets the mail content type to HTML.
          * @since       3.3.0

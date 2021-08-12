@@ -65,7 +65,7 @@ abstract class AdminPageFramework_PostType_Model extends AdminPageFramework_Post
         // Properties - sets translatable labels.
         $this->oProp->aColumnHeaders = array(
             'cb'        => '<input type="checkbox" />',     // Checkbox for bulk actions.
-            'title'     => $this->oMsg->get( 'title' ),     // Post title. Includes "edit", "quick edit", "trash" and "view" links. If $mode (set from $_REQUEST['mode']) is 'excerpt', a post excerpt is included between the title and links.
+            'title'     => $this->oMsg->get( 'title' ),     // Post title. Includes "edit", "quick edit", "trash" and "view" links. If $mode (set from `$_REQUEST`['mode']) is 'excerpt', a post excerpt is included between the title and links.
             'author'    => $this->oMsg->get( 'author' ),    // Post author.
             'comments'  => '<div class="comment-grey-bubble"></div>', // Number of pending comments.
             'date'      => $this->oMsg->get( 'date' ),      // The date and publish status of the post.

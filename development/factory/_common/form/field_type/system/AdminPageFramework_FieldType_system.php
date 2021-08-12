@@ -212,7 +212,6 @@ CSSRULES;
 
     }
 
-
     /**
      * Returns the output of the geometry custom field type.
      */
@@ -533,12 +532,11 @@ CSSRULES;
                  * @internal
                  */
                 private function ___getWPRemotePostStatus() {
-
                     $_vResponse = $this->getTransient( 'apf_rp_check' );
                     $_vResponse = false === $_vResponse
                         ? wp_remote_post(
                             // 'https://www.paypal.com/cgi-bin/webscr',
-                            add_query_arg( $_GET, admin_url( $GLOBALS[ 'pagenow' ] ) ),
+                            add_query_arg( $this->getHTTPQueryGET( array(), array() ), admin_url( $GLOBALS[ 'pagenow' ] ) ),
                             array(
                                 'sslverify'     => false,
                                 'timeout'       => 60,
@@ -548,7 +546,6 @@ CSSRULES;
                         : $_vResponse;
                     $this->setTransient( 'apf_rp_check', $_vResponse, 60 );
                     return $this->getAOrB( $this->___isHttpRequestError( $_vResponse ), $this->oMsg->get( 'not_functional' ), $this->oMsg->get( 'functional' ) );
-
                 }
                 /**
                  * Checks if the wp_remote_post() function is functioning.
@@ -561,7 +558,7 @@ CSSRULES;
                     $_aoResponse = $this->getTransient( 'apf_rg_check' );
                     $_aoResponse = false === $_aoResponse
                         ? wp_remote_get(
-                            add_query_arg( $_GET + array( 'apf_remote_request_test' => '_testing' ), admin_url( $GLOBALS[ 'pagenow' ] ) ),
+                            add_query_arg( $this->getHTTPQueryGET( array(), array() ) + array( 'apf_remote_request_test' => '_testing' ), admin_url( $GLOBALS[ 'pagenow' ] ) ),
                             array(
                                 'sslverify'     => false,
                                 'timeout'       => 60,

@@ -95,7 +95,7 @@ abstract class AdminPageFramework_TermMeta_Model extends AdminPageFramework_Term
         }
 
         $_aSavedFormData        = $this->_getSavedTermMetas( $iTermID, $this->oForm->aFieldsets );
-        $_aSubmittedFormData    = $this->oForm->getSubmittedData( $_POST );
+        $_aSubmittedFormData    = $this->oForm->getSubmittedData( $this->oForm->getHTTPRequestSanitized( $_POST ) );    // sanitization done
         $_aSubmittedFormData    = $this->oUtil->addAndApplyFilters(
             $this,
             'validation_' . $this->oProp->sClassName,

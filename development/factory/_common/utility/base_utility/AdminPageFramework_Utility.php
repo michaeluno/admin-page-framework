@@ -23,18 +23,19 @@ class AdminPageFramework_Utility extends AdminPageFramework_Utility_HTMLAttribut
      * @param  boolean $bStripSlashes   Whether to fix magic quotes.
      * @return array
      * @since  3.8.24
+     * @since  3.8.32  Added a default value for the `$bStripSlashes` parameter.
      */
-    static public function getHTTPRequestSanitized( array $aRequest, $bStripSlashes ) {
+    static public function getHTTPRequestSanitized( array $aRequest, $bStripSlashes=true ) {
         foreach( $aRequest as $_isIndex => $_mValue ) {
             if ( is_array( $_mValue ) ) {
-                $aRequest[ $_isIndex ] = self::getHTTPRequestSanitized( $_mValue, false );  // do not double-strip
+                $aRequest[ $_isIndex ] = self::getHTTPRequestSanitized( $_mValue, $bStripSlashes );
                 continue;
             }
             if ( is_string( $_mValue ) ) {
-                $aRequest[ $_isIndex ] = self::___getHTTPRequestTextValueSanitized( $_mValue );
+                $aRequest[ $_isIndex ] = self::___getHTTPRequestTextValueSanitized( $_mValue, $bStripSlashes );
             }
         }
-        return $bStripSlashes ? stripslashes_deep( $aRequest ) : $aRequest;
+        return $aRequest;
     }
         /**
          * A light version of _sanitize_text_fields().
@@ -42,13 +43,17 @@ class AdminPageFramework_Utility extends AdminPageFramework_Utility_HTMLAttribut
          * This does not strip HTML tags.
          * 
          * @param  string  $sString
+         * @param  boolean $bStripSlashes
          * @param  boolean $bKeepLineFeeds
          * @return string
          * @sicne  3.8.25
+         * @sicne  3.8.32  Added the `$bStripSlashes` parameter.
          * @see    _sanitize_text_fields()
          */
-        static private function ___getHTTPRequestTextValueSanitized( $sString, $bKeepLineFeeds=true ) {
-            
+        static private function ___getHTTPRequestTextValueSanitized( $sString, $bStripSlashes, $bKeepLineFeeds=true ) {
+
+            $sString    = $bStripSlashes ? stripslashes( $sString ) : $sString;
+
             $_sFiltered = wp_check_invalid_utf8( $sString );
             if ( ! $bKeepLineFeeds ) {
                 $_sFiltered = preg_replace( '/[\r\n\t ]+/', ' ', $_sFiltered );

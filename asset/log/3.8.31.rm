@@ -1,1 +1,3 @@
-- Added the ability to automatically load .min files if they exist when enqueuing resource files. 
+- Added the ability to automatically load .min files if they exist when enqueuing resource files.
+- Added the `icon` argument to the `select2` field type that supports icons to be added to select option elements.
+- Fixed an incompatibility issue with sites with custom `WP_CONTENT_DIR` and `WP_CONTENT_URL`. 

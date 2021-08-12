@@ -202,12 +202,10 @@ class AdminPageFramework_Link_admin_page extends AdminPageFramework_Link_Base {
          * @internal
          */
         private function _isPageAdded() {
-            
-            if ( ! isset( $_GET[ 'page' ] ) ) {
+            if ( ! isset( $_GET[ 'page' ] ) ) { // sanitization unnecessary
                 return false;
             }            
-            return ( bool ) $this->oProp->isPageAdded( $_GET[ 'page' ] );
-
+            return ( boolean ) $this->oProp->isPageAdded( $_GET[ 'page' ] ); // sanitization unnecessary
         }
     /**
      * Modifies the action link of the plugin title column in the plugin listing page (plugins.php).

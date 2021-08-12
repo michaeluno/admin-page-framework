@@ -53,7 +53,7 @@ class AdminPageFramework_Model__FormSubmission extends AdminPageFramework_Model_
      * @since       3.6.3       Moved from `AdminPageFramework_Validation`. Changed the name from `_handleSubmittedData()`.
      * @since       3.7.0      Changed the name from `_replyToProcessFormData()`.
      * @remark      This method is triggered after form elements are registered when the page is abut to be loaded with the `load_after_{instantiated class name}` hook.
-     * @remark      The $_POST array will look like the below.
+     * @remark      The `$_POST` array will look like the below.
      *  <code>array(
      *      [option_page]       => APF_Demo
      *      [action]            => update
@@ -75,8 +75,8 @@ class AdminPageFramework_Model__FormSubmission extends AdminPageFramework_Model_
             return;
         }
 
-        $_sTabSlug   = $this->getElement( $_POST, 'tab_slug', '' );
-        $_sPageSlug  = $this->getElement( $_POST, 'page_slug', '' );        
+        $_sTabSlug   = sanitize_text_field( $this->getElement( $_POST, 'tab_slug', '' ) );  // sanitization done
+        $_sPageSlug  = sanitize_text_field( $this->getElement( $_POST, 'page_slug', '' ) ); // sanitization done
         
         // Apply user validation callbacks to the submitted data.
         // If only page-meta-boxes are used, it's possible that the option key element does not exist.
@@ -108,8 +108,7 @@ class AdminPageFramework_Model__FormSubmission extends AdminPageFramework_Model_
         );                
 
         // Execute the submit_{...} actions.
-        $_aSubmits          = $this->getElementAsArray( $_POST, '__submit', array() );
-        $_aSubmits          = $this->getHTTPRequestSanitized( $_aSubmits, true );
+        $_aSubmits          = $this->getHTTPRequestSanitized( $this->getElementAsArray( $_POST, '__submit', array() ) );    // sanitization done
         $_sSubmitSectionID  = $this->_getPressedSubmitButtonData( $_aSubmits, 'section_id' );
         $_sPressedFieldID   = $this->_getPressedSubmitButtonData( $_aSubmits, 'field_id' );
         $_sPressedInputID   = $this->_getPressedSubmitButtonData( $_aSubmits, 'input_id' );        
@@ -178,16 +177,16 @@ class AdminPageFramework_Model__FormSubmission extends AdminPageFramework_Model_
             
             if ( 
                 ! isset( 
-                    $_POST[ 'admin_page_framework_start' ], // indicates the framework form is started
-                    $_POST[ '_wp_http_referer' ]
+                    $_POST[ 'admin_page_framework_start' ], // indicates the framework form is started // sanitization unnecessary as just checking
+                    $_POST[ '_wp_http_referer' ]             // sanitization unnecessary as just checking
                 ) 
             ) {     
                 return false;
             }
             
             // Referrer
-            $_sRequestURI   = remove_query_arg( array( 'settings-updated', 'confirmation', 'field_errors' ), wp_unslash( $_SERVER[ 'REQUEST_URI' ] ) );
-            $_sRefererURI   = remove_query_arg( array( 'settings-updated', 'confirmation', 'field_errors' ), $_POST[ '_wp_http_referer' ] );
+            $_sRequestURI   = remove_query_arg( array( 'settings-updated', 'confirmation', 'field_errors' ), sanitize_text_field( wp_unslash( $_SERVER[ 'REQUEST_URI' ] ) ) );  // sanitization done
+            $_sRefererURI   = remove_query_arg( array( 'settings-updated', 'confirmation', 'field_errors' ), sanitize_text_field( $_POST[ '_wp_http_referer' ] ) );             // sanitization done
             if ( $_sRequestURI != $_sRefererURI ) { // see the function definition of wp_referer_field() in functions.php.
                 return false;
             }
@@ -197,9 +196,9 @@ class AdminPageFramework_Model__FormSubmission extends AdminPageFramework_Model_
                 ! isset(
                     // these keys are supposed to be embedded at the end of the form.
                     // if the server truncates the form input values for `max_input_vars`, these will be lost in PHP 5.3.9 or above.
-                    $_POST[ '_is_admin_page_framework' ], // holds the form nonce
-                    $_POST[ 'page_slug' ], 
-                    $_POST[ 'tab_slug' ]
+                    $_POST[ '_is_admin_page_framework' ], // holds the form nonce // sanitization unnecessary as just checking
+                    $_POST[ 'page_slug' ],  // sanitization unnecessary as just checking
+                    $_POST[ 'tab_slug' ]    // sanitization unnecessary as just checking
                 )
             ) {
                 $this->oFactory->setAdminNotice( 
@@ -208,14 +207,14 @@ class AdminPageFramework_Model__FormSubmission extends AdminPageFramework_Model_
                         function_exists( 'ini_get' ) 
                             ? ini_get( 'max_input_vars' )
                             : 'unknown',
-                        count( $_POST, COUNT_RECURSIVE )
+                        count( $_POST, COUNT_RECURSIVE ) // sanitization unnecessary as just counting
                     )                    
                 );
                 return false;
             }
 
             $_bVerifyNonce       = wp_verify_nonce(
-                $_POST[ '_is_admin_page_framework' ],
+                $_POST[ '_is_admin_page_framework' ],   // sanitization should not be done as and leave the nonce check fail if the value modified
                 'form_' . md5( $this->oFactory->oProp->sClassName . get_current_user_id() )
             );
             if ( ! $_bVerifyNonce ) {
@@ -231,17 +230,10 @@ class AdminPageFramework_Model__FormSubmission extends AdminPageFramework_Model_
          * @return      array
          */
         private function _getUserInputsFromPOST() {
-
-            $_aInputs     = $this->getElementAsArray( 
-                $_POST, // will be sanitized in the getSubmittedData() method.
-                $this->oFactory->oProp->sOptionKey, 
-                array() 
-            );
             return $this->oFactory->oForm->getSubmittedData(
-                $_aInputs,
+                $this->oFactory->oForm->getHTTPRequestSanitized( $this->getElementAsArray( $_POST, $this->oFactory->oProp->sOptionKey ) ),  // sanitization done
                 false   // do not extract from form fieldsets structure
             );
-
         }        
     
         /**
@@ -272,7 +264,7 @@ class AdminPageFramework_Model__FormSubmission extends AdminPageFramework_Model_
                     $_sSubmitSectionID 
                         ? "submit_{$this->oFactory->oProp->sClassName}_{$_sSubmitSectionID}" 
                         : null, // if null given, the method will ignore it
-                    isset( $_POST[ 'tab_slug' ] ) 
+                    isset( $_POST[ 'tab_slug' ] )   // sanitization unnecessary
                         ? "submit_{$this->oFactory->oProp->sClassName}_{$_sPageSlug}_{$_sTabSlug}"
                         : null, // if null given, the method will ignore it
                     "submit_{$this->oFactory->oProp->sClassName}_{$_sPageSlug}",
@@ -309,7 +301,7 @@ class AdminPageFramework_Model__FormSubmission extends AdminPageFramework_Model_
                         null
                     ),
                     $this->getAOrB(
-                        isset( $_POST[ 'tab_slug' ] ),
+                        isset( $_POST[ 'tab_slug' ] ),  // sanitization unnecessary
                         "submit_after_{$this->oFactory->oProp->sClassName}_{$_sPageSlug}_{$_sTabSlug}",
                         null
                     ),
@@ -328,7 +320,7 @@ class AdminPageFramework_Model__FormSubmission extends AdminPageFramework_Model_
         /**
          * Returns the url to reload.
          * 
-         * Sanitizes the $_GET query key-values.
+         * Sanitizes the `$_GET` query key-values.
          * 
          * @since       3.4.1
          * @since       3.6.3       Moved from `AdminPageFramework_Validation`.

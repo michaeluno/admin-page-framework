@@ -52,8 +52,8 @@ class AdminPageFramework_Model__FormSubmission__Validator__Import extends AdminP
                 return false;
             }
             return isset(
-                $_POST[ '__import' ][ 'submit' ],
-                $_FILES[ '__import' ]
+                $_POST[ '__import' ][ 'submit' ],   // sanitization unnecessary
+                $_FILES[ '__import' ]               // sanitization unnecessary
             );
         }
 
@@ -94,8 +94,8 @@ class AdminPageFramework_Model__FormSubmission__Validator__Import extends AdminP
             private function _importOptions( $aStoredOptions, $sPageSlug, $sTabSlug ) {
 
                 $_oImport           = new AdminPageFramework_ImportOptions(
-                    $this->getHTTPRequestSanitized( $_FILES[ '__import' ], false ),
-                    $this->getHTTPRequestSanitized( $_POST[ '__import' ], true )
+                    $this->getHTTPRequestSanitized( $_FILES[ '__import' ], false ), // sanitization done
+                    $this->getHTTPRequestSanitized( $_POST[ '__import' ] )                     // sanitization done
                 );
                 $_aArguments        = array(
                     'class_name'        => $this->oFactory->oProp->sClassName,

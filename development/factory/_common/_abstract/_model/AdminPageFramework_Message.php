@@ -81,7 +81,9 @@ class AdminPageFramework_Message {
         'confirm_perform_task'                  => 'Please confirm your action.',
         'specified_option_been_deleted'         => 'The specified options have been deleted.',
         'nonce_verification_failed'             => 'A problem occurred while processing the form data. Please try again.',
-        'check_max_input_vars'                  => 'Not all form fields could not be sent. Please check your server settings of PHP <code>max_input_vars</code> and consult the server administrator to increase the value. <code>max input vars</code>: %1$s. <code>$_POST</code> count: %2$s',  // 3.5.11+
+        'check_max_input_vars'                  => 'Not all form fields could not be sent. '
+            . 'Please check your server settings of PHP <code>max_input_vars</code> and consult the server administrator to increase the value. '
+            . '<code>max input vars</code>: %1$s. <code>$_POST</code> count: %2$s',  // 3.5.11+ // sanitization unnecessary as it is just a literal string
         'send_email'                            => 'Is it okay to send the email?',     // 3.3.0+
         'email_sent'                            => 'The email has been sent.',  // 3.3.0+, 3.3.5+ deprecated
         'email_scheduled'                       => 'The email has been scheduled.', // 3.3.5+
@@ -364,7 +366,7 @@ class AdminPageFramework_Message {
         __( 'Please confirm your action.', 'admin-page-framework' );
         __( 'The specified options have been deleted.', 'admin-page-framework' );
         __( 'A problem occurred while processing the form data. Please try again.', 'admin-page-framework' );
-        __( 'Not all form fields could not be sent. Please check your server settings of PHP <code>max_input_vars</code> and consult the server administrator to increase the value. <code>max input vars</code>: %1$s. <code>$_POST</code> count: %2$s', 'admin-page-framework' );
+        __( 'Not all form fields could not be sent. Please check your server settings of PHP <code>max_input_vars</code> and consult the server administrator to increase the value. <code>max input vars</code>: %1$s. <code>$_POST</code> count: %2$s', 'admin-page-framework' ); // sanitization unnecessary as a literal string
         __( 'Is it okay to send the email?', 'admin-page-framework' );
         __( 'The email has been sent.', 'admin-page-framework' );
         __( 'The email has been scheduled.', 'admin-page-framework' );

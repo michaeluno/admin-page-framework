@@ -24,6 +24,7 @@ abstract class AdminPageFramework_Factory_Router {
      *
      * @since       2.0.0
      * @access      public      The AdminPageFramework_Page_MetaBox class accesses it.
+     * @var AdminPageFramework_Property_Base
      */
     public $oProp;
 
@@ -34,6 +35,7 @@ abstract class AdminPageFramework_Factory_Router {
      * @access      public
      * @since       2.0.0
      * @since       3.1.0   Changed the scope to public from protected.
+     * @var AdminPageFramework_Debug
      */
     public $oDebug;
     /**
@@ -42,6 +44,7 @@ abstract class AdminPageFramework_Factory_Router {
      * @internal
      * @since       2.0.0
      * @since       3.1.0     Changed the scope to public from protected.
+     * @var         AdminPageFramework_FrameworkUtility
      */
     public $oUtil;
     /**
@@ -51,6 +54,7 @@ abstract class AdminPageFramework_Factory_Router {
      * @since       3.1.0     Changed the scope to public from protected.
      * @access      public
      * @internal
+     * @var         AdminPageFramework_Message
      */
     public $oMsg;
 
@@ -59,12 +63,13 @@ abstract class AdminPageFramework_Factory_Router {
      * @internal
      * @since       3.0.0
      * @since       3.5.2       Changed the scope to public from protected as the widget class needs to initialize this object.
+     * @var         AdminPageFramework_Form
      */
     public $oForm;
 
     /**
      * Inserts page load information into the footer area of the page.
-     *
+     * @var         AdminPageFramework_PageLoadInfo_Base
      */
     protected $oPageLoadInfo;
 
@@ -72,7 +77,7 @@ abstract class AdminPageFramework_Factory_Router {
      * Provides the methods to insert head tag elements.
      *
      * @since   3.3.0   Changed the name from $oHeadTag as it has become to deal with footer elements.
-     * @var AdminPageFramework_Resource_Base
+     * @var     AdminPageFramework_Resource_Base
      */
     protected $oResource;
 
@@ -84,12 +89,13 @@ abstract class AdminPageFramework_Factory_Router {
 
     /**
      * Provides methods to manipulate contextual help pane.
+     * @var AdminPageFramework_HelpPane_Base
      */
     protected $oHelpPane;
 
     /**
      * Provides the methods for creating HTML link elements.
-     *
+     * @var AdminPageFramework_Link_Base
      */
     protected $oLink;
 
@@ -258,8 +264,11 @@ abstract class AdminPageFramework_Factory_Router {
             if ( 'admin-ajax.php' !== $GLOBALS[ 'pagenow' ] ) {
                 return false;
             }
-            $_sAction = isset( $_POST[ 'action' ] ) ? $_POST[ 'action' ] : '';
-            return in_array( $_sAction, array( 'heartbeat', 'closed-postboxes', 'meta-box-order' ), true );
+            return in_array(
+                isset( $_POST[ 'action' ] ) ? $_POST[ 'action' ] : '',  // sanitization unnecessary as just checking
+                array( 'heartbeat', 'closed-postboxes', 'meta-box-order' ),
+                true
+            );
         }
 
     /**

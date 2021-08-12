@@ -50,7 +50,7 @@ class AdminPageFramework_Model__FormSubmission__Validator__Export extends AdminP
             if ( $this->oFactory->hasFieldError() ) {
                 return false;
             }
-            return isset( $_POST[ '__export' ][ 'submit' ] );
+            return isset( $_POST[ '__export' ][ 'submit' ] );   // sanitization done
         }
 
         /**
@@ -68,7 +68,7 @@ class AdminPageFramework_Model__FormSubmission__Validator__Export extends AdminP
         protected function _exportOptions( $mData, $sPageSlug, $sTabSlug ) {
 
             $_oExport           = new AdminPageFramework_ExportOptions(
-                $this->getHTTPRequestSanitized( $this->getElementAsArray( $_POST, array( '__export' ) ), true ),
+                $this->getHTTPRequestSanitized( $this->getElementAsArray( $_POST, array( '__export' ) ) ),  // sanitization done
                 $this->oFactory->oProp->sClassName
             );
             $_aArguments        = array(

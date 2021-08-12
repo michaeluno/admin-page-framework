@@ -107,7 +107,7 @@ class AdminPageFramework_View__PageMetaboxEnabler extends AdminPageFramework_Fra
                     return false;
                 }
 
-                $_sPageSlug = $this->getElement( $_GET, 'page', '' );
+                $_sPageSlug = $this->getHTTPQueryGET( 'page', '' );
                 if ( ! $_sPageSlug ) {
                     return false;
                 }

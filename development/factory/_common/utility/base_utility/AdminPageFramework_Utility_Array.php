@@ -18,6 +18,29 @@
 abstract class AdminPageFramework_Utility_Array extends AdminPageFramework_Utility_String {
 
     /**
+     * Performs `array_map()` recursively.
+     *
+     * @remark Accepts arguments.
+     * @param  callable $cCallback      A callback function.
+     * @param  array    $aArray         The subject array to process.
+     * @param  array    $aArguments     Additional arguments to pass to the callable. Useful for custom functions.
+     * @return array
+     * @since  3.8.9
+     * @since  3.8.32   Moved from `AdminPageFramework_Debug_Base` and renamed from `___getArrayMappedRecursive()` and made public as a part of the utility class.
+     */
+    static public function getArrayMappedRecursive( $cCallback, $aArray, array $aArguments=array() ) {
+        $_aOutput = array();
+        foreach( $aArray as $_isKey => $_vValue ) {
+            if ( is_array( $_vValue ) ) {
+                $_aOutput[ $_isKey ] = self::getArrayMappedRecursive( $cCallback, $_vValue, $aArguments );
+                continue;
+            }
+            $_aOutput[ $_isKey ] = call_user_func_array( $cCallback, array_merge( array( $_vValue ), $aArguments ) );
+        }
+        return $_aOutput;
+    }
+
+    /**
      * Finds an unused numeric index of an array.
      *
      * @remark      the user may set a decimal number for the `order` argument.

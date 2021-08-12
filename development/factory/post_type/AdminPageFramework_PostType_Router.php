@@ -123,7 +123,7 @@ abstract class AdminPageFramework_PostType_Router extends AdminPageFramework_Fac
 
         // 3.7.9+  Limitation: If the `page` argument is set in the query url,
         // this factory will not be loaded to make the overall responses lighter.
-        if ( isset( $_GET[ 'page' ] ) ) {
+        if ( isset( $_GET[ 'page' ] ) ) {   // sanitization unnecessary
             return false;
         }
 

@@ -53,10 +53,8 @@ class AdminPageFramework_Form_Model___LastInput extends AdminPageFramework_Frame
          */
         private function _getTransientKey() {
             $_sPageNow  = $this->getPageNow();
-            $_sPageSlug = $this->getElement( $_GET, 'page', '' );
-            $_sPageSlug = sanitize_text_field( $_sPageSlug );
-            $_sTabSlug  = $this->getElement( $_GET, 'tab', '' );
-            $_sTabSlug  = sanitize_text_field( $_sTabSlug );
+            $_sPageSlug = $this->getHTTPQueryGET( 'page', '' );
+            $_sTabSlug  = $this->getHTTPQueryGET( 'tab', '' );
             $_sUserID   = get_current_user_id();
             return "apf_li_" . md5(
                 $_sPageNow
