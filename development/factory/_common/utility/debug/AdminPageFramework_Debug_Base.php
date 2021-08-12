@@ -42,7 +42,24 @@ class AdminPageFramework_Debug_Base extends AdminPageFramework_FrameworkUtility 
             return '(array, length: ' . count( $mValue ).') '
                 . print_r( self::___getLegibleDetailedArray( $mValue, $iStringLengthLimit, $iArrayDepthLimit ) , true );
         }
-        return print_r( self::___getLegibleDetailedValue( $mValue, $iStringLengthLimit ), true );
+        return print_r( self::getLegibleDetailedValue( $mValue, $iStringLengthLimit ), true );
+    }
+
+    /**
+     * Returns a object name if it is an object. Otherwise, the value itself.
+     * This is used to convert objects into a string in array-walk functions
+     * as objects tent to get large when they are converted to a string representation.
+     * @since       3.8.9
+     * @since       3.8.32  Changed the visibility scope to public from private to be passed as a callback for outside the current class scope.
+     * And renamed from `___getObjectName()`.
+     * @param mixed $mItem
+     * @return mixed
+     */
+    static public function getObjectName( $mItem ) {
+        if ( is_object( $mItem ) ) {
+            return '(object) ' . get_class( $mItem );
+        }
+        return $mItem;
     }
 
     /**
@@ -65,9 +82,9 @@ class AdminPageFramework_Debug_Base extends AdminPageFramework_FrameworkUtility 
             )
             : $mValue;
         $mValue = is_array( $mValue )
-            ? self::___getArrayMappedRecursive(
+            ? self::getArrayMappedRecursive(
+                array( __CLASS__, 'getObjectName' ),
                 self::_getSlicedByDepth( $mValue, $iArrayDepthLimit ),
-                array( __CLASS__, '___getObjectName' ),
                 array()
             )
             : $mValue;
@@ -77,21 +94,6 @@ class AdminPageFramework_Debug_Base extends AdminPageFramework_FrameworkUtility 
         return self::_getArrayRepresentationSanitized( print_r( $mValue, true ) );
 
     }
-
-        /**
-         * Returns a object name if it is an object. Otherwise, the value itself.
-         * This is used to convert objects into a string in array-walk functions
-         * as objects tent to get large when they are converted to a string representation.
-         * @since       3.8.9
-         * @param mixed $mItem
-         * @return mixed
-         */
-        static private function ___getObjectName( $mItem ) {
-            if ( is_object( $mItem ) ) {
-                return '(object) ' . get_class( $mItem );
-            }
-            return $mItem;
-        }
 
         /**
          * @since       3.8.9
@@ -149,107 +151,109 @@ class AdminPageFramework_Debug_Base extends AdminPageFramework_FrameworkUtility 
          */
         static private function ___getLegibleDetailedArray( array $aArray, $iStringLengthLimit=0, $iDepthLimit=0 ) {
             $_iDepthLimit = $iDepthLimit ? $iDepthLimit : self::$iLegibleArrayDepthLimit;
-            return self::___getArrayMappedRecursive(
+            return self::getArrayMappedRecursive(
+                array( __CLASS__, 'getLegibleDetailedValue' ),
                 self::_getSlicedByDepth( $aArray, $_iDepthLimit ),
-                array( __CLASS__, '___getLegibleDetailedValue' ),
                 array( $iStringLengthLimit )
             );
         }
 
-            /**
-             * @param mixed $mItem
-             * @param integer $iStringLengthLimit
-             * @return      string
-             * @since       3.8.22  Renamed from `_getLegibleValue()`.
-             * @since       3.8.9
-             */
-            static private function ___getLegibleDetailedValue( $mItem, $iStringLengthLimit ) {
-                if ( is_callable( $mItem ) ) {
-                    return self::___getLegibleDetailedCallable( $mItem );
-                }
-                return is_scalar( $mItem )
-                    ? self::___getLegibleDetailedScalar( $mItem, $iStringLengthLimit )
-                    : self::___getLegibleDetailedNonScalar( $mItem );
+    /**
+     * @param mixed $mItem
+     * @param integer $iStringLengthLimit
+     * @return      string
+     * @since       3.8.22  Renamed from `_getLegibleValue()`.
+     * @since       3.8.9
+     * @since       3.8.32  Changed the visibility scope to public from private to be passed as a callback for outside the current class scope.
+     * And renamed from `___getLegibleDetailedValue()`.
+     */
+    static public function getLegibleDetailedValue( $mItem, $iStringLengthLimit ) {
+        if ( is_callable( $mItem ) ) {
+            return self::___getLegibleDetailedCallable( $mItem );
+        }
+        return is_scalar( $mItem )
+            ? self::___getLegibleDetailedScalar( $mItem, $iStringLengthLimit )
+            : self::___getLegibleDetailedNonScalar( $mItem );
+    }
+        /**
+         * @since       3.8.9
+         * @since       3.8.22  Renamed from `_getLegibleNonScalar()`.
+         * @return      string
+         * @param       mixed   $mNonScalar
+         */
+        static private function ___getLegibleDetailedNonScalar( $mNonScalar ) {
+
+            $_sType = gettype( $mNonScalar );
+            if ( is_null( $mNonScalar ) ) {
+                return '(null)';
             }
-                /**
-                 * @since       3.8.9
-                 * @since       3.8.22  Renamed from `_getLegibleNonScalar()`.
-                 * @return      string
-                 * @param       mixed   $mNonScalar
-                 */
-                static private function ___getLegibleDetailedNonScalar( $mNonScalar ) {
+            if ( is_object( $mNonScalar ) ) {
+                return self::___getLegibleDetailedObject( $mNonScalar );
+            }
+            if ( is_array( $mNonScalar ) ) {
+                return '(' . $_sType . ') ' . count( $mNonScalar ) . ' elements';
+            }
+            return '(' . $_sType . ') ' . ( string ) $mNonScalar;
 
-                    $_sType = gettype( $mNonScalar );
-                    if ( is_null( $mNonScalar ) ) {
-                        return '(null)';
-                    }
-                    if ( is_object( $mNonScalar ) ) {
-                        return self::___getLegibleDetailedObject( $mNonScalar );
-                    }
-                    if ( is_array( $mNonScalar ) ) {
-                        return '(' . $_sType . ') ' . count( $mNonScalar ) . ' elements';
-                    }
-                    return '(' . $_sType . ') ' . ( string ) $mNonScalar;
-
+        }
+        /**
+         * @return      string
+         * @param       integer|float|boolean $sScalar
+         * @param       integer $iStringLengthLimit
+         * @since       3.8.9
+         * @since       3.8.22      Renamed from `_getLegibleScalar()`.
+         */
+        static private function ___getLegibleDetailedScalar( $sScalar, $iStringLengthLimit ) {
+            if ( is_bool( $sScalar ) ) {
+                return '(boolean) ' . ( $sScalar ? 'true' : 'false' );
+            }
+            return is_string( $sScalar )
+                ? self::___getLegibleString( $sScalar, $iStringLengthLimit, true )
+                : '(' . gettype( $sScalar ) . ', length: ' . self::___getValueLength( $sScalar ) .  ') ' . $sScalar;
+        }
+            /**
+             * Returns a length of a value.
+             * @since       3.5.3
+             * @internal
+             * @return      integer|null For string or integer, the string length. For array, the element lengths. For other types, null.
+             * @param       mixed        $mValue
+             */
+            static private function ___getValueLength( $mValue ) {
+                $_sVariableType = gettype( $mValue );
+                if ( in_array( $_sVariableType, array( 'string', 'integer' ) ) ) {
+                    return strlen( $mValue );
                 }
-                /**
-                 * @return      string
-                 * @param       integer|float|boolean $sScalar
-                 * @param       integer $iStringLengthLimit
-                 * @since       3.8.9
-                 * @since       3.8.22      Renamed from `_getLegibleScalar()`.
-                 */
-                static private function ___getLegibleDetailedScalar( $sScalar, $iStringLengthLimit ) {
-                    if ( is_bool( $sScalar ) ) {
-                        return '(boolean) ' . ( $sScalar ? 'true' : 'false' );
-                    }
-                    return is_string( $sScalar )
-                        ? self::___getLegibleString( $sScalar, $iStringLengthLimit, true )
-                        : '(' . gettype( $sScalar ) . ', length: ' . self::___getValueLength( $sScalar ) .  ') ' . $sScalar;
+                if ( 'array' === $_sVariableType ) {
+                    return count( $mValue );
                 }
-                    /**
-                     * Returns a length of a value.
-                     * @since       3.5.3
-                     * @internal
-                     * @return      integer|null For string or integer, the string length. For array, the element lengths. For other types, null.
-                     * @param       mixed        $mValue
-                     */
-                    static private function ___getValueLength( $mValue ) {
-                        $_sVariableType = gettype( $mValue );
-                        if ( in_array( $_sVariableType, array( 'string', 'integer' ) ) ) {
-                            return strlen( $mValue );
-                        }
-                        if ( 'array' === $_sVariableType ) {
-                            return count( $mValue );
-                        }
-                        return null;
-                    }
-                    /**
-                     * @param       string      $sString
-                     * @param       integer     $iLengthLimit
-                     * @param       boolean     $bShowDetails
-                     * @return      string
-                     */
-                    static private function ___getLegibleString( $sString, $iLengthLimit, $bShowDetails=true ) {
+                return null;
+            }
+            /**
+             * @param       string      $sString
+             * @param       integer     $iLengthLimit
+             * @param       boolean     $bShowDetails
+             * @return      string
+             */
+            static private function ___getLegibleString( $sString, $iLengthLimit, $bShowDetails=true ) {
 
-                        static $_iMBSupport;
-                        $_iMBSupport    = isset( $_iMBSupport ) ? $_iMBSupport : ( integer ) function_exists( 'mb_strlen' );
-                        $_aStrLenMethod = array( 'strlen', 'mb_strlen' );
-                        $_aSubstrMethod = array( 'substr', 'mb_substr' );
-                        $iCharLimit     = $iLengthLimit ? $iLengthLimit : self::$iLegibleStringCharacterLimit;
-                        $_iCharLength   = call_user_func_array( $_aStrLenMethod[ $_iMBSupport ], array( $sString ) );
+                static $_iMBSupport;
+                $_iMBSupport    = isset( $_iMBSupport ) ? $_iMBSupport : ( integer ) function_exists( 'mb_strlen' );
+                $_aStrLenMethod = array( 'strlen', 'mb_strlen' );
+                $_aSubstrMethod = array( 'substr', 'mb_substr' );
+                $iCharLimit     = $iLengthLimit ? $iLengthLimit : self::$iLegibleStringCharacterLimit;
+                $_iCharLength   = call_user_func_array( $_aStrLenMethod[ $_iMBSupport ], array( $sString ) );
 
-                        if ( $bShowDetails ) {
-                            return $_iCharLength <= $iCharLimit
-                                ? '(string, length: ' . $_iCharLength . ') ' . $sString
-                                : '(string, length: ' . $_iCharLength . ') ' . call_user_func_array( $_aSubstrMethod[ $_iMBSupport ], array( $sString, 0, $iCharLimit ) )
-                                    . '...';
-                        }
-                        return $_iCharLength <= $iCharLimit
-                            ? $sString
-                            : call_user_func_array( $_aSubstrMethod[ $_iMBSupport ], array( $sString, 0, $iCharLimit ) );
+                if ( $bShowDetails ) {
+                    return $_iCharLength <= $iCharLimit
+                        ? '(string, length: ' . $_iCharLength . ') ' . $sString
+                        : '(string, length: ' . $_iCharLength . ') ' . call_user_func_array( $_aSubstrMethod[ $_iMBSupport ], array( $sString, 0, $iCharLimit ) )
+                            . '...';
+                }
+                return $_iCharLength <= $iCharLimit
+                    ? $sString
+                    : call_user_func_array( $_aSubstrMethod[ $_iMBSupport ], array( $sString, 0, $iCharLimit ) );
 
-                    }
+            }
 
     /**
      * @return      string
@@ -328,42 +332,6 @@ class AdminPageFramework_Debug_Base extends AdminPageFramework_FrameworkUtility 
         return $aSubject;
 
     }
-
-    /**
-     * Performs `array_map()` recursively.
-     * @remark Accepts arguments.
-     * @param  array    $aArray
-     * @param  callable $oCallable
-     * @param  array    $aArguments
-     * @return array
-     * @since  3.8.9
-     */
-    static private function ___getArrayMappedRecursive( array $aArray, $oCallable, array $aArguments=array() ) {
-
-        self::$___oCurrentCallableForArrayMapRecursive = $oCallable;
-        self::$___aArgumentsForArrayMapRecursive       = $aArguments;
-        $_aArray = array_map( array( __CLASS__, '___getArrayMappedNested' ), $aArray );
-        self::$___oCurrentCallableForArrayMapRecursive = null;
-        self::$___aArgumentsForArrayMapRecursive       = array();
-        return $_aArray;
-
-    }
-        static private $___oCurrentCallableForArrayMapRecursive;
-        static private $___aArgumentsForArrayMapRecursive;
-        /**
-         * @internal
-         * @return      mixed       A modified value.
-         * @since       3.8.9
-         * @param       mixed       $mItem
-         */
-        static private function ___getArrayMappedNested( $mItem ) {
-            return is_array( $mItem )
-                ? array_map( array( __CLASS__, '___getArrayMappedNested' ), $mItem )
-                : call_user_func_array( 
-                    self::$___oCurrentCallableForArrayMapRecursive, 
-                    array_merge( array( $mItem ), self::$___aArgumentsForArrayMapRecursive )  
-                );
-        }
 
     /**
      * @param   integer $iSkip    The number of skipping records. This is used when the caller does not want to include the self function/method.
