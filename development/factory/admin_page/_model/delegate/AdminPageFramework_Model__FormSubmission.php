@@ -230,17 +230,10 @@ class AdminPageFramework_Model__FormSubmission extends AdminPageFramework_Model_
          * @return      array
          */
         private function _getUserInputsFromPOST() {
-
-            $_aInputs     = $this->getElementAsArray( 
-                $_POST, // will be sanitized in the getSubmittedData() method.
-                $this->oFactory->oProp->sOptionKey, 
-                array() 
-            );
             return $this->oFactory->oForm->getSubmittedData(
-                $_aInputs,
+                $this->oFactory->oForm->getHTTPRequestSanitized( $this->getElementAsArray( $_POST, $this->oFactory->oProp->sOptionKey ) ),  // sanitization done
                 false   // do not extract from form fieldsets structure
             );
-
         }        
     
         /**

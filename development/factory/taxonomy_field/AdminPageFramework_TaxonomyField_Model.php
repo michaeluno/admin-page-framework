@@ -178,7 +178,7 @@ abstract class AdminPageFramework_TaxonomyField_Model extends AdminPageFramework
 
         $_aTaxonomyFormData     = $this->_getSavedTaxonomyFormData( $this->oProp->sOptionKey );
         $_aSavedFormData        = $this->_getSavedTermFormData( $iTermID, $this->oProp->sOptionKey );
-        $_aSubmittedFormData    = $this->oForm->getSubmittedData( $_POST );
+        $_aSubmittedFormData    = $this->oForm->getSubmittedData( $this->oForm->getHTTPRequestSanitized( $_POST ) );
         $_aSubmittedFormData    = $this->oUtil->addAndApplyFilters(
             $this,
             'validation_' . $this->oProp->sClassName,

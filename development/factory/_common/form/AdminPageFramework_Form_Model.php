@@ -73,7 +73,6 @@ class AdminPageFramework_Form_Model extends AdminPageFramework_Form_Base {
                 $aDataToParse   // the subject data array, usually `$_POST`.
             )
             : $aDataToParse;
-        $_aSubmittedFormData    = $this->getHTTPRequestSanitized( $_aSubmittedFormData, $bStripSlashes );
         return $this->getSortedInputs( $_aSubmittedFormData ); // [3.6.0] - sorts dynamic elements.
         
     }

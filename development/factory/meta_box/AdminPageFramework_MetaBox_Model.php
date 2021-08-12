@@ -192,7 +192,7 @@ abstract class AdminPageFramework_MetaBox_Model extends AdminPageFramework_MetaB
 
         // Retrieve the submitted data.
         $_aInputs       = $this->oForm->getSubmittedData(
-            $_POST,     // subject data to be parsed. Will be sanitized in the method
+            $this->oForm->getHTTPRequestSanitized( $_POST, false ),     // subject data to be parsed. Will be sanitized in the method  // sanitization done
             true,       // extract data with the fieldset structure
             false       // strip slashes
         );

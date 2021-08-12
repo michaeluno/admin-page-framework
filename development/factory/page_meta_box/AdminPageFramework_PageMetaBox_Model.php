@@ -165,7 +165,7 @@ abstract class AdminPageFramework_PageMetaBox_Model extends AdminPageFramework_P
      */
     public function _replyToValidateOptions( $aNewPageOptions, $aOldPageOptions, $oAdminPage, $aSubmitInfo ) {
 
-        $_aNewMetaBoxInputs      = $this->oForm->getSubmittedData( $_POST );
+        $_aNewMetaBoxInputs      = $this->oForm->getSubmittedData( $this->oForm->getHTTPRequestSanitized( $_POST ) );
         $_aOldMetaBoxInputs      = $this->oUtil->castArrayContents(
             $this->oForm->getDataStructureFromAddedFieldsets(),   // model
             $aOldPageOptions        // data source
