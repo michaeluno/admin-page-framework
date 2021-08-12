@@ -8,7 +8,7 @@
  */
 
 /**
- * Handles retrieving data from the database and the submitted $_POST array.
+ * Handles retrieving data from the database and the submitted `$_POST` array.
  *
  * @abstract
  * @since           3.3.0
@@ -160,12 +160,12 @@ abstract class AdminPageFramework_MetaBox_Model extends AdminPageFramework_MetaB
             if ( isset( $GLOBALS[ 'post' ]->ID ) ) {
                 return $GLOBALS[ 'post' ]->ID;
             }
-            if ( isset( $_GET[ 'post' ] ) ) {
-                return absint( $_GET[ 'post' ] );
+            if ( isset( $_GET[ 'post' ] ) ) {   // sanitization unnecessary
+                return absint( $_GET[ 'post' ] );   // sanitization done
             }
             // for post.php without any query key-values.
-            if ( isset( $_POST[ 'post_ID' ] ) ) {
-                return absint( $_POST[ 'post_ID' ] );
+            if ( isset( $_POST[ 'post_ID' ] ) ) {       // sanitization unnecessary
+                return absint( $_POST[ 'post_ID' ] );   // sanitization done
             }
             return 0;
 
@@ -288,10 +288,10 @@ abstract class AdminPageFramework_MetaBox_Model extends AdminPageFramework_MetaB
             }
 
             // If our nonce isn't there, or we can't verify it, bail
-            if ( ! isset( $_POST[ $this->oProp->sMetaBoxID ] ) ) {
+            if ( ! isset( $_POST[ $this->oProp->sMetaBoxID ] ) ) {  // sanitization unnecessary
                 return false;
             }
-            if ( ! wp_verify_nonce( $_POST[ $this->oProp->sMetaBoxID ], $this->oProp->sMetaBoxID ) ) {
+            if ( ! wp_verify_nonce( $_POST[ $this->oProp->sMetaBoxID ], $this->oProp->sMetaBoxID ) ) {  // sanitization unnecessary
                 return false;
             }
 

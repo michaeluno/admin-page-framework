@@ -32,7 +32,9 @@ class AdminPageFramework_Resource_post_meta_box extends AdminPageFramework_Resou
      * @internal
      */
     protected function _enqueueSRCByCondition( $aEnqueueItem ) {
-        $_sCurrentPostType = isset( $_GET[ 'post_type' ] ) ? sanitize_text_field( $_GET[ 'post_type' ] ) : ( isset( $GLOBALS[ 'typenow' ] ) ? $GLOBALS[ 'typenow' ] : null );
+        $_sCurrentPostType = isset( $_GET[ 'post_type' ] )  // sanitization unnecessary
+            ? $this->getHTTPQueryGET( 'post_type' )
+            : ( isset( $GLOBALS[ 'typenow' ] ) ? $GLOBALS[ 'typenow' ] : null );
         if ( in_array( $_sCurrentPostType, $aEnqueueItem[ 'aPostTypes' ], true ) ) {
             $this->_enqueueSRC( $aEnqueueItem );
         }

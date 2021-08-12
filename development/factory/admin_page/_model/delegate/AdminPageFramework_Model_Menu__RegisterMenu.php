@@ -489,8 +489,8 @@ class AdminPageFramework_Model_Menu__RegisterMenu extends AdminPageFramework_Fra
                      */
                     /* public function _replyToFixPageTitleForHiddenPages( $sAdminTitle, $sPageTitle ) {
 
-                        if ( isset( $_GET[ 'page' ], $this->oFactory->oProp->aHiddenPages[ $_GET[ 'page' ] ] ) ) {
-                            return $this->oFactory->oProp->aHiddenPages[ $_GET[ 'page' ] ] . $sAdminTitle;
+                        if ( isset( $_GET[ 'page' ], $this->oFactory->oProp->aHiddenPages[ $_GET[ 'page' ] ] ) ) { // sanitization unnecessary
+                            return $this->oFactory->oProp->aHiddenPages[ $this->oFactory->oUtil->getHTTPQueryGET( 'page', '' ) ] . $sAdminTitle;
                         }
                         return $sAdminTitle;
                     }   */

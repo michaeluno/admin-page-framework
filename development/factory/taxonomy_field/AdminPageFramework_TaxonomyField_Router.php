@@ -66,7 +66,7 @@ abstract class AdminPageFramework_TaxonomyField_Router extends AdminPageFramewor
             return false;
         }
 
-        if ( isset( $_GET[ 'taxonomy' ] ) && ! in_array( $_GET[ 'taxonomy' ], $this->oProp->aTaxonomySlugs ) ) {
+        if ( isset( $_GET[ 'taxonomy' ] ) && ! in_array( $_GET[ 'taxonomy' ], $this->oProp->aTaxonomySlugs ) ) {    // sanitization unnecessary
             return false;
         }
 

@@ -125,17 +125,17 @@ class AdminPageFramework_Property_page_meta_box extends AdminPageFramework_Prope
     /**
      * Checks if the current loading page is in the given page tab.
      *
-     * @remark      If the user is in the default tab page, it's possible that the $_GET[ 'tab' ] key is not set.
+     * @remark      If the user is in the default tab page, it's possible that the `$_GET[ 'tab' ]` key is not set.
      * @since       3.0.0
      * return       boolean
      */
     public function isCurrentTab( $sTabSlug ) {
 
-        $_sCurrentPageSlug = $this->getElement( $_GET, 'page' );
+        $_sCurrentPageSlug = $this->getHTTPQueryGET( 'page' );
         if ( ! $_sCurrentPageSlug ) {
             return false;
         }
-        $_sCurrentTabSlug = $this->getElement( $_GET, 'tab', $this->getDefaultInPageTab( $_sCurrentPageSlug ) );
+        $_sCurrentTabSlug = $this->getHTTPQueryGET( 'tab', $this->getDefaultInPageTab( $_sCurrentPageSlug ) );
         return ( $sTabSlug === $_sCurrentTabSlug );
 
     }
@@ -147,7 +147,7 @@ class AdminPageFramework_Property_page_meta_box extends AdminPageFramework_Prope
      * @remark      Do not return `null` when not found as some framework methods check the retuened value with `isset()` and if null is given, `isset()` yields `false` while it does `true` for an emtpy string ('').
     */
     public function getCurrentPageSlug() {
-        return isset( $_GET[ 'page' ] ) ? sanitize_text_field( $_GET[ 'page' ] ) : '';
+        return $this->getHTTPQueryGET( 'page', '' );
     }
 
     /**

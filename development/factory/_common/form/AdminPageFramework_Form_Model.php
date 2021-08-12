@@ -384,8 +384,8 @@ class AdminPageFramework_Form_Model extends AdminPageFramework_Form_Base {
                     )
                 )
                 + $aDefaultValues;
-            
-            $_aLastInputs = $this->getElement( $_GET, 'field_errors' ) || isset( $_GET[ 'confirmation' ] )
+
+            $_aLastInputs = $this->getHTTPQueryGET( 'field_errors' ) || isset( $_GET[ 'confirmation' ] )  // sanitization unnecessary
                 ? $this->oLastInputs->get()
                 : array();                    
             return $_aLastInputs + $_aSavedData;

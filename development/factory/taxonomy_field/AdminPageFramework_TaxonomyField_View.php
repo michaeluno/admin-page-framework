@@ -150,13 +150,13 @@ abstract class AdminPageFramework_TaxonomyField_View extends AdminPageFramework_
      * @since       3.0.0
      * @sine        3.5.0       Moved from `AdminPageFramework_TaxonomyField`. Changed the name from '_replyToSetColumnCell'.
      * @callback    filter      manage_{taxonomy slug}_custom_column
-     * @return      string
      */
     public function _replyToPrintColumnCell( $vValue, $sColumnSlug, $sTermID ) {
 
         $_sCellHTML = '';
-        if ( isset( $_GET['taxonomy'] ) && $_GET['taxonomy'] ) {
-            $_sCellHTML = $this->oUtil->addAndApplyFilter( $this, "cell_{$_GET['taxonomy']}", $vValue, $sColumnSlug, $sTermID );
+        $_sTaxonomy = $this->oUtil->getHTTPQueryGET( 'taxonomy' );
+        if ( isset( $_sTaxonomy ) ) {
+            $_sCellHTML = $this->oUtil->addAndApplyFilter( $this, "cell_{$_sTaxonomy}", $vValue, $sColumnSlug, $sTermID );
         }
         $_sCellHTML = $this->oUtil->addAndApplyFilter( $this, "cell_{$this->oProp->sClassName}", $_sCellHTML, $sColumnSlug, $sTermID );
         $_sCellHTML = $this->oUtil->addAndApplyFilter( $this, "cell_{$this->oProp->sClassName}_{$sColumnSlug}", $_sCellHTML, $sTermID ); // 3.0.2+

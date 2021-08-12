@@ -264,7 +264,7 @@ class AdminPageFramework_Model__FormSubmission extends AdminPageFramework_Model_
                     $_sSubmitSectionID 
                         ? "submit_{$this->oFactory->oProp->sClassName}_{$_sSubmitSectionID}" 
                         : null, // if null given, the method will ignore it
-                    isset( $_POST[ 'tab_slug' ] ) 
+                    isset( $_POST[ 'tab_slug' ] )   // sanitization unnecessary
                         ? "submit_{$this->oFactory->oProp->sClassName}_{$_sPageSlug}_{$_sTabSlug}"
                         : null, // if null given, the method will ignore it
                     "submit_{$this->oFactory->oProp->sClassName}_{$_sPageSlug}",
@@ -301,7 +301,7 @@ class AdminPageFramework_Model__FormSubmission extends AdminPageFramework_Model_
                         null
                     ),
                     $this->getAOrB(
-                        isset( $_POST[ 'tab_slug' ] ),
+                        isset( $_POST[ 'tab_slug' ] ),  // sanitization unnecessary
                         "submit_after_{$this->oFactory->oProp->sClassName}_{$_sPageSlug}_{$_sTabSlug}",
                         null
                     ),
@@ -320,7 +320,7 @@ class AdminPageFramework_Model__FormSubmission extends AdminPageFramework_Model_
         /**
          * Returns the url to reload.
          * 
-         * Sanitizes the $_GET query key-values.
+         * Sanitizes the `$_GET` query key-values.
          * 
          * @since       3.4.1
          * @since       3.6.3       Moved from `AdminPageFramework_Validation`.

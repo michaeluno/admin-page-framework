@@ -73,7 +73,7 @@ abstract class AdminPageFramework_Model_Form extends AdminPageFramework_Router {
         new AdminPageFramework_Model__FormEmailHandler( $this );
 
         // Checking the GET and POST methods.
-        if ( isset( $_REQUEST[ 'apf_remote_request_test' ] ) && '_testing' === $_REQUEST[ 'apf_remote_request_test' ] ) {
+        if ( isset( $_REQUEST[ 'apf_remote_request_test' ] ) && '_testing' === $_REQUEST[ 'apf_remote_request_test' ] ) {   // sanitization unnecessary
             exit( 'OK' );
         }
 

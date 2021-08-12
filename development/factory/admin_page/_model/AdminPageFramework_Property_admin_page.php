@@ -377,12 +377,10 @@ class AdminPageFramework_Property_admin_page extends AdminPageFramework_Property
          * @internal
          */
         protected function _isAdminPage() {
-
             if ( ! is_admin() ) {
                 return false;
             }
-            return isset( $_GET[ 'page' ] );
-
+            return isset( $_GET[ 'page' ] );    // sanitization unnecessary
         }
 
     /**
@@ -472,7 +470,7 @@ class AdminPageFramework_Property_admin_page extends AdminPageFramework_Property
     /**
      * Checks if the given page slug is one of the pages added by the framework.
      * @since       2.0.0
-     * @since       2.1.0       Set the default value to the parameter and if the parameter value is empty, it applies the current $_GET[ 'page' ] value.
+     * @since       2.1.0       Set the default value to the parameter and if the parameter value is empty, it applies the current `$_GET[ 'page' ]` value.
      * @return      boolean     Returns true if it is of framework's added page; otherwise, false.
      */
     public function isPageAdded( $sPageSlug='' ) {
@@ -499,7 +497,7 @@ class AdminPageFramework_Property_admin_page extends AdminPageFramework_Property
     /**
      * Retrieves the currently loading tab slug.
      *
-     * The tricky part is that even no tab is set in the $_GET array, it's possible that it could be the default tab of the loading page.
+     * The tricky part is that even no tab is set in the `$_GET` array, it's possible that it could be the default tab of the loading page.
      * This method checks that.
      *
      * @since       3.0.0

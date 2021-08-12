@@ -47,15 +47,13 @@ abstract class AdminPageFramework_TaxonomyField_Model extends AdminPageFramework
      * )
      * </code>
      * @callback    filter      manage_edit-{taxonomy slug}_columns
-     * @return      string
+     * @return      array
      */
     public function _replyToManageColumns( $aColumns ) {
         return $this->_getFilteredColumnsByFilterPrefix(
             $this->oUtil->getAsArray( $aColumns ),
             'columns_',
-            isset( $_GET['taxonomy'] )  // in ajax, $_GET is not even set.
-                ? $_GET['taxonomy']
-                : ''
+            $this->oUtil->getHTTPQueryGET( 'taxonomy', '' ) // in ajax, `$_GET` is not even set.
         );
     }
     /**
@@ -65,15 +63,13 @@ abstract class AdminPageFramework_TaxonomyField_Model extends AdminPageFramework
      * @since       3.0.0
      * @since       3.5.0       Moved from `AdminPageFramework_TaxonomyField`.
      * @callback    filter      manage_edit-{taxonomy slug}_sortable_columns
-     * @return      string
+     * @return      array
      */
     public function _replyToSetSortableColumns( $aSortableColumns ) {
         return $this->_getFilteredColumnsByFilterPrefix(
             $this->oUtil->getAsArray( $aSortableColumns ),
             'sortable_columns_',
-            isset( $_GET['taxonomy'] )  // in ajax, $_GET is not even set.
-                ? $_GET['taxonomy']
-                : ''
+            $this->oUtil->getHTTPQueryGET( 'taxonomy', '' )  // in ajax, `$_GET` is not even set.
         );
     }
         /**
@@ -86,7 +82,7 @@ abstract class AdminPageFramework_TaxonomyField_Model extends AdminPageFramework
             if ( $sTaxonomy ) {
                 $aColumns = $this->oUtil->addAndApplyFilter(
                     $this,
-                    "{$sFilterPrefix}{$_GET['taxonomy']}",
+                    $sFilterPrefix . $this->oUtil->getHTTPQueryGET( 'taxonomy', '' ),
                     $aColumns
                 );
             }
@@ -178,7 +174,7 @@ abstract class AdminPageFramework_TaxonomyField_Model extends AdminPageFramework
 
         $_aTaxonomyFormData     = $this->_getSavedTaxonomyFormData( $this->oProp->sOptionKey );
         $_aSavedFormData        = $this->_getSavedTermFormData( $iTermID, $this->oProp->sOptionKey );
-        $_aSubmittedFormData    = $this->oForm->getSubmittedData( $this->oForm->getHTTPRequestSanitized( $_POST ) );
+        $_aSubmittedFormData    = $this->oForm->getSubmittedData( $this->oForm->getHTTPRequestSanitized( $_POST ) );    // sanitization done
         $_aSubmittedFormData    = $this->oUtil->addAndApplyFilters(
             $this,
             'validation_' . $this->oProp->sClassName,
@@ -214,10 +210,10 @@ abstract class AdminPageFramework_TaxonomyField_Model extends AdminPageFramework
          */
         protected function _shouldProceedValidation() {
 
-            if ( ! isset( $_POST[ $this->oProp->sClassHash ] ) ) {
+            if ( ! isset( $_POST[ $this->oProp->sClassHash ] ) ) {  // sanitization unnecessary
                 return false;
             }
-            if ( ! wp_verify_nonce( $_POST[ $this->oProp->sClassHash ], $this->oProp->sClassHash ) ) {
+            if ( ! wp_verify_nonce( $_POST[ $this->oProp->sClassHash ], $this->oProp->sClassHash ) ) {  // sanitization unnecessary
                 return false;
             }
             return true;

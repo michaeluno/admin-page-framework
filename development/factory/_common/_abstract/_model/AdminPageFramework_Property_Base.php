@@ -468,16 +468,14 @@ abstract class AdminPageFramework_Property_Base extends AdminPageFramework_Frame
              * @internal
              */
             private function ___getURLQuery() {
-
                 if ( ! $this->bIsAdminAjax ) {
-                    return $this->getHTTPRequestSanitized( $_GET );
+                    return $this->getHTTPQueryGET( array(), array() );
                 }
                 parse_str(
                     parse_url( $this->___getReferrer(), PHP_URL_QUERY ), // query string such as `foo=bar&abc=xyz`
                     $_aQuery
                 );
-                return $this->getHTTPRequestSanitized( $_GET + $_aQuery );
-
+                return $this->getHTTPQueryGET( array(), array() ) + $_aQuery;
             }
 
         /**
