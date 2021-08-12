@@ -38,7 +38,7 @@ class AdminPageFramework_Model__FormSubmission__Validator__ContactForm extends A
         }
 
         // At this point, the user has confirmed to send an email of a contact form.
-        $this->_sendEmailInBackground(
+        $this->___sendEmail(
             $aInputs,
             $this->getElement( $aSubmitInformation, 'input_name' ),
             $this->getElement( $aSubmitInformation, 'section_id' )
@@ -83,13 +83,14 @@ class AdminPageFramework_Model__FormSubmission__Validator__ContactForm extends A
          * because it is performed in the background.
          * @todo        Maybe handle this with Ajax at later some point.
          */
-        private function _sendEmailInBackground( $aInputs, $sPressedInputNameFlat, $sSubmitSectionID ) {
+        private function ___sendEmail( $aInputs, $sPressedInputNameFlat, $sSubmitSectionID ) {
 
-            $_sTranskentKey = 'apf_em_' . md5( $sPressedInputNameFlat . get_current_user_id() );
-            $_aEmailOptions = $this->getTransient( $_sTranskentKey );
-            $this->deleteTransient( $_sTranskentKey );
+            $_sTransientKey = 'apf_em_' . md5( $sPressedInputNameFlat . get_current_user_id() );
+            $_aEmailOptions = $this->getTransient( $_sTransientKey );
+            $this->deleteTransient( $_sTransientKey );
 
             $_aEmailOptions = $this->getAsArray( $_aEmailOptions ) + array(
+                'nonce'         => '',
                 'to'            => '',
                 'subject'       => '',
                 'message'       => '',
@@ -99,37 +100,27 @@ class AdminPageFramework_Model__FormSubmission__Validator__ContactForm extends A
                 'from'          => '',
                 'name'          => '',
             );
+sleep( 5 );
 
-            $_sTransientKey  = 'apf_emd_' . md5( $sPressedInputNameFlat . get_current_user_id() );
-            $_aFormEmailData = array(
-                'email_options' => $_aEmailOptions,
-                'input'         => $aInputs,
-                'section_id'    => $sSubmitSectionID,
+            if ( false === wp_verify_nonce( $_aEmailOptions[ 'nonce' ], 'apf_email_nonce_' . md5( ( string ) site_url() ) ) ) {
+                $this->oFactory->setSettingNotice(
+                    $this->oFactory->oMsg->get( 'nonce_verification_failed' ),
+                    'error'
+                );
+                return;
+            }
+
+            $_oEmail = new AdminPageFramework_FormEmail(
+                $_aEmailOptions,
+                $aInputs,
+                $sSubmitSectionID
             );
-            $_bIsSet = $this->setTransient( $_sTransientKey,  $_aFormEmailData, 100 );
-
-            // Send the email in the background.
-            wp_remote_get(
-                add_query_arg(
-                    array(
-                        'apf_action' => 'email',
-                        'transient'  => $_sTransientKey,
-                    ),
-                    admin_url( $GLOBALS[ 'pagenow' ] )
-                ),
-                array(
-                    'timeout'     => 0.01,
-                    'sslverify'   => false,
-                )
-            );
-
-            // @remark      Not possible to tell whether it is sent or not at the moment because it is performed in the background.
-            $_bSent      = $_bIsSet;
+            $_bSent = $_oEmail->send();
             $this->oFactory->setSettingNotice(
                 $this->oFactory->oMsg->get(
                     $this->getAOrB(
                         $_bSent,
-                        'email_scheduled',
+                        'email_sent',
                         'email_could_not_send'
                     )
                 ),

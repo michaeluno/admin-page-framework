@@ -565,7 +565,9 @@ JAVASCRIPTS;
             }
             $this->setTransient( 
                 'apf_em_' . md5( $aField[ '_input_name_flat' ] . get_current_user_id() ), 
-                $aField[ 'email' ] 
+                array(
+                    'nonce' => $this->getNonceCreated( 'apf_email_nonce_' . md5( ( string ) site_url() ), 86400 ),  // @todo the nonce is crated when the page is rendered so change this to when the form is submitted so that a shorter nonce lifespan can be set.
+                ) + $this->getAsArray( $aField[ 'email' ] )
             );
             return ! $this->_checkConfirmationDisplayed( $aField, $aField[ '_input_name_flat' ], 'email' )
                 ? $this->getHTMLTag( 
