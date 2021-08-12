@@ -92,7 +92,7 @@ class AdminPageFramework_WPUtility_Page extends AdminPageFramework_WPUtility_HTM
              */
             static public function getPostTypeByREQUEST() {
                 if ( isset( $_REQUEST[ 'post_type' ] ) ) {
-                    return sanitize_key( $_REQUEST[ 'post_type' ] );
+                    return sanitize_key( sanitize_text_field( $_REQUEST[ 'post_type' ] ) );
                 }
                 if ( isset( $_GET[ 'post' ] ) && $_GET[ 'post' ] ) {
                     // It will perform a database query.

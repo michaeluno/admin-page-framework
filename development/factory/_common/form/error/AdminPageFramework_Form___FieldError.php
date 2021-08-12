@@ -43,10 +43,8 @@ class AdminPageFramework_Form___FieldError extends AdminPageFramework_FrameworkU
          */
         private function _getTransientKey() {
             $_sPageNow  = $this->getPageNow();
-            $_sPageSlug = $this->getElement( $_GET, 'page', '' );
-            $_sPageSlug = sanitize_text_field( $_sPageSlug );
-            $_sTabSlug  = $this->getElement( $_GET, 'tab', '' );
-            $_sTabSlug  = sanitize_text_field( $_sTabSlug );
+            $_sPageSlug = sanitize_text_field( $this->getElement( $_GET, 'page', '' ) );
+            $_sTabSlug  = sanitize_text_field( $this->getElement( $_GET, 'tab', '' ) );
             $_sUserID   = get_current_user_id();
             return "apf_fe_" . md5(
                 $_sPageNow

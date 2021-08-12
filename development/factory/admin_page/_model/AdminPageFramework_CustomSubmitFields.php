@@ -20,7 +20,7 @@
 abstract class AdminPageFramework_CustomSubmitFields extends AdminPageFramework_FrameworkUtility {
 
     /**
-     * Stores $_POST array content or sub-element of the $_POST array.
+     * Stores `$_POST` array content or sub-element of the $_POST array.
      */
     public $aPost = array();
 

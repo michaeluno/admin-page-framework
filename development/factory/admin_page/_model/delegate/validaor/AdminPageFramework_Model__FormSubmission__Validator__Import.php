@@ -95,7 +95,7 @@ class AdminPageFramework_Model__FormSubmission__Validator__Import extends AdminP
 
                 $_oImport           = new AdminPageFramework_ImportOptions(
                     $this->getHTTPRequestSanitized( $_FILES[ '__import' ], false ),
-                    $this->getHTTPRequestSanitized( $_POST[ '__import' ], true )
+                    $this->getHTTPRequestSanitized( $_POST[ '__import' ] )
                 );
                 $_aArguments        = array(
                     'class_name'        => $this->oFactory->oProp->sClassName,

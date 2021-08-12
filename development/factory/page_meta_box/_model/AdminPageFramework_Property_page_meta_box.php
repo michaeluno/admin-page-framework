@@ -135,11 +135,7 @@ class AdminPageFramework_Property_page_meta_box extends AdminPageFramework_Prope
         if ( ! $_sCurrentPageSlug ) {
             return false;
         }
-        $_sCurrentTabSlug = $this->getElement(
-            $_GET,
-            'tab',
-            $this->getDefaultInPageTab( $_sCurrentPageSlug )
-        );
+        $_sCurrentTabSlug = $this->getElement( $_GET, 'tab', $this->getDefaultInPageTab( $_sCurrentPageSlug ) );
         return ( $sTabSlug === $_sCurrentTabSlug );
 
     }
@@ -151,9 +147,7 @@ class AdminPageFramework_Property_page_meta_box extends AdminPageFramework_Prope
      * @remark      Do not return `null` when not found as some framework methods check the retuened value with `isset()` and if null is given, `isset()` yields `false` while it does `true` for an emtpy string ('').
     */
     public function getCurrentPageSlug() {
-        return isset( $_GET[ 'page' ] )
-            ? $_GET[ 'page' ]
-            : '';
+        return isset( $_GET[ 'page' ] ) ? sanitize_text_field( $_GET[ 'page' ] ) : '';
     }
 
     /**
@@ -244,7 +238,6 @@ class AdminPageFramework_Property_page_meta_box extends AdminPageFramework_Prope
 
         if ( 'oAdminPage' === $sName ) {
 
-//            $this->oAdminPage = $this->_getOwnerObjectOfPage( $_GET[ 'page' ] );
             $this->oAdminPage = $this->_getOwnerObjectOfPage( $this->getElement( $this->aQuery, 'page' ) );
 
             // Enable the form tag of the admin page that the meta box belongs to.

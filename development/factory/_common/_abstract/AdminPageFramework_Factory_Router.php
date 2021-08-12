@@ -258,8 +258,11 @@ abstract class AdminPageFramework_Factory_Router {
             if ( 'admin-ajax.php' !== $GLOBALS[ 'pagenow' ] ) {
                 return false;
             }
-            $_sAction = isset( $_POST[ 'action' ] ) ? $_POST[ 'action' ] : '';
-            return in_array( $_sAction, array( 'heartbeat', 'closed-postboxes', 'meta-box-order' ), true );
+            return in_array(
+                isset( $_POST[ 'action' ] ) ? $_POST[ 'action' ] : '',  // sanitization unnecessary as just checking
+                array( 'heartbeat', 'closed-postboxes', 'meta-box-order' ),
+                true
+            );
         }
 
     /**

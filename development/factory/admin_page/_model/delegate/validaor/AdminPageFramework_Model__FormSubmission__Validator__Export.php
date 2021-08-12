@@ -68,7 +68,7 @@ class AdminPageFramework_Model__FormSubmission__Validator__Export extends AdminP
         protected function _exportOptions( $mData, $sPageSlug, $sTabSlug ) {
 
             $_oExport           = new AdminPageFramework_ExportOptions(
-                $this->getHTTPRequestSanitized( $this->getElementAsArray( $_POST, array( '__export' ) ), true ),
+                $this->getHTTPRequestSanitized( $this->getElementAsArray( $_POST, array( '__export' ) ) ),
                 $this->oFactory->oProp->sClassName
             );
             $_aArguments        = array(

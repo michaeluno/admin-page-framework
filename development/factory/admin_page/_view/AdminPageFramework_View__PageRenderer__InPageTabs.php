@@ -165,11 +165,11 @@ class AdminPageFramework_View__PageRenderer__InPageTabs extends AdminPageFramewo
              */
             private function _getCurrentTabSlug( $sCurrentPageSlug ) {
 
-                $_sCurrentTabSlug = $this->getElement(
+                $_sCurrentTabSlug = sanitize_text_field( $this->getElement(
                     $_GET,
                     'tab',
                     $this->oFactory->oProp->getDefaultInPageTab( $sCurrentPageSlug )
-                );
+                ) );
                 $_sTabSlug = $this->_getParentTabSlug(
                     $sCurrentPageSlug,
                     $_sCurrentTabSlug

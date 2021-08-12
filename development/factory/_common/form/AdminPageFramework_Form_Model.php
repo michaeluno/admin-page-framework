@@ -56,7 +56,7 @@ class AdminPageFramework_Form_Model extends AdminPageFramework_Form_Base {
     }
 
     /**
-     * Retrieves the submitted form data from $_POST.
+     * Retrieves the submitted form data from `$_POST`.
      *
      * @param  array   $aDataToParse
      * @param  boolean $bExtractFromFieldStructure
@@ -70,7 +70,7 @@ class AdminPageFramework_Form_Model extends AdminPageFramework_Form_Base {
         $_aSubmittedFormData    = $bExtractFromFieldStructure
             ? $this->castArrayContents( 
                 $this->getDataStructureFromAddedFieldsets(), // form data (options) structure
-                $aDataToParse   // the subject data array, usually $_POST.
+                $aDataToParse   // the subject data array, usually `$_POST`.
             )
             : $aDataToParse;
         $_aSubmittedFormData    = $this->getHTTPRequestSanitized( $_aSubmittedFormData, $bStripSlashes );
@@ -92,20 +92,21 @@ class AdminPageFramework_Form_Model extends AdminPageFramework_Form_Base {
      */
     public function getSortedInputs( array $aFormInputs ) {
         
-        $_aDynamicFieldAddressKeys = array_unique(
+        $_aDynamicFieldAddressKeys = $this->getHTTPRequestSanitized( array_unique(
             array_merge(
                 $this->getElementAsArray( 
-                    $_POST,
+                    $_POST, // sanitization done
                     '__repeatable_elements_' . $this->aArguments[ 'structure_type' ],
                     array()
                 ),
                 $this->getElementAsArray( 
-                    $_POST,
+                    $_POST, // sanitization done
                     '__sortable_elements_' . $this->aArguments[ 'structure_type' ],
                     array()
                 )
             )
-        );
+        ) );
+
         if ( empty( $_aDynamicFieldAddressKeys ) ) {
             return $aFormInputs;
         }
@@ -201,10 +202,10 @@ class AdminPageFramework_Form_Model extends AdminPageFramework_Form_Base {
     public function dropRepeatableElements( array $aSubject ) {        
         $_oFilterRepeatableElements = new AdminPageFramework_Form_Model___Modifier_FilterRepeatableElements( 
             $aSubject,
-            $this->getElementAsArray(
-                $_POST,
+            $this->getHTTPRequestSanitized( $this->getElementAsArray(
+                $_POST, // sanitization done
                 '__repeatable_elements_' . $this->aArguments[ 'structure_type' ]
-            )
+            ) )
         );
         return $_oFilterRepeatableElements->get();
     }        
