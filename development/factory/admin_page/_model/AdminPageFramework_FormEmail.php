@@ -92,7 +92,7 @@ class AdminPageFramework_FormEmail extends AdminPageFramework_FrameworkUtility {
                 ? $this->getReadableListOfArrayAsHTML( ( array ) $this->_getEmailArgument( $aInput, $aEmailOptions, 'message', $sSubmitSectionID ) )
                 : $this->getReadableListOfArray( ( array ) $this->_getEmailArgument( $aInput, $aEmailOptions, 'message', $sSubmitSectionID ) ),
             $this->_getEmailArgument( $aInput, $aEmailOptions, 'headers', $sSubmitSectionID ),
-            $this->_formatAttachements( $this->_getEmailArgument( $aInput, $aEmailOptions, 'attachments', $sSubmitSectionID ) )
+            $this->___formatAttachments( $this->_getEmailArgument( $aInput, $aEmailOptions, 'attachments', $sSubmitSectionID ) )
         );
 
         remove_filter( 'wp_mail_content_type', array( $this, '_replyToSetMailContentTypeToHTML' ) );
@@ -108,13 +108,13 @@ class AdminPageFramework_FormEmail extends AdminPageFramework_FrameworkUtility {
 
     }
         /**
-         * Formats the attachement values.
+         * Formats the attachment values.
          *
-         * If a url is passed, it attemps to convert it to a path. If it is an external url, it downloads it and set it as a path.
+         * If a url is passed, it attempts to convert it to a path. If it is an external url, it downloads it and set it as a path.
          *
          * @since       3.4.2
          */
-        private function _formatAttachements( $asAttachments ) {
+        private function ___formatAttachments( $asAttachments ) {
 
             if ( empty( $asAttachments ) ) {
                 return '';

@@ -85,8 +85,8 @@ class AdminPageFramework_Message {
             . 'Please check your server settings of PHP <code>max_input_vars</code> and consult the server administrator to increase the value. '
             . '<code>max input vars</code>: %1$s. <code>$_POST</code> count: %2$s',  // 3.5.11+ // sanitization unnecessary as it is just a literal string
         'send_email'                            => 'Is it okay to send the email?',     // 3.3.0+
-        'email_sent'                            => 'The email has been sent.',  // 3.3.0+, 3.3.5+ deprecated
-        'email_scheduled'                       => 'The email has been scheduled.', // 3.3.5+
+        'email_sent'                            => 'The email has been sent.',  // 3.3.0+, 3.3.5+ deprecated, 3.8.32 Re-added
+        'email_scheduled'                       => 'The email has been scheduled.', // 3.3.5+, 3.8.32 deprecated
         'email_could_not_send'                  => 'There was a problem sending the email',     // 3.3.0+
 
         // AdminPageFramework_PostType

@@ -18,6 +18,39 @@
 class AdminPageFramework_WPUtility extends AdminPageFramework_WPUtility_SystemInformation {
 
     /**
+     * @var integer
+     * @sinec 3.8.32
+     */
+    static private $___iCustomNonceLifeSpan;
+
+    /**
+     * @param  integer|string $sAction   The action name to pass to wp_create_nonce()
+     * @param  integer        $iLifespan Defualts to 86400 which is equal to `DAY_IN_SECONDS`.
+     * @return string
+     * @see    wp_create_nonce()
+     * @since  3.8.32
+     */
+    static public function getNonceCreated( $sAction=-1, $iLifespan=86400 ) {
+        self::$___iCustomNonceLifeSpan = $iLifespan;
+        add_filter( 'nonce_life', array( __CLASS__, '_replyToSetNonceLifeSpan' ) );
+        $_sNonce = ( string ) wp_create_nonce($sAction );
+        remove_filter( 'nonce_life', array( __CLASS__, '_replyToSetNonceLifeSpan' ) );
+        self::$___iCustomNonceLifeSpan = null;
+        return $_sNonce ;
+    }
+        /**
+         * @param  integer $iLifespanInSeconds
+         * @return integer
+         * @since  3.8.32
+         */
+        static public function _replyToSetNonceLifeSpan( $iLifespanInSeconds ) {
+            return self::$___iCustomNonceLifeSpan;
+            return isset( self::$___iCustomNonceLifeSpan )
+                ? self::$___iCustomNonceLifeSpan
+                : $iLifespanInSeconds;
+        }
+
+    /**
      * @param       string $sPostTypeSlug
      * @param       array $aPostTypeArguments
      * @return      string  the 'Manage' sub-menu link slug.

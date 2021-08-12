@@ -70,7 +70,8 @@ abstract class AdminPageFramework_Model_Form extends AdminPageFramework_Router {
             return;
         }
 
-        new AdminPageFramework_Model__FormEmailHandler( $this );
+        // @deprecated 3.8.32
+        // new AdminPageFramework_Model__FormEmailHandler( $this );
 
         // Checking the GET and POST methods.
         if ( isset( $_REQUEST[ 'apf_remote_request_test' ] ) && '_testing' === $_REQUEST[ 'apf_remote_request_test' ] ) {   // sanitization unnecessary
