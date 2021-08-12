@@ -102,7 +102,7 @@ class AdminPageFramework_Form_Model___SetFieldResources extends AdminPageFramewo
                 $this->aResources[ 'src_scripts' ][] = array(
                     'handle_id'         => 'admin-page-framework-script-form-main',
                     'src'               => AdminPageFramework_Registry::$sDirPath . '/factory/_common/form/asset/js/form.bundle.js',
-                    'dependencies'      => array( 'jquery', 'wp-pointer' ),
+                    'dependencies'      => array( 'jquery', 'wp-pointer', 'jquery-ui-sortable' ),
                     'in_footer'         => true,
                     'version'           => AdminPageFramework_Registry::VERSION,
                     'translation'       => $_aData,
