@@ -18,20 +18,25 @@
 class AdminPageFramework_WPUtility_URL extends AdminPageFramework_Utility {
 
     /**
+     * @var   array Caches the HTTP GET query values.
+     * @since 3.8.32
+     */
+    static private $___aGET;
+
+    /**
      * Returns sanitized values of GET HTTP queries.
      * @param  array|string $asKeys Dimensional keys for the value to retrieve. If empty, the entire array will be returned.
      * @return string|array
      * @since  3.8.32
      */
     static public function getHTTPQueryGET( $asKeys=array(), $mDefault=null ) {
-        static $_aCache;
-        $_aCache = isset( $_aCache )
-            ? $_aCache
+        self::$___aGET = isset( self::$___aGET )
+            ? self::$___aGET
             : self::getArrayMappedRecursive( 'sanitize_text_field', $_GET );    // sanitization done
         if ( empty( $asKeys ) ) {
-            return $_aCache;
+            return self::$___aGET;
         }
-        return self::getElement( $_aCache, $asKeys, $mDefault );
+        return self::getElement( self::$___aGET, $asKeys, $mDefault );
     }
 
     /**
