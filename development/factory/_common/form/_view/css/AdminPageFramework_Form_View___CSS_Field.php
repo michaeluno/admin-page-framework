@@ -317,33 +317,60 @@ CSSRULES;
 }
 
 /* repeatable field button */
+.admin-page-framework-field .admin-page-framework-repeatable-field-buttons {
+    display: flex;
+}
+.admin-page-framework-field .admin-page-framework-repeatable-field-buttons {
+}
+.admin-page-framework-field .admin-page-framework-repeatable-field-buttons .repeatable-field-button.button {
+    margin: 0 0.1em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.admin-page-framework-field .repeatable-field-button .dashicons {
+    position: initial;
+    top: initial;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;    
+}
 .admin-page-framework-repeatable-field-buttons .repeatable-field-button.button.button-small {
     min-width: 2.4em;
+    min-height: 2.4em;
     padding: 0;    
 }
-.repeatable-field-button .dashicons {
-    position: relative;
-    top: 4.4px;
-    font-size: 16px;
+.with-nested-fields .admin-page-framework-repeatable-field-buttons .repeatable-field-button {
+    width: 2em;
+    height: 2em;
+    max-width: unset;
+    max-height: unset;
+    min-width: unset;
+    min-height: unset;    
 }
 @media screen and (max-width: 782px) {
     .admin-page-framework-repeatable-field-buttons {
-        margin: 0.5em 0 0 0.28em;
+        margin: 0.64em 0 0 0.28em;
     }
-    .repeatable-field-button .dashicons {
-        position: relative;
-        top: 10px;
-        font-size: 18px;
+    .admin-page-framework-field .repeatable-field-button .dashicons {
+        font-size: 20px;
     }
     .admin-page-framework-repeatable-field-buttons .repeatable-field-button.button.button-small {
         margin-top: 0;
         margin-bottom: 0;
         min-width: 2.6em;
-        min-height: 2.4em;
+        min-height: 2.6em;
     }
     .admin-page-framework-fields.sortable .admin-page-framework-repeatable-field-buttons {
-        margin: 0;
+        margin: 0.6em 0 0 1em;
     }
+    .with-nested-fields .admin-page-framework-repeatable-field-buttons .repeatable-field-button {
+        /*padding: 0.16em 0.4em 0;*/
+    }    
+    .with-nested-fields .repeatable-field-button .dashicons {
+        top: 4px;
+    }    
 }
 CSSRULES;
 

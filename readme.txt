@@ -541,6 +541,7 @@ See examples, https://gist.github.com/michaeluno/c30713fcfe0d9d45d89f, https://g
 = 3.8.32 - 2021/08/13 =
 - Fixed some raw HTTP request values.
 - Tweaked the behavior of the `submit` filed type with the `email` argument.
+- Tweaked the visual of repeatable buttons.
 
 = 3.8.31 - 2021/08/10 =
 - Added the ability to automatically load .min files if they exist when enqueuing resource files.
