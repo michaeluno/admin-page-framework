@@ -203,23 +203,28 @@ CSSRULES;
                     return '';
                 }
                 return <<<CSSRULES
+.admin-page-framework-repeatable-section-buttons {
+    display: flex;
+}
+.repeatable-section-button.button {
+    margin: 0 0.1em;
+    display: flex;
+    align-items: center;
+    justify-content: center;    
+}
 .repeatable-section-button.button.button-large {
     padding: 0;
-    margin: 0;
-    min-width: 2.48em;    
+    min-width: unset;
+    min-height: unset;
+    width: 32px;
+    height: 32px;  
 }
 .repeatable-section-button .dashicons {
     font-size: 1.32em;
-    width: 100%;
-    vertical-align: middle;    
-}
-@media screen and (max-width: 782px) {
-    .repeatable-section-button.button.button-large {
-        min-width: 40px;        
-    }
-    .repeatable-section-button .dashicons {
-        height: 22px;
-    }
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: unset;    
 }
 CSSRULES;
             }
