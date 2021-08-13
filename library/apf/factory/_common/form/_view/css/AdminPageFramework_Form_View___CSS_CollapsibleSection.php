@@ -36,7 +36,7 @@ abstract class AdminPageFramework_Form_View___CSS_Base extends AdminPageFramewor
             if (version_compare($GLOBALS['wp_version'], '5.3', '<')) {
                 return '';
             }
-            return ".admin-page-framework-collapsible-section-title.admin-page-framework-collapsible-type-box .repeatable-section-button {min-width: 2.4em;}.admin-page-framework-collapsible-section-title.admin-page-framework-collapsible-type-box .repeatable-section-button .dashicons {font-size: 1.2em;height: 100%;vertical-align: text-top;}.admin-page-framework-collapsible-section-title.admin-page-framework-collapsible-type-box .repeatable-section-button .dashicons:before {vertical-align: middle;}@media screen and (max-width: 782px) {.admin-page-framework-collapsible-section-title.admin-page-framework-collapsible-type-box .admin-page-framework-repeatable-section-buttons {white-space: nowrap;}.admin-page-framework-collapsible-section-title.admin-page-framework-collapsible-type-box .repeatable-section-button {font-size: 1.4em;}.admin-page-framework-collapsible-section-title.admin-page-framework-collapsible-type-box .repeatable-section-button .dashicons {height: unset;vertical-align: unset;}}";
+            return ".admin-page-framework-collapsible-section-title.admin-page-framework-collapsible-type-box .repeatable-section-button {width: 32px;height: 32px;margin: 0 0.1em;}.admin-page-framework-collapsible-section-title.admin-page-framework-collapsible-type-box .repeatable-section-button .dashicons {height: 100%;}";
         }
         private function ___getForWP38OrBelow() {
             if (version_compare($GLOBALS['wp_version'], '3.8', '>=')) {
