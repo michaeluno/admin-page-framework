@@ -50,7 +50,7 @@
 
       // Handle toolitip closing
       var _self    = this;
-      $( this ).add( '.admin-page-framework-tooltip' ).on( 'mouseleave', function(){
+      $( this ).add( '.admin-page-framework-form-tooltip-balloon' ).on( 'mouseleave', function(){
         var _selfMouseLeave = this;
         // Set a timeout for the tooltip to close, allowing us to clear this trigger if the mouse comes back over
         var _timeoutId = setTimeout(function(){
@@ -64,7 +64,7 @@
         $( _self ).data( 'timeoutId', _timeoutId );
 
       } );
-      $( this ).add( '.admin-page-framework-tooltip' ).on( 'mouseenter', function(){
+      $( this ).add( '.admin-page-framework-form-tooltip-balloon' ).on( 'mouseenter', function(){
         clearTimeout( $( _self ).data('timeoutId' ) );
       });
 

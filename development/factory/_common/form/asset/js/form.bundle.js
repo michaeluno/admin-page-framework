@@ -1,4 +1,4 @@
-/*! Admin Page Framework - Form Main 1.1.1 */
+/*! Admin Page Framework - Form Main 1.1.2 */
 /**
  * This script should be empty and provide the banner (header comment) for the concatenated bundled script (form.bundle.js).
  */
@@ -627,8 +627,6 @@
                 }
             }
 
-console.log( 'id:', $( this ).attr( 'id' ) );
-console.log( 'nested field:', $( this ).find( '> .admin-page-framework-field.with-child-fields' ).length );
             /**
              * For nested fields, add buttons to the fields tag.
              */
@@ -1684,7 +1682,7 @@ console.log( 'nested field:', $( this ).find( '> .admin-page-framework-field.wit
 
       // Handle toolitip closing
       var _self    = this;
-      $( this ).add( '.admin-page-framework-tooltip' ).on( 'mouseleave', function(){
+      $( this ).add( '.admin-page-framework-form-tooltip-balloon' ).on( 'mouseleave', function(){
         var _selfMouseLeave = this;
         // Set a timeout for the tooltip to close, allowing us to clear this trigger if the mouse comes back over
         var _timeoutId = setTimeout(function(){
@@ -1698,7 +1696,7 @@ console.log( 'nested field:', $( this ).find( '> .admin-page-framework-field.wit
         $( _self ).data( 'timeoutId', _timeoutId );
 
       } );
-      $( this ).add( '.admin-page-framework-tooltip' ).on( 'mouseenter', function(){
+      $( this ).add( '.admin-page-framework-form-tooltip-balloon' ).on( 'mouseenter', function(){
         clearTimeout( $( _self ).data('timeoutId' ) );
       });
 
