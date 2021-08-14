@@ -31,7 +31,7 @@ class AdminPageFrameworkLoader_Registry_Base {
 /**
  * Provides the plugin information.
  *
- * The plugin will refer to these information.
+ * The plugin will refer to the information.
  *
  * @since       3.5.0
  */
@@ -206,10 +206,10 @@ final class AdminPageFrameworkLoader_Registry extends AdminPageFrameworkLoader_R
          */
         static public function _replyToSetAdminNotice() {
             foreach( self::$_aAdminNotices as $_aAdminNotice ) {
-                echo "<div class='" . esc_attr( $_aAdminNotice['class_attribute'] ) . " notice is-dismissible'>"
+                echo "<div class='" . esc_attr( $_aAdminNotice[ 'class_attribute' ] ) . " notice is-dismissible'>"
                         ."<p>"
                             . sprintf(
-                                '<strong>%1$s</strong>: ' . $_aAdminNotice['message'],
+                                '<strong>%1$s</strong>: ' . $_aAdminNotice[ 'message' ],
                                 self::NAME . ' ' . self::VERSION
                             )
                         . "</p>"
