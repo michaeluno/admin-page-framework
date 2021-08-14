@@ -1,5 +1,5 @@
 @charset "UTF-8";
-/*! Admin Page Framework Form Style 1.0.0  */
+/*! Admin Page Framework Form Style 1.0.1 */
 .admin-page-framework-form-warning {
   font-size: 1em;
 }
@@ -709,6 +709,7 @@ a.admin-page-framework-form-tooltip {
   text-decoration: none;
   cursor: default;
   color: #999;
+  margin: 0 0.2em;
 }
 
 a.admin-page-framework-form-tooltip > .admin-page-framework-form-tooltip-content > .admin-page-framework-form-tooltip-title {

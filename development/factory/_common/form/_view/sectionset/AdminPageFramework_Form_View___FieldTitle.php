@@ -97,8 +97,8 @@ class AdminPageFramework_Form_View___FieldTitle extends AdminPageFramework_Form_
                             . $aField[ 'title' ]
                             . $this->_getTitleColon( $aField )
                     . "</span>"
+                    . $this->___getToolTip( $aField[ 'tip' ], $aField[ 'field_id' ] )
                 . "</label>"
-                . $this->_getToolTip( $aField[ 'tip' ], $aField[ 'field_id' ] )
             : '';
 
         $_sOutput .= $this->_getFieldOutputsInFieldTitleAreaFromNestedFields( $aField );
@@ -143,7 +143,7 @@ class AdminPageFramework_Form_View___FieldTitle extends AdminPageFramework_Form_
          * @return      string
          * @since       3.7.0
          */
-        private function _getToolTip( $asTip, $sElementID ) {
+        private function ___getToolTip( $asTip, $sElementID ) {
             $_oToolTip           = new AdminPageFramework_Form_View___ToolTip(
                 $asTip,
                 $sElementID
