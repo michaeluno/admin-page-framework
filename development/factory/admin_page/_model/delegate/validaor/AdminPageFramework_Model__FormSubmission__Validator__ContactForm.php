@@ -100,7 +100,6 @@ class AdminPageFramework_Model__FormSubmission__Validator__ContactForm extends A
                 'from'          => '',
                 'name'          => '',
             );
-sleep( 5 );
 
             if ( false === wp_verify_nonce( $_aEmailOptions[ 'nonce' ], 'apf_email_nonce_' . md5( ( string ) site_url() ) ) ) {
                 $this->oFactory->setSettingNotice(
