@@ -11,10 +11,13 @@
             var _buttonContainer     = _buttonModel.children( '.admin-page-framework-repeatable-field-buttons' ).first();
             _buttonModel.remove();
             var _buttonsNestedFields = $( _buttonContainer );
-            var _buttonsSmall        = $( _buttonContainer );
+            var _buttonsSmall        = $( _buttonContainer ).clone();
+            _buttonsNestedFields.find( '.repeatable-field-button' ).addClass( 'button-large' );
             _buttonsSmall.find( '.repeatable-field-button' ).addClass( 'button-small' );
 
-            var _oButtonPlaceHolders = $( this ).find( '.admin-page-framework-field.without-child-fields .repeatable-field-buttons' );
+            // For unnested fields
+            var _childFields = $( this ).find( '> .admin-page-framework-field.without-child-fields' );
+            var _oButtonPlaceHolders = _childFields.find( '.repeatable-field-buttons' );
             /* If the button place-holder is set in the field type definition, replace it with the created output */
             if ( _oButtonPlaceHolders.length > 0 ) {
                 _oButtonPlaceHolders.replaceWith( _buttonsSmall );
@@ -22,18 +25,23 @@
             /* Otherwise, insert the button element at the beginning of the field tag */
             else {
                 /**
-                 * Adds the buttons
-                 * Check whether the button container already exists for WordPress 3.5.1 or below.
-                 * @todo 3.8.0 Examine the below conditional line whether the behavior does not break for nested fields.
+                 * Check whether the button container already exists for WordPress 3.5.1 or below and then add buttons.
                  */
-                if ( ! $( this ).find( '.admin-page-framework-repeatable-field-buttons' ).length ) {
-                    $( this ).find( '.admin-page-framework-field.without-nested-fields' ).prepend( _buttonsSmall );
+                if ( ! _childFields.find( '.admin-page-framework-repeatable-field-buttons' ).length ) {
+                    _childFields.prepend( _buttonsSmall );
                 }
+            }
+
+console.log( 'id:', $( this ).attr( 'id' ) );
+console.log( 'nested field:', $( this ).find( '> .admin-page-framework-field.with-child-fields' ).length );
+            /**
+             * For nested fields, add buttons to the fields tag.
+             */
+            $( this ).find( '> .admin-page-framework-field.with-child-fields' ).prepend( _buttonsNestedFields );
                 /**
-                 * Support for nested fields.
-                 * For nested fields, add the buttons to the fields tag.
+                 * Add buttons to the fields tag.
                  */
-                $( this ).find( '.admin-page-framework-field.with-nested-fields' ).prepend( _buttonsNestedFields );
+                // $( this ).find( '.admin-page-framework-field.with-nested-fields' ).prepend( _buttonsNestedFields );
 
                 /**
                  * Support for inline mixed fields.
@@ -41,7 +49,9 @@
                  */
                 // $( this ).find( '.admin-page-framework-field.with-mixed-fields' ).prepend( _buttonsNestedFields );
 
-            }
+
+
+
             $( this ).updateAdminPageFrameworkRepeatableFields( _aSettings ); // Update the fields
 
         } );

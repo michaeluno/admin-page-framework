@@ -38,6 +38,10 @@
     min-height: 2.4em;
     padding: 0;
 }
+.with-nested-fields .admin-page-framework-repeatable-field-buttons .repeatable-field-button.button-large {
+  width: 2.6em;
+  height: 2.6em;
+}
 .with-nested-fields .admin-page-framework-repeatable-field-buttons .repeatable-field-button {
     width: 2em;
     height: 2em;
@@ -61,9 +65,6 @@
     }
     .admin-page-framework-fields.sortable .admin-page-framework-repeatable-field-buttons {
         margin: 0.6em 0 0 1em;
-    }
-    .with-nested-fields .admin-page-framework-repeatable-field-buttons .repeatable-field-button {
-        /*padding: 0.16em 0.4em 0;*/
     }
     .with-nested-fields .repeatable-field-button .dashicons {
         top: 4px;

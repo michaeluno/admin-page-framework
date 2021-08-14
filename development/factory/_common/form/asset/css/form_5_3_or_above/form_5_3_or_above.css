@@ -1,4 +1,4 @@
-/*! Admin Page Framework - Form for WordPress 5.3 or above 1.0.0 */
+/*! Admin Page Framework - Form for WordPress 5.3 or above 1.0.1 */
 /* Main Fields */
 /* dashicons */
 .admin-page-framework-field .button.button-small.dashicons:before {
@@ -56,6 +56,11 @@
   padding: 0;
 }
 
+.with-nested-fields .admin-page-framework-repeatable-field-buttons .repeatable-field-button.button-large {
+  width: 2.6em;
+  height: 2.6em;
+}
+
 .with-nested-fields .admin-page-framework-repeatable-field-buttons .repeatable-field-button {
   width: 2em;
   height: 2em;
@@ -83,10 +88,6 @@
 
   .admin-page-framework-fields.sortable .admin-page-framework-repeatable-field-buttons {
     margin: 0.6em 0 0 1em;
-  }
-
-  .with-nested-fields .admin-page-framework-repeatable-field-buttons .repeatable-field-button {
-    /*padding: 0.16em 0.4em 0;*/
   }
 
   .with-nested-fields .repeatable-field-button .dashicons {
