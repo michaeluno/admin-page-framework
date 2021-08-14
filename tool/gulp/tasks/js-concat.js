@@ -15,7 +15,7 @@ module.exports = class GulpTaskJSConcat {
     let _processing = false;
     src( GulpTaskJSConcat.src )
       .pipe( cache('js-concat' ) )
-      .pipe( using() )
+      .pipe( using( { prefix: 'Triggering concatenation of JavaScript scripts, using' } ) )
       // @see https://stackoverflow.com/a/50655862
       .pipe( flatmap( ( stream, file ) => {
         if ( _processing ) {
@@ -25,7 +25,7 @@ module.exports = class GulpTaskJSConcat {
         let _pathDir  = path.dirname( file.path );
         let _baseName = path.basename( _pathDir, '.bundle' );
         return src( [ _pathDir + '/*.js', '!' + _pathDir + '/*.min.js', '!' + _pathDir + '/*.bundle.js' ] )
-          .pipe( using() )
+          .pipe( using( { prefix: 'Concatenating JavaScript scripts, using' } ) )
           .pipe( concat( _baseName + '.bundle.js' ) )
           .pipe( dest( path.dirname( _pathDir ) ) );
       }));

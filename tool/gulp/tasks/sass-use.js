@@ -12,14 +12,15 @@ module.exports = class GulpTaskSassUse {
     let _processing = false;
     src( GulpTaskSassUse.src )
       .pipe( cache( 'css-use' ) )
+      .pipe( using( { prefix: 'Triggering the bunldling CSS, using' } ) )
       // @see https://stackoverflow.com/a/50655862
       .pipe( flatmap( ( stream, file ) => {
         if ( _processing ) {
           return stream;
         }
         _processing = true;
-        let _pathDir  = path.dirname( file.path );
-        let _baseName = path.basename( file.path, '.scss' );
+        let _pathDir   = path.dirname( file.path );
+        let _baseName  = path.basename( file.path, '.scss' );
         let _nameParts = _baseName.replace( /^_/, "" ).split( '-' );
         let _nameFile  = _nameParts[ 0 ] + '.scss';
         sassTask.src = [ _pathDir + '/' + _nameFile ];

@@ -11,7 +11,7 @@ module.exports = class GulpTaskJS {
     console.log( 'js-minify src:', GulpTaskJS.src );
     src( GulpTaskJS.src )
       .pipe( cache('js-minify' ) )
-      .pipe( using() )
+      .pipe( using( { prefix: 'Minifing JavaScript, using' } ) )
       .pipe( uglify({
           output: {
               comments: /^!/

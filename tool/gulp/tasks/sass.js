@@ -14,8 +14,7 @@ module.exports = class GulpTaskSass {
     src( GulpTaskSass.src )
       // .pipe( cache( 'css' ) )
       .pipe( sass().on( 'error', sass.logError ) )
-      .pipe( using() )
-
+      .pipe( using( { prefix: 'Processing SASS, using' } ) )
       // for different browsers
       .pipe( autoprefixer( 'last 10 versions' ) )
       // source map
@@ -29,7 +28,8 @@ module.exports = class GulpTaskSass {
 
     // Minified CSS
     src( GulpTaskSass.src )
-      .pipe( cache( 'css-min' ) )
+      // .pipe( cache( 'css-min' ) ) // .pipe( cache( 'css' ) ) // not caching because when a imported file is modified, the main SASS is not modified
+      .pipe( using( { prefix: 'Mninifying CSS, using' } ) )
       .pipe( sass().on( 'error', sass.logError ) )
       .pipe( sass( { outputStyle: 'compressed' } ) )
       .pipe( autoprefixer( 'last 10 versions' ) )
