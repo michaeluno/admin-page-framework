@@ -24,13 +24,6 @@ class AjaxTestCustomFieldType extends AdminPageFramework_FieldType_select {
      */
     public $aFieldTypeSlugs = array( 'ajax_test', );
 
-    /**
-     * Defines the default key-values of this field type settings.
-     *
-     * @remark\ $_aDefaultKeys holds shared default key-values defined in the base class.
-     */
-    // protected $aDefaultKeys = array();
-
     protected function construct() {
         // wp_ajax_{action name}
         // This is a dummy callback. Adding a dummy callback because WordPress does not proceed in admin-ajax.php
@@ -44,7 +37,7 @@ class AjaxTestCustomFieldType extends AdminPageFramework_FieldType_select {
         if ( ! isset( $_POST[ 'ajax_test_field_value' ] ) ) {
             wp_send_json( $_aResponse );
         }
-        switch ( $_POST[ 'ajax_test_field_value' ] ) {
+        switch ( sanitize_text_field( $_POST[ 'ajax_test_field_value' ] ) ) {
             case 'a':
                 $_aResponse = array( 'value' => 'Apple' );
                 break;
@@ -60,11 +53,6 @@ class AjaxTestCustomFieldType extends AdminPageFramework_FieldType_select {
         wp_send_json( $_aResponse );
 
     }
-
-    /**
-     * Loads the field type necessary components.
-     */
-    public function setUp() {}
 
     /**
      * Returns an array holding the urls of enqueuing scripts.
@@ -83,44 +71,6 @@ class AjaxTestCustomFieldType extends AdminPageFramework_FieldType_select {
             ),
         );
     }
-
-    /**
-     * @return      array
-     */
-    protected function getEnqueuingStyles() {
-        return array();
-    }
-
-    /**
-     * Returns the field type specific JavaScript script.
-     */
-    protected function getScripts() {
-
-        $_aJSArray = json_encode( $this->aFieldTypeSlugs );
-        return
-"jQuery( document ).ready( function(){
-    
-
-});";
-    }
-
-    /**
-     * Returns the field type specific CSS rules.
-     */
-    protected function getStyles() {
-        return "";
-    }
-
-    /**
-     * Returns the output of the field type.
-     * @param       array   $aField
-     * @return      string
-     */
-    public function getField( $aField ) {
-        return parent::getField( $aField );
-    }
-
-
 
     /**
      * Calls back the callback function if it is set.
