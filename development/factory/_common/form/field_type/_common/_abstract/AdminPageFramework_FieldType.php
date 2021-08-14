@@ -15,7 +15,7 @@
  * <h2>Creating a Custom Field Type</h2>
  * <ol>
  *      <li>Decide a unique field type slug that is going to be set in field definition arrays consisting of alphabets and underscores, such as `my_custom_field_type`. For example, the `autocomplete` custom field type uses the slug `autocomplete` and the date&time picker custom field type uses `date_time`.
- *  This sulug is the one the user sets in field definition arrays to the `type` argument.</li>
+ *  This sulg is the one the user sets in field definition arrays to the `type` argument.</li>
  *      <li>Define a PHP class that extends the `AdminPageFramework_FieldType` abstract class.
  *          <ol>
  *              <li>Extend the `AdminPageFramework_FieldType` class.
