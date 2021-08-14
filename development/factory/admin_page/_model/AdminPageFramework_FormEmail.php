@@ -47,6 +47,9 @@ class AdminPageFramework_FormEmail extends AdminPageFramework_FrameworkUtility {
      */
     private $_aPathsToDelete = array();
 
+    private $_sEmailSenderAddress;
+    private $_sEmailSenderName;
+
     /**
      * Sets up properties.
      */
