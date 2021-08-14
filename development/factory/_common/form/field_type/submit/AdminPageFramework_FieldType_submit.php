@@ -23,14 +23,15 @@
  *         </ul>
  *     </li>
  *     <li>**skip_confirmation** - [3.7.6+] (optional, boolean) Whether to skip confirmation. Default: `false`.</li>
- *     <li>**email** - [3.3.0+] (optional, array) Coming soon...
+ *     <li>**email** - [3.3.0+] (optional, array|string) A string of an email address to send to or it can be an array with the following keys.
  *         <ul>
- *             <li>**to** - (string|array) the email address to send the email to. For multiple email addressed, set comma delimited items.</li>
- *             <li>**subject** - (string|array) the email title.</li>
- *             <li>**message** - (string|array) the email body text.</li>
- *             <li>**attachments** - (string|array) the file path.</li>
- *             <li>**name** - (string|array) the sender name.</li>
- *             <li>**from** - (string|array) the sender email.</li>
+ *             <li>**to** - (string|array) The email address to send to or an array representing the key structure of the submitted form data holding the value. The first key should be the section ID and the second key is the field ID.</li>
+ *             <li>**subject** - (string|array) The email title or an array representing the key structure of the submitted form data holding the value. The first key should be the section ID and the second key is the field ID.</li>
+ *             <li>**message** - (string|array) The email body or an array representing the key structure of the submitted form data holding the value. The first key should be the section ID and the second key is the field ID.</li>
+ *             <li>**headers** - (string|array) The email header or an array representing the key structure of the submitted form data holding the value. The first key should be the section ID and the second key is the field ID.</li>
+ *             <li>**attachments** - (string|array) The file path(s) or an array representing the key structure of the submitted form data holding the value. The first key should be the section ID and the second key is the field ID</li>
+ *             <li>**name** - (string|array) the sender name or an array representing the key structure of the submitted form data holding the value. The first key should be the section ID and the second key is the field ID.</li>
+ *             <li>**from** - (string|array) the sender email or an array representing the key structure of the submitted form data holding the value. The first key should be the section ID and the second key is the field ID.</li>
  *             <li>**is_html** - (boolean|array) indicates whether the message should be sent as an html or plain text.</li>
  *         </ul>
  *     </li>
@@ -203,16 +204,19 @@ class AdminPageFramework_FieldType_submit extends AdminPageFramework_FieldType {
         'href'          => null,
         'reset'         => null, 
         'email'         => null,    // [3.3.0+] string of an email address to send to or it can be an array with the following keys.
-        'confirm'       => '',
         /* 
             array(
-                'to'            => null,    // string|array     The email address to send to or an array representing the key structure of the submitted form data holding the value. The first key should be the section ID and the second key is the the field ID.
-                'subject'       => null,    // string|array     The email title or an array representing the key structure of the submitted form data holding the value. The first key should be the section ID and the second key is the the field ID.
-                'message'       => null,    // string|array     The email body or an array representing the key structure of the submitted form data holding the value. The first key should be the section ID and the second key is the the field ID.
-                'headers'       => null,    // string|array     The email header or an array representing the key structure of the submitted form data holding the value. The first key should be the section ID and the second key is the the field ID.
-                'attachments'   => null,    // string|array     The file path(s) or an array representing the key structure of the submitted form data holding the value. The first key should be the section ID and the second key is the the field ID.
+                'to'            => null,    // string|array     The email address to send to or an array representing the key structure of the submitted form data holding the value. The first key should be the section ID and the second key is the field ID.
+                'subject'       => null,    // string|array     The email title or an array representing the key structure of the submitted form data holding the value. The first key should be the section ID and the second key is the field ID.
+                'message'       => null,    // string|array     The email body or an array representing the key structure of the submitted form data holding the value. The first key should be the section ID and the second key is the field ID.
+                'headers'       => null,    // string|array     The email header or an array representing the key structure of the submitted form data holding the value. The first key should be the section ID and the second key is the field ID.
+                'attachments'   => null,    // string|array     The file path(s) or an array representing the key structure of the submitted form data holding the value. The first key should be the section ID and the second key is the field ID.
+                'is_html'       => true,    // boolean  Whether the mail should be sent as an html text
+                'from'          => null,    // the sender email or an array representing the key structure of the submitted form data holding the value. The first key should be the section ID and the second key is the field ID.
+                'name'          => null,    // the sender name or an array representing the key structure of the submitted form data holding the value. The first key should be the section ID and the second key is the field ID.
             )
         */
+        'confirm'       => '',
         'skip_confirmation' => false,   // 3.7.6+ For emails.
         'attributes'    => array(
             'class' => 'button button-primary',
