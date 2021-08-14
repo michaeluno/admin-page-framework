@@ -1,4 +1,4 @@
-/*! Admin Page Framework - Form Main 1.0.4 */
+/*! Admin Page Framework - Form Main 1.1.1 */
 /**
  * This script should be empty and provide the banner (header comment) for the concatenated bundled script (form.bundle.js).
  */
@@ -21,7 +21,7 @@
         // Escape regex characters.
         sModel = sModel.replace(
             /[-[\]{}()*+?.,\\^$|#\s]/g, // Use the g modifier to apply the changes to all the matches.
-            "\\\\$&"  // in a test script this was okay with double-backslashes "\\$&"
+            "\\$&"  // when this script was directory echoed in PHP, backslashes need to be escaped like "\\\\$&"
         );
 
         // Construct a regex needle pattern.
@@ -606,10 +606,13 @@
             var _buttonContainer     = _buttonModel.children( '.admin-page-framework-repeatable-field-buttons' ).first();
             _buttonModel.remove();
             var _buttonsNestedFields = $( _buttonContainer );
-            var _buttonsSmall        = $( _buttonContainer );
+            var _buttonsSmall        = $( _buttonContainer ).clone();
+            _buttonsNestedFields.find( '.repeatable-field-button' ).addClass( 'button-large' );
             _buttonsSmall.find( '.repeatable-field-button' ).addClass( 'button-small' );
 
-            var _oButtonPlaceHolders = $( this ).find( '.admin-page-framework-field.without-child-fields .repeatable-field-buttons' );
+            // For unnested fields
+            var _childFields = $( this ).find( '> .admin-page-framework-field.without-child-fields' );
+            var _oButtonPlaceHolders = _childFields.find( '.repeatable-field-buttons' );
             /* If the button place-holder is set in the field type definition, replace it with the created output */
             if ( _oButtonPlaceHolders.length > 0 ) {
                 _oButtonPlaceHolders.replaceWith( _buttonsSmall );
@@ -617,18 +620,23 @@
             /* Otherwise, insert the button element at the beginning of the field tag */
             else {
                 /**
-                 * Adds the buttons
-                 * Check whether the button container already exists for WordPress 3.5.1 or below.
-                 * @todo 3.8.0 Examine the below conditional line whether the behavior does not break for nested fields.
+                 * Check whether the button container already exists for WordPress 3.5.1 or below and then add buttons.
                  */
-                if ( ! $( this ).find( '.admin-page-framework-repeatable-field-buttons' ).length ) {
-                    $( this ).find( '.admin-page-framework-field.without-nested-fields' ).prepend( _buttonsSmall );
+                if ( ! _childFields.find( '.admin-page-framework-repeatable-field-buttons' ).length ) {
+                    _childFields.prepend( _buttonsSmall );
                 }
+            }
+
+console.log( 'id:', $( this ).attr( 'id' ) );
+console.log( 'nested field:', $( this ).find( '> .admin-page-framework-field.with-child-fields' ).length );
+            /**
+             * For nested fields, add buttons to the fields tag.
+             */
+            $( this ).find( '> .admin-page-framework-field.with-child-fields' ).prepend( _buttonsNestedFields );
                 /**
-                 * Support for nested fields.
-                 * For nested fields, add the buttons to the fields tag.
+                 * Add buttons to the fields tag.
                  */
-                $( this ).find( '.admin-page-framework-field.with-nested-fields' ).prepend( _buttonsNestedFields );
+                // $( this ).find( '.admin-page-framework-field.with-nested-fields' ).prepend( _buttonsNestedFields );
 
                 /**
                  * Support for inline mixed fields.
@@ -636,7 +644,9 @@
                  */
                 // $( this ).find( '.admin-page-framework-field.with-mixed-fields' ).prepend( _buttonsNestedFields );
 
-            }
+
+
+
             $( this ).updateAdminPageFrameworkRepeatableFields( _aSettings ); // Update the fields
 
         } );
@@ -1622,7 +1632,162 @@
 
     };
 }( jQuery ));
+/**
+ * Displays tips for fields in a tooltip.
+ */
+(function($){
+
+  // Initialize
+  $( document ).ready( function() {
+    initialize( $( 'a.admin-page-framework-form-tooltip' ) );
+  } );
+
+  function initialize( target ) {
+
+    var _this = $( target )
+
+    // Disable the CSS default tooltip
+    $( _this ).removeClass( 'no-js' );
+
+    var _pointerTooltip = $( _this );
+    _pointerTooltip.on( 'click', function() {
+      return false; // disable click
+    });
+    _pointerTooltip.on( 'mouseover', function() {
+
+      var _body      = $( 'body' );
+      var _width     = $( this ).data( 'width' ) || 340;
+      var _content   = $( this ).find( '.admin-page-framework-form-tooltip-content' ).clone();
+
+      // Add it to the bottom of body to calculate width. The initial position will make the window expand and wider than the initial window width and a horizontal scrollbar appears
+      // This added element should be removed when the tooltip is closed.
+      _body.append( _content.css( 'display', 'block' ) );
+
+      var _offscreen = $( this ).offset().left + $( this ).width() + _width > _body.offset().left + _body.width();
+
+      // Open the tooltip
+      $( this ).pointerTooltip({
+        pointerClass: 'admin-page-framework-form-tooltip-balloon',
+        pointerWidth: _width,
+        content: function() {
+          return _content.html();
+        },
+        position: {
+          edge: _offscreen ? 'top' : 'left',
+          align: _offscreen ? 'center' : 'left',
+          within: _offscreen ? _body : $( this ).closest( '.admin-page-framework-section' ),
+          collision: 'fit',
+        },
+        buttons: function() {},
+        close: function() {},
+      }).pointerTooltip( 'open' );
+
+      // Handle toolitip closing
+      var _self    = this;
+      $( this ).add( '.admin-page-framework-tooltip' ).on( 'mouseleave', function(){
+        var _selfMouseLeave = this;
+        // Set a timeout for the tooltip to close, allowing us to clear this trigger if the mouse comes back over
+        var _timeoutId = setTimeout(function(){
+          $( _self ).pointerTooltip( 'close' );
+          _content.remove();
+          $( _self ).off( 'mouseleave' );
+          $( _selfMouseLeave ).off( 'mouseleave' );
+          $( _self ).off( 'mouseenter' );
+          $( _selfMouseLeave ).off( 'mouseenter' );
+        }, 650 );
+        $( _self ).data( 'timeoutId', _timeoutId );
+
+      } );
+      $( this ).add( '.admin-page-framework-tooltip' ).on( 'mouseenter', function(){
+        clearTimeout( $( _self ).data('timeoutId' ) );
+      });
+
+    } );
+
+  }
+
+}(jQuery));
+/**
+ * Extends the core wp-pointer tooltip jQuery widget to add additional features.
+ */
+(function($){
+
+	var zindex = 9999;
+
+  // Extend wp.pointer jQuery widget
+  $.widget( 'admin-page-framework.pointerTooltip', $.wp.pointer, {
+   /**
+    * Overrides the reposition() method.
+    * The show() method is replaced with fadeIn().
+    */
+    reposition: function() {
+      var position;
+
+      if ( this.options.disabled ) {
+        return;
+      }
+
+      position = this._processPosition( this.options.position );
+
+      // Reposition pointer.
+      this.pointer.css({
+        top: 0,
+        left: 0,
+        zIndex: zindex++ // Increment the z-index so that it shows above other opened pointers.
+      });
+      this.pointer.fadeIn( this.options.fadeIn );
+          var _optionsPosition = $.extend(
+            {
+              of: this.element,
+              collision: 'fit none'
+            },
+            position
+          );
+      this.pointer.position( _optionsPosition ); // The object comes before this.options.position so the user can override position.of.
+      this.repoint();
+    },
+    _create: function() {
+      this._super();
+      if ( this.options.pointerHeight ) {
+        this.pointer
+          .css({
+            height: this.options.pointerHeight+'px'
+          });
+      }
+    },
+    get: function() {
+      return this.pointer;
+    }
+
+  } );
+
+}(jQuery));
 ( function( $ ) {
+
+    /**
+     * Checks whether an element is off screen or not.
+     *
+     * ```
+     * // returns all elements that are offscreen
+     * $(':offscreen');
+     *
+     * // boolean returned if element is offscreen
+     * $('div').is(':offscreen');
+     * ```
+     *
+     * @see https://stackoverflow.com/a/8897628
+     * @param el
+     * @returns {boolean}
+     */
+    $.expr.filters.offscreen = function(el) {
+      var rect = el.getBoundingClientRect();
+      return (
+               (rect.x + rect.width) < 0 
+                 || (rect.y + rect.height) < 0
+                 || (rect.x > window.innerWidth || rect.y > window.innerHeight)
+             );
+    };    
+    
     $.fn.reverse = [].reverse;
 
     $.fn.formatPrintText = function() {

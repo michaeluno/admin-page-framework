@@ -1,0 +1,149 @@
+/*! Admin Page Framework - Form for WordPress 5.3 or above 1.0.1 */
+/* Main Fields */
+/* dashicons */
+.admin-page-framework-field .button.button-small.dashicons:before {
+  position: relative;
+  top: -5.4px;
+}
+
+@media screen and (max-width: 782px) {
+  .admin-page-framework-field .button.button-small.dashicons:before {
+    top: -6.2%;
+  }
+
+  .admin-page-framework-field .button.button-small.dashicons {
+    min-width: 2.4em;
+  }
+}
+/* repeatable field button */
+.admin-page-framework-field .admin-page-framework-repeatable-field-buttons {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.admin-page-framework-field .admin-page-framework-repeatable-field-buttons .repeatable-field-button.button {
+  margin: 0 0.1em;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.admin-page-framework-field .repeatable-field-button .dashicons {
+  position: initial;
+  top: initial;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  font-size: 16px;
+}
+
+.admin-page-framework-repeatable-field-buttons .repeatable-field-button.button.button-small {
+  min-width: 2.4em;
+  min-height: 2.4em;
+  padding: 0;
+}
+
+.with-nested-fields .admin-page-framework-repeatable-field-buttons .repeatable-field-button.button-large {
+  width: 2.6em;
+  height: 2.6em;
+}
+
+.with-nested-fields .admin-page-framework-repeatable-field-buttons .repeatable-field-button {
+  width: 2em;
+  height: 2em;
+  max-width: unset;
+  max-height: unset;
+  min-width: unset;
+  min-height: unset;
+}
+
+@media screen and (max-width: 782px) {
+  .admin-page-framework-repeatable-field-buttons {
+    margin: 0.64em 0 0 0.28em;
+  }
+
+  .admin-page-framework-field .repeatable-field-button .dashicons {
+    font-size: 20px;
+  }
+
+  .admin-page-framework-repeatable-field-buttons .repeatable-field-button.button.button-small {
+    margin-top: 0;
+    margin-bottom: 0;
+    min-width: 2.6em;
+    min-height: 2.6em;
+  }
+
+  .admin-page-framework-fields.sortable .admin-page-framework-repeatable-field-buttons {
+    margin: 0.6em 0 0 1em;
+  }
+
+  .with-nested-fields .repeatable-field-button .dashicons {
+    top: 4px;
+  }
+}
+/* Main Section */
+.admin-page-framework-repeatable-section-buttons {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.repeatable-section-button.button {
+  margin: 0 0.1em;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.repeatable-section-button.button.button-large {
+  padding: 0;
+  min-width: unset;
+  min-height: unset;
+  width: 32px;
+  height: 32px;
+}
+
+.repeatable-section-button .dashicons {
+  font-size: 1.32em;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  width: unset;
+}
+
+/* Collapsible Sections */
+.admin-page-framework-collapsible-section-title.admin-page-framework-collapsible-type-box .repeatable-section-button {
+  width: 32px;
+  height: 32px;
+  margin: 0 0.1em;
+}
+
+.admin-page-framework-collapsible-section-title.admin-page-framework-collapsible-type-box .repeatable-section-button .dashicons {
+  height: 100%;
+}
+/*# sourceMappingURL=form_5_3_or_above.css.map */

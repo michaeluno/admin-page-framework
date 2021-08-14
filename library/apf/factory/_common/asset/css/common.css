@@ -1,3 +1,4 @@
+/*! Admin Page Framework - Common Styles 1.0.0 */
 /* Regular Heading Titles - the meta box container element affects the styles of regular main content output. So it needs to be fixed. */
 .admin-page-framework-container #poststuff .admin-page-framework-content h3 {
   font-weight: bold;
@@ -102,5 +103,4 @@ pre.dump-array {
 #wpbody-content {
   padding-bottom: 140px;
 }
-
 /*# sourceMappingURL=common.css.map */

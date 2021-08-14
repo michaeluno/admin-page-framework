@@ -1,3 +1,4 @@
+/*! Admin Page Framework - Form for WordPress below 3.8 1.0.0 */
 .admin-page-framework-field .remove_value.button.button-small {
   line-height: 1.5em;
 }
@@ -20,5 +21,4 @@
 .admin-page-framework-collapsible-section-title.admin-page-framework-collapsible-type-box .admin-page-framework-repeatable-section-buttons {
   top: -8px;
 }
-
-/*# sourceMappingURL=form-3_8-below.css.map */
+/*# sourceMappingURL=form_3_8_below.css.map */
