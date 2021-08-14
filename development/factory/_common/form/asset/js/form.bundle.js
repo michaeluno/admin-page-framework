@@ -1,4 +1,4 @@
-/*! Admin Page Framework - Form Main 1.1.2 */
+/*! Admin Page Framework - Form Main 1.1.3 */
 /**
  * This script should be empty and provide the banner (header comment) for the concatenated bundled script (form.bundle.js).
  */
@@ -1651,12 +1651,11 @@
     _pointerTooltip.on( 'click', function() {
       return false; // disable click
     });
-    _pointerTooltip.on( 'mouseover', function() {
+    _pointerTooltip.on( 'mouseover touchend', function( event ) {
 
       var _body      = $( 'body' );
       var _width     = $( this ).data( 'width' ) || 340;
       var _content   = $( this ).find( '.admin-page-framework-form-tooltip-content' ).clone();
-
       // Add it to the bottom of body to calculate width. The initial position will make the window expand and wider than the initial window width and a horizontal scrollbar appears
       // This added element should be removed when the tooltip is closed.
       _body.append( _content.css( 'display', 'block' ) );
@@ -1682,7 +1681,8 @@
 
       // Handle toolitip closing
       var _self    = this;
-      $( this ).add( '.admin-page-framework-form-tooltip-balloon' ).on( 'mouseleave', function(){
+      /// For non-mobile devices
+      $( this ).add( '.admin-page-framework-form-tooltip-balloon' ).on( 'mouseleave', function( event ){
         var _selfMouseLeave = this;
         // Set a timeout for the tooltip to close, allowing us to clear this trigger if the mouse comes back over
         var _timeoutId = setTimeout(function(){
@@ -1699,8 +1699,18 @@
       $( this ).add( '.admin-page-framework-form-tooltip-balloon' ).on( 'mouseenter', function(){
         clearTimeout( $( _self ).data('timeoutId' ) );
       });
+      /// For mobile devices
+      setTimeout( function() {
+        _body.on( 'touchstart', closeTooltipMobile );
+        function closeTooltipMobile( event ) {
+          $( 'body' ).off( 'touchstart', closeTooltipMobile );
+          $( _self ).pointerTooltip( 'close' );
+        }
+      }, 200 );
+
 
     } );
+
 
   }
 
