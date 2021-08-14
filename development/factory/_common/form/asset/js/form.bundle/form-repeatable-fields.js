@@ -32,8 +32,6 @@
                 }
             }
 
-console.log( 'id:', $( this ).attr( 'id' ) );
-console.log( 'nested field:', $( this ).find( '> .admin-page-framework-field.with-child-fields' ).length );
             /**
              * For nested fields, add buttons to the fields tag.
              */
