@@ -1,5 +1,5 @@
 @charset "UTF-8";
-/*! Admin Page Framework Form Style 1.0.0  */
+/*! Admin Page Framework Form Style 1.0.5 */
 .admin-page-framework-form-warning {
   font-size: 1em;
 }
@@ -225,7 +225,7 @@ td.admin-page-framework-field-td-no-title {
 
 .field-error,
 .section-error {
-  color: red;
+  color: #d63638;
   float: left;
   clear: both;
   margin-bottom: 0.5em;
@@ -235,7 +235,7 @@ td.admin-page-framework-field-td-no-title {
 .repeatable-field-error {
   float: right;
   clear: both;
-  color: red;
+  color: #d63638;
   margin-left: 1em;
 }
 
@@ -646,12 +646,30 @@ tbody.admin-page-framework-collapsible-content.table-caption {
   padding: 12px;
 }
 
-.admin-page-framework-form-tooltip-balloon.wp-pointer-top .wp-pointer-arrow, .wp-pointer-undefined .wp-pointer-arrow {
+.admin-page-framework-form-tooltip-balloon.wp-pointer-top .wp-pointer-arrow,
+.admin-page-framework-form-tooltip-balloon.wp-pointer-undefined .wp-pointer-arrow {
   border-bottom-color: #c3c4c7;
 }
 
-.wp-pointer-top .wp-pointer-arrow-inner, .wp-pointer-undefined .wp-pointer-arrow-inner {
+.admin-page-framework-form-tooltip-balloon.wp-pointer-top .wp-pointer-arrow-inner,
+.admin-page-framework-form-tooltip-balloon.wp-pointer-undefined .wp-pointer-arrow-inner {
   border-bottom-color: #fff;
+}
+
+.admin-page-framework-form-tooltip-balloon.offscreen.wp-pointer-bottom .wp-pointer-arrow,
+.admin-page-framework-form-tooltip-balloon.offscreen.wp-pointer-top .wp-pointer-arrow,
+.admin-page-framework-form-tooltip-balloon.offscreen.wp-pointer-undefined .wp-pointer-arrow {
+  /* Override the default arrow position when the tooltip is initially off screen and automatically adjusted its position */
+  left: unset;
+  right: 50px;
+}
+
+.admin-page-framework-form-tooltip-balloon.no-arrow .wp-pointer-arrow {
+  display: none;
+}
+
+.admin-page-framework-form-tooltip-balloon .dashicons {
+  margin-right: 0.2em;
 }
 
 /* Inside Field Title */
@@ -709,6 +727,7 @@ a.admin-page-framework-form-tooltip {
   text-decoration: none;
   cursor: default;
   color: #999;
+  margin: 0 0.2em;
 }
 
 a.admin-page-framework-form-tooltip > .admin-page-framework-form-tooltip-content > .admin-page-framework-form-tooltip-title {
