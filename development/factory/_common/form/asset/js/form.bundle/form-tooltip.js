@@ -1,55 +1,108 @@
 /**
- * Extends the core wp-pointer tooltip jQuery widget to add additional features.
+ * Displays tips for fields in a tooltip.
+ *
+ * It provides the $[ 'admin-page-framework-tooltip' ]( options ) jQuery plugin method.
+ * The name uses hyphens for the user's text domain to be replaced. So the compiled framework script will be entirely ported with without the keyword of `admin-page-framework`.
+ *
+ * To use the method, have a text message enclosed in an element with a class `admin-page-framework-form-tooltip-content`.
+ * ```
+ *    <span class="my-tooltip dashicons dashicons-editor-help">
+ *      <span class="admin-page-framework-form-tooltip-content">
+ *        Some text
+ *      </span>
+ *    </span>
+ * ```
+ * Then, call it like
+ * ```
+ * $( '.my-tooltip' )[ 'admin-page-framework-form-tooltip' ]();
+ * ```
+ *
+ * When the framework file is compiled, replace the keyword `admin-page-framework` with your text domain.
+ *
  */
 (function($){
 
-	var zindex = 9999;
-
-  // Extend wp.pointer jQuery widget
-  $.widget( 'admin-page-framework.pointerTooltip', $.wp.pointer, {
-   /**
-    * Overrides the reposition() method.
-    * The show() method is replaced with fadeIn().
-    */
-    reposition: function() {
-      var position;
-
-      if ( this.options.disabled ) {
-        return;
-      }
-
-      position = this._processPosition( this.options.position );
-
-      // Reposition pointer.
-      this.pointer.css({
-        top: 0,
-        left: 0,
-        zIndex: zindex++ // Increment the z-index so that it shows above other opened pointers.
-      });
-      this.pointer.fadeIn( this.options.fadeIn );
-          var _optionsPosition = $.extend(
-            {
-              of: this.element,
-              collision: 'fit none'
-            },
-            position
-          );
-      this.pointer.position( _optionsPosition ); // The object comes before this.options.position so the user can override position.of.
-      this.repoint();
-    },
-    _create: function() {
-      this._super();
-      if ( this.options.pointerHeight ) {
-        this.pointer
-          .css({
-            height: this.options.pointerHeight+'px'
-          });
-      }
-    },
-    get: function() {
-      return this.pointer;
-    }
-
+  // Initialize
+  $( document ).ready( function() {
+    $( 'a.admin-page-framework-form-tooltip' )[ 'admin-page-framework-form-tooltip' ]();
   } );
+
+  $.fn[ 'admin-page-framework-form-tooltip' ] = function( options ) {
+    initialize( this, options )
+  };
+
+  function initialize( target, options ) {
+
+    var _this = $( target );
+    options = 'undefined' === typeof options ? {} : options;
+
+    // Disable the CSS default tooltip
+    $( _this ).removeClass( 'no-js' );
+
+    var _pointerTooltip = $( _this );
+    _pointerTooltip.on( 'click', function() {
+      return false; // disable click
+    });
+    _pointerTooltip.on( 'mouseover touchend', function( event ) {
+
+      var _body      = $( 'body' );
+      var _width     = $( this ).data( 'width' ) || 340;
+      var _content   = $( this ).find( '.admin-page-framework-form-tooltip-content' ).clone();
+      // Add it to the bottom of body to calculate width. The initial position will make the window expand and wider than the initial window width and a horizontal scrollbar appears
+      // This added element should be removed when the tooltip is closed.
+      _body.append( _content.css( 'display', 'block' ) );
+
+      var _offscreen = $( this ).offset().left + $( this ).width() + _width > _body.offset().left + _body.width();
+
+      // Open the tooltip
+      $( this ).pointerTooltip( $.extend( true, {}, {
+        pointerClass: 'admin-page-framework-form-tooltip-balloon',
+        pointerWidth: _width,
+        content: function() {
+          return _content.html();
+        },
+        position: {
+          edge: _offscreen ? 'top' : 'left',
+          align: _offscreen ? 'center' : 'left',
+          within: _offscreen ? _body : $( this ).closest( '.admin-page-framework-section' ),
+          collision: 'fit',
+        },
+        buttons: function() {},
+        close: function() {},
+      }, options ) )
+        .pointerTooltip( 'open' );
+
+      // Handle toolitip closing
+      var _self    = this;
+      /// For non-mobile devices
+      $( this ).add( '.admin-page-framework-form-tooltip-balloon' ).on( 'mouseleave', function( event ){
+        var _selfMouseLeave = this;
+        // Set a timeout for the tooltip to close, allowing us to clear this trigger if the mouse comes back over
+        var _timeoutId = setTimeout(function(){
+          $( _self ).pointerTooltip( 'close' );
+          _content.remove();
+          $( _self ).off( 'mouseleave' );
+          $( _selfMouseLeave ).off( 'mouseleave' );
+          $( _self ).off( 'mouseenter' );
+          $( _selfMouseLeave ).off( 'mouseenter' );
+        }, 650 );
+        $( _self ).data( 'timeoutId', _timeoutId );
+
+      } );
+      $( this ).add( '.admin-page-framework-form-tooltip-balloon' ).on( 'mouseenter', function(){
+        clearTimeout( $( _self ).data('timeoutId' ) );
+      });
+      /// For mobile devices
+      setTimeout( function() {
+        _body.on( 'touchstart', closeTooltipMobile );
+        function closeTooltipMobile( event ) {
+          $( 'body' ).off( 'touchstart', closeTooltipMobile );
+          $( _self ).pointerTooltip( 'close' );
+        }
+      }, 200 );
+
+    } );
+
+  }
 
 }(jQuery));
