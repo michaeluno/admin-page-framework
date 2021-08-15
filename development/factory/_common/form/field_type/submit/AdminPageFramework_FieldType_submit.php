@@ -23,17 +23,7 @@
  *         </ul>
  *     </li>
  *     <li>**skip_confirmation** - [3.7.6+] (optional, boolean) Whether to skip confirmation. Default: `false`.</li>
- *     <li>**email** - [3.3.0+] (optional, array|string) A string of an email address to send to or it can be an array with the following keys.
- *         <ul>
- *             <li>**to** - (string|array) The email address to send to or an array representing the key structure of the submitted form data holding the value. The first key should be the section ID and the second key is the field ID.</li>
- *             <li>**subject** - (string|array) The email title or an array representing the key structure of the submitted form data holding the value. The first key should be the section ID and the second key is the field ID.</li>
- *             <li>**message** - (string|array) The email body or an array representing the key structure of the submitted form data holding the value. The first key should be the section ID and the second key is the field ID.</li>
- *             <li>**headers** - (string|array) The email header or an array representing the key structure of the submitted form data holding the value. The first key should be the section ID and the second key is the field ID.</li>
- *             <li>**attachments** - (string|array) The file path(s) or an array representing the key structure of the submitted form data holding the value. The first key should be the section ID and the second key is the field ID</li>
- *             <li>**name** - (string|array) the sender name or an array representing the key structure of the submitted form data holding the value. The first key should be the section ID and the second key is the field ID.</li>
- *             <li>**from** - (string|array) the sender email or an array representing the key structure of the submitted form data holding the value. The first key should be the section ID and the second key is the field ID.</li>
- *             <li>**is_html** - (boolean|array) indicates whether the message should be sent as an html or plain text.</li>
- *         </ul>
+ *     <li>**email** - [3.9.0+] deprecated Use the `contact` field type.
  *     </li>
  * </ul>
  * 
@@ -123,64 +113,6 @@
  *      ),
  *  )
  * </code>
- *
- * <h3>Email</h3>
- * With the `email` argument, the user can send form data as an email.
- * <code>
- *  $this->addSettingFields(
- *      'report',   // section ID
- *      array( 
- *          'field_id'          => 'name',
- *          'title'             => __( 'Your Name', 'admin-page-framework-loader' ),
- *          'type'              => 'text',
- *          'attributes'        => array(
- *              'required'      => 'required',
- *              'placeholder'   => __( 'Type your name.', 'admin-page-framewrok-demo' ),
- *          ),
- *      ),    
- *      array( 
- *          'field_id'          => 'from',
- *          'title'             => __( 'Your Email Address', 'admin-page-framework-loader' ),
- *          'type'              => 'text',
- *          'default'           => $_oCurrentUser->user_email,
- *          'attributes'        => array(
- *              'required'      => 'required',
- *              'placeholder'   =>  __( 'Type your email that the developer replies backt to.', 'admin-page-framework-loader' )
- *          ),
- *      ),                
- *      array( 
- *          'field_id'          => 'message',
- *          'title'             => __( 'Message', 'admin-page-framework-loader' ),
- *          'type'              => 'textarea',
- *          'attributes'        => array(
- *              'required'  => 'required',
- *          ),
- *      ),  
- *
- *      array( 
- *          'field_id'          => 'send',
- *          'type'              => 'submit',
- *          'label_min_width'   => 0,
- *          'value'             => $oFactory->oUtil->getAOrB(
- *              'email' === $oFactory->oUtil->getElement( `$_GET`, 'confirmation' ),
- *              __( 'Send', 'admin-page-framework-demo' ),
- *              __( 'Preview', 'admin-page-framework-demo' )
- *          ), 
- *          'email'             => array(
- *              // Each argument can accept a string or an array representing the dimensional array key.
- *              // For example, if there is a field for the email title, and its section id is 'my_section'  and  the field id is 'my_field', pass an array, array( 'my_section', 'my_field' )
- *              'to'            => 'email-address@your.domain',
- *              'subject'       => 'Reporting Issue',
- *              'message'       => array( 'report', 'message' ), // the section name enclosed in an array. If it is a field, set it to the second element like array( 'seciton id', 'field id' ).
- *              'headers'       => '',
- *              'attachments'   => '', // the file path(s)
- *              'name'          => '', // The email sender name. If the 'name' argument is empty, the field named 'name' in this section will be applied
- *              'from'          => '', // The sender email address. If the 'from' argument is empty, the field named 'from' in this section will be applied.
- *              // 'is_html'       => true,
- *          ),
- *      )
- *  );  
- * </code>
  * 
  * @image           http://admin-page-framework.michaeluno.jp/image/common/form/field_type/submit.png
  * @package         AdminPageFramework/Common/Form/FieldType
@@ -248,38 +180,22 @@ class AdminPageFramework_FieldType_submit extends AdminPageFramework_FieldType {
 }
 CSSRULES;
     }
-    
-    /**
-     * Returns the field type specific JavaScript script.
-     *
-     * @since       3.8.24
-     * @internal
-     */
-    protected function getScripts() {
-        return <<<JAVASCRIPTS
-jQuery( document ).ready( function(){
-    jQuery( '.admin-page-framework-field-submit .submit-confirm-container input[type=checkbox]' ).each( function( index, value ){
-        jQuery( this ).closest( '.admin-page-framework-field-submit' ).find( 'input[type=submit]' ).on( 'click', function( event ){
-            var _fieldSubmit = jQuery( this ).closest( '.admin-page-framework-field-submit' );  
-            _fieldSubmit.find( '.submit-confirmation-warning' ).remove(); // previous error message
-            var _confirmCheckbox = jQuery( this ).closest( '.admin-page-framework-field-submit' ).find( '.submit-confirm-container input[type=checkbox]' );
-            if ( ! _confirmCheckbox.length ) {
-                return true;
-            }
-            if ( _confirmCheckbox.is( ':checked' ) ) {
-                return true;
-            }           
-            // At this point, the checkbox is not checked.
-            var _sErrorTag = "<p class='field-error submit-confirmation-warning'><span>* " + _confirmCheckbox.attr( 'data-error-message' ) + "</span></p>";
-            _fieldSubmit.find( '.submit-confirm-container' ).append( _sErrorTag );
-            return false;        
-        } );     
-    });            
-});
-JAVASCRIPTS;
 
-    }    
-    
+    /**
+     * @return array
+     * @since  3.9.0
+     */
+    protected function getEnqueuingScripts() {
+        return array(
+            array(
+                'handle_id'     => 'admin-page-framework-submit-field-type',
+                'src'           => dirname( __FILE__ ) . '/js/submit.bundle.js',
+                'in_footer'     => true,
+                'dependencies'  => array( 'jquery', ),
+            ),
+        );
+    }
+
     /**
      * Returns the output of the field type.
      * 
@@ -293,8 +209,8 @@ JAVASCRIPTS;
         
         $aField                     = $this->___getFormattedFieldArray( $aField );
         $_aInputAttributes          = $this->_getInputAttributes( $aField );
-        $_aLabelAttributes          = $this->_getLabelAttributes( $aField, $_aInputAttributes );
-        $_aLabelContainerAttributes = $this->_getLabelContainerAttributes( $aField );
+        $_aLabelAttributes          = $this->___getLabelAttributes( $aField, $_aInputAttributes );
+        $_aLabelContainerAttributes = $this->___getLabelContainerAttributes( $aField );
 
         return 
             $aField[ 'before_label' ]
@@ -373,7 +289,7 @@ JAVASCRIPTS;
          * @return      array       The label attribute array.
          * @internal
          */            
-        private function _getLabelAttributes( array $aField, array $aInputAttributes ) {
+        private function ___getLabelAttributes( array $aField, array $aInputAttributes ) {
             return array(
                 'style' => $aField[ 'label_min_width' ] 
                     ? "min-width:" . $this->getLengthSanitized( $aField[ 'label_min_width' ] ) . ";" 
@@ -392,7 +308,7 @@ JAVASCRIPTS;
          * @return      array   The label container attribute array.
          * @internal
          */        
-        private function _getLabelContainerAttributes( array $aField ) {           
+        private function ___getLabelContainerAttributes( array $aField ) {           
             return array(
                 'style' => $aField[ 'label_min_width' ] || '0' === ( string ) $aField[ 'label_min_width' ]
                     ? "min-width:" . $this->getLengthSanitized( $aField[ 'label_min_width' ] ) . ";" 
@@ -407,10 +323,11 @@ JAVASCRIPTS;
          *
          * @param       array       $aField
          * @since       3.5.3
+         * @since       3.9.0       Changed the visibility scope to `protected` as the `contact` field type extends it.
          * @return      array       The input attribute array.
          * @internal
          */
-        private function _getInputAttributes( array $aField ) {
+        protected function _getInputAttributes( array $aField ) {
             $_bIsImageButton    = isset( $aField[ 'attributes' ][ 'src' ] ) && filter_var( $aField[ 'attributes' ][ 'src' ], FILTER_VALIDATE_URL );
             $_sValue            = $this->_getInputFieldValueFromLabel( $aField );
             return array(
@@ -422,7 +339,7 @@ JAVASCRIPTS;
                 + array(
                     'title' => $_sValue,
                     'alt'   => $_bIsImageButton ? 'submit' : '',
-                );             
+                );
         }
         
     /**
@@ -473,10 +390,10 @@ JAVASCRIPTS;
                 'value' => $aField[ '_input_name_flat' ],
             ) 
         );         
-        $_aOutput[] = $this->_getHiddenInput_SectionID( $aField );
-        $_aOutput[] = $this->_getHiddenInputByKey( $aField, 'redirect_url' );       
-        $_aOutput[] = $this->_getHiddenInputByKey( $aField, 'href' );       
-        $_aOutput[] = $this->_getHiddenInput_Reset( $aField );
+        $_aOutput[] = $this->___getHiddenInput_SectionID( $aField );
+        $_aOutput[] = $this->___getHiddenInputByKey( $aField, 'redirect_url' );       
+        $_aOutput[] = $this->___getHiddenInputByKey( $aField, 'href' );       
+        $_aOutput[] = $this->___getHiddenInput_Reset( $aField );
         $_aOutput[] = $this->_getHiddenInput_Email( $aField );
         return implode( PHP_EOL, array_filter( $_aOutput ) );  
         
@@ -489,7 +406,7 @@ JAVASCRIPTS;
          * @return      string      the HTML input tag output for the section id argument.
          * @param       array       $aField
          */    
-        private function _getHiddenInput_SectionID( array $aField ) {
+        private function ___getHiddenInput_SectionID( array $aField ) {
             return $this->getHTMLTag( 
                 'input',
                 array(
@@ -510,7 +427,7 @@ JAVASCRIPTS;
          * @param       string      $sKey
          * @return      string      the HTML input tag output for the given key argument.
          */        
-        private function _getHiddenInputByKey( array $aField, $sKey ) {
+        private function ___getHiddenInputByKey( array $aField, $sKey ) {
             return isset( $aField[ $sKey ] )
                 ? $this->getHTMLTag( 
                     'input',
@@ -530,7 +447,7 @@ JAVASCRIPTS;
          * @param       array       $aField
          * @return      string      the HTML input tag output for the 'reset' argument.
          */        
-        private function _getHiddenInput_Reset( array $aField ) {
+        private function ___getHiddenInput_Reset( array $aField ) {
             if ( ! $aField[ 'reset' ] ) {
                 return '';
             }
@@ -561,14 +478,21 @@ JAVASCRIPTS;
          * @internal
          * @param       array       $aField
          * @return      string      the HTML input tag output for the 'email' argument.
+         * @deprecated  3.9.0       Use the `contact` field type.
+         * @todo    When the `email` argument is completely removed, move this method to the `contact` field type class.
          */ 
-        private function _getHiddenInput_Email( array $aField ) {
+        protected function _getHiddenInput_Email( array $aField ) {
             
             if ( empty( $aField[ 'email' ] ) ) {
                 return '';
             }
+            if ( in_array( 'submit', $this->aFieldTypeSlugs, true ) ) {
+                $this->showDeprecationNotice( 'The <code>email</code> argument has been deprecated.', 'the <code>contact</code> field type' );
+            }
+
+            $_sTransientKey = 'apf_em_' . md5( $aField[ '_input_name_flat' ] . get_current_user_id() );
             $this->setTransient( 
-                'apf_em_' . md5( $aField[ '_input_name_flat' ] . get_current_user_id() ), 
+                $_sTransientKey,
                 array(
                     'nonce' => $this->getNonceCreated( 'apf_email_nonce_' . md5( ( string ) site_url() ), 86400 ),  // @todo the nonce is crated when the page is rendered so change this to when the form is submitted so that a shorter nonce lifespan can be set.
                 ) + $this->getAsArray( $aField[ 'email' ] )
@@ -612,15 +536,10 @@ JAVASCRIPTS;
                     $_sTransientKey = 'apf_ec_' . md5( $sFlatFieldName . get_current_user_id() );   
                     break;
             }
-            
-            $_bConfirmed = false === $this->getTransient( $_sTransientKey ) && ! $aField[ 'skip_confirmation' ]
-                ? false
-                : true;
-            
+            $_bConfirmed = ! ( false === $this->getTransient( $_sTransientKey ) && ! $aField['skip_confirmation'] );
             if ( $_bConfirmed ) {
                 $this->deleteTransient( $_sTransientKey );
-            }
-                
+            }             
             return $_bConfirmed;
             
         }
