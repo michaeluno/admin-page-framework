@@ -1,5 +1,5 @@
 @charset "UTF-8";
-/*! Admin Page Framework Form Style 1.0.2 */
+/*! Admin Page Framework Form Style 1.0.3 */
 .admin-page-framework-form-warning {
   font-size: 1em;
 }
@@ -225,7 +225,7 @@ td.admin-page-framework-field-td-no-title {
 
 .field-error,
 .section-error {
-  color: red;
+  color: #d63638;
   float: left;
   clear: both;
   margin-bottom: 0.5em;
@@ -235,7 +235,7 @@ td.admin-page-framework-field-td-no-title {
 .repeatable-field-error {
   float: right;
   clear: both;
-  color: red;
+  color: #d63638;
   margin-left: 1em;
 }
 
