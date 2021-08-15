@@ -165,15 +165,18 @@ class APF_Demo_Contact_Tab_Report {
             ),
             array(
                 'field_id'          => 'send',
-                'type'              => 'submit',
+                'type'              => 'contact',
                 'label_min_width'   => 0,
-                'value'             => __( 'Send', 'adimn-page-framework-demo' ),
+                'value'             => __( 'Send', 'admin-page-framework-demo' ),
                 'attributes'        => array(
                     'field' => array(
                         'style' => 'float:right; clear:none; display: inline;',
                     ),
                 ),
                 'skip_confirmation' => true,
+                'system_message'    => array(
+                    'success' => __( 'Thanks for reporting!', 'admin-page-framework-demo' ),
+                ),
                 'email'             => array(
                     // Each argument can accept a string or an array representing the dimensional array key.
                     // For example, if there is a field for the email title, and its section id is 'my_section'  and  the field id is 'my_field', pass an array, array( 'my_section', 'my_field' )

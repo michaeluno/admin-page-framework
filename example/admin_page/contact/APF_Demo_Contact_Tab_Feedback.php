@@ -135,31 +135,28 @@ class APF_Demo_Contact_Tab_Feedback {
             array(
                 'field_id'          => 'ip',
                 'type'              => 'hidden',
-                'value'             => $_SERVER["REMOTE_ADDR"],
+                'value'             => $_SERVER[ "REMOTE_ADDR" ],
             ),
             array(
                 'field_id'          => 'send',
-                'type'              => 'submit',
+                'type'              => 'contact',
                 'label_min_width'   => 0,
-                // 'value'             => isset( $_GET['confirmation'] ) && 'email' === $_GET['confirmation']
-                    // ? __( 'Send', 'adimn-page-framework-demo' )
-                    // : __( 'Preview', 'adimn-page-framework-demo' ),
                 'value'             => __( 'Send', 'admin-page-framework-demo' ),
                 'attributes'        => array(
                     'field' => array(
                         'style' => 'float:right; clear:none; display: inline;',
                     ),
-                    // 'class' => isset( $_GET['confirmation'] ) && 'email' === $_GET['confirmation']
-                        // ? null
-                        // : 'button-secondary',
                 ),
                 'skip_confirmation' => true,
+                'system_message'    => array(
+                    'success' => __( 'Thanks for the feedback!', 'admin-page-framework-demo' ),
+                ),
                 'email'             => array(
                     // Each argument can accept a string or an array representing the dimensional array key.
                     // For example, if there is a field for the email title, and its section id is 'my_section'  and  the field id is 'my_field', pass an array, array( 'my_section', 'my_field' )
                     'to'          => 'admin-page-framework@michaeluno.jp',
                     'subject'     => array( $this->_sSectionID, 'subject' ),
-                    'message'     => array( $this->_sSectionID ), // the section name enclosed in an array. If it is a field, set it to the second element like array( 'seciton id', 'field id' ).
+                    'message'     => array( $this->_sSectionID ), // the section name enclosed in an array. If it is a field, set it to the second element like array( 'section id', 'field id' ).
                     'headers'     => '',
                     'attachments' => '',    // the file path
                     'is_html'     => true,  // boolean  Whether the mail should be sent as an html text
