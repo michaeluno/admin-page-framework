@@ -98,6 +98,11 @@ class AdminPageFramework_Form_Model___SetFieldResources extends AdminPageFramewo
                         'cannotAddMoreSections'         => $this->oMsg->get( 'allowed_maximum_number_of_sections' ),
                         'cannotRemoveMoreSections'      => $this->oMsg->get( 'allowed_minimum_number_of_sections' ),
                     ),
+
+                    // For other components to share
+                    'debugMode'     => $this->isDebugMode(),
+                    'ajaxURL'       => admin_url( 'admin-ajax.php' ),
+                    'spinnerURL'    => admin_url( 'images/loading.gif' ),
                 );
                 $this->aResources[ 'src_scripts' ][] = array(
                     'handle_id'         => 'admin-page-framework-script-form-main',
