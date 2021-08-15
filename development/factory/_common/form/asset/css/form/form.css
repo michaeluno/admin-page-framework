@@ -1,5 +1,5 @@
 @charset "UTF-8";
-/*! Admin Page Framework Form Style 1.0.1 */
+/*! Admin Page Framework Form Style 1.0.2 */
 .admin-page-framework-form-warning {
   font-size: 1em;
 }
@@ -646,12 +646,22 @@ tbody.admin-page-framework-collapsible-content.table-caption {
   padding: 12px;
 }
 
-.admin-page-framework-form-tooltip-balloon.wp-pointer-top .wp-pointer-arrow, .wp-pointer-undefined .wp-pointer-arrow {
+.admin-page-framework-form-tooltip-balloon.wp-pointer-top .wp-pointer-arrow,
+.admin-page-framework-form-tooltip-balloon.wp-pointer-undefined .wp-pointer-arrow {
   border-bottom-color: #c3c4c7;
 }
 
-.wp-pointer-top .wp-pointer-arrow-inner, .wp-pointer-undefined .wp-pointer-arrow-inner {
+.admin-page-framework-form-tooltip-balloon.wp-pointer-top .wp-pointer-arrow-inner,
+.admin-page-framework-form-tooltip-balloon.wp-pointer-undefined .wp-pointer-arrow-inner {
   border-bottom-color: #fff;
+}
+
+.admin-page-framework-form-tooltip-balloon.offscreen.wp-pointer-bottom .wp-pointer-arrow,
+.admin-page-framework-form-tooltip-balloon.offscreen.wp-pointer-top .wp-pointer-arrow,
+.admin-page-framework-form-tooltip-balloon.offscreen.wp-pointer-undefined .wp-pointer-arrow {
+  /* Override the default arrow position when the tooltip is initially off screen and automatically adjusted its position */
+  left: unset;
+  right: 50px;
 }
 
 /* Inside Field Title */

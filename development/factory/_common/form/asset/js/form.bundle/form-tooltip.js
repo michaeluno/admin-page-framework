@@ -48,15 +48,11 @@
       var _body      = $( 'body' );
       var _width     = $( this ).data( 'width' ) || 340;
       var _content   = $( this ).find( '.admin-page-framework-form-tooltip-content' ).clone();
-      // Add it to the bottom of body to calculate width. The initial position will make the window expand and wider than the initial window width and a horizontal scrollbar appears
-      // This added element should be removed when the tooltip is closed.
-      _body.append( _content.css( 'display', 'block' ) );
 
-      var _offscreen = $( this ).offset().left + $( this ).width() + _width > _body.offset().left + _body.width();
-
+      var _offscreen  = $( this ).offset().left + $( this ).width() + _width > _body.offset().left + _body.width();
       // Open the tooltip
       $( this ).pointerTooltip( $.extend( true, {}, {
-        pointerClass: 'admin-page-framework-form-tooltip-balloon',
+        pointerClass: 'admin-page-framework-form-tooltip-balloon' + ( _offscreen ? ' offscreen' : '' ),
         pointerWidth: _width,
         content: function() {
           return _content.html();
@@ -64,7 +60,7 @@
         position: {
           edge: _offscreen ? 'top' : 'left',
           align: _offscreen ? 'center' : 'left',
-          within: _offscreen ? _body : $( this ).closest( '.admin-page-framework-field, .admin-page-framework-section' ),
+          within: _offscreen ? _body : $( this ).closest( '.admin-page-framework-field, .admin-page-framework-fieldrow, .admin-page-framework-section' ),
           collision: 'fit',
         },
         buttons: function() {},
