@@ -45,6 +45,7 @@ class AdminPageFramework_Form_Model___BuiltInFieldTypeDefinitions {
         'system',        // 3.3.0+
         'inline_mixed',  // 3.8.0+
         '_nested',       // 3.8.0+
+        'contact'        // 3.9.0+
     );
 
     public $sCallerID = '';

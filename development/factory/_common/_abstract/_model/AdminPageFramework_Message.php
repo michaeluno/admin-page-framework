@@ -191,6 +191,9 @@ class AdminPageFramework_Message {
         'submit_confirmation_error'             => 'Please check this box if you want to proceed.',
         'import_no_file'                        => 'No file is selected.',
 
+        // 3.9.0
+        'please_fill_out_this_field'            => 'Please fill out this field.',
+
     );
 
     /**
@@ -446,6 +449,8 @@ class AdminPageFramework_Message {
         __( 'Submit the form.', 'admin-page-framework' ); // 3.8.24
         __( 'Please check this box if you want to proceed.', 'admin-page-framework' ); // 3.8.24
         __( 'No file is selected.', 'admin-page-framework' ); // 3.8.24
+
+        __( 'Please fill out this field.', 'admin-page-framework' ); // 3.9.0
 
     }
 

@@ -525,7 +525,7 @@ CSSRULES;
          * @return      boolean
          * @internal
          */
-        private function _checkConfirmationDisplayed( $aField, $sFlatFieldName, $sType='reset' ) {
+        protected function _checkConfirmationDisplayed( $aField, $sFlatFieldName, $sType='reset' ) {
                             
             switch( $sType ) {
                 default:
