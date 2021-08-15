@@ -1742,7 +1742,9 @@
       oneOff: false,
       // whether to close the tooltip automatically when the mouse leaves. do not turn on when the oneOff is on, it will disappear immediately
       autoClose: true,
+      noArrow: false,
     }, options );
+    options.pointerClass += options.noArrow ? ' no-arrow' : '';
 
     // Disable the CSS default tooltip
     $( _this ).removeClass( 'no-js' );
@@ -1752,9 +1754,6 @@
     }
 
     var _pointerTooltip = $( _this );
-    // _pointerTooltip.on( 'click', function() {
-    //   return false; // disable click
-    // });
     if ( ! options.oneOff ) {
       _pointerTooltip.on( 'mouseover touchend', options, handleTooltipCallback );
     }
@@ -1775,7 +1774,6 @@
 
     // Open the tooltip
     var _options    = $.extend( true, {}, options, {
-      pointerClass: 'admin-page-framework-form-tooltip-balloon' + ( _offscreen ? ' offscreen' : '' ),
       pointerWidth: _width,
       content: function() {
         return _content.html();
@@ -1788,6 +1786,8 @@
       buttons: function() {},
       close: function() {},
     }, options );
+    _options.pointerClass += _offscreen ? ' offscreen' : '';
+
     debugLog( 'options', _options );
     $( self ).pointerTooltip( _options )
       .pointerTooltip( 'open' );

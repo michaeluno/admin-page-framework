@@ -1,5 +1,5 @@
 @charset "UTF-8";
-/*! Admin Page Framework Form Style 1.0.4 */
+/*! Admin Page Framework Form Style 1.0.5 */
 .admin-page-framework-form-warning {
   font-size: 1em;
 }
@@ -662,6 +662,10 @@ tbody.admin-page-framework-collapsible-content.table-caption {
   /* Override the default arrow position when the tooltip is initially off screen and automatically adjusted its position */
   left: unset;
   right: 50px;
+}
+
+.admin-page-framework-form-tooltip-balloon.no-arrow .wp-pointer-arrow {
+  display: none;
 }
 
 .admin-page-framework-form-tooltip-balloon .dashicons {

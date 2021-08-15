@@ -18,6 +18,9 @@
     left: unset;
     right: 50px;
 }
+.admin-page-framework-form-tooltip-balloon.no-arrow .wp-pointer-arrow {
+    display: none;
+}
 
 .admin-page-framework-form-tooltip-balloon .dashicons {
     margin-right: 0.2em;
