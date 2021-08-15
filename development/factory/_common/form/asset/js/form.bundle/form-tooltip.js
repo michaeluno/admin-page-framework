@@ -48,10 +48,13 @@
     // Format options
     options = 'undefined' === typeof options ? {} : options;
     options = $.extend( {}, {
+      pointerClass: 'admin-page-framework-form-tooltip-balloon',
       width: $( target ).data( 'width' ) || options.width || 340,
       shown: false,        // initial visibility
-      oneOff: false,
       content: undefined,
+      oneOff: false,
+      // whether to close the tooltip automatically when the mouse leaves. do not turn on when the oneOff is on, it will disappear immediately
+      autoClose: true,
     }, options );
 
     // Disable the CSS default tooltip
@@ -62,9 +65,9 @@
     }
 
     var _pointerTooltip = $( _this );
-    _pointerTooltip.on( 'click', function() {
-      return false; // disable click
-    });
+    // _pointerTooltip.on( 'click', function() {
+    //   return false; // disable click
+    // });
     if ( ! options.oneOff ) {
       _pointerTooltip.on( 'mouseover touchend', options, handleTooltipCallback );
     }
@@ -82,6 +85,7 @@
       ? $( isHTML( options.content ) ? options.content : "<span>" + options.content + "</span>" )
       : $( self ).find( '.admin-page-framework-form-tooltip-content' ).clone();
     var _offscreen  = $( self ).offset().left + $( self ).width() + _width > _body.offset().left + _body.width();
+
     // Open the tooltip
     var _options    = $.extend( true, {}, options, {
       pointerClass: 'admin-page-framework-form-tooltip-balloon' + ( _offscreen ? ' offscreen' : '' ),
@@ -93,7 +97,6 @@
         edge: _offscreen ? 'top' : 'left',
         align: _offscreen ? 'center' : 'left',
         within: _offscreen ? _body : $( self ).closest( '.admin-page-framework-field, .admin-page-framework-fieldrow, .admin-page-framework-section' ),
-        collision: 'fit',
       },
       buttons: function() {},
       close: function() {},
@@ -104,33 +107,63 @@
 
     // Handle toolitip closing
     var _self    = self;
-    /// For non-mobile devices
-    $( this ).add( '.admin-page-framework-form-tooltip-balloon' ).on( 'mouseleave', function( event ){
-      var _selfMouseLeave = this;
-      // Set a timeout for the tooltip to close, allowing us to clear this trigger if the mouse comes back over
-      var _timeoutId = setTimeout(function(){
-        $( _self ).pointerTooltip( 'close' );
-        _content.remove();
-        $( _self ).off( 'mouseleave' );
-        $( _selfMouseLeave ).off( 'mouseleave' );
-        $( _self ).off( 'mouseenter' );
-        $( _selfMouseLeave ).off( 'mouseenter' );
-      }, 650 );
-      $( _self ).data( 'timeoutId', _timeoutId );
-
-    } );
-    $( this ).add( '.admin-page-framework-form-tooltip-balloon' ).on( 'mouseenter', function(){
-      clearTimeout( $( _self ).data('timeoutId' ) );
-    });
+    if ( options.autoClose ) {
+      handleAutoClose( _self, _content );
+    } else {
+      setTimeout( function() {
+        handleCloseOnEmptySpace( _self, _content, options );
+      }, 200 );
+    }
     /// For mobile devices
     setTimeout( function() {
-      _body.on( 'touchstart', closeTooltipMobile );
-      function closeTooltipMobile( event ) {
-        $( 'body' ).off( 'touchstart', closeTooltipMobile );
-        $( _self ).pointerTooltip( 'close' );
-      }
+      handleCloseOnMobile( _self, _content );
     }, 200 );
 
+  }
+
+  function handleCloseOnEmptySpace( self, content, options ) {
+
+    var _class = options.pointerClass.split( ' ' )[ 0 ];
+    var _emptySpace = $( 'body' ).not( '.' + _class );
+    _emptySpace.on( 'click', ':not(.' + _class + ')', _closeTooltipOnEmptySpace );
+    function _closeTooltipOnEmptySpace( event ) {
+      if ( $( this ).closest( '.' + _class ).length ) {
+        return;
+      }
+      _emptySpace.off( 'click', _closeTooltipOnEmptySpace );
+      $( self ).pointerTooltip( 'close' );
+      content.remove();
+    }
+  }
+
+  function handleCloseOnMobile( self, content ) {
+    var _body = $( 'body' );
+    _body.on( 'touchstart', _closeTooltipMobile );
+    function _closeTooltipMobile( event ) {
+      _body.off( 'touchstart', _closeTooltipMobile );
+      $( self ).pointerTooltip( 'close' );
+      content.remove();
+    }
+  }
+  function handleAutoClose( self, content ) {
+      /// For non-mobile devices
+      $( self ).add( '.admin-page-framework-form-tooltip-balloon' ).on( 'mouseleave', function( event ){
+        var _selfMouseLeave = this;
+        // Set a timeout for the tooltip to close, allowing us to clear this trigger if the mouse comes back over
+        var _timeoutId = setTimeout(function(){
+          $( self ).pointerTooltip( 'close' );
+          content.remove();
+          $( self ).off( 'mouseleave' );
+          $( _selfMouseLeave ).off( 'mouseleave' );
+          $( self ).off( 'mouseenter' );
+          $( _selfMouseLeave ).off( 'mouseenter' );
+        }, 1000 );
+        $( self ).data( 'timeoutId', _timeoutId );
+
+      } );
+      $( self ).add( '.admin-page-framework-form-tooltip-balloon' ).on( 'mouseenter', function(){
+        clearTimeout( $( self ).data('timeoutId' ) );
+      });
   }
 
   function isHTML(str) {
