@@ -210,6 +210,13 @@ Anyone is welcome to contribute to *Admin Page Framework*. There are various way
 - Translate the language files in the [language](https://github.com/michaeluno/admin-page-framework/tree/master/language) directory to your native language.
 - Possibly more.
 
+### Browser Compatibility
+
+Internet Explorer 9 or below is not supported.
+
+The framework uses
+- CSS `flex`.
+ 
 ### Framework Core Development
 
 See the [contribution guideline](./contributing.md).
