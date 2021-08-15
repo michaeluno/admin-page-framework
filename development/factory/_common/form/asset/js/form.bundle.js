@@ -1751,7 +1751,7 @@
         position: {
           edge: _offscreen ? 'top' : 'left',
           align: _offscreen ? 'center' : 'left',
-          within: _offscreen ? _body : $( this ).closest( '.admin-page-framework-section' ),
+          within: _offscreen ? _body : $( this ).closest( '.admin-page-framework-field, .admin-page-framework-section' ),
           collision: 'fit',
         },
         buttons: function() {},
