@@ -440,7 +440,6 @@ EOD
                     'tokenSeparators'       => array( ',', ),
                 ),
                 'callback'        => array(
-                    // use a static class method or a function rather than an instantiated object method for faster processing.
                     'search'    => __CLASS__ . '::getTerms',
                     'new_tag'   => __CLASS__ . '::createTerm',
                 ),
@@ -628,8 +627,8 @@ EOD
      *
      * <h4>Structure of Response Array</h4>
      * It must be an associative array with the element keys of `results` and `pagination`.
-     * In the `results` element must be a numerically index array holding an array with the kes of `id` and `text`.
-     * The `pagination` element can be optional and shouold be an array holding an element named `more` which accepts a boolean value.
+     * In the `results` element must be a numerically indexed array holding an array with the kes of `id` and `text`.
+     * The `pagination` element can be optional and should be an array holding an element named `more` which accepts a boolean value.
      *
      * ```
      * array(

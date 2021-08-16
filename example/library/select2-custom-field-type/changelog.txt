@@ -1,8 +1,11 @@
 # Change Log
 
+= 0.1.1 - 2021/08/16 =
+- Fixed raw HTTP request values.
+
 = 0.1.0 =
-- Add the `icon` argument to display images along with the select labels.
-- Optimized Ajax request verifications with nonces.
+- Added the `icon` argument to display images along with the select labels.
+- Added a verification check against Ajax requests with nonces.
 - Moved the internal stylesheet and JavaScript script to a separate file.
 
 = 0.0.5 - 2019/05/30 =
