@@ -4,7 +4,7 @@ Donate link:        http://michaeluno.jp/en/donate
 Tags:               admin pages, developers, options, settings, API, framework, library, meta box, custom post type, fields, widgets, forms, plugins, themes
 Requires at least:  3.4
 Tested up to:       5.7.2
-Stable tag:         3.8.32
+Stable tag:         3.8.33
 License:            GPLv2 or later
 License URI:        http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -537,6 +537,10 @@ Alternately, you may use the `options_{instantiated class name}` filter to suppr
 See examples, https://gist.github.com/michaeluno/c30713fcfe0d9d45d89f, https://gist.github.com/michaeluno/fcfac27825aa8a35b90f,
 
 == Changelog ==
+
+= 3.8.33 - 2021/08/16 =
+- Fixed a bug that `<img>` tags were dropped in sending Emails with the `email` argument of the `submit` field type.
+- Fixed a bug that delayed sending Emails with the `email` argument of the `submit` field type, started in v3.8.32.
 
 = 3.8.32 - 2021/08/14 =
 - Fixed some raw HTTP request values.
