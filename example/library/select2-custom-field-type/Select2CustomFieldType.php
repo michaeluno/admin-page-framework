@@ -75,7 +75,7 @@ if ( ! class_exists( 'Select2CustomFieldType' ) ) :
  * </ul>
  *
  * @since       3.8.7
- * @version     0.1.0
+ * @version     0.1.1
  * @supports    IE8 or above. (uses JSON object)
  * @requires    Admin Page Framework 3.8.20
  */
@@ -340,7 +340,7 @@ class Select2CustomFieldType extends AdminPageFramework_FieldType_select {
             call_user_func_array(
                 $_asCallable,   // callable
                 array(
-                    $_aQueries, // param 1
+                    $this->getArrayMappedRecursive( 'sanitize_text_field', $_aQueries ), // param 1
                     $aFieldset  // param 2
                 )
             )
