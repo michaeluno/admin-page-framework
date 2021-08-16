@@ -180,9 +180,9 @@ abstract class AdminPageFramework_Utility_Array extends AdminPageFramework_Utili
                 : "";
 
             // If it does not have a nested array or object,
-            if ( ! in_array( gettype( $vValue ), array( 'array', 'object' ) ) ) {
+            if ( ! in_array( gettype( $vValue ), array( 'array', 'object' ), true ) ) {
                 $_aOutput[] = "<div class='array-value'>"
-                        . html_entity_decode( nl2br( str_replace( ' ', '&nbsp;', $vValue ) ), ENT_QUOTES )
+                        . html_entity_decode( nl2br( $vValue ), ENT_QUOTES )
                     . "</div>";
                 return "<li>" . implode( PHP_EOL, $_aOutput ) . "</li>";
             }
