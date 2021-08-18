@@ -1,4 +1,4 @@
-/*! Admin Page Framework - Contact Field Type 0.0.2 */
+/*! Admin Page Framework - Contact Field Type 0.0.3 */
 (function($){
 
   var apfMain    = AdminPageFrameworkScriptFormMain;
@@ -22,6 +22,9 @@
     var _isFilled = true;
     var _unfilled;
     _requiredInputs.each( function() {
+      if( ! $( this ).is( ':visible' ) ){
+        return true;
+      }
       if ( isRequiredFieldFilled( this ) ) {
         return true;
       }
