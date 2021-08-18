@@ -21,6 +21,9 @@
     var _isFilled = true;
     var _unfilled;
     _requiredInputs.each( function() {
+      if( ! $( this ).is( ':visible' ) ){
+        return true;
+      }
       if ( isRequiredFieldFilled( this ) ) {
         return true;
       }
