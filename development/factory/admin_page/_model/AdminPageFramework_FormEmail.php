@@ -33,7 +33,7 @@ class AdminPageFramework_FormEmail extends AdminPageFramework_FrameworkUtility {
     public $aInput = array();
 
     /**
-     * Stores the secion ID of the email form.
+     * Stores the section ID of the email form.
      * @since       3.4.2
      */
     public $sSubmitSectionID;
@@ -69,10 +69,20 @@ class AdminPageFramework_FormEmail extends AdminPageFramework_FrameworkUtility {
      * @return      boolean     Whether a mail has been sent or not.
      */
     public function send() {
-        
+
         $_aEmailOptions     = $this->aEmailOptions;
         $_aInputs           = $this->aInput;
         $_sSubmitSectionID  = $this->sSubmitSectionID;
+
+        /**
+         * Allows the user to hook into the hooks used in wp_mail() including the `wp_mail` action hook.
+         * @since 3.9.0
+         * @see wp_mail()
+         * @param array  $_aEmailOptions The email arguments set in the `contact` field argument.
+         * @param array  $_aInputs The user form inputs.
+         * @param string $_sSubmitSectionID The section ID that the `contact` field belongs to.
+         */
+        do_action( 'admin-page-framework_action_before_sending_form_email', $_aEmailOptions, $_aInputs, $_sSubmitSectionID );
 
         // Set up callbacks for arguments which cannot be set in the wp_mail() function.
         if ( $_bIsHTML = $this->_getEmailArgument( $_aInputs, $_aEmailOptions, 'is_html', $_sSubmitSectionID ) ) {
@@ -105,6 +115,15 @@ class AdminPageFramework_FormEmail extends AdminPageFramework_FrameworkUtility {
         foreach( $this->_aPathsToDelete as $_sPath ) {
             unlink( $_sPath );
         }
+
+        /**
+         * Allows the user to clean up things after performing `wp_email()`.
+         * @since 3.9.0
+         * @see wp_mail()
+         * @param boolean $_bSent         Whether the email is sent or not.
+         * @param array   $_aEmailOptions The email arguments set in the `contact` field argument.
+         */
+        do_action( 'admin-page-framework_action_after_sending_form_email', $_bSent, $_aEmailOptions);
 
         return $_bSent;
 
