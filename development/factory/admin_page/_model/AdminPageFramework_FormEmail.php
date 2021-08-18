@@ -69,33 +69,32 @@ class AdminPageFramework_FormEmail extends AdminPageFramework_FrameworkUtility {
      * @return      boolean     Whether a mail has been sent or not.
      */
     public function send() {
-
-        // @todo underscore local variables.
-        $aEmailOptions      = $this->aEmailOptions;
-        $aInput             = $this->aInput;
-        $sSubmitSectionID   = $this->sSubmitSectionID;
+        
+        $_aEmailOptions     = $this->aEmailOptions;
+        $_aInputs           = $this->aInput;
+        $_sSubmitSectionID  = $this->sSubmitSectionID;
 
         // Set up callbacks for arguments which cannot be set in the wp_mail() function.
-        if ( $_bIsHTML = $this->_getEmailArgument( $aInput, $aEmailOptions, 'is_html', $sSubmitSectionID ) ) {
+        if ( $_bIsHTML = $this->_getEmailArgument( $_aInputs, $_aEmailOptions, 'is_html', $_sSubmitSectionID ) ) {
             add_filter( 'wp_mail_content_type', array( $this, '_replyToSetMailContentTypeToHTML' ) );
         }
 
-        if ( $this->_sEmailSenderAddress = $this->_getEmailArgument( $aInput, $aEmailOptions, 'from', $sSubmitSectionID ) ) {
+        if ( $this->_sEmailSenderAddress = $this->_getEmailArgument( $_aInputs, $_aEmailOptions, 'from', $_sSubmitSectionID ) ) {
             add_filter( 'wp_mail_from', array( $this, '_replyToSetEmailSenderAddress' ) );
         }
-        if ( $this->_sEmailSenderName = $this->_getEmailArgument( $aInput, $aEmailOptions, 'name', $sSubmitSectionID ) ) {
+        if ( $this->_sEmailSenderName = $this->_getEmailArgument( $_aInputs, $_aEmailOptions, 'name', $_sSubmitSectionID ) ) {
             add_filter( 'wp_mail_from_name', array( $this, '_replyToSetEmailSenderAddress' ) );
         }
 
         // Send mail.
         $_bSent         = wp_mail(
-            $this->_getEmailArgument( $aInput, $aEmailOptions, 'to', $sSubmitSectionID ),
-            $this->_getEmailArgument( $aInput, $aEmailOptions, 'subject', $sSubmitSectionID ),
+            $this->_getEmailArgument( $_aInputs, $_aEmailOptions, 'to', $_sSubmitSectionID ),
+            $this->_getEmailArgument( $_aInputs, $_aEmailOptions, 'subject', $_sSubmitSectionID ),
             $_bIsHTML
-                ? $this->getReadableListOfArrayAsHTML( ( array ) $this->_getEmailArgument( $aInput, $aEmailOptions, 'message', $sSubmitSectionID ) )
-                : $this->getReadableListOfArray( ( array ) $this->_getEmailArgument( $aInput, $aEmailOptions, 'message', $sSubmitSectionID ) ),
-            $this->_getEmailArgument( $aInput, $aEmailOptions, 'headers', $sSubmitSectionID ),
-            $this->___formatAttachments( $this->_getEmailArgument( $aInput, $aEmailOptions, 'attachments', $sSubmitSectionID ) )
+                ? $this->getReadableListOfArrayAsHTML( ( array ) $this->_getEmailArgument( $_aInputs, $_aEmailOptions, 'message', $_sSubmitSectionID ) )
+                : $this->getReadableListOfArray( ( array ) $this->_getEmailArgument( $_aInputs, $_aEmailOptions, 'message', $_sSubmitSectionID ) ),
+            $this->_getEmailArgument( $_aInputs, $_aEmailOptions, 'headers', $_sSubmitSectionID ),
+            $this->___formatAttachments( $this->_getEmailArgument( $_aInputs, $_aEmailOptions, 'attachments', $_sSubmitSectionID ) )
         );
 
         remove_filter( 'wp_mail_content_type', array( $this, '_replyToSetMailContentTypeToHTML' ) );
