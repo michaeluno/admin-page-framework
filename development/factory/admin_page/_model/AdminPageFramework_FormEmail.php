@@ -85,26 +85,26 @@ class AdminPageFramework_FormEmail extends AdminPageFramework_FrameworkUtility {
         do_action( 'admin-page-framework_action_before_sending_form_email', $_aEmailOptions, $_aInputs, $_sSubmitSectionID );
 
         // Set up callbacks for arguments which cannot be set in the wp_mail() function.
-        if ( $_bIsHTML = $this->_getEmailArgument( $_aInputs, $_aEmailOptions, 'is_html', $_sSubmitSectionID ) ) {
+        if ( $_bIsHTML = $this->___getEmailArgument( $_aInputs, $_aEmailOptions, 'is_html', $_sSubmitSectionID ) ) {
             add_filter( 'wp_mail_content_type', array( $this, '_replyToSetMailContentTypeToHTML' ) );
         }
 
-        if ( $this->_sEmailSenderAddress = $this->_getEmailArgument( $_aInputs, $_aEmailOptions, 'from', $_sSubmitSectionID ) ) {
+        if ( $this->_sEmailSenderAddress = $this->___getEmailArgument( $_aInputs, $_aEmailOptions, 'from', $_sSubmitSectionID ) ) {
             add_filter( 'wp_mail_from', array( $this, '_replyToSetEmailSenderAddress' ) );
         }
-        if ( $this->_sEmailSenderName = $this->_getEmailArgument( $_aInputs, $_aEmailOptions, 'name', $_sSubmitSectionID ) ) {
+        if ( $this->_sEmailSenderName = $this->___getEmailArgument( $_aInputs, $_aEmailOptions, 'name', $_sSubmitSectionID ) ) {
             add_filter( 'wp_mail_from_name', array( $this, '_replyToSetEmailSenderAddress' ) );
         }
 
         // Send mail.
         $_bSent         = wp_mail(
-            $this->_getEmailArgument( $_aInputs, $_aEmailOptions, 'to', $_sSubmitSectionID ),
-            $this->_getEmailArgument( $_aInputs, $_aEmailOptions, 'subject', $_sSubmitSectionID ),
+            $this->___getEmailArgument( $_aInputs, $_aEmailOptions, 'to', $_sSubmitSectionID ),
+            $this->___getEmailArgument( $_aInputs, $_aEmailOptions, 'subject', $_sSubmitSectionID ),
             $_bIsHTML
-                ? $this->getReadableListOfArrayAsHTML( ( array ) $this->_getEmailArgument( $_aInputs, $_aEmailOptions, 'message', $_sSubmitSectionID ) )
-                : $this->getReadableListOfArray( ( array ) $this->_getEmailArgument( $_aInputs, $_aEmailOptions, 'message', $_sSubmitSectionID ) ),
-            $this->_getEmailArgument( $_aInputs, $_aEmailOptions, 'headers', $_sSubmitSectionID ),
-            $this->___formatAttachments( $this->_getEmailArgument( $_aInputs, $_aEmailOptions, 'attachments', $_sSubmitSectionID ) )
+                ? $this->getReadableListOfArrayAsHTML( ( array ) $this->___getEmailArgument( $_aInputs, $_aEmailOptions, 'message', $_sSubmitSectionID ) )
+                : $this->getReadableListOfArray( ( array ) $this->___getEmailArgument( $_aInputs, $_aEmailOptions, 'message', $_sSubmitSectionID ) ),
+            $this->___getEmailArgument( $_aInputs, $_aEmailOptions, 'headers', $_sSubmitSectionID ),
+            $this->___getAttachmentsFormatted( $this->___getEmailArgument( $_aInputs, $_aEmailOptions, 'attachments', $_sSubmitSectionID ) )
         );
 
         remove_filter( 'wp_mail_content_type', array( $this, '_replyToSetMailContentTypeToHTML' ) );
@@ -135,7 +135,7 @@ class AdminPageFramework_FormEmail extends AdminPageFramework_FrameworkUtility {
          *
          * @since       3.4.2
          */
-        private function ___formatAttachments( $asAttachments ) {
+        private function ___getAttachmentsFormatted( $asAttachments ) {
 
             if ( empty( $asAttachments ) ) {
                 return '';
@@ -151,7 +151,7 @@ class AdminPageFramework_FormEmail extends AdminPageFramework_FrameworkUtility {
 
                 // If it is a url, convert it to a path or download it.
                 if ( false !== filter_var( $_sPathORURL, FILTER_VALIDATE_URL ) ) {
-                    if ( $_sPath = $this->_getPathFromURL( $_sPathORURL ) ) {
+                    if ( $_sPath = $this->___getPathFromURL( $_sPathORURL ) ) {
                         $_aAttachments[ $_iIndex ] = $_sPath;
                         continue;
                     }
@@ -170,7 +170,7 @@ class AdminPageFramework_FormEmail extends AdminPageFramework_FrameworkUtility {
              *
              * @since       3.4.2
              */
-            private function _getPathFromURL( $sURL ) {
+            private function ___getPathFromURL( $sURL ) {
 
                 // If it is on the server, this works.
                 $_sPath = $this->___getPathFromURLWithinSite( $sURL );
@@ -243,7 +243,7 @@ class AdminPageFramework_FormEmail extends AdminPageFramework_FrameworkUtility {
          * @since       3.3.0
          * @since       3.4.2       Moved from the validation class.
          */
-        private function _getEmailArgument( $aInput, array $aEmailOptions, $sKey, $sSectionID ) {
+        private function ___getEmailArgument( $aInput, array $aEmailOptions, $sKey, $sSectionID ) {
 
             // If the dimensional key representation array is passed, find the value from the given input array.
             if ( is_array( $aEmailOptions[ $sKey ] ) ) {
