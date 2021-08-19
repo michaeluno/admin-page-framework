@@ -107,10 +107,6 @@ class AdminPageFramework_FormEmail extends AdminPageFramework_FrameworkUtility {
             $this->___getAttachmentsFormatted( $this->___getEmailArgument( $_aInputs, $_aEmailOptions, 'attachments', $_sSubmitSectionID ) )
         );
 
-        remove_filter( 'wp_mail_content_type', array( $this, '_replyToSetMailContentTypeToHTML' ) );
-        remove_filter( 'wp_mail_from', array( $this, '_replyToSetEmailSenderAddress' ) );
-        remove_filter( 'wp_mail_from_name', array( $this, '_replyToSetEmailSenderAddress' ) );
-
         // Clean up.
         foreach( $this->_aPathsToDelete as $_sPath ) {
             unlink( $_sPath );
@@ -124,6 +120,11 @@ class AdminPageFramework_FormEmail extends AdminPageFramework_FrameworkUtility {
          * @param array   $_aEmailOptions The email arguments set in the `contact` field argument.
          */
         do_action( 'admin-page-framework_action_after_sending_form_email', $_bSent, $_aEmailOptions);
+
+        // Remove the filter callbacks after the above action to let the action callbacks use the custom Email options modified with these filters.
+        remove_filter( 'wp_mail_content_type', array( $this, '_replyToSetMailContentTypeToHTML' ) );
+        remove_filter( 'wp_mail_from', array( $this, '_replyToSetEmailSenderAddress' ) );
+        remove_filter( 'wp_mail_from_name', array( $this, '_replyToSetEmailSenderAddress' ) );
 
         return $_bSent;
 
