@@ -345,11 +345,12 @@ class AdminPageFramework_FieldType_contact extends AdminPageFramework_FieldType_
          */
         private function ___getFormDataParsed( array $aForm ) {
             $_aForm = array();
+            $aForm  = array_reverse( $aForm );  // to preserver checkbox checked values as checkbox inputs have a preceding hidden input with the same name.
             foreach( $aForm as $_iIndex => $_aNameValue ) {
                 parse_str( $_aNameValue[ 'name' ] . '=' . $_aNameValue[ 'value' ], $_a );
                 $_aForm = $this->uniteArrays( $_aForm, $_a );
             }
-            return $_aForm;
+            return array_reverse( $_aForm );    // @note inner nested elements are still in the reversed order
         }
     
 }
