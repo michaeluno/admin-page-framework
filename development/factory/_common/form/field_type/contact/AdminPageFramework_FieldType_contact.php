@@ -123,8 +123,7 @@ class AdminPageFramework_FieldType_contact extends AdminPageFramework_FieldType_
      * @var string
      * @since 3.9.0
      */
-    // private $___sAction = 'admin-page-framework_contact_field_type_email';
-    private $___sAction = 'apf_contact_field_type_email';
+    private $___sAction = 'admin-page-framework_contact_field_type_email';
 
     /**
      * @since 3.9.0
