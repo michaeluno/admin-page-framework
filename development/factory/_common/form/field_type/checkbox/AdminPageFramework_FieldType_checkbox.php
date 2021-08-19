@@ -91,7 +91,7 @@ class AdminPageFramework_FieldType_checkbox extends AdminPageFramework_FieldType
                 'handle_id'         => 'admin-page-framework-field-type-checkbox',
                 'src'               => dirname( __FILE__ ) . '/js/checkbox.bundle.js',
                 'in_footer'         => true,
-                'dependencies'      => array( 'jquery', ),
+                'dependencies'      => array( 'jquery', 'admin-page-framework-script-form-main' ),
                 'translation_var'   => 'AdminPageFrameworkFieldTypeCheckbox',
                 'translation'       => array(
                     'fieldTypeSlugs' => $this->aFieldTypeSlugs,
@@ -119,18 +119,6 @@ class AdminPageFramework_FieldType_checkbox extends AdminPageFramework_FieldType
             }
             return implode( ',', $_aClassSelectors );
         }
-
-    /**
-     * @return array
-     * @since  3.9.0
-     */
-    protected function getEnqueuingStyles() {
-        return array(
-            array(
-                'src' => dirname( __FILE__ ) . '/css/checkbox.css',
-            ),
-        );
-    }
 
     /**
      * The class selector to indicate that the input tag is a admin page framework checkbox.

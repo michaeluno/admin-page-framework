@@ -57,32 +57,6 @@ class AdminPageFramework_FieldType_radio extends AdminPageFramework_FieldType {
     );
 
     /**
-     * Returns the field type specific CSS rules.
-     *
-     * @since       2.1.5
-     * @since       3.3.1       Changed from `_replyToGetStyles()`.
-     * @internal
-     * @return      string
-     */
-    protected function getStyles() {
-        return <<<CSSRULES
-/* Radio Field Type */
-.admin-page-framework-field input[type='radio'] {
-    margin-right: 0.5em;
-}     
-.admin-page-framework-field-radio .admin-page-framework-input-label-container {
-    padding-right: 1em;
-}     
-.admin-page-framework-field-radio .admin-page-framework-input-container {
-    display: inline;
-}     
-.admin-page-framework-field-radio .admin-page-framework-input-label-string  {
-    display: inline; /* radio labels should not fold(wrap) after the check box */
-}
-CSSRULES;
-    }
-
-    /**
      * Returns the field type specific JavaScript script.
      *
      * @since       2.1.5
@@ -90,8 +64,10 @@ CSSRULES;
      * @since       3.6.0       Removed the script as the repeatable field mechanism has changed.
      * @internal
      * @return      string
+     * @deprecated
      */
     protected function getScripts() {
+return '';
         $_aJSArray = json_encode( $this->aFieldTypeSlugs );
         /* The below function will be triggered when a new repeatable field is added. Since the APF repeater script does not
             renew the upload button and the preview elements (while it does on the input tag value), the renewal task must be dealt here separately. */
@@ -127,6 +103,26 @@ jQuery( document ).ready( function(){
 });
 JAVASCRIPTS;
 
+    }
+
+    /**
+     * @return array
+     * @since  3.9.0
+     */
+    protected function getEnqueuingScripts() {
+        return array(
+            array(
+                'handle_id'         => 'admin-page-framework-field-type-radio',
+                'src'               => dirname( __FILE__ ) . '/js/radio.bundle.js',
+                'in_footer'         => true,
+                'dependencies'      => array( 'jquery', 'admin-page-framework-script-form-main' ),
+                'translation_var'   => 'AdminPageFrameworkFieldTypeRadio',
+                'translation'       => array(
+                    'fieldTypeSlugs' => $this->aFieldTypeSlugs,
+                    'messages'       => array(),
+                ),
+            ),
+        );
     }
 
     /**

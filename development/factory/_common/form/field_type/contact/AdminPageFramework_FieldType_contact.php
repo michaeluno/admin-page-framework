@@ -169,25 +169,13 @@ class AdminPageFramework_FieldType_contact extends AdminPageFramework_FieldType_
      * @return array
      * @since  3.9.0
      */
-    protected function getEnqueuingStyles() {
-        return array(
-            array(
-                'src'           => dirname( __FILE__ ) . '/css/contact.css',
-            ),
-        );
-    }
-
-    /**
-     * @return array
-     * @since  3.9.0
-     */
     protected function getEnqueuingScripts() {
         return array(
             array(
                 'handle_id'     => 'admin-page-framework-contact-field-type',
                 'src'           => dirname( __FILE__ ) . '/js/contact.bundle.js',
                 'in_footer'         => true,
-                'dependencies'      => array( 'jquery', ),
+                'dependencies'      => array( 'jquery', 'admin-page-framework-script-form-main' ),
                 'translation_var'   => 'AdminPageFrameworkContactFieldType',
                 'translation'       => array(
                     'nonce'         => wp_create_nonce( get_class( $this ) ),
