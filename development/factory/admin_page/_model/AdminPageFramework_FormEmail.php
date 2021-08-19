@@ -93,7 +93,7 @@ class AdminPageFramework_FormEmail extends AdminPageFramework_FrameworkUtility {
             add_filter( 'wp_mail_from', array( $this, '_replyToSetEmailSenderAddress' ) );
         }
         if ( $this->_sEmailSenderName = $this->___getEmailArgument( $_aInputs, $_aEmailOptions, 'name', $_sSubmitSectionID ) ) {
-            add_filter( 'wp_mail_from_name', array( $this, '_replyToSetEmailSenderAddress' ) );
+            add_filter( 'wp_mail_from_name', array( $this, '_replyToSetEmailSenderName' ) );
         }
 
         // Send mail.
