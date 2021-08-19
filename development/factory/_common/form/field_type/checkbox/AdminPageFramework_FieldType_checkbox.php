@@ -97,6 +97,7 @@ class AdminPageFramework_FieldType_checkbox extends AdminPageFramework_FieldType
             $this->aFieldTypeSlugs,
             'select_none_button' // data attribute
         );
+        $_aJSArray = json_encode( $this->aFieldTypeSlugs );
         return <<<JAVASCRIPTS
 jQuery( document ).ready( function(){
     // Add the buttons.
@@ -106,6 +107,28 @@ jQuery( document ).ready( function(){
     jQuery( '{$_sClassSelectorSelectNone}' ).each( function(){
         jQuery( this ).before( '<div class=\"select_none_button_container\" onclick=\"jQuery( this ).deselectAllAdminPageFrameworkCheckboxes(); return false;\"><a class=\"select_all_button button button-small\">' + jQuery( this ).data( 'select_none_button' ) + '</a></div>' );
     });
+    
+    // This is imporant to send form data through JavaScript. If the attributes are not updatead, somehow JavaScript does not catch the checked states of checkboxes.
+    jQuery( 'input[type="checkbox"]' ).on( 'change', function() {        
+        jQuery( this ).prop( 'checked', jQuery( this ).is( ':checked' ) );
+        jQuery( this ).attr( 'checked', jQuery( this ).is( ':checked' ) );               
+    } );
+     
+    jQuery().registerAdminPageFrameworkCallbacks( {         
+        /**
+         * Called when a field of this field type gets repeated.
+         */
+        repeated_field: function( oCloned, aModel ) {                 
+            oCloned.find( 'input[type="checkbox"]' ).on( 'change', function() {        
+                jQuery( this ).prop( 'checked', jQuery( this ).is( ':checked' ) );
+                jQuery( this ).attr( 'checked', jQuery( this ).is( ':checked' ) );               
+            } );                            
+        },
+    },
+    $_aJSArray
+    );    
+    
+    
 });
 JAVASCRIPTS;
 
