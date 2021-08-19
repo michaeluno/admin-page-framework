@@ -82,65 +82,34 @@ class AdminPageFramework_FieldType_checkbox extends AdminPageFramework_FieldType
     );
 
     /**
-     * Returns the field type specific JavaScript script.
-     *
-     * @since       2.1.5
-     * @since       3.3.1       Changed from `_replyToGetScripts()`.
-     * @internal
+     * @return array
+     * @since  3.9.0
      */
-    protected function getScripts() {
-        $_sClassSelectorSelectAll  = $this->_getSelectButtonClassSelectors(
-            $this->aFieldTypeSlugs,
-            'select_all_button' // data attribute
+    protected function getEnqueuingScripts() {
+        return array(
+            array(
+                'handle_id'         => 'admin-page-framework-field-type-checkbox',
+                'src'               => dirname( __FILE__ ) . '/js/checkbox.bundle.js',
+                'in_footer'         => true,
+                'dependencies'      => array( 'jquery', ),
+                'translation_var'   => 'AdminPageFrameworkFieldTypeCheckbox',
+                'translation'       => array(
+                    'fieldTypeSlugs' => $this->aFieldTypeSlugs,
+                    'selectors'      => array(
+                        'selectAll'  => $this->___getSelectButtonClassSelectors( $this->aFieldTypeSlugs, 'select_all_button' ),
+                        'selectNone' => $this->___getSelectButtonClassSelectors( $this->aFieldTypeSlugs, 'select_none_button' ),
+                    ),
+                    'messages'       => array(),
+                ),
+            ),
         );
-        $_sClassSelectorSelectNone = $this->_getSelectButtonClassSelectors(
-            $this->aFieldTypeSlugs,
-            'select_none_button' // data attribute
-        );
-        $_aJSArray = json_encode( $this->aFieldTypeSlugs );
-        return <<<JAVASCRIPTS
-jQuery( document ).ready( function(){
-    // Add the buttons.
-    jQuery( '{$_sClassSelectorSelectAll}' ).each( function(){
-        jQuery( this ).before( '<div class=\"select_all_button_container\" onclick=\"jQuery( this ).selectAllAdminPageFrameworkCheckboxes(); return false;\"><a class=\"select_all_button button button-small\">' + jQuery( this ).data( 'select_all_button' ) + '</a></div>' );
-    });            
-    jQuery( '{$_sClassSelectorSelectNone}' ).each( function(){
-        jQuery( this ).before( '<div class=\"select_none_button_container\" onclick=\"jQuery( this ).deselectAllAdminPageFrameworkCheckboxes(); return false;\"><a class=\"select_all_button button button-small\">' + jQuery( this ).data( 'select_none_button' ) + '</a></div>' );
-    });
-    
-    // This is imporant to send form data through JavaScript. If the attributes are not updatead, somehow JavaScript does not catch the checked states of checkboxes.
-    jQuery( 'input[type="checkbox"]' ).on( 'change', function() {        
-        jQuery( this ).prop( 'checked', jQuery( this ).is( ':checked' ) );
-        jQuery( this ).attr( 'checked', jQuery( this ).is( ':checked' ) );               
-    } );
-     
-    jQuery().registerAdminPageFrameworkCallbacks( {         
-        /**
-         * Called when a field of this field type gets repeated.
-         */
-        repeated_field: function( oCloned, aModel ) {                 
-            oCloned.find( 'input[type="checkbox"]' ).on( 'change', function() {        
-                jQuery( this ).prop( 'checked', jQuery( this ).is( ':checked' ) );
-                jQuery( this ).attr( 'checked', jQuery( this ).is( ':checked' ) );               
-            } );                            
-        },
-    },
-    $_aJSArray
-    );    
-    
-    
-});
-JAVASCRIPTS;
-
     }
         /**
-         *
-         * @since       3.5.12
-         * @return      string
+         * @since    3.5.12
+         * @return   string
          * @internal
          */
-        private function _getSelectButtonClassSelectors( array $aFieldTypeSlugs, $sDataAttribute='select_all_button' ) {
-
+        private function ___getSelectButtonClassSelectors( array $aFieldTypeSlugs, $sDataAttribute='select_all_button' ) {
             $_aClassSelectors = array();
             foreach ( $aFieldTypeSlugs as $_sSlug ) {
                 if ( ! is_scalar( $_sSlug ) ) {
@@ -149,40 +118,18 @@ JAVASCRIPTS;
                 $_aClassSelectors[] = '.admin-page-framework-checkbox-container-' . $_sSlug . "[data-{$sDataAttribute}]";
             }
             return implode( ',', $_aClassSelectors );
-
         }
 
     /**
-     * Returns the field type specific CSS rules.
-     *
-     * @since       2.1.5
-     * @since       3.3.1       Changed from `_replyToGetStyles()`.
-     * @internal
-     * @return      string
+     * @return array
+     * @since  3.9.0
      */
-    protected function getStyles() {
-        return <<<CSSRULES
-/* Checkbox field type */
-.select_all_button_container, 
-.select_none_button_container
-{
-    display: inline-block;
-    margin-bottom: 0.4em;
-}
-.admin-page-framework-checkbox-label {
-    margin-top: 0.1em;
-}
-.admin-page-framework-field input[type='checkbox' ] {
-    margin-right: 0.5em;
-}     
-.admin-page-framework-field-checkbox .admin-page-framework-input-label-container {
-    padding-right: 1em;
-}
-.admin-page-framework-field-checkbox .admin-page-framework-input-label-string  {
-    display: inline; /* Checkbox labels should not fold(wrap) after the check box */
-}
-CSSRULES;
-
+    protected function getEnqueuingStyles() {
+        return array(
+            array(
+                'src' => dirname( __FILE__ ) . '/css/checkbox.css',
+            ),
+        );
     }
 
     /**
