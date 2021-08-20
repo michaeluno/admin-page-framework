@@ -172,7 +172,7 @@ class AdminPageFramework_FieldType_contact extends AdminPageFramework_FieldType_
     protected function getEnqueuingScripts() {
         return array(
             array(
-                'handle_id'     => 'admin-page-framework-contact-field-type',
+                'handle_id'     => 'admin-page-framework-field-type-contact',
                 'src'           => dirname( __FILE__ ) . '/js/contact.bundle.js',
                 'in_footer'         => true,
                 'dependencies'      => array( 'jquery', 'admin-page-framework-script-form-main' ),
