@@ -164,21 +164,24 @@ class AdminPageFramework_Form_View__Resource extends AdminPageFramework_Framewor
          */
         private function ___enqueueScript( $asEnqueue ) {
 
+            $_sSetHandleID = $this->getElement( $this->getAsArray( $asEnqueue ), 'handle_id', '' );
             $_aEnqueueItem = $this->___getFormattedEnqueueScript( $asEnqueue );
+            $_sCacheID     = $_sSetHandleID . $this->getElement( $_aEnqueueItem, 'src', '' );
 
             // Do not load the same items multiple times.
             // Checking if src is not empty is because there is a case that src is empty to just use handle ID to enqueue an item
-            if ( ! empty( $_aEnqueueItem[ 'src' ] ) && isset( self::$_aEnqueued[ $_aEnqueueItem[ 'src' ] ] ) ) {
+            // Allow same SRCs as field types extends another field type and script can have the same resource but with a different handle ID and translations.
+            if ( ! empty( $_sCacheID ) && isset( self::$_aEnqueued[ $_sCacheID ] ) ) {
                 return;
             }
-            self::$_aEnqueued[ $_aEnqueueItem[ 'src' ] ] = $_aEnqueueItem;
+            self::$_aEnqueued[ $_sCacheID ] = $_aEnqueueItem;
 
             wp_enqueue_script(
                 $_aEnqueueItem[ 'handle_id' ],
                 $_aEnqueueItem[ 'src' ],
                 $_aEnqueueItem[ 'dependencies' ],
                 $_aEnqueueItem[ 'version' ],
-                did_action( 'admin_body_class' ) || ( boolean ) $_aEnqueueItem['in_footer']
+                did_action( 'admin_body_class' ) || ( boolean ) $_aEnqueueItem[ 'in_footer' ]
             );
             if ( $_aEnqueueItem[ 'translation' ] ) {
                 wp_localize_script(
