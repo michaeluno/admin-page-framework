@@ -127,7 +127,12 @@ class APF_Demo_Contact_Tab_Feedback {
                 'field_id'          => 'body',
                 'title'             => __( 'Message', 'admin-page-framework-loader' ),
                 'type'              => 'textarea',
-                'rich'              => true,
+                'rich'              => array(
+                    'textarea_rows' => 10,  // set height
+                    // Or use the below to set height
+                    // 'editor_height' => 300,
+                    /* @see _WP_Editors::parse_settings() */
+                ),
                 'attributes'        => array(
                     'placeholder'   =>  __( 'Type the message here.', 'admin-page-framework-loader' ),
                 ),
