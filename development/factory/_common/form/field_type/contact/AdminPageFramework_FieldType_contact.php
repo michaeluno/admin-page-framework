@@ -23,6 +23,7 @@
  *             <li>**name** - (string|array) the sender name or an array representing the key structure of the submitted form data holding the value. The first key should be the section ID and the second key is the field ID.</li>
  *             <li>**from** - (string|array) the sender email or an array representing the key structure of the submitted form data holding the value. The first key should be the section ID and the second key is the field ID.</li>
  *             <li>**is_html** - (boolean|array) indicates whether the message should be sent as an html or plain text.</li>
+ *             <li>**data** - (array) Extra data appended to the message body.</li>
  *         </ul>
  *     </li>
  *     <li>**system_message** - (optional, array) System messages to display to the user.
@@ -82,10 +83,9 @@
  *          'field_id'          => 'send',
  *          'type'              => 'submit',
  *          'label_min_width'   => 0,
- *          'value'             => $oFactory->oUtil->getAOrB(
- *              'email' === $oFactory->oUtil->getElement( `$_GET`, 'confirmation' ),
- *              __( 'Send', 'admin-page-framework-demo' ),
- *              __( 'Preview', 'admin-page-framework-demo' )
+ *          'value'             => 'email' === $oFactory->oUtil->getElement( `$_GET`, 'confirmation' )
+ *              ? __( 'Send', 'admin-page-framework-demo' )
+ *              : __( 'Preview', 'admin-page-framework-demo' )
  *          ), 
  *          'email'             => array(
  *              // Each argument can accept a string or an array representing the dimensional array key.
@@ -98,6 +98,9 @@
  *              'name'          => '', // The email sender name. If the 'name' argument is empty, the field named 'name' in this section will be applied
  *              'from'          => '', // The sender email address. If the 'from' argument is empty, the field named 'from' in this section will be applied.
  *              // 'is_html'       => true,
+ *              'data'          => array(
+ *                  'Custom Data' => array( 'foo' => 'bar' ),
+ *              ),
  *          ),
  *          'message'           => array(
  *              'error'         => __( 'Something went wrong.'. 'your-text-domain' ),
@@ -139,6 +142,7 @@ class AdminPageFramework_FieldType_contact extends AdminPageFramework_FieldType_
                 'is_html'       => true,    // boolean  Whether the mail should be sent as an html text
                 'from'          => null,    // the sender email or an array representing the key structure of the submitted form data holding the value. The first key should be the section ID and the second key is the field ID.
                 'name'          => null,    // the sender name or an array representing the key structure of the submitted form data holding the value. The first key should be the section ID and the second key is the field ID.
+                'data'          => array(), // array            extra data appended to the message
             ),
             'system_message' => array(
                 'success'  => $this->oMsg->get( 'email_sent' ),

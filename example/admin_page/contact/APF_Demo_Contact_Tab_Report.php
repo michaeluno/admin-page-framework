@@ -133,27 +133,6 @@ class APF_Demo_Contact_Tab_Report {
                 ),
             ),
             array(
-                'field_id'      => 'saved_options',
-                'type'          => 'system',
-                'title'         => __( 'Saved Options', 'admin-page-framework-loader' ),
-                'data'          => array(
-                    // Removes the default data by passing an empty value below.
-                    'WordPress'             => '',
-                    'Admin Page Framework'  => '',
-                    'Server'                => '',
-                    'PHP'                   => '',
-                    'PHP Error Log'         => '',
-                    'MySQL'                 => '',
-                    'MySQL Error Log'       => '',
-                    'Browser'               => '',
-                )
-                + get_option( 'APF_Demo', array() ), // the stored options of the main demo class
-                'attributes'    => array(
-                    'rows'          =>  10,
-                ),
-                'hidden'        => true,
-            ),
-            array(
                 'field_id'          => 'allow_sending_system_information',
                 'title'             => __( 'Confirmation', 'admin-page-framework-loader' )
                     . ' (' . __( 'required', 'admin-page-framework-loader' ) . ')',
@@ -188,6 +167,9 @@ class APF_Demo_Contact_Tab_Report {
                     'name'          => '', // The email sender name. If the 'name' argument is empty, the field named 'name' in this section will be applied
                     'from'          => '', // The sender email address. If the 'from' argument is empty, the field named 'from' in this section will be applied.
                     // 'is_html'       => true,
+                    'data'          => array(
+                        'Saved Options' => get_option( 'APF_Demo', array() ),   // extra data added to the message body
+                    ),
                 ),
             ),
             array()

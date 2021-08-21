@@ -95,14 +95,13 @@ class AdminPageFramework_FormEmail extends AdminPageFramework_FrameworkUtility {
         if ( $this->_sEmailSenderName = $this->___getEmailArgument( $_aInputs, $_aEmailOptions, 'name', $_sSubmitSectionID ) ) {
             add_filter( 'wp_mail_from_name', array( $this, '_replyToSetEmailSenderName' ) );
         }
-
+        
+        
         // Send mail.
         $_bSent         = wp_mail(
             $this->___getEmailArgument( $_aInputs, $_aEmailOptions, 'to', $_sSubmitSectionID ),
             $this->___getEmailArgument( $_aInputs, $_aEmailOptions, 'subject', $_sSubmitSectionID ),
-            $_bIsHTML
-                ? $this->getReadableListOfArrayAsHTML( ( array ) $this->___getEmailArgument( $_aInputs, $_aEmailOptions, 'message', $_sSubmitSectionID ) )
-                : $this->getReadableListOfArray( ( array ) $this->___getEmailArgument( $_aInputs, $_aEmailOptions, 'message', $_sSubmitSectionID ) ),
+            $this->___getMessage( $_aInputs, $_aEmailOptions, $_sSubmitSectionID, $_bIsHTML ),
             $this->___getEmailArgument( $_aInputs, $_aEmailOptions, 'headers', $_sSubmitSectionID ),
             $this->___getAttachmentsFormatted( $this->___getEmailArgument( $_aInputs, $_aEmailOptions, 'attachments', $_sSubmitSectionID ) )
         );
@@ -129,6 +128,32 @@ class AdminPageFramework_FormEmail extends AdminPageFramework_FrameworkUtility {
         return $_bSent;
 
     }
+        /**
+         * @param  array   $aInputs
+         * @param  array   $aEmailOptions
+         * @param  string  $sSubmitSectionID
+         * @param  boolean $bIsHTML
+         * @return string 
+         * @since  3.9.0
+         */
+        private function ___getMessage( $aInputs, $aEmailOptions, $sSubmitSectionID, $bIsHTML ) {
+            if ( ! $bIsHTML ) {
+                return $this->getReadableListOfArray( ( array ) $this->___getEmailArgument( $aInputs, $aEmailOptions, 'message', $sSubmitSectionID ) )
+                    .  $this->getReadableListOfArray( $this->getElementAsArray( $aEmailOptions, array( 'data' ) ) );
+            }
+            $_aAttributes = array(
+                'td' => array(
+                    array(
+                        'style' => 'vertical-align: top; width: 12%;',
+                    ),
+                    array(
+                        'style' => 'vertical-align: top; white-space: pre;',
+                    ),
+                ),
+            );
+            return $this->getTableOfArray( ( array ) $this->___getEmailArgument( $aInputs, $aEmailOptions, 'message', $sSubmitSectionID ), $_aAttributes )
+                . $this->getTableOfArray( $this->getElementAsArray( $aEmailOptions, array( 'data' ) ), $_aAttributes );
+        }
         /**
          * Formats the attachment values.
          *
