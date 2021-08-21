@@ -78,17 +78,6 @@ abstract class AdminPageFramework_Utility_Deprecated {
     }
 
     /**
-     * Check if the given array is an associative array.
-     *
-     * @since       3.0.0
-     * @since       3.5.3           Moved from `AdminPageFramework_Utility_Array`.
-     */
-    static public function isAssociativeArray( array $aArray ) {
-        AdminPageFramework_Utility::showDeprecationNotice( __FUNCTION__ );
-        return ( bool ) count( array_filter( array_keys( $aArray ), 'is_string' ) );
-    }
-
-    /**
      * Finds the dimension depth of the given array.
      *
      * @since       2.0.0
@@ -149,45 +138,6 @@ abstract class AdminPageFramework_Utility_Deprecated {
 
         }
         return array_values( $aArray );
-
-    }
-
-    /**
-     * Generates a string of attributes to be embedded in an HTML tag from an associative array.
-     *
-     * For example,
-     * <code>
-     *     array( 'id' => 'my_id', 'name' => 'my_name', 'style' => 'background-color:#fff' )
-     * </code>
-     * becomes
-     * <code>
-     *     id="my_id" name="my_name" style="background-color:#fff"
-     * </code>
-     *
-     * This is mostly used by methods to output input fields.
-     *
-     * @since       3.0.0
-     * @since       3.3.0       Made it allow empty value.
-     * @since       3.5.3       Deprecated. Moved from `AdminPageFramework_Utility`.
-     * @return      string
-     * @deprecated      Use getAttributes() in `AdminPageFramework_WPUtility`.
-     */
-    static public function getAttributes( array $aAttributes ) {
-
-        AdminPageFramework_Utility::showDeprecationNotice( __METHOD__, 'AdminPageFramework_WPUtility::getAttributes()' );
-
-        $_sQuoteCharactor   ="'";
-        $_aOutput           = array();
-        foreach( $aAttributes as $sAttribute => $sProperty ) {
-
-            // Must be resolved as a string.
-            if ( in_array( gettype( $sProperty ), array( 'array', 'object' ) ) ) {
-                continue;
-            }
-            $_aOutput[] = "{$sAttribute}={$_sQuoteCharactor}{$sProperty}{$_sQuoteCharactor}";
-
-        }
-        return implode( ' ', $_aOutput );
 
     }
 

@@ -90,111 +90,25 @@ abstract class AdminPageFramework_Utility_Array extends AdminPageFramework_Utili
     }
 
     /**
-     * Returns a readable list of the given array contents.
-     *
-     * @remark      If the second dimension element is an array, it will be enclosed in parenthesis.
-     * @since       3.3.0
-     * @return      string      A readable list generated from the given array.
+     * @param  array   $aArray
+     * @return boolean
+     * @since  3.9.0
      */
-    static public function getReadableListOfArray( array $aArray ) {
-
-        $_aOutput   = array();
-        foreach( $aArray as $_sKey => $_vValue ) {
-            $_aOutput[] = self::getReadableArrayContents( $_sKey, $_vValue, 32 ) . PHP_EOL;
-        }
-        return implode( PHP_EOL, $_aOutput );
-
+    static public function isMultiDimensional( array $aArray ) {
+        return count( $aArray ) !== count( $aArray, COUNT_RECURSIVE );
     }
+
     /**
-     * Generates readable array contents.
+     * Check if the given array is an associative array.
      *
-     * @since       3.3.0
-     * @return      string      The generated human readable array contents.
+     * @since  3.0.0
+     * @since  3.5.3   Moved from `AdminPageFramework_Utility_Array`.
+     * @since  3.9.0   Revived and moved from `AdminPageFramework_Utility_Deprecated`.
+     * @param  array   $aArray
+     * @return boolean
      */
-    static public function getReadableArrayContents( $sKey, $vValue, $sLabelCharLengths=16, $iOffset=0 ) {
-
-        $_aOutput   = array();
-        $_aOutput[] = ( $iOffset
-                ? str_pad( ' ', $iOffset  )
-                : ''
-            )
-            . ( $sKey
-                ? '[' . $sKey . ']'
-                : ''
-            );
-
-        if ( ! in_array( gettype( $vValue ), array( 'array', 'object' ) ) ) {
-            $_aOutput[] = $vValue;
-            return implode( PHP_EOL, $_aOutput );
-        }
-
-        foreach ( $vValue as $_sTitle => $_asDescription ) {
-            if ( ! in_array( gettype( $_asDescription ), array( 'array', 'object' ) ) ) {
-                $_aOutput[] = str_pad( ' ', $iOffset )
-                    . $_sTitle
-                    . str_pad( ':', $sLabelCharLengths - self::getStringLength( $_sTitle ) )
-                    . $_asDescription;
-                continue;
-            }
-            $_aOutput[] = str_pad( ' ', $iOffset )
-                . $_sTitle
-                . ": {"
-                . self::getReadableArrayContents( '', $_asDescription, 16, $iOffset + 4 )
-                . PHP_EOL
-                . str_pad( ' ', $iOffset ) . "}";
-        }
-        return implode( PHP_EOL, $_aOutput );
-
+    static public function isAssociativeArray( array $aArray ) {
+        return ( bool ) count( array_filter( array_keys( $aArray ), 'is_string' ) );
     }
-    /**
-     * Returns the readable list of the given array contents as HTML.
-     *
-     * @since       3.3.0
-     * @return      string      The HTML list generated from the given array.
-     */
-    static public function getReadableListOfArrayAsHTML( array $aArray ) {
-
-        $_aOutput   = array();
-        foreach( $aArray as $_sKey => $_vValue ) {
-            $_aOutput[] = "<ul class='array-contents'>"
-                    .  self::getReadableArrayContentsHTML( $_sKey, $_vValue )
-                . "</ul>" . PHP_EOL;
-        }
-        return implode( PHP_EOL, $_aOutput );
-
-    }
-        /**
-         * Returns the readable array contents.
-         *
-         * @since       3.3.0
-         * @return      string      The HTML output generated from the given array.
-         */
-        static public function getReadableArrayContentsHTML( $sKey, $vValue ) {
-
-            // Output container.
-            $_aOutput   = array();
-
-            // Title - array key
-            $_aOutput[] = $sKey
-                ? "<h3 class='array-key'>" . $sKey . "</h3>"
-                : "";
-
-            // If it does not have a nested array or object,
-            if ( ! in_array( gettype( $vValue ), array( 'array', 'object' ), true ) ) {
-                $_aOutput[] = "<div class='array-value'>"
-                        . html_entity_decode( nl2br( $vValue ), ENT_QUOTES )
-                    . "</div>";
-                return "<li>" . implode( PHP_EOL, $_aOutput ) . "</li>";
-            }
-
-            // Now it is a nested item.
-            foreach ( $vValue as $_sKey => $_vValue ) {
-                $_aOutput[] =  "<ul class='array-contents'>"
-                        . self::getReadableArrayContentsHTML( $_sKey, $_vValue )
-                    . "</ul>";
-            }
-            return implode( PHP_EOL, $_aOutput ) ;
-
-        }
 
 }

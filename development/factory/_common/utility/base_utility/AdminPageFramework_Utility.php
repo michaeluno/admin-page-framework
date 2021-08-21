@@ -16,7 +16,7 @@
  * @package     AdminPageFramework/Utility
  * @internal
  */
-class AdminPageFramework_Utility extends AdminPageFramework_Utility_HTMLAttribute {
+class AdminPageFramework_Utility extends AdminPageFramework_Utility_Interpreter {
 
     /**
      * @param  array   $aRequest
