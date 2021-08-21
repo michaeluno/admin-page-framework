@@ -144,6 +144,8 @@ class AdminPageFramework_Utility_Interpreter extends AdminPageFramework_Utility_
             ),
             'tr'    => array(),
             't'     => array(),
+            'ul'    => array(),
+            'li'    => array(),
         );
         return "<table " . self::getAttributes( self::getElementAsArray( $_aAllAttributes, 'table' ) ) . ">"
                 . "<tbody " . self::getAttributes( self::getElementAsArray( $_aAllAttributes, 'tbody' ) ) . ">"
@@ -224,6 +226,9 @@ class AdminPageFramework_Utility_Interpreter extends AdminPageFramework_Utility_
                     $_aULAttr = self::getElementAsArray( $aAllAttributes, 'ul' );
                     $_aLIAttr = self::getElementAsArray( $aAllAttributes, 'li' );
                     $_aULAttr[ 'class' ] = self::___addClass( 'numeric', self::getElement( $_aULAttr, array( 'class' ), '' ) );
+                    if ( empty( $aArray ) ) {
+                        return '';
+                    }
                     $_sList   = "<ul " . self::getAttributes( $_aULAttr ) . ">";
                     foreach( $aArray as $_sValue ) {
                         $_sList .= "<li " . self::getAttributes( $_aLIAttr ) . ">"
