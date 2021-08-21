@@ -75,7 +75,21 @@ class APF_Demo_ManageOptions_SavedData {
         ?>
         </p>
         <?php
-            echo $this->_oFactory->oDebug->getDetails( $this->_oFactory->oProp->aOptions );
+            echo $this->_oFactory->oUtil->getTableOfArray(
+                $this->_oFactory->oProp->aOptions,
+                array(
+                    'table' => array(
+                        'class' => 'widefat striped fixed product-details',
+                    ),
+                    'th'    => array(
+                        array( 'style' => 'width:10%;', ),  // first th
+                    ),
+                    'td'    => array(
+                        array( 'style' => 'width:10%;', ),  // first td
+                    )
+                ),
+                array( 'Key' => 'Value' )
+            );
 
     }
 

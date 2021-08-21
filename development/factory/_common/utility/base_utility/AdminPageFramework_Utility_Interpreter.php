@@ -132,8 +132,12 @@ class AdminPageFramework_Utility_Interpreter extends AdminPageFramework_Utility_
      * Designed to display key-value pairs in a table.
      * @since  3.9.0
      * @return string
+     * @param  array  $aArray
+     * @param  array  $aAllAttributes
+     * @param  array  $aHeader          Key value pairs of the table header. Only the first depth is supported.
+     * @param  array  $aFooter          Key value pairs of the table footer. Only the first depth is supported.
      */
-    static public function getTableOfArray( array $aArray, array $aAllAttributes=array() ) {
+    static public function getTableOfArray( array $aArray, array $aAllAttributes=array(), array $aHeader=array(), array $aFooter=array() ) {
 
         $_aAllAttributes = $aAllAttributes + array(
             'table' => array(),
@@ -148,11 +152,47 @@ class AdminPageFramework_Utility_Interpreter extends AdminPageFramework_Utility_
             'li'    => array(),
         );
         return "<table " . self::getAttributes( self::getElementAsArray( $_aAllAttributes, 'table' ) ) . ">"
+                . self::___getTableHeader( $aHeader, $_aAllAttributes )
                 . "<tbody " . self::getAttributes( self::getElementAsArray( $_aAllAttributes, 'tbody' ) ) . ">"
                     . self::___getTableRows( $aArray, $_aAllAttributes )
                 . "</tbody>"
+                . self::___getTableFooter( $aFooter, $_aAllAttributes )
             . "</table>";
     }
+        static private function ___getTableHeader( array $aHeader, array $aAllAttributes ) {
+            if ( empty( $aHeader ) ) {
+                return '';
+            }
+            $_aTRAttr  = self::getElementAsArray( $aAllAttributes, 'tr' );
+            $_aTHAttr  = self::getElementAsArray( $aAllAttributes, 'th' );
+            $_aTHAttr1 = self::getElementAsArray( $aAllAttributes, array( 'th', 0 ) ) + $_aTHAttr;
+            $_aTHAttr2 = self::getElementAsArray( $aAllAttributes, array( 'th', 1 ) ) + $_aTHAttr;
+            $_sOutput = '';
+            foreach( $aHeader as $_sKey => $_sValue ) {
+                $_sOutput = "<tr " . self::getAttributes( $_aTRAttr ) . ">"
+                        . "<th " . self::getAttributes( $_aTHAttr1 ) . ">" . $_sKey . "</th>"
+                        . "<th " . self::getAttributes( $_aTHAttr2 ) . ">" . $_sValue . "</th>"
+                    . "</tr>";
+            }
+            return "<thead>" . $_sOutput . "</thead>";
+        }
+        static private function ___getTableFooter( array $aFooter, array $aAllAttributes ) {
+            if ( empty( $aFooter ) ) {
+                return '';
+            }
+            $_aTRAttr  = self::getElementAsArray( $aAllAttributes, 'tr' );
+            $_aTDAttr  = self::getElementAsArray( $aAllAttributes, 'td' );
+            $_aTDAttr1 = self::getElementAsArray( $aAllAttributes, array( 'td', 0 ) ) + $_aTDAttr;
+            $_aTDAttr2 = self::getElementAsArray( $aAllAttributes, array( 'td', 1 ) ) + $_aTDAttr;
+            $_sOutput = '';
+            foreach( $aFooter as $_sKey => $_sValue ) {
+                $_sOutput = "<tr " . self::getAttributes( $_aTRAttr ) . ">"
+                        . "<td " . self::getAttributes( $_aTDAttr1 ) . ">" . $_sKey . "</td>"
+                        . "<td " . self::getAttributes( $_aTDAttr2 ) . ">" . $_sValue . "</td>"
+                    . "</tr>";
+            }
+            return "<tfoot>" . $_sOutput . "</tfoot>";
+        }        
         static private function ___getTableRows( array $aItem, array $aAllAttributes ) {
             $_aTRAttr = self::getElementAsArray( $aAllAttributes, 'tr' );
             $_aTDAttr = self::getElementAsArray( $aAllAttributes, 'td' );
