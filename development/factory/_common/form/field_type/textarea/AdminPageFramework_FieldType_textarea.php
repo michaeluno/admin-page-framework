@@ -128,9 +128,24 @@ class AdminPageFramework_FieldType_textarea extends AdminPageFramework_FieldType
         $_aJSArray = json_encode( $this->aFieldTypeSlugs );
         return <<<JAVASCRIPTS
 jQuery( document ).ready( function(){
-    
+
     // Move the link tag into the bottom of the page
     jQuery( 'link#editor-buttons-css' ).appendTo( '#wpwrap' );
+    
+    // [3.9.0+] By default, the <textarea> value is not updated.                                             
+    if ( 'undefined' !== typeof tinymce && tinymce.majorVersion >= 4 && 'undefined' !== typeof tinymce.editors && tinymce.editors.length ) {
+        jQuery( 'input[type="hidden"][data-tinymce-textarea]' ).each( function() {
+            var _textareaID = jQuery( this ).attr( 'data-tinymce-textarea' );          
+            for ( var _i = 0; _i < tinymce.editors.length; _i++ ) { 
+                if ( _textareaID === tinymce.editors[ _i ].id ) {
+                    tinymce.get( _i ).on( 'change', function() { 
+                        jQuery( '#' + this.id ).val( this.getContent() );
+                        jQuery( '#' + this.id ).html( this.getContent() );                                                 
+                    });                                                
+                }
+            }
+        } );
+    }
     
     /**
      * Determines whether the callback is handleable or not.
@@ -185,7 +200,7 @@ jQuery( document ).ready( function(){
      * @param   string  sTextAreaID     The textarea element ID without the sharp mark(#).
      */
     var updateEditor = function( sTextAreaID, oTinyMCESettings, oQickTagSettings ) {
-        
+                
         removeEditor( sTextAreaID );
         var aTMCSettings    = jQuery.extend( 
             {}, 
@@ -200,7 +215,7 @@ jQuery( document ).ready( function(){
                     if ( tinymce.majorVersion >= 4 ) {
                         ed.on( 'change', function(){                                           
                             jQuery( '#' + this.id ).val( this.getContent() );
-                            jQuery( '#' + this.id ).html( this.getContent() );
+                            jQuery( '#' + this.id ).html( this.getContent() );                            
                         });
                     } else {
                         // For tinyMCE 3.x or below the onChange.add() method needs to be used.
@@ -572,31 +587,31 @@ CSSRULES;
          */
         private function _getEditor( $aField ) {
 
-            unset( $aField['attributes']['value'] );
+            unset( $aField[ 'attributes' ][ 'value' ] );
 
             // For no TinyMCE
-            if ( empty( $aField['rich'] ) || ! $this->isTinyMCESupported() ) {
-                return "<textarea " . $this->getAttributes( $aField['attributes'] ) . " >" // this method is defined in the base class
-                            . esc_textarea( $aField['value'] )
+            if ( empty( $aField[ 'rich' ] ) || ! $this->isTinyMCESupported() ) {
+                return "<textarea " . $this->getAttributes( $aField[ 'attributes' ] ) . " >" // this method is defined in the base class
+                            . esc_textarea( $aField[ 'value' ] )
                         . "</textarea>";
             }
 
             // Rich editor
             ob_start();
             wp_editor(
-                $aField['value'],
-                $aField['attributes']['id'],
+                $aField[ 'value' ],
+                $aField[ 'attributes' ][ 'id' ],
                 $this->uniteArrays(
-                    ( array ) $aField['rich'],
+                    ( array ) $aField[ 'rich' ],
                     array(
                         'wpautop'           => true, // use wpautop?
                         'media_buttons'     => true, // show insert/upload button(s)
-                        'textarea_name'     => $aField['attributes']['name'],
-                        'textarea_rows'     => $aField['attributes']['rows'],
+                        'textarea_name'     => $aField[ 'attributes' ][ 'name' ],
+                        'textarea_rows'     => $aField[ 'attributes' ][ 'rows' ],
                         'tabindex'          => '',
                         'tabfocus_elements' => ':prev,:next', // the previous and next element ID to move the focus to when pressing the Tab key in TinyMCE
                         'editor_css'        => '', // intended for extra styles for both visual and Text editors buttons, needs to include the <style> tags, can use "scoped".
-                        'editor_class'      => $aField['attributes']['class'], // add extra class(es) to the editor textarea
+                        'editor_class'      => $aField[ 'attributes' ][ 'class' ], // add extra class(es) to the editor textarea
                         'teeny'             => false, // output the minimal editor config used in Press This
                         'dfw'               => false, // replace the default fullscreen with DFW (needs specific DOM elements and css)
                         'tinymce'           => true, // load TinyMCE, can be used to pass settings directly to TinyMCE using an array()
@@ -608,7 +623,8 @@ CSSRULES;
             ob_end_clean();
 
             return $_sContent
-                . $this->_getScriptForRichEditor( $aField['attributes']['id'] );
+                . "<input type='hidden' data-tinymce-textarea='" . esc_attr( $aField[ 'attributes' ][ 'id' ] ) . "' />" // needed for the initial on-change hooks.
+                . $this->___getScriptForRichEditor( $aField[ 'attributes' ][ 'id' ] );
 
         }
 
@@ -620,7 +636,7 @@ CSSRULES;
          * @internal
          * @return      string
          */
-        private function _getScriptForRichEditor( $sIDSelector ) {
+        private function ___getScriptForRichEditor( $sIDSelector ) {
 
             // id: wp-sample_rich_textarea_0-wrap
             $_sScript = <<<JAVASCRIPTS
