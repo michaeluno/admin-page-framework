@@ -233,6 +233,7 @@
          */
         _oSelect2Target.select2( _aOptions );
 
+        // _oSelect2Target.trigger( 'select2:select' );
         /**
          * Ajax handling.
          *
@@ -326,6 +327,49 @@
             } );
 
         }
+
+        // On change handling
+        _oSelect2Target.on('select2:select', onSelect2Select );
+        toggleElementVisibility( _oSelect2Target );
+
+    }
+
+    function onSelect2Select( event ) {
+        toggleElementVisibility( event.target );
+    }
+    function toggleElementVisibility( subject ) {
+
+        var _sTargetSelector = $( subject ).children( 'option:selected' ).data( 'toggle' );
+        var _bGlobal         = $( subject ).data( 'global' );
+        var _sSelectors      = $( subject ).data( 'selectors' );
+
+        // If the `selector` field argument is not set, the data 'selectors' is not set. In that case, no need to take action.
+        if ( ! _sSelectors ) {
+            return;
+        }
+
+        // Hide all the subject elements first
+        var _oAllSubjects    = _bGlobal
+            ? $( _sSelectors )
+            : $( subject ).closest( '.admin-page-framework-section' ).find( _sSelectors );
+        _oAllSubjects.hide();
+
+        // Get the revealing elements
+        var _oElementToReveal       = _bGlobal
+            ? $( _sTargetSelector )
+            : $( subject ).closest( '.admin-page-framework-section' ).find( _sTargetSelector );
+
+        if ( ! _oElementToReveal.length  ) {
+            return;
+        }
+
+        // The <select> type supports `undefined` to unselect all.
+        if ( 'undefined' === _sTargetSelector ) {
+            return;
+        }
+
+        // Reveal the element
+        _oElementToReveal.fadeIn();
 
     }
 

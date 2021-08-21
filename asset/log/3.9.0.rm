@@ -1,5 +1,6 @@
 - Added the `contact` built-in field type.
-- Deprecated the `email` argument of the `submit` field type.
-- Fixed an issue that tooltips created with the `tip` field argument made the document width wider than the initial width.
+- Added the `selector` argument to the `select2` custom field type that enables to show/hide elements on selection.
 - Refined tooltips.
+- Fixed an issue that tooltips created with the `tip` field argument made the document width wider than the initial width.
 - Changed the behavior of loading framework resources (stylesheets and JavaScript scripts) from internally to externally for most cases.    
+- Deprecated the `email` argument of the `submit` field type.

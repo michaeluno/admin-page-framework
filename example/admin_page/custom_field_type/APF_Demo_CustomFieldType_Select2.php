@@ -606,6 +606,52 @@ EOD
                     . "</pre>",
                 ),
             ),
+            array(
+                'field_id'      => 'toggle_visibility',
+                'type'          => 'select2',
+                'title'         => __( 'Toggle Visibility of Elements', 'admin-page-framework-loader' ),
+                'label'         => array(
+                    'a' => 'A',
+                    'b' => 'B',
+                    'c' => 'C',
+                ),
+                'selector'      => array(
+                    'a' => '.toggle-example-a',
+                    'b' => '.toggle-example-b',
+                    'c' => '.toggle-example-c',
+                ),
+                'default'       => 'b',
+                'after_fieldset' => "<div>"
+                       . "<p class='toggle-example-a'>This is A.</p>"
+                       . "<p class='toggle-example-b'>This is B.</p>"
+                       . "<p class='toggle-example-c'>This is C.</p>"
+                    . "</div>",
+                'description'   => array(
+                    "<pre>"
+                        . esc_html(
+<<<EOD
+array(
+    'label'         => array(
+        'a' => 'A',
+        'b' => 'B',
+        'c' => 'C',
+    ),
+    'selector'      => array(
+        'a' => '.toggle-example-a',
+        'b' => '.toggle-example-b',
+        'c' => '.toggle-example-c',
+    ),
+    'after_fieldset' => '<div>'
+           . '<p class="toggle-example-a">This is A.</p>'
+           . '<p class="toggle-example-b">This is B.</p>'
+           . '<p class="toggle-example-c">This is C.</p>'
+        . '</div>',
+)
+EOD
+                        )
+                        . "</pre>",
+                ),
+            ),
             array()
         );
 

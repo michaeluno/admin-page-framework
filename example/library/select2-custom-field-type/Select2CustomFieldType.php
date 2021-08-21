@@ -75,7 +75,7 @@ if ( ! class_exists( 'Select2CustomFieldType' ) ) :
  * </ul>
  *
  * @since       3.8.7
- * @version     0.1.1
+ * @version     0.2.0
  * @supports    IE8 or above. (uses JSON object)
  * @requires    Admin Page Framework 3.8.20
  */
@@ -122,6 +122,9 @@ class Select2CustomFieldType extends AdminPageFramework_FieldType_select {
             'new_tag' => null,
         ),
 
+        // [0.2.0+]
+        'selector'  => array(),
+        'is_global' => false,   // when the `selector` argument has a value, this indicates whether the element is within the residing section or not. If true, it searches the entire document. Otherwise, within the section.
     );
 
     protected function construct() {}
@@ -174,22 +177,6 @@ class Select2CustomFieldType extends AdminPageFramework_FieldType_select {
     }
 
     /**
-     * Returns the field type specific JavaScript script.
-     */
-    protected function getScripts() {
-        // $_sAjaxURL = admin_url( 'admin-ajax.php' );
-        // $_aJSArray = json_encode( $this->aFieldTypeSlugs );
-        return "";
-    }
-
-    /**
-     * Returns the field type specific CSS rules.
-     */
-    protected function getStyles() {
-        return "";
-    }
-
-    /**
      * Returns the output of the field type.
      *
      * @return      string
@@ -212,7 +199,27 @@ class Select2CustomFieldType extends AdminPageFramework_FieldType_select {
             'data-field_id'   => $aField[ 'field_id' ],   // checked in the background with the `doOnFieldRegistration()` method using AJAX.
             'data-section_id' => $aField[ 'section_id' ], // checked in the background with the `doOnFieldRegistration()` method using AJAX.
         )   + $this->getDataAttributeArray( $_aOptions )
-            + $this->getElementAsArray( $aField, array( 'attributes', 'select', ) );
+                + $this->getElementAsArray( $aField, array( 'attributes', 'select', ) );
+
+        // [0.2.0+]
+        $_aSelectors = $this->getAsArray( $aField[ 'selector' ] );
+        if ( ! empty( $_aSelectors ) ) {
+            $_sSelectors = implode( ',', $_aSelectors );
+            $aField[ 'attributes' ][ 'select' ] = array(
+                // Embed all the selectors for the field so that the other members can be referred when showing an item.
+                // This is especially needed for repeatable sections.
+                'data-selectors' => $_sSelectors,
+                'data-global'    => ( integer ) $aField[ 'is_global' ],
+            ) + $this->getElementAsArray( $aField, array( 'attributes', 'select' ) );
+            foreach( $this->getAsArray( $aField[ 'label' ] ) as $_sKey => $_sLabel ) {
+                // If the user sets the 'selectors' argument, its value will be used; otherwise, the label key will be used.
+                $_sSelector = $this->getElement( $_aSelectors, array( $_sKey ), $_sKey );
+                $aField[ 'attributes' ][ 'option' ][ $_sKey ] = array(
+                        'data-toggle'   => $_sSelector,
+                    )
+                    + $this->getElementAsArray( $aField, array( 'attributes', 'option', $_sKey ) );
+            }
+        }
 
         $_sIconDefinitions = $this->___getIconDefinitions( $this->getAsArray( $aField[ 'icon' ] ) );
 
