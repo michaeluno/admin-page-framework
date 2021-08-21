@@ -257,6 +257,7 @@ $aClassFiles = array(
     "AdminPageFramework_Utility_Deprecated"=> AdminPageFramework_Registry::$sDirPath . "/factory/_common/utility/base_utility/AdminPageFramework_Utility_Deprecated.php", 
     "AdminPageFramework_Utility_File"=> AdminPageFramework_Registry::$sDirPath . "/factory/_common/utility/base_utility/AdminPageFramework_Utility_File.php", 
     "AdminPageFramework_Utility_HTMLAttribute"=> AdminPageFramework_Registry::$sDirPath . "/factory/_common/utility/base_utility/AdminPageFramework_Utility_HTMLAttribute.php", 
+    "AdminPageFramework_Utility_Interpreter"=> AdminPageFramework_Registry::$sDirPath . "/factory/_common/utility/base_utility/AdminPageFramework_Utility_Interpreter.php", 
     "AdminPageFramework_Utility_Path"=> AdminPageFramework_Registry::$sDirPath . "/factory/_common/utility/base_utility/AdminPageFramework_Utility_Path.php", 
     "AdminPageFramework_Utility_String"=> AdminPageFramework_Registry::$sDirPath . "/factory/_common/utility/base_utility/AdminPageFramework_Utility_String.php", 
     "AdminPageFramework_Utility_SystemInformation"=> AdminPageFramework_Registry::$sDirPath . "/factory/_common/utility/base_utility/AdminPageFramework_Utility_SystemInformation.php", 
