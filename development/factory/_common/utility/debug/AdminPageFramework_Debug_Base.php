@@ -264,7 +264,7 @@ class AdminPageFramework_Debug_Base extends AdminPageFramework_FrameworkUtility 
 
         // Fix extra line breaks after `Array()`
         $sString = preg_replace(
-            '/\)(\r\n?|\n)(?=(\r\n?|\n)\s+[\[\)])/', // needle
+            '/\)(\r\n?|\n)(?=(\r\n?|\n)\s+[\[)])/', // needle
             ')', // replacement
             $sString // subject
         );
