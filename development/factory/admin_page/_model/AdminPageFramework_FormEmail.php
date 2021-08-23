@@ -151,8 +151,9 @@ class AdminPageFramework_FormEmail extends AdminPageFramework_FrameworkUtility {
                     ),
                 ),
             );
-            return $this->getTableOfArray( ( array ) $this->___getEmailArgument( $aInputs, $aEmailOptions, 'message', $sSubmitSectionID ), $_aAttributes )
-                . $this->getTableOfArray( $this->getElementAsArray( $aEmailOptions, array( 'data' ) ), $_aAttributes );
+            $_aExtraData = $this->getElementAsArray( $aEmailOptions, array( 'data' ) );
+            return $this->getTableOfArray( ( array ) $this->___getEmailArgument( $aInputs, $aEmailOptions, 'message', $sSubmitSectionID ), $_aAttributes, array(), array(), false )
+                . ( empty( $_aExtraData ) ? '' : $this->getTableOfArray( $_aExtraData, $_aAttributes ) );
         }
         /**
          * Formats the attachment values.
