@@ -35,6 +35,7 @@ abstract class AdminPageFramework_Utility_ArrayGetter extends AdminPageFramework
      *
      * It just saves isset() conditional checks and allows a default value to be set.
      *
+     * @remark      The `$aSubject` parameter does not have a type hint of `array` to accept non-array values to be passed to eliminate check of `is _array()` for the user.
      * @since       3.4.0
      * @since       3.5.3       The second parameter accepts an array representing dimensional keys. Added the fourth parameter to set values that the default value will be applied to.
      * @since       3.7.0       Moved from `AdminPageFramework_Utility_Array`.
@@ -146,6 +147,7 @@ abstract class AdminPageFramework_Utility_ArrayGetter extends AdminPageFramework
      *  var_dump( $v );
      * </code>
      *
+     * @remark      The `$aArray` parameter does not have a type hint of `array` to accept non-array values to be passed to eliminate check of `is _array()` for the user.
      * @since       3.0.1
      * @since       3.7.0       Moved from `AdminPageFramework_Utility_Array`.
      * @return      mixed
