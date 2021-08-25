@@ -68,14 +68,14 @@ class AdminPageFramework_Form_Model___FormatFieldsets extends AdminPageFramework
      */
     public function get() {
 
-        $this->aFieldsets = $this->_getFieldsetsFormatted(
+        $this->aFieldsets = $this->___getFieldsetsFormatted(
             $this->aFieldsets,
             $this->aSectionsets,
             $this->sCapability
         );
 
         // Add the repeatable section elements to the fieldsets definition array.
-        return $this->_getDynamicElementsAddedToFieldsets();
+        return $this->___getDynamicElementsAddedToFieldsets();
 
     }
         /**
@@ -83,7 +83,7 @@ class AdminPageFramework_Form_Model___FormatFieldsets extends AdminPageFramework
          * @since       3.7.0
          * @return      array
          */
-        private function _getDynamicElementsAddedToFieldsets() {
+        private function ___getDynamicElementsAddedToFieldsets() {
             $_oDynamicElements = new AdminPageFramework_Form_Model___FormatDynamicElements(
                 $this->aSectionsets,
                 $this->aFieldsets,
@@ -101,7 +101,7 @@ class AdminPageFramework_Form_Model___FormatFieldsets extends AdminPageFramework
          * Added the `$aSectionsets` parameter.
          * @return      array
          */
-        private function _getFieldsetsFormatted( array $aFieldsets, array $aSectionsets, $sCapability ) {
+        private function ___getFieldsetsFormatted( array $aFieldsets, array $aSectionsets, $sCapability ) {
 
             // 3.8.4+ Changed the timing of this callback from AFTER formatting field-sets to BEFORE.
             $aFieldsets = $this->callBack(
@@ -120,7 +120,7 @@ class AdminPageFramework_Form_Model___FormatFieldsets extends AdminPageFramework
                     continue;
                 }
 
-                $_aNewFieldsets[ $_sSectionPath ] = $this->_getItemsFormatteed(
+                $_aNewFieldsets[ $_sSectionPath ] = $this->___getItemsFormatted(
                     $_sSectionPath,
                     $_aItems,
                     $this->getElement(  // 3.6.0+ Get the section's capability
@@ -134,7 +134,7 @@ class AdminPageFramework_Form_Model___FormatFieldsets extends AdminPageFramework
             }
 
             // Sort by the order of the sections.
-            $this->_sortFieldsBySectionsOrder(
+            $this->___sortFieldsBySectionsOrder(
                 $_aNewFieldsets, // by reference
                 $aSectionsets
             );
@@ -146,7 +146,7 @@ class AdminPageFramework_Form_Model___FormatFieldsets extends AdminPageFramework
              * @since       3.7.0
              * @return      array
              */
-            private function _getItemsFormatteed( $sSectionPath, $aItems, $sCapability, $aSectionsets ) {
+            private function ___getItemsFormatted( $sSectionPath, $aItems, $sCapability, $aSectionsets ) {
 
                 // a setting array or boolean or true/false
                 $_abSectionRepeatable = $this->getElement(
@@ -156,9 +156,9 @@ class AdminPageFramework_Form_Model___FormatFieldsets extends AdminPageFramework
                 );
 
                 // If there are sub-section items,
-                if ( $this->_isSubSections( $aItems, $_abSectionRepeatable ) ) {
+                if ( $this->___isSubSections( $aItems, $_abSectionRepeatable ) ) {
 
-                    return $this->_getSubSectionsFormatted(
+                    return $this->___getSubSectionsFormatted(
                         $aItems,
                         $sCapability,
                         $aSectionsets,
@@ -167,7 +167,7 @@ class AdminPageFramework_Form_Model___FormatFieldsets extends AdminPageFramework
                 }
 
                 // Normal fields,
-                return $this->_getNormalFieldsetsFormatted(
+                return $this->___getNormalFieldsetsFormatted(
                     $aItems,
                     $sCapability,
                     $aSectionsets,
@@ -177,16 +177,16 @@ class AdminPageFramework_Form_Model___FormatFieldsets extends AdminPageFramework
             }
 
                 /**
-                 * Formates sectioned fieldsets.
+                 * Formats sectioned fieldsets.
                  * @return      array
                  */
-                private function _getNormalFieldsetsFormatted( $aItems, $sCapability, $aSectionsets, $_abSectionRepeatable ) {
+                private function ___getNormalFieldsetsFormatted( $aItems, $sCapability, $aSectionsets, $_abSectionRepeatable ) {
 
                     $_aNewItems     = array();
                     foreach( $aItems as $_sFieldID => $_aFieldset ) {
 
                         // Insert the formatted field definition array. The fields count is needed to set each order value.
-                        $_aFieldset        = $this->_getFieldsetFormatted(
+                        $_aFieldset        = $this->___getFieldsetFormatted(
                             $_aFieldset,
                             $aSectionsets,
                             $sCapability,
@@ -209,7 +209,7 @@ class AdminPageFramework_Form_Model___FormatFieldsets extends AdminPageFramework
                 /**
                  * @return      boolean
                  */
-                private function _isSubSections( $aItems, $_abSectionRepeatable ) {
+                private function ___isSubSections( $aItems, $_abSectionRepeatable ) {
                     if ( ! empty( $_abSectionRepeatable ) ) {
                         return true;
                     }
@@ -218,14 +218,14 @@ class AdminPageFramework_Form_Model___FormatFieldsets extends AdminPageFramework
                 /**
                  * @return      array
                  */
-                private function _getSubSectionsFormatted( $aItems, $sCapability, $aSectionsets, $_abSectionRepeatable ) {
+                private function ___getSubSectionsFormatted( $aItems, $sCapability, $aSectionsets, $_abSectionRepeatable ) {
 
                     $_aNewFieldset = array();
                     foreach( $this->numerizeElements( $aItems ) as $_iSubSectionIndex => $_aFieldsets ) {
 
                         foreach( $_aFieldsets as $_aFieldset ) {
                             $_iCountElement = count( $this->getElementAsArray( $_aNewFieldset, $_iSubSectionIndex ) );
-                            $_aFieldset     = $this->_getFieldsetFormatted(
+                            $_aFieldset     = $this->___getFieldsetFormatted(
                                 $_aFieldset,
                                 $aSectionsets,
                                 $sCapability,
@@ -256,7 +256,7 @@ class AdminPageFramework_Form_Model___FormatFieldsets extends AdminPageFramework
              * @return      void
              * @internal
              */
-            private function _sortFieldsBySectionsOrder( array &$aFieldsets, array $aSectionsets ) {
+            private function ___sortFieldsBySectionsOrder( array &$aFieldsets, array $aSectionsets ) {
 
                 // Check if they are not empty as taxonomy factory fields don't have sections
                 if ( empty( $aSectionsets ) || empty( $aFieldsets ) ) {
@@ -280,7 +280,7 @@ class AdminPageFramework_Form_Model___FormatFieldsets extends AdminPageFramework
              * @since       3.7.0          Moved from `AdminPageFramework_FormDefinition`. Changed the name from `formatField()`.
              * @return      array|void      An array of formatted field definition array. If required keys are not set, nothing will be returned.
              */
-            private function _getFieldsetFormatted( $aFieldset, $aSectionsets, $sCapability, $iCountOfElements, $iSubSectionIndex, $bIsSectionRepeatable, $oCallerObject ) {
+            private function ___getFieldsetFormatted( $aFieldset, $aSectionsets, $sCapability, $iCountOfElements, $iSubSectionIndex, $bIsSectionRepeatable, $oCallerObject ) {
 
                 // 3.8.0+ Dropped the check for $aFieldset[ 'type' ] to allow it to be omitted.
                 if ( ! isset( $aFieldset[ 'field_id' ] ) ) {
