@@ -151,6 +151,7 @@ class AdminPageFramework_Utility_Interpreter extends AdminPageFramework_Utility_
             't'     => array(),
             'ul'    => array(),
             'li'    => array(),
+            'p'     => array(),
         );
         return "<table " . self::getAttributes( self::getElementAsArray( $_aAllAttributes, 'table' ) ) . ">"
                 . self::___getTableHeader( $aHeader, $_aAllAttributes, $bEscape )
@@ -213,11 +214,12 @@ class AdminPageFramework_Utility_Interpreter extends AdminPageFramework_Utility_
             }
             $_aTDAttrFirst            = self::getElementAsArray( $aAllAttributes, array( 'td', 0 ) ) + $_aTDAttr;
             $_aTDAttrFirst[ 'class' ] = self::___addClass( 'column-key', self::getElement( $_aTDAttrFirst, array( 'class' ), '' ) );
+            $_aPAttr                  = self::getElementAsArray( $aAllAttributes, array( 'p' ) );
             $_sOutput = '';
             foreach( $aItem as $_sColumnName => $_asValue ) {
                 $_sOutput .= "<tr " . self::getAttributes( $_aTRAttr ) . ">";
                 $_sOutput .= "<td " . self::getAttributes( $_aTDAttrFirst ) . ">"
-                        . "<p>" . self::___getHTMLEscaped( $_sColumnName, $bEscape ) . "</p>"
+                        . "<p " . self::getAttributes( $_aPAttr )  . ">" . self::___getHTMLEscaped( $_sColumnName, $bEscape ) . "</p>"
                      . "</td>";
                 $_sOutput .= self::___getColumnValue( $_asValue, $aAllAttributes, $bEscape );
                 $_sOutput .= "</tr>";
@@ -244,9 +246,10 @@ class AdminPageFramework_Utility_Interpreter extends AdminPageFramework_Utility_
                 if ( is_null( $mValue ) ) {
                     $mValue = '(null)';
                 }
+                $_aPAttr        = self::getElementAsArray( $aAllAttributes, 'p' );
                 if ( is_scalar( $mValue ) ) {
                     return "<td " . self::getAttributes( $_aTDAttrSecond ) . ">"
-                        . "<p>" . self::___getHTMLEscaped( $mValue, $bEscape ) . "</p>"
+                        . "<p " . self::getAttributes( $_aPAttr )  . ">" . self::___getHTMLEscaped( $mValue, $bEscape ) . "</p>"
                        . "</td>";
                 }
                 if ( is_array( $mValue ) ) {
