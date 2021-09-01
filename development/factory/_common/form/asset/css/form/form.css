@@ -1,5 +1,5 @@
 @charset "UTF-8";
-/*! Admin Page Framework Form Style 1.0.6 */
+/*! Admin Page Framework Form Style 1.0.7 */
 .admin-page-framework-form-warning {
   font-size: 1em;
 }
@@ -689,21 +689,21 @@ th > label > span > .admin-page-framework-form-tooltip {
 }
 
 /* Regular section titles have the `+` button and collapsible title bar has a triangle icon so give a left margin */
-.admin-page-framework-section-title a.admin-page-framework-form-tooltip,
-.admin-page-framework-collapsible-title a.admin-page-framework-form-tooltip {
+.admin-page-framework-section-title .admin-page-framework-form-tooltip,
+.admin-page-framework-collapsible-title .admin-page-framework-form-tooltip {
   margin-left: 0.2em;
   vertical-align: text-top;
   /* 3.8.13+ Fixes vertical alignment, especially in the collapsible section title area. */
 }
 
-.admin-page-framework-section-tab a.admin-page-framework-form-tooltip {
+.admin-page-framework-section-tab .admin-page-framework-form-tooltip {
   margin-left: 0.48em;
   vertical-align: middle;
 }
 
 /* Question Mark (?) - we want it to be a little bit smaller than the title */
-.admin-page-framework-section-title a.admin-page-framework-form-tooltip > span,
-.admin-page-framework-collapsible-title a.admin-page-framework-form-tooltip > span {
+.admin-page-framework-section-title .admin-page-framework-form-tooltip > span,
+.admin-page-framework-collapsible-title .admin-page-framework-form-tooltip > span {
   font-size: inherit;
 }
 
@@ -722,7 +722,7 @@ th > label > span > .admin-page-framework-form-tooltip {
   display: none;
 }
 
-a.admin-page-framework-form-tooltip {
+.admin-page-framework-form-tooltip {
   outline: none;
   text-decoration: none;
   cursor: default;
@@ -730,15 +730,15 @@ a.admin-page-framework-form-tooltip {
   margin: 0 0.2em;
 }
 
-a.admin-page-framework-form-tooltip > .admin-page-framework-form-tooltip-content > .admin-page-framework-form-tooltip-title {
+.admin-page-framework-form-tooltip > .admin-page-framework-form-tooltip-content > .admin-page-framework-form-tooltip-title {
   font-weight: bold;
 }
 
-a.admin-page-framework-form-tooltip strong {
+.admin-page-framework-form-tooltip strong {
   line-height: 30px;
 }
 
-a.admin-page-framework-form-tooltip:hover {
+.admin-page-framework-form-tooltip:hover {
   text-decoration: none;
 }
 
@@ -749,23 +749,23 @@ a.admin-page-framework-form-tooltip:hover {
 }
 
 /* Debug Info - Field Arguments */
-a.admin-page-framework-form-tooltip.debug-info-field-arguments > span.admin-page-framework-form-tooltip-content {
+.admin-page-framework-form-tooltip.debug-info-field-arguments > span.admin-page-framework-form-tooltip-content {
   min-width: 640px;
   background-color: #F8F8F8;
 }
 
-a.admin-page-framework-form-tooltip.debug-info-field-arguments > span.admin-page-framework-form-tooltip-content .dump-array {
+.admin-page-framework-form-tooltip.debug-info-field-arguments > span.admin-page-framework-form-tooltip-content .dump-array {
   max-height: 400px;
   margin: 20px 8px;
 }
 
 /* For smaller screens */
 @media (max-width: 640px) {
-  a.admin-page-framework-form-tooltip.debug-info-field-arguments > span.admin-page-framework-form-tooltip-content {
+  .admin-page-framework-form-tooltip.debug-info-field-arguments > span.admin-page-framework-form-tooltip-content {
     max-width: 280px;
   }
 }
-a.admin-page-framework-form-tooltip.debug-info-field-arguments:hover > span.admin-page-framework-form-tooltip-content::before {
+.admin-page-framework-form-tooltip.debug-info-field-arguments:hover > span.admin-page-framework-form-tooltip-content::before {
   content: " ";
   position: absolute;
   top: 36px;
@@ -777,7 +777,7 @@ a.admin-page-framework-form-tooltip.debug-info-field-arguments:hover > span.admi
   border-color: transparent #DCA transparent transparent;
 }
 
-a.admin-page-framework-form-tooltip.debug-info-field-arguments:hover > span.admin-page-framework-form-tooltip-content::after {
+.admin-page-framework-form-tooltip.debug-info-field-arguments:hover > span.admin-page-framework-form-tooltip-content::after {
   content: " ";
   position: absolute;
   top: 38px;
