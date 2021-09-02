@@ -51,27 +51,27 @@ class AdminPageFramework_Form_View___ToolTip extends AdminPageFramework_Form_Vie
             $this->sTitleElementID,
         );
 
-        $this->aArguments = $this->_getArgumentsFormatted( $_aParameters[ 0 ], $this->aArguments );
+        $this->aArguments = $this->___getArgumentsFormatted( $_aParameters[ 0 ], $this->aArguments );
 
         // @remark      Not used at the moment. May be deprecated.
         $this->sTitleElementID = $_aParameters[ 1 ];
 
     }
         /**
-         * Formats the argumnent array.
+         * Formats the argument array.
          * @return      array
          */
-        private function _getArgumentsFormatted( $asArguments, $aDefaults ) {
+        private function ___getArgumentsFormatted( $asArguments, $aDefaults ) {
 
             $_aArguments = array();
 
             // If simply the content value is passed, set it to the `content` element.
-            if ( $this->_isContent( $asArguments ) ) {
+            if ( $this->___isContent( $asArguments ) ) {
                 $_aArguments[ 'content' ] = $asArguments;
                 return $_aArguments + $aDefaults;
             }
 
-            // Othersize, an argument array is passed.
+            // Otherwise, an argument array is passed.
             $_aArguments                 = $this->getAsArray( $asArguments );
             $_aArguments[ 'attributes' ] = $this->uniteArrays(
                 $this->getElementAsArray( $_aArguments, 'attributes' ),
@@ -84,8 +84,7 @@ class AdminPageFramework_Form_View___ToolTip extends AdminPageFramework_Form_Vie
              * @return      boolean
              * @sine        3.7.0
              */
-            private function _isContent( $asContent ) {
-
+            private function ___isContent( $asContent ) {
                 if ( is_string( $asContent ) ) {
                     return true;
                 }
@@ -93,7 +92,6 @@ class AdminPageFramework_Form_View___ToolTip extends AdminPageFramework_Form_Vie
                     return true;
                 }
                 return false;
-
             }
 
 
@@ -106,11 +104,11 @@ class AdminPageFramework_Form_View___ToolTip extends AdminPageFramework_Form_Vie
         if ( ! $this->aArguments[ 'content' ] ) {
             return '';
         }
-        return "<span " . $this->_getElementAttributes( 'container', array( 'admin-page-framework-form-tooltip', 'no-js' ) ) . ">"
-                . $this->_getTipLinkIcon()
-                . "<span " . $this->_getElementAttributes( 'content', 'admin-page-framework-form-tooltip-content' ) . ">"
-                    . $this->_getTipTitle()
-                    . $this->_getDescriptions()
+        return "<span " . $this->___getElementAttributes( 'container', array( 'admin-page-framework-form-tooltip', 'no-js' ) ) . ">"
+                . $this->___getTipIcon()
+                . "<span " . $this->___getElementAttributes( 'content', 'admin-page-framework-form-tooltip-content' ) . ">"
+                    . $this->___getTipTitle()
+                    . $this->___getDescriptions()
                 . "</span>"
             . "</span>"
 
@@ -120,13 +118,13 @@ class AdminPageFramework_Form_View___ToolTip extends AdminPageFramework_Form_Vie
          * @since       3.7.0
          * @return      string
          */
-        private function _getTipLinkIcon() {
+        private function ___getTipIcon() {
 
             if ( isset( $this->aArguments[ 'icon' ] ) ) {
                 return $this->aArguments[ 'icon' ];
             }
             if ( version_compare( $GLOBALS[ 'wp_version' ], '3.8', '>=' ) ) {
-                return "<span " . $this->_getElementAttributes(
+                return "<span " . $this->___getElementAttributes(
                         'icon',
                         array(
                             'dashicons',
@@ -142,9 +140,9 @@ class AdminPageFramework_Form_View___ToolTip extends AdminPageFramework_Form_Vie
          * @since       3.7.0
          * @return      string
          */
-        private function _getTipTitle() {
+        private function ___getTipTitle() {
             if ( isset( $this->aArguments[ 'title' ] ) ) {
-                return "<span " . $this->_getElementAttributes( 'title', 'admin-page-framework-form-tooltip-title' ) . ">"
+                return "<span " . $this->___getElementAttributes( 'title', 'admin-page-framework-form-tooltip-title' ) . ">"
                     . $this->aArguments[ 'title' ]
                     . "</span>";
             }
@@ -154,11 +152,11 @@ class AdminPageFramework_Form_View___ToolTip extends AdminPageFramework_Form_Vie
          * @since       3.7.0
          * @return      string
          */
-        private function _getDescriptions() {
+        private function ___getDescriptions() {
             if ( isset( $this->aArguments[ 'content' ] ) ) {
-                return "<span " . $this->_getElementAttributes( 'description', 'admin-page-framework-form-tooltip-description' ) . ">"
+                return "<span " . $this->___getElementAttributes( 'description', 'admin-page-framework-form-tooltip-description' ) . ">"
                         . implode(
-                            "</span><span " . $this->_getElementAttributes( 'description', 'admin-page-framework-form-tooltip-description' ) . ">",
+                            "</span><span " . $this->___getElementAttributes( 'description', 'admin-page-framework-form-tooltip-description' ) . ">",
                             $this->getAsArray( $this->aArguments[ 'content' ] )
                         )
                     . "</span>"
@@ -172,7 +170,7 @@ class AdminPageFramework_Form_View___ToolTip extends AdminPageFramework_Form_Vie
      * @return      string
      * @since       3.8.5
      */
-    private function _getElementAttributes( $sElementKey, $asClassSelectors ) {
+    private function ___getElementAttributes( $sElementKey, $asClassSelectors ) {
 
         $_aContainerAttributes = $this->getElementAsArray(
             $this->aArguments,
