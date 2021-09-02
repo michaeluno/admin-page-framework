@@ -1,4 +1,4 @@
-/*! Admin Page Framework - Form Main 1.2.4 */
+/*! Admin Page Framework - Form Main 1.2.6 */
 /**
  * This script should be empty and provide the banner (header comment) for the concatenated bundled script (form.bundle.js).
  */
@@ -1723,7 +1723,9 @@
 
   // Initialize
   $( document ).ready( function() {
-    $( '.admin-page-framework-form-tooltip' )[ 'admin-page-framework-form-tooltip' ]();
+    $( '.admin-page-framework-form-tooltip' ).each( function() {
+      $( this )[ 'admin-page-framework-form-tooltip' ]();
+    } );
   } );
 
   $.fn[ 'admin-page-framework-form-tooltip' ] = function( options ) {
@@ -1746,6 +1748,7 @@
     options = $.extend( {}, {
       pointerClass: 'admin-page-framework-form-tooltip-balloon',
       width: $( target ).data( 'width' ) || options.width || 340,
+      height: $( target ).data( 'height' ) || options.height,
       shown: false,        // initial visibility
       content: _content,
       oneOff: false,
@@ -1784,6 +1787,7 @@
     // Open the tooltip
     var _options    = $.extend( true, {}, options, {
       pointerWidth: _width,
+      pointerHeight: options.height,
       content: function() {
         return _content.html();
       },
@@ -1797,7 +1801,7 @@
     }, options );
     _options.pointerClass += _offscreen ? ' offscreen' : '';
 
-    debugLog( 'options', _options );
+    debugLog( 'Tooltip', _options );
     $( self ).pointerTooltip( _options )
       .pointerTooltip( 'open' );
 

@@ -33,6 +33,8 @@ class AdminPageFramework_Form_View___ToolTip extends AdminPageFramework_Form_Vie
         'icon_alt_text' => '[?]',   // [3.8.5+] alternative text when icon is not available. For WP v3.7.x or below.
         'title'         => null,
         'content'       => null,    // will be assigned in the constructor
+        'width'         => null,    // [3.9.0]
+        'height'        => null,    // [3.9.0]
     );
 
     public $sTitleElementID;
@@ -104,7 +106,11 @@ class AdminPageFramework_Form_View___ToolTip extends AdminPageFramework_Form_Vie
         if ( ! $this->aArguments[ 'content' ] ) {
             return '';
         }
-        return "<span " . $this->___getElementAttributes( 'container', array( 'admin-page-framework-form-tooltip', 'no-js' ) ) . ">"
+        $_aAttributes = array(
+            'data-width'  => $this->getElement( $this->aArguments, array( 'width' ) ),
+            'data-height' => $this->getElement( $this->aArguments, array( 'height' ) ),
+        );
+        return "<span " . $this->___getElementAttributes( 'container', array( 'admin-page-framework-form-tooltip', 'no-js' ), $_aAttributes ) . ">"
                 . $this->___getTipIcon()
                 . "<span " . $this->___getElementAttributes( 'content', 'admin-page-framework-form-tooltip-content' ) . ">"
                     . $this->___getTipTitle()
@@ -167,11 +173,13 @@ class AdminPageFramework_Form_View___ToolTip extends AdminPageFramework_Form_Vie
 
     /**
      * Generates HTML attributes of the specified element.
-     * @return      string
-     * @since       3.8.5
+     * @param  string       $sElementKey
+     * @param  array|string $asClassSelectors
+     * @param  array        $aAdditional        Additional attributes array.
+     * @return string
+     * @since  3.8.5
      */
-    private function ___getElementAttributes( $sElementKey, $asClassSelectors ) {
-
+    private function ___getElementAttributes( $sElementKey, $asClassSelectors, $aAdditional=array() ) {
         $_aContainerAttributes = $this->getElementAsArray(
             $this->aArguments,
             array( 'attributes', $sElementKey )
@@ -180,8 +188,8 @@ class AdminPageFramework_Form_View___ToolTip extends AdminPageFramework_Form_Vie
             $_aContainerAttributes[ 'class' ],
             $asClassSelectors
         );
+        $_aContainerAttributes = $_aContainerAttributes + $aAdditional;
         return $this->getAttributes( $_aContainerAttributes );
-
     }
 
 }
