@@ -1,4 +1,4 @@
-/*! Admin Page Framework - Form Main 1.2.3 */
+/*! Admin Page Framework - Form Main 1.2.6 */
 /**
  * This script should be empty and provide the banner (header comment) for the concatenated bundled script (form.bundle.js).
  */
@@ -1707,16 +1707,25 @@
  * ```
  * $( '.my-tooltip' )[ 'admin-page-framework-form-tooltip' ]();
  * ```
+ * Or
+ * ```
+ *    <span class="my-tooltip dashicons dashicons-editor-help" data-tooltip-content="Hello"></span>
+ * ```
+ *
+ * If it the script is loaded, elements with the .admin-page-framework-from-tooltip class will be automatically parsed.
+ * So not to call the `[ 'admin-page-framework-form-tooltip' ]()` method, just create an element with the selector
+ * and it should automatically have a tooltip.
  *
  *
  * When the framework file is compiled, replace the keyword `admin-page-framework` with your text domain.
- *
  */
 (function($){
 
   // Initialize
   $( document ).ready( function() {
-    $( 'a.admin-page-framework-form-tooltip' )[ 'admin-page-framework-form-tooltip' ]();
+    $( '.admin-page-framework-form-tooltip' ).each( function() {
+      $( this )[ 'admin-page-framework-form-tooltip' ]();
+    } );
   } );
 
   $.fn[ 'admin-page-framework-form-tooltip' ] = function( options ) {
@@ -1731,14 +1740,17 @@
   function initialize( target, options ) {
 
     var _this = $( target );
+    var _content = $( target ).attr( 'data-tooltip-content' );
+    _content = _content ? _content : undefined;
 
     // Format options
     options = 'undefined' === typeof options ? {} : options;
     options = $.extend( {}, {
       pointerClass: 'admin-page-framework-form-tooltip-balloon',
       width: $( target ).data( 'width' ) || options.width || 340,
+      height: $( target ).data( 'height' ) || options.height,
       shown: false,        // initial visibility
-      content: undefined,
+      content: _content,
       oneOff: false,
       // whether to close the tooltip automatically when the mouse leaves. do not turn on when the oneOff is on, it will disappear immediately
       autoClose: true,
@@ -1775,6 +1787,7 @@
     // Open the tooltip
     var _options    = $.extend( true, {}, options, {
       pointerWidth: _width,
+      pointerHeight: options.height,
       content: function() {
         return _content.html();
       },
@@ -1788,7 +1801,7 @@
     }, options );
     _options.pointerClass += _offscreen ? ' offscreen' : '';
 
-    debugLog( 'options', _options );
+    debugLog( 'Tooltip', _options );
     $( self ).pointerTooltip( _options )
       .pointerTooltip( 'open' );
 
