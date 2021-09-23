@@ -238,10 +238,10 @@ class AdminPageFramework_FieldType_inline_mixed extends AdminPageFramework_Field
     display: inline-block;
     overflow-x: visible;    /* Disable scrollbars which appear when the browser width is narrow */
     padding-right: 0.4em;
+    vertical-align: middle;
 }
 .admin-page-framework-field-inline_mixed > fieldset > .admin-page-framework-fields
 {
-    /* display: inline; */
     display: inline;
     width: auto;
     table-layout: auto;
@@ -271,22 +271,24 @@ class AdminPageFramework_FieldType_inline_mixed extends AdminPageFramework_Field
 .admin-page-framework-field-inline_mixed > fieldset > .admin-page-framework-fields > .admin-page-framework-field > * > .admin-page-framework-input-label-container
 {
     padding: 0;
-    display: inline-block;
+    display: inline;
     width: 100%;
-        
+    vertical-align: middle;
 }
 .admin-page-framework-field-inline_mixed > fieldset > .admin-page-framework-fields > .admin-page-framework-field > .admin-page-framework-input-label-container > label,
 .admin-page-framework-field-inline_mixed > fieldset > .admin-page-framework-fields > .admin-page-framework-field > * > .admin-page-framework-input-label-container > label
 {
-    display: inline-block;
+    display: inline;
+    vertical-align: middle;
 }
 .admin-page-framework-field-inline_mixed > fieldset > .admin-page-framework-fields > .admin-page-framework-field > .admin-page-framework-input-label-container > label > input,
 .admin-page-framework-field-inline_mixed > fieldset > .admin-page-framework-fields > .admin-page-framework-field > * > .admin-page-framework-input-label-container > label > input
 {
-    display: inline-block;
+    display: inline;
     min-width: 100%;
-    margin-right: auto;
+    margin-right: 0.2em;
     margin-left: auto;
+    vertical-align: middle;
 }
 
 /* Input container label 3.8.0+ */
@@ -294,6 +296,11 @@ class AdminPageFramework_FieldType_inline_mixed extends AdminPageFramework_Field
 .admin-page-framework-field-inline_mixed .admin-page-framework-input-label-string
 {
     min-width: 0;
+}
+
+/* Buttons - color picker (@todo move this to the color field type) */
+.admin-page-framework-field-inline_mixed .admin-page-framework-input-label-container button.button {
+    margin: 0;
 }
 
 CSSRULES;
