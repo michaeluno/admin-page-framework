@@ -157,7 +157,7 @@ class AdminPageFramework_Form_View___Sectionsets extends AdminPageFramework_Form
         $_sOutput    = implode( PHP_EOL, $_aOutput );
         $_sElementID = "admin-page-framework-sectionsets-" . uniqid();
         return $this->___getSpinnerOutput( $_sOutput )
-            .   "<div id='{$_sElementID}' class='admin-page-framework-sctionsets admin-page-framework-form-js-on'>"
+            .   "<div id='{$_sElementID}' class='admin-page-framework-sectionsets admin-page-framework-form-js-on'>"
                 . $_sOutput
                 . $_oDebugInfo->get()
             . "</div>"
