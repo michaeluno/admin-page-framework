@@ -7,10 +7,9 @@
  */
 
 /**
- * Adds the 'custom_field_types' filed to the 'Generator' section.
+ * Adds the 'custom_field_types' field to the 'Generator' section.
  *
- * @since       3.6.0
- * @filter      apply       admin_page_framework_loader_filter_generator_custom_field_types
+ * @since 3.6.0
  */
 class AdminPageFrameworkLoader_AdminPage_Tool_Generator_CustomFieldTypes {
 
@@ -19,21 +18,24 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_CustomFieldTypes {
      */
     public $oFactory;
 
-    public $aCustomFieldTypes = array(
-        /*
-        '__key_structure'   =>  array(
-            'class_name'           => '',   // the source class name to be prefixed with the user specified one.
-            'directory_path'       => '',
-            'label'                => '',
-            'description'          => '',
-            'archive_file_path'    => '',
-            'archive_dir_path'     => '',
-            'text_domain'          => '',   // the source text domain to be converted to the user specified one.
-        ), */
-    );
+    /**
+     * @var array
+     * ### Structure
+     * ```
+     * array(
+     *     'class_name'           => '',   // the source class name to be prefixed with the user specified one.
+     *     'directory_path'       => '',
+     *     'label'                => '',
+     *     'description'          => '',
+     *     'archive_file_path'    => '',
+     *     'archive_dir_path'     => '',
+     *     'text_domain'          => '',   // the source text domain to be converted to the user specified one.
+     * )
+     * ```
+     */
+    public $aCustomFieldTypes = array();
 
     public $aCustomFieldTypeLabels = array();
-
 
     /**
      * Sets up hooks and properties.
@@ -42,7 +44,7 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_CustomFieldTypes {
 
         // Properties
         $this->oFactory = $oFactory;
-        $this->_setProperties();
+        $this->___setProperties();
 
         // Form fields - the field type pack extension also uses this field.
         $oFactory->addSettingFields(
@@ -59,14 +61,14 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_CustomFieldTypes {
             )
         );
 
-        /// Hooks
-        // Register custom field files to the Generator of the framework loader.
+        // Hooks
+        /// Register custom field files to the Generator of the framework loader.
         add_filter(
             'admin_page_framework_loader_filter_generator_additional_source_directories',
             array( $this, 'replyToSetAdditionalDirectoriesForGenerator' )
         );
 
-        // Register a callback to modify archive files.
+        /// Register a callback to modify archive files.
         add_filter(
             'admin_page_framework_loader_filter_generator_file_contents',
             array( $this, 'replyToModifyFileContents' ),
@@ -75,13 +77,11 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_CustomFieldTypes {
         );
 
     }
-
         /**
          * Sets up properties.
-         * @since       3.6.0
-         * @return      void
+         * @since 3.6.0
          */
-        private function _setProperties() {
+        private function ___setProperties() {
 
             $this->aCustomFieldTypes = array(
                 'AceCustomFieldType'   =>  array(
@@ -174,9 +174,9 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_CustomFieldTypes {
             /**
              * Modifies the file contents.
              *
-             * @since       3.6.0
-             * @return      string
-             * @callback    filter      admin_page_framework_loader_filter_generator_file_contents
+             * @since    3.6.0
+             * @return   string
+             * @callback add_filter() admin_page_framework_loader_filter_generator_file_contents
              */
             public function replyToModifyFileContents( $sFileContents, $sPathInArchive, $aFormData, $oFactory ) {
 
@@ -196,12 +196,12 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_CustomFieldTypes {
 
                 // The inclusion class list file needs to be handled differently.
                 if ( $this->oFactory->oUtil->hasSuffix( 'admin-page-framework-include-class-list.php', $sPathInArchive ) ) {
-                    return $this->_getModifiedInclusionList( $sFileContents );
+                    return $this->___getModifiedIncludeList( $sFileContents );
                 }
 
-                $_bsParsingClassName = $this->_getClassNameIfSelected( $sPathInArchive );
+                $_bsParsingClassName = $this->___getClassNameIfSelected( $sPathInArchive );
                 if ( $_bsParsingClassName ) {
-                    return $this->_getModifiedFileContents( $sFileContents, $sPathInArchive, $_bsParsingClassName );
+                    return $this->___getModifiedFileContents( $sFileContents, $sPathInArchive, $_bsParsingClassName );
                 }
 
                 return $sFileContents;
@@ -209,25 +209,23 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_CustomFieldTypes {
             }
                 /**
                  * Modifies the class include list.
-                 * @since       3.6.0
-                 * @return      string
+                 * @since  3.6.0
+                 * @return string
                  */
-                private function _getModifiedInclusionList( $sFileContents ) {
+                private function ___getModifiedIncludeList( $sFileContents ) {
                     return str_replace(
                         ');', // search
-                        $this->_getClassListOfCustomFieldTypes() . ');', // replace - @todo insert the selected class list here
+                        $this->___getClassListOfCustomFieldTypes() . ');', // replace - @todo insert the selected class list here
                         $sFileContents // subject
                     );
                 }
                     /**
-                     * @since       3.6.0
-                     * @return      string
+                     * @since  3.6.0
+                     * @return string
                      */
-                    private function _getClassListOfCustomFieldTypes() {
+                    private function ___getClassListOfCustomFieldTypes() {
 
-                        $_aCheckedCustomFieldTypes = $this->_getSelectedCustomFieldTypes(
-                            $this->aCustomFieldTypes
-                        );
+                        $_aCheckedCustomFieldTypes = $this->___getSelectedCustomFieldTypes( $this->aCustomFieldTypes );
                         $_sClassPrefix = $this->oFactory->oUtil->getElement(
                             $_POST,
                             array(
@@ -252,12 +250,12 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_CustomFieldTypes {
                  *
                  * Checks if the user select the field type in the Generator form.
                  *
-                 * @since       3.6.0
-                 * @return      string|boolean      The found class name; false, otherwise.
+                 * @since  3.6.0
+                 * @return string|boolean      The found class name; false, otherwise.
                  */
-                private function _getClassNameIfSelected( $sPathInArchive ) {
+                private function ___getClassNameIfSelected( $sPathInArchive ) {
 
-                    $_aSelectedCustomFieldTypes = $this->_getSelectedCustomFieldTypes(
+                    $_aSelectedCustomFieldTypes = $this->___getSelectedCustomFieldTypes(
                         $this->aCustomFieldTypes // ArchiveFilePaths
                     );
                     $_aArchiveFilePaths = array();
@@ -278,18 +276,18 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_CustomFieldTypes {
                  * Modify the file contents of the given path.
                  *
                  * Converts the class name by adding the user-set class name prefix.
-                 * Also the text domain used in the custom field type will be converted.
+                 * Also, the text domain used in the custom field type will be converted.
                  *
-                 * @remark      The reason why it retrieve all the selected custom field type classes, not the parsing item is
+                 * @remark The reason why it retrieves all the selected custom field type classes, not the parsing item is
                  * because some custom field types extend another custom field type. In that case, a name is used among multiple files.
-                 * @since       3.6.0
-                 * @since       3.7.2      Added the `$sParsingClassName` argument.
-                 * @return      string
+                 * @since  3.6.0
+                 * @since  3.7.2  Added the `$sParsingClassName` argument.
+                 * @return string
                  */
-                private function _getModifiedFileContents( $sFileContents, $sPathInArchive, $sParsingClassName ) {
+                private function ___getModifiedFileContents( $sFileContents, $sPathInArchive, $sParsingClassName ) {
 
                     // 3.8.4+ Some custom field types names conflict each other such as `TuneCustomFieldType` and `DateTimeCustomFieldType` so they must be dealt with regular expressions.
-                    $sFileContents = $this->_getClassNamesPrefixed( $sFileContents );
+                    $sFileContents = $this->___getClassNamesPrefixed( $sFileContents );
 
                     // Searches and replaces for `str_replace()`.
                     $_aSearches = array();
@@ -331,18 +329,18 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_CustomFieldTypes {
 
                     /**
                      * Modifies the given content by replacing the class names with a prefix.
-                     * @since       3.8.4
-                     * @return      string
+                     * @since  3.8.4
+                     * @return string
                      */
-                    private function _getClassNamesPrefixed( $sFileContents ) {
+                    private function ___getClassNamesPrefixed( $sFileContents ) {
 
                         $_aSelectedFieldTypeClassNames = array_keys(
-                            $this->_getSelectedCustomFieldTypes( $this->aCustomFieldTypes )
+                            $this->___getSelectedCustomFieldTypes( $this->aCustomFieldTypes )
                         );
 
                         return preg_replace(
-                            $this->_getClassPrefixRegexPatterns( $_aSelectedFieldTypeClassNames ),    // search
-                            $this->_getClassPrefixRegexReplacements( $_aSelectedFieldTypeClassNames ),    // replace
+                            $this->___getClassPrefixRegexPatterns( $_aSelectedFieldTypeClassNames ),    // search
+                            $this->___getClassPrefixRegexReplacements( $_aSelectedFieldTypeClassNames ),    // replace
                             $sFileContents  // subject
                         );
 
@@ -352,7 +350,7 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_CustomFieldTypes {
                          * @since       3.8.4
                          * @return      array
                          */
-                        private function _getClassPrefixRegexPatterns( array $aSelectedFieldTypeClassNames ) {
+                        private function ___getClassPrefixRegexPatterns( array $aSelectedFieldTypeClassNames ) {
 
                             $_aPregSearches = array();
                             foreach( $aSelectedFieldTypeClassNames as $_sClassName ) {
@@ -363,10 +361,10 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_CustomFieldTypes {
                         }
                         /**
                          * Returns an array holding regular expressions replacements for class names.
-                         * @since       3.8.4
-                         * @return      array
+                         * @since  3.8.4
+                         * @return array
                          */
-                        private function _getClassPrefixRegexReplacements( array $aSelectedFieldTypeClassNames ) {
+                        private function ___getClassPrefixRegexReplacements( array $aSelectedFieldTypeClassNames ) {
 
                             $_aPrefixedClassNames          = $aSelectedFieldTypeClassNames;
                             array_walk(
@@ -386,10 +384,9 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_CustomFieldTypes {
 
                         }
                             /**
-                             * @since       3.6.0
-                             * @since       3.8.4       Changed it for regular expression patterns.
-                             * @callback    function    array_walk
-                             * @return      string
+                             * @since    3.6.0
+                             * @since    3.8.4        Changed it for regular expression patterns.
+                             * @callback array_walk()
                              */
                             public function _replyToSetPrefix( &$sClassName, $sKey, $sPrefix='' ) {
                                 $sClassName = $sPrefix . '$0';
@@ -409,11 +406,11 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_CustomFieldTypes {
              *
              * @since       3.6.0
              * @return      array
-             * @callback    filter      admin_page_framework_loader_filter_generator_additional_source_directories
+             * @callback    add_filter() admin_page_framework_loader_filter_generator_additional_source_directories
              */
             public function replyToSetAdditionalDirectoriesForGenerator( $aDirPaths ) {
 
-                $_aCheckedCustomFieldTypes        = $this->_getSelectedCustomFieldTypes(
+                $_aCheckedCustomFieldTypes = $this->___getSelectedCustomFieldTypes(
                     $this->aCustomFieldTypes
                 );
 
@@ -431,11 +428,10 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_CustomFieldTypes {
             }
 
                 /**
-                 * @return      array       The array keys of the checked items.
-                 * @since       3.6.0
+                 * @return array The array keys of the checked items.
+                 * @since  3.6.0
                  */
-                private function _getSelectedCustomFieldTypes( array $aSubject=array() ) {
-
+                private function ___getSelectedCustomFieldTypes( array $aSubject=array() ) {
                     $_aCheckedCustomFieldTypes = $this->oFactory->oUtil->getElementAsArray(
                         $_POST,
                         array(
@@ -445,12 +441,10 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_CustomFieldTypes {
                         ),
                         array()
                     );
-                    $_aCheckedCustomFieldTypes = array_intersect_key(
+                    return array_intersect_key(
                         $aSubject,
                         array_filter( $_aCheckedCustomFieldTypes ) // drop 0 values
                     );
-                    return $_aCheckedCustomFieldTypes;
-
                 }
 
 }
