@@ -401,7 +401,7 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator extends AdminP
                         );
 
                         // Extract selected components paths.
-                        if ( in_array( $_sKey, $_aSelectedComponents ) ) {
+                        if ( in_array( $_sKey, $_aSelectedComponents, true ) ) {
                             $_aSelectedComponentsPaths = array_merge(
                                 $_aSelectedComponentsPaths,
                                 $_aPaths
