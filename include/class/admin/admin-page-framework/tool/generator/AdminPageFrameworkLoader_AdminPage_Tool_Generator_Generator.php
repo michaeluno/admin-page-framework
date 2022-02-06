@@ -21,8 +21,7 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator extends AdminP
     /**
      * A user constructor.
      *
-     * @since       3.5.4
-     * @return      void
+     * @since 3.5.4
      */
     protected function construct( $oFactory ) {
 
@@ -53,8 +52,7 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator extends AdminP
 
     /**
      * Adds form fields.
-     * @since       3.5.4
-     * @return      void
+     * @since 3.5.4
      */
     public function addFields( $oFactory, $sSectionID ) {
 
@@ -106,9 +104,9 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator extends AdminP
                     __( 'Select the components you would like to include in your framework files.', 'admin-page-framework-loader' ),
                     __( 'If you are not sure what to select, check them all.', 'admin-page-framework-loader' ),
                 ),
-                'label'               => $this->_getComponentLabels(),
+                'label'               => $this->___getComponentLabels(),
                 'default'             => array_fill_keys(
-                    array_keys( $this->_getComponentLabels() ),
+                    array_keys( $this->___getComponentLabels() ),
                     true // all true
                 ),
                 'select_all_button'     => true,
@@ -144,10 +142,7 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator extends AdminP
             )
         );
 
-        new AdminPageFrameworkLoader_AdminPage_Tool_Generator_CustomFieldTypes(
-            $oFactory,
-            $sSectionID
-        );
+        new AdminPageFrameworkLoader_AdminPage_Tool_Generator_CustomFieldTypes( $oFactory, $sSectionID );
 
     }
         /**
@@ -155,7 +150,7 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator extends AdminP
          * @since       3.5.4
          * @return      array
          */
-        private function _getComponentLabels() {
+        private function ___getComponentLabels() {
             return array(
                 'admin_pages'           => __( 'Admin Pages', 'admin-page-framework-loader' ),
                 'network_admin_pages'   => __( 'Network Admin Pages', 'admin-page-framework-loader' ),
@@ -173,26 +168,27 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator extends AdminP
     /**
      * Validates the submitted form data.
      *
-     * @since       3.5.4
+     * @since  3.5.4
+     * @return array
      */
-    public function validate( $aInput, $aOldInput, $oAdminPage, $aSubmitInfo ) {
+    public function validate( $aInputs, $aOldInputs, $oAdminPage, $aSubmitInfo ) {
 
         $_bVerified = true;
         $_aErrors   = array();
-        $aInput     = $this->_sanitizeFieldValues( $aInput, $oAdminPage );
+        $aInputs    = $this->___getFieldValuesSanitized( $aInputs, $oAdminPage );
 
         // the class prefix must not contain white spaces and some other characters not supported in PHP class names.
         preg_match(
             '/^[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*$/',     // pattern - allowed characters for variables in PHP.
-            $aInput[ 'class_prefix' ],     // subject
+            $aInputs[ 'class_prefix' ],     // subject
             $_aMatches
         );
-        if ( $aInput[ 'class_prefix' ] && empty( $_aMatches ) ) {
+        if ( $aInputs[ 'class_prefix' ] && empty( $_aMatches ) ) {
             $_aErrors[ $this->sSectionID ][ 'class_prefix' ] = __( 'The prefix must consist of alphanumeric with underscores.', 'admin-page-framework-loader' );
             $_bVerified = false;
         }
 
-        if ( ! $aInput[ 'text_domain' ] ) {
+        if ( ! $aInputs[ 'text_domain' ] ) {
             $_aErrors[ $this->sSectionID ][ 'text_domain' ] = __( 'The text domain cannot be empty.', 'admin-page-framework-loader' );
             $_bVerified = false;
         }
@@ -201,42 +197,40 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator extends AdminP
         if ( ! $_bVerified ) {
             $oAdminPage->setFieldErrors( $_aErrors );
             $oAdminPage->setSettingNotice( __( 'There was something wrong with your input.', 'admin-page-framework-loader' ) );
-            return $aOldInput;
+            return $aOldInputs;
         }
 
-        return $aInput;
+        return $aInputs;
 
     }
         /**
          * Sanitizes user-submitted form field values.
-         * @since       3.5.4
-         * @return      array       The modified input array.
+         * @since  3.5.4
+         * @return array The modified input array.
          */
-        private function _sanitizeFieldValues( array $aInput, $oAdminPage ) {
-
-            $aInput[ 'class_prefix' ] = trim(
+        private function ___getFieldValuesSanitized( array $aInputs, $oAdminPage ) {
+            $aInputs[ 'class_prefix' ] = trim(
                 $oAdminPage->oUtil->getElement(
-                    $aInput,
+                    $aInputs,
                     'class_prefix',
                     ''
                 )
             );
-            $aInput[ 'text_domain' ] = trim(
+            $aInputs[ 'text_domain' ] = trim(
                 $oAdminPage->oUtil->getElement(
-                    $aInput,
+                    $aInputs,
                     'text_domain',
                     ''
                 )
             );
-            return $aInput;
-
+            return $aInputs;
         }
 
     /**
      * Lets the user download their own version of Admin Page Framework.
      *
-     * @since           3.5.4
-     * @callback        filter      export_{instantiated class name}_{section id}_{field id}
+     * @since    3.5.4
+     * @callback add_filter() export_{instantiated class name}_{section id}_{field id}
      */
     public function replyToDownloadFramework( $aSavedData, $sSubmittedFieldID, $sSubmittedInputID, $oAdminPage ) {
 
@@ -246,7 +240,7 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator extends AdminP
         }
 
         $_sTempFile = $oAdminPage->oUtil->setTempPath( 'admin-page-framework.zip' );
-        $_sData     = $this->_getDownloadFrameworkZipFile(
+        $_sData     = $this->___getDownloadFrameworkZipFile(
             $_sFrameworkDirPath,
             $_sTempFile
         );
@@ -258,10 +252,10 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator extends AdminP
         /**
          * Generates the framework zip data.
          *
-         * @since       3.5.4
-         * @return      string      The binary zip data.
+         * @since  3.5.4
+         * @return string      The binary zip data.
          */
-        private function _getDownloadFrameworkZipFile( $sFrameworkDirPath, $sDestinationPath ) {
+        private function ___getDownloadFrameworkZipFile( $sFrameworkDirPath, $sDestinationPath ) {
 
             $_oZip = new AdminPageFramework_Zip(
                 $sFrameworkDirPath,
@@ -274,9 +268,9 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator extends AdminP
                     ),
                 ),
                 array(  // callbacks
-                    'file_name'         => array( $this, '_replyToModifyPathInArchive' ),
-                    'directory_name'    => array( $this, '_replyToModifyPathInArchive' ),
-                    'file_contents'     => array( $this, '_replyToModifyFileContents' ),
+                    'file_name'         => array( $this, 'replyToModifyPathInArchive' ),
+                    'directory_name'    => array( $this, 'replyToModifyPathInArchive' ),
+                    'file_contents'     => array( $this, 'replyToModifyFileContents' ),
                 )
             );
             $_bSucceed = $_oZip->compress();
@@ -291,35 +285,27 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator extends AdminP
              *
              * Return an empty string to drop the item.
              *
-             * @remark      Gets called earlier than the callback for the file contents.
-             * @param       string      $sPathInArchive      The internal path of the archive including the parsing file name.
-             * @since       3.5.4
-             * @return      string
+             * @remark Gets called earlier than the callback for file contents.
+             * @param  string      $sPathInArchive      The internal path of the archive including the parsing file name.
+             * @since  3.5.4
+             * @return string
              */
-            public function _replyToModifyPathInArchive( $sPathInArchive ) {
-
+            public function replyToModifyPathInArchive( $sPathInArchive ) {
                 // Check if it belongs to selected components.
-                if ( false === $this->_isAllowedArchivePath( $sPathInArchive ) ) {
+                if ( false === $this->___isAllowedArchivePath( $sPathInArchive ) ) {
                     return '';  // empty value will drop the entry
                 }
                 return $sPathInArchive;
-
             }
                 /**
                  * Checks whether the passed archive path is allowed.
                  *
-                 * @since       3.5.4
-                 * @remark      string      $sPath              The path to check. It can be a directory or a file.
-                 * @param       string      $sPathInArchive     The parsing directory path set to the archive.
-                 * The passed path for the archive has a trailing slash. It starts with a directory name.
-                 * e.g.
-                 * `utility/AdminPageFramework_WPReadmeParser/`
-                 * `factory/widget/model/`
-                 * @return      boolean
+                 * @since  3.5.4
+                 * @remark string      $sPath              The path to check. It can be a directory or a file.
+                 * @return boolean
                  */
-                private function _isAllowedArchivePath( $sPath ) {
-
-                    foreach( $this->_getDisallowedArchiveDirectoryPaths() as $_sDisallowedPath ) {
+                private function ___isAllowedArchivePath( $sPath ) {
+                    foreach( $this->___getDisallowedArchiveDirectoryPaths() as $_sDisallowedPath ) {
                         $_bHasPrefix = $this->oFactory->oUtil->hasPrefix(
                             ltrim( $_sDisallowedPath, '/' ), // needle
                             ltrim( $sPath, '/' ) // haystack
@@ -329,13 +315,12 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator extends AdminP
                         }
                     }
                     return true;
-
                 }
                 /**
                  * Defines the archive paths of components.
                  *
-                 * @remark      Make sure to have the tailing slash.
-                 * Othwerwise, 'factory/AdminPageFramework' will match items that belong to other components.
+                 * @remark      Make sure to have a trailing slash.
+                 * Otherwise, 'factory/AdminPageFramework' will match items that belong to other components.
                  * @since       3.5.4
                  */
                 private $_aComponentPaths = array(
@@ -378,7 +363,7 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator extends AdminP
                  * @since       3.5.4
                  * @return      array
                  */
-                private function _getDisallowedArchiveDirectoryPaths() {
+                private function ___getDisallowedArchiveDirectoryPaths() {
 
                     // Cache
                     static $_aDisallowedPaths;
@@ -387,7 +372,7 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator extends AdminP
                     }
 
                     // User selected items
-                    $_aSelectedComponents = $this->_getCheckedComponents();
+                    $_aSelectedComponents = $this->___getCheckedComponents();
 
                     // List paths.
                     $_aAllComponentsPaths       = array();
@@ -421,8 +406,7 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator extends AdminP
                      * @since       3.5.4
                      * @return      array
                      */
-                    private function _getCheckedComponents() {
-
+                    private function ___getCheckedComponents() {
                         $_aCheckedComponents = $this->oFactory->oUtil->getElementAsArray(
                             $_POST,
                             array(
@@ -434,16 +418,15 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator extends AdminP
                         );
                         $_aCheckedComponents = array_filter( $_aCheckedComponents );
                         return array_keys( $_aCheckedComponents );
-
                     }
 
             /**
              * Modifies the file contents of the archive.
              *
-             * @since       3.5.4
-             * @return      string      The modified file contents.
+             * @since  3.5.4
+             * @return string      The modified file contents.
              */
-            public function _replyToModifyFileContents( $sFileContents, $sPathInArchive ) {
+            public function replyToModifyFileContents( $sFileContents, $sPathInArchive ) {
 
                 // Check the file extension.
                 $_aAllowedExtensions = apply_filters(
@@ -470,39 +453,36 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator extends AdminP
                 );
 
                 // At this point, it is a php file.
-                return $this->_modifyClassNameByPath(
-                    $sFileContents,
-                    $sPathInArchive
-                );
+                return $this->___getClassNameModifiedByPath( $sFileContents, $sPathInArchive );
 
             }
                 /**
                  * Modifies the given file contents.
                  *
-                 * @since       3.5.4
-                 * @return      string
+                 * @since  3.5.4
+                 * @return string
                  */
-                private function _modifyClassNameByPath( $sFileContents, $sPathInArchive ) {
+                private function ___getClassNameModifiedByPath( $sFileContents, $sPathInArchive ) {
 
                     // The inclusion class list file needs to be handled differently.
                     if ( $this->oFactory->oUtil->hasSuffix( 'admin-page-framework-include-class-list.php', $sPathInArchive ) ) {
-                        return $this->_modifyClassNameOfInclusionList( $sFileContents );
+                        return $this->___getClassNameOfIncludeListModified( $sFileContents );
                     }
 
                     // Insert a included component note in the header comment.
                     if ( $this->oFactory->oUtil->hasSuffix( 'admin-page-framework.php', $sPathInArchive ) ) {
-                        $sFileContents = $this->_modifyFileDockblock( $sFileContents );
-                        return $this->_modifyClassName( $sFileContents );
+                        $sFileContents = $this->___modifyFileDocblock( $sFileContents );
+                        return $this->___getClassNameModified( $sFileContents );
                     }
 
-                    $sFileContents = $this->_modifyClassName( $sFileContents );
+                    $sFileContents = $this->___getClassNameModified( $sFileContents );
 
                     // If it is the message class, modify the text domain.
                     // @deprecated  3.6.0+
                     // if ( ! $this->oFactory->oUtil->hasSuffix( 'AdminPageFramework_Message.php', $sPathInArchive ) ) {
                         // return $sFileContents;
                     // }
-                    return $this->_modifyTextDomain( $sFileContents );
+                    return $this->___getTextDomainModified( $sFileContents );
 
                 }
                     /**
@@ -510,11 +490,11 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator extends AdminP
                      * @since       3.5.4
                      * @return      string
                      */
-                    private function _modifyFileDockblock( $sFileContents ) {
+                    private function ___modifyFileDocblock( $sFileContents ) {
 
                         $_aCheckedComponents = $this->oFactory->oUtil->getArrayElementsByKeys(
-                            $this->_getComponentLabels(),
-                            $this->_getCheckedComponents()
+                            $this->___getComponentLabels(),
+                            $this->___getCheckedComponents()
                         );
                         $_aInsert = array(
                             'Included Components: ' . implode( ', ', $_aCheckedComponents ),
@@ -533,7 +513,7 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator extends AdminP
                      * @since       3.5.4
                      * @return      string
                      */
-                    private function _modifyClassNameOfInclusionList( $sFileContents ) {
+                    private function ___getClassNameOfIncludeListModified( $sFileContents ) {
                         // Replace the array key names.
                         $sFileContents = preg_replace_callback(
                             '/(["\'])(.+)\1(?=\s?+=>)/',  // pattern '
@@ -553,18 +533,17 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator extends AdminP
                          * @since       3.5.4
                          */
                         public function _replyToModifyPathName( $aMatches ) {
-                            return $this->_modifyClassName( $aMatches[ 0 ] );
+                            return $this->___getClassNameModified( $aMatches[ 0 ] );
                         }
 
                 /**
                  * Modifies the given class name.
                  *
-                 * @since       3.5.4
-                 * @return      string
+                 * @since  3.5.4
+                 * @return string
                  */
-                private function _modifyClassName( $sSubject ) {
-
-                    $_sPrefix = $this->_getFormSubmitValueByFieldIDAsString( 'class_prefix' );
+                private function ___getClassNameModified( $sSubject ) {
+                    $_sPrefix = $this->___getFormSubmitValueByFieldIDAsString( 'class_prefix' );
                     return strlen( $_sPrefix )
                         ? str_replace(
                             'AdminPageFramework', // search
@@ -572,17 +551,16 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator extends AdminP
                             $sSubject // subject
                         )
                         : $sSubject;
-
                 }
+                
                 /**
                  * Modifies the text domain in the given file contents.
                  *
-                 * @since       3.5.4
-                 * @return      string
+                 * @since  3.5.4
+                 * @return string
                  */
-                private function _modifyTextDomain( $sFileContents ) {
-
-                    $_sTextDomain = $this->_getFormSubmitValueByFieldIDAsString( 'text_domain' );
+                private function ___getTextDomainModified( $sFileContents ) {
+                    $_sTextDomain = $this->___getFormSubmitValueByFieldIDAsString( 'text_domain' );
                     return strlen( $_sTextDomain )
                         ? str_replace(
                             'admin-page-framework', // search
@@ -590,16 +568,14 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator extends AdminP
                             $sFileContents // subject
                         )
                         : $sFileContents;
-
                 }
                     /**
                      * Retrieves the value from the $_POST array by the given field ID.
                      *
-                     * @since       3.5.4
-                     * @return      string
+                     * @since  3.5.4
+                     * @return string
                      */
-                    private function _getFormSubmitValueByFieldIDAsString( $sFieldID ) {
-
+                    private function ___getFormSubmitValueByFieldIDAsString( $sFieldID ) {
                         static $_aCaches=array();
                         $_aCaches[ $sFieldID ] = isset( $_aCaches[ $sFieldID ] )
                             ? $_aCaches[ $sFieldID ]
@@ -613,19 +589,18 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator extends AdminP
                                 ''
                             );
                         return trim( ( string ) $_aCaches[ $sFieldID ] );
-
                     }
 
     /**
      * Modifies the HTTP header of the export field.
      *
-     * @callback    filter      export_header_{...}
-     * @since       3.5.4
-     * #return      array
+     * @callback  add_filter()      export_header_{...}
+     * @since     3.5.4
+     * @return    array
      */
     public function replyToModifyExportHTTPHeader( $aHeader, $sFieldID, $sInputID, $mData, $sFileName, $oFactory ) {
 
-        $sFileName = $this->_getDownloadFileName();
+        $sFileName = $this->___getDownloadFileName();
         return array(
             'Pragma'                    => 'public',
             'Expires'                   => 0,
@@ -645,11 +620,11 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator extends AdminP
     /**
      * Filters the exporting file name.
      *
-     * @callback    filter    "export_name_{page slug}_{tab slug}" filter.
-     * @return      string
+     * @callback add_filter()    "export_name_{page slug}_{tab slug}" filter.
+     * @return   string
      */
     public function replyToFilterFileName( $sFileName, $sFieldID, $sInputID, $vExportingData, $oAdminPage ) {
-        return $this->_getDownloadFileName();
+        return $this->___getDownloadFileName();
     }
 
     /**
@@ -660,8 +635,7 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator extends AdminP
      * @since       3.5.4
      * @return      string
      */
-    private function _getDownloadFileName() {
-
+    private function ___getDownloadFileName() {
         $_sFileNameWOExtension = $this->oFactory->oUtil->getElement(
             $_POST,
             array(
@@ -678,7 +652,6 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator extends AdminP
             )
             . '.' . AdminPageFramework_Registry::VERSION
             . '.zip';
-
     }
 
 }
