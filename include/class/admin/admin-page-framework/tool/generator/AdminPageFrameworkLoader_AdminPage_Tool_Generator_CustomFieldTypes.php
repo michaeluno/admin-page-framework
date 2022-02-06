@@ -226,7 +226,7 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_CustomFieldTypes {
                     private function ___getClassListOfCustomFieldTypes() {
 
                         $_aCheckedCustomFieldTypes = $this->___getSelectedCustomFieldTypes( $this->aCustomFieldTypes );
-                        $_sClassPrefix = $this->oFactory->oUtil->getElement(
+                        $_sClassPrefix             = sanitize_text_field( $this->oFactory->oUtil->getElement(
                             $_POST,
                             array(
                                 $this->oFactory->oProp->sOptionKey,
@@ -234,7 +234,7 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_CustomFieldTypes {
                                 'class_prefix'  // field id
                             ),
                             ''
-                        );
+                        ) );
                         $_aOutput = array();
                         foreach( $_aCheckedCustomFieldTypes as $_sClassName => $_aCustomFieldType ) {
                             $_aOutput[] = '    "' . $_sClassPrefix . $_sClassName . '"'
@@ -293,7 +293,7 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_CustomFieldTypes {
                     $_aSearches = array();
                     $_aReplaces = array();
 
-                    $_sUserTextDomain = $this->oFactory->oUtil->getElement(
+                    $_sUserTextDomain = sanitize_text_field( $this->oFactory->oUtil->getElement(
                         $_POST,
                         array(
                             $this->oFactory->oProp->sOptionKey,
@@ -301,7 +301,7 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_CustomFieldTypes {
                             'text_domain' // field id
                         ),
                         ''
-                    );
+                    ) );
 
                     // Change the text domain.
 
@@ -366,29 +366,27 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_CustomFieldTypes {
                          */
                         private function ___getClassPrefixRegexReplacements( array $aSelectedFieldTypeClassNames ) {
 
-                            $_aPrefixedClassNames          = $aSelectedFieldTypeClassNames;
-                            array_walk(
-                                $_aPrefixedClassNames,  // passed by reference
-                                array( $this, '_replyToSetPrefix' ),
-                                $this->oFactory->oUtil->getElement(
-                                    $_POST,
-                                    array(
-                                        $this->oFactory->oProp->sOptionKey,
-                                        'generator', // section id
-                                        'class_prefix' // field id
-                                    ),
-                                    ''
-                                )
-                            );
+                            $_aPrefixedClassNames = $aSelectedFieldTypeClassNames;
+                            $_sPrefix             = sanitize_text_field( $this->oFactory->oUtil->getElement(
+                                $_POST,
+                                array(
+                                    $this->oFactory->oProp->sOptionKey,
+                                    'generator', // section id
+                                    'class_prefix' // field id
+                                ),
+                                ''
+                             ) );
+                            array_walk( $_aPrefixedClassNames, array( $this, '___replyToSetPrefix' ), $_sPrefix );
                             return $_aPrefixedClassNames;
 
                         }
                             /**
                              * @since    3.6.0
                              * @since    3.8.4        Changed it for regular expression patterns.
+                             * @since    3.9.0        Changed the visibility scope from `public` to `private`.
                              * @callback array_walk()
                              */
-                            public function _replyToSetPrefix( &$sClassName, $sKey, $sPrefix='' ) {
+                            private function ___replyToSetPrefix( &$sClassName, $sKey, $sPrefix ) {
                                 $sClassName = $sPrefix . '$0';
                             }
 
@@ -441,6 +439,7 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_CustomFieldTypes {
                         ),
                         array()
                     );
+                    $_aCheckedCustomFieldTypes = $this->oFactory->oUtil->getArrayMappedRecursive( 'sanitize_text_field', $_aCheckedCustomFieldTypes );
                     return array_intersect_key(
                         $aSubject,
                         array_filter( $_aCheckedCustomFieldTypes ) // drop 0 values
