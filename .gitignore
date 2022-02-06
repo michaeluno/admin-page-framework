@@ -2,7 +2,6 @@
 /tool/minifier/class/library/
 /tool/beautifier/class/library/
 */PHP_Beautifier
-vendor/
 node_modules/
 
 # Documentation generated files
