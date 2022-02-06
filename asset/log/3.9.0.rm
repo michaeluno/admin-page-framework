@@ -1,5 +1,6 @@
 - Added the `contact` built-in field type.
 - Added the `selector` argument to the `select2` custom field type that enables to show/hide elements on selection.
+- Added the `path2` custom field type.
 - Refined tooltips.
 - Added the ability for tooltips to include `a` tags.
 - Added the `width` argument for the `tip` field argument.

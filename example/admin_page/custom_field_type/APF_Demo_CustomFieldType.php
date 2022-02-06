@@ -64,6 +64,7 @@ class APF_Demo_CustomFieldType {
         // Tabs
         $_aTabClasses = array(
             'APF_Demo_CustomFieldType_Select2',
+            'APF_Demo_CustomFieldType_Path2',
             'APF_Demo_CustomFieldType_Path',
             'APF_Demo_CustomFieldType_Toggle',
             'APF_Demo_CustomFieldType_NoUISlider',
