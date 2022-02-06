@@ -118,16 +118,14 @@ class AdminPageFramework_Zip {
         }
 
         $this->sSource = $this->_getSanitizedSourcePath( $this->sSource );
-        // $this->sSource = str_replace( '\\', '/', realpath( $this->sSource ) );
 
-        $_aMethods      = array(
-            'unknown'   => '_replyToReturnFalse',
-            'directory' => '_replyToCompressDirectory',
-            'file'      => '_replyToCompressFile',
+        $_aCallbacks    = array(
+            'unknown'   => '__return_false',
+            'directory' => array( $this, '_replyToCompressDirectory' ),
+            'file'      => array( $this, '_replyToCompressFile' ),
         );
-        $_sMethodName   = $_aMethods[ $this->_getSourceType( $this->sSource ) ];
         return call_user_func_array(
-            array( $this, $_sMethodName ),
+            $_aCallbacks[ $this->_getSourceType( $this->sSource ) ],
             array(
                 $_oZip,
                 $this->sSource,
@@ -349,16 +347,6 @@ class AdminPageFramework_Zip {
             return false;
         }
         return file_exists( $sSource );
-    }
-    /**
-     * Returns false.
-     * @since       3.5.4
-     * @since       3.6.0       Changed the name from `_returnFalse()`. Changed the scope from `private` to allow overriding the method in an extended class.
-     * @return      boolean     Always false
-     * @internal
-     */
-    public function _replyToReturnFalse() {
-        return false;
     }
 
     /**
