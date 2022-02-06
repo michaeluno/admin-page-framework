@@ -251,25 +251,18 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_CustomFieldTypes {
                  * Checks if the user select the field type in the Generator form.
                  *
                  * @since  3.6.0
-                 * @return string|boolean      The found class name; false, otherwise.
+                 * @since  3.9.0       Changed the return value from `false` to an empty string if not found.
+                 * @return string      The found class name. An empty string if not found.
                  */
                 private function ___getClassNameIfSelected( $sPathInArchive ) {
-
-                    $_aSelectedCustomFieldTypes = $this->___getSelectedCustomFieldTypes(
-                        $this->aCustomFieldTypes // ArchiveFilePaths
-                    );
-                    $_aArchiveFilePaths = array();
+                    $_aSelectedCustomFieldTypes = $this->___getSelectedCustomFieldTypes( $this->aCustomFieldTypes );
                     foreach( $_aSelectedCustomFieldTypes as $_sClassName => $_aCustomFieldType ) {
-                        $_aArchiveFilePaths[ $_sClassName ] = $this->oFactory->oUtil->getElement(
-                            $_aCustomFieldType,
-                            'archive_file_path',
-                            ''
-                        );
+                        $_sThisArchiveDirPath = $this->oFactory->oUtil->getElement( $_aCustomFieldType, 'archive_dir_path' );
+                        if ( false !== strpos( $sPathInArchive, $_sThisArchiveDirPath ) ) {
+                            return $_sClassName;
+                        }
                     }
-                    return array_search(
-                        ltrim( $sPathInArchive, '/' ),
-                        $_aArchiveFilePaths
-                    );
+                    return '';
                 }
 
                 /**
@@ -430,16 +423,19 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_CustomFieldTypes {
                  * @since  3.6.0
                  */
                 private function ___getSelectedCustomFieldTypes( array $aSubject=array() ) {
-                    $_aCheckedCustomFieldTypes = $this->oFactory->oUtil->getElementAsArray(
-                        $_POST,
-                        array(
-                            $this->oFactory->oProp->sOptionKey,
-                            'generator', // section id
-                            'custom_field_types' // field id
-                        ),
-                        array()
-                    );
-                    $_aCheckedCustomFieldTypes = $this->oFactory->oUtil->getArrayMappedRecursive( 'sanitize_text_field', $_aCheckedCustomFieldTypes );
+                    static $_aCheckedCustomFieldTypes;  // cache
+                    if ( ! isset( $_aCheckedCustomFieldTypes ) ) {
+                        $_aCheckedCustomFieldTypes = $this->oFactory->oUtil->getElementAsArray(
+                            $_POST,
+                            array(
+                                $this->oFactory->oProp->sOptionKey,
+                                'generator', // section id
+                                'custom_field_types' // field id
+                            ),
+                            array()
+                        );
+                        $_aCheckedCustomFieldTypes = $this->oFactory->oUtil->getArrayMappedRecursive( 'sanitize_text_field', $_aCheckedCustomFieldTypes );
+                    }
                     return array_intersect_key(
                         $aSubject,
                         array_filter( $_aCheckedCustomFieldTypes ) // drop 0 values
