@@ -25,9 +25,6 @@
  */
 class AdminPageFramework_Zip {
 
-    /**#@+
-     * @internal
-     */
     /**
      * Stores a source directory/file path.
      */
@@ -53,14 +50,13 @@ class AdminPageFramework_Zip {
     /**
      * Stores settings.
      *
-     * @since       3.6.0
+     * @since 3.6.0
      */
     public $aOptions   = array(
         'include_directory'             => false,   // (boolean) whether the contents should be put inside a root directory.
         'additional_source_directories' => array(),
         // 'ignoring_file_extensions'      => array(), // not implemented yet.
     );
-    /**#@-*/
 
     /**
      * Sets up properties.
@@ -68,24 +64,22 @@ class AdminPageFramework_Zip {
      * @param       string              $sSource
      * @param       string              $sDestination
      * @param       array|boolean       $abOptions
-     * @param       callable            $aCallbacks
+     * @param       callable[]          $aCallbacks
      */
     public function __construct( $sSource, $sDestination, $abOptions=false, array $aCallbacks=array() ) {
-
         $this->sSource      = $sSource;
         $this->sDestination = $sDestination;
-        $this->aOptions     = $this->_getFormattedOptions( $abOptions );
+        $this->aOptions     = $this->___getFormattedOptions( $abOptions );
         $this->aCallbacks   = $aCallbacks + $this->aCallbacks;
-
     }
+
         /**
          * Formats the option array.
          *
          * @remark      if a boolean value is passed to the first parameter, it will be assigned to the `include_directory` element.
          * @return      array       The formatted option array.
-         * @internal
          */
-        private function _getFormattedOptions( $abOptions ) {
+        private function ___getFormattedOptions( $abOptions ) {
             $_aOptions = is_array( $abOptions )
                 ? $abOptions
                 : array(
@@ -103,7 +97,7 @@ class AdminPageFramework_Zip {
     public function compress() {
 
         // Check whether it is possible to perform the task.
-        if ( ! $this->isFeasible( $this->sSource ) ) {
+        if ( ! $this->___canZip( $this->sSource ) ) {
             return false;
         }
 
@@ -117,7 +111,7 @@ class AdminPageFramework_Zip {
             return false;
         }
 
-        $this->sSource = $this->_getSanitizedSourcePath( $this->sSource );
+        $this->sSource = $this->___getSanitizedSourcePath( $this->sSource );
 
         $_aCallbacks    = array(
             'unknown'   => '__return_false',
@@ -125,7 +119,7 @@ class AdminPageFramework_Zip {
             'file'      => array( $this, '_replyToCompressFile' ),
         );
         return call_user_func_array(
-            $_aCallbacks[ $this->_getSourceType( $this->sSource ) ],
+            $_aCallbacks[ $this->___getSourceType( $this->sSource ) ],
             array(
                 $_oZip,
                 $this->sSource,
@@ -137,11 +131,10 @@ class AdminPageFramework_Zip {
 
     }
         /**
-         * @since       3.6.0
-         * @return      string
-         * @internal
+         * @since  3.6.0
+         * @return string
          */
-        private function _getSanitizedSourcePath( $sPath ) {
+        private function ___getSanitizedSourcePath( $sPath ) {
             return str_replace( '\\', '/', realpath( $sPath ) );
         }
         /**
@@ -149,15 +142,14 @@ class AdminPageFramework_Zip {
          * @since       3.5.4
          * @since       3.6.0       Changed the name from `_compressDirectory`. Changed the scope to public to allow overriding the method in an extended class.
          * @return      boolean     True on success, false otherwise.
-         * @internal
          */
         public function _replyToCompressDirectory( ZipArchive $oZip, $sSourceDirPath, array $aCallbacks=array(), $bIncludeDir=false, array $aAdditionalSourceDirs=array() ) {
 
             $_sArchiveRootDirName = '';
 
             if ( $bIncludeDir ) {
-                $_sArchiveRootDirName = $this->_getMainDirectoryName( $sSourceDirPath );
-                $this->_addEmptyDir(
+                $_sArchiveRootDirName = $this->___getMainDirectoryName( $sSourceDirPath );
+                $this->___addEmptyDir(
                     $oZip,
                     $_sArchiveRootDirName,
                     $aCallbacks[ 'directory_name' ]
@@ -167,7 +159,7 @@ class AdminPageFramework_Zip {
             array_unshift( $aAdditionalSourceDirs, $sSourceDirPath );
             $_aSourceDirPaths = array_unique( $aAdditionalSourceDirs );
 
-            $this->_addArchiveItems(
+            $this->___addArchiveItems(
                 $oZip,
                 $_aSourceDirPaths,
                 $aCallbacks,
@@ -178,24 +170,22 @@ class AdminPageFramework_Zip {
 
         }
             /**
-             * @since       3.6.0
-             * @return      void
-             * @internal
+             * @since 3.6.0
              */
-            private function _addArchiveItems( $oZip, $aSourceDirPaths, $aCallbacks, $sRootDirName='' ) {
+            private function ___addArchiveItems( $oZip, $aSourceDirPaths, $aCallbacks, $sRootDirName='' ) {
 
                 $sRootDirName = $sRootDirName ? rtrim( $sRootDirName, '/' ) . '/' : '';
 
                 foreach( $aSourceDirPaths as $_isIndexOrRelativeDirPath => $_sSourceDirPath ) {
 
-                    $_sSourceDirPath   = $this->_getSanitizedSourcePath( $_sSourceDirPath );
+                    $_sSourceDirPath   = $this->___getSanitizedSourcePath( $_sSourceDirPath );
                     $_sInsideDirPrefix = is_integer( $_isIndexOrRelativeDirPath )
                         ? ''
                         : $_isIndexOrRelativeDirPath;
 
                     // Add a directory inside the compressing directory.
                     if( $_sInsideDirPrefix ) {
-                        $this->_addRelativeDir(
+                        $this->___addRelativeDir(
                             $oZip,
                             $_sInsideDirPrefix,
                             $aCallbacks[ 'directory_name' ]
@@ -207,7 +197,7 @@ class AdminPageFramework_Zip {
                         RecursiveIteratorIterator::SELF_FIRST
                     );
                     foreach ( $_oFilesIterator as $_sIterationItem ) {
-                        $this->_addArchiveItem(
+                        $this->___addArchiveItem(
                             $oZip,
                             $_sSourceDirPath,
                             $_sIterationItem,
@@ -219,17 +209,15 @@ class AdminPageFramework_Zip {
 
             }
                 /**
-                 * @since       3.6.0
-                 * @return      void
-                 * @internal
+                 * @since 3.6.0
                  */
-                private function _addRelativeDir( $oZip, $sRelativeDirPath, $oCallable ) {
+                private function ___addRelativeDir( $oZip, $sRelativeDirPath, $oCallable ) {
                     $sRelativeDirPath = str_replace( '\\', '/', $sRelativeDirPath );
                     $_aPathPartsParse = array_filter( explode( '/', $sRelativeDirPath ) );
                     $_aDirPath        = array();
                     foreach( $_aPathPartsParse as $_sDirName ) {
                         $_aDirPath[] = $_sDirName;
-                        $this->_addEmptyDir(
+                        $this->___addEmptyDir(
                             $oZip,
                             implode( '/', $_aDirPath ),
                             $oCallable
@@ -245,10 +233,8 @@ class AdminPageFramework_Zip {
                  * @paran       string          $_sIterationItem        The iteration item path.
                  * @param       array           $aCallbacks             An array holding callbacks.
                  * @param       string          $sInsidePathPrefix      The prefix to add to the inside archive directory structure.
-                 * @return      void
-                 * @internal
                  */
-                private function _addArchiveItem( ZipArchive $oZip, $sSource, $_sIterationItem, array $aCallbacks, $sInsidePathPrefix='' ) {
+                private function ___addArchiveItem( ZipArchive $oZip, $sSource, $_sIterationItem, array $aCallbacks, $sInsidePathPrefix='' ) {
 
                     $_sIterationItem   = str_replace( '\\', '/', $_sIterationItem );
                     $sInsidePathPrefix = rtrim( $sInsidePathPrefix, '/' ) . '/'; // add a trailing slash
@@ -267,7 +253,7 @@ class AdminPageFramework_Zip {
                     $_sIterationItem = str_replace( '\\', '/', $_sIterationItem );
 
                     if ( true === is_dir( $_sIterationItem ) ) {
-                        $this->_addEmptyDir(
+                        $this->___addEmptyDir(
                             $oZip,
                             $sInsidePathPrefix . str_replace(
                                 $sSource . '/',
@@ -277,7 +263,7 @@ class AdminPageFramework_Zip {
                             $aCallbacks[ 'directory_name' ]
                         );
                     } else if ( true === is_file( $_sIterationItem ) ) {
-                        $this->_addFromString(
+                        $this->___addFromString(
                             $oZip,
                             $sInsidePathPrefix . str_replace(
                                 $sSource . '/',
@@ -296,9 +282,8 @@ class AdminPageFramework_Zip {
              * @since       3.5.4
              * @remark      Assumes the path is sanitized.
              * @return      string      The main directory base name.
-             * @internal
              */
-            private function _getMainDirectoryName( $sSource ) {
+            private function ___getMainDirectoryName( $sSource ) {
                 $_aPathParts = explode( "/", $sSource );
                 return $_aPathParts[ count( $_aPathParts ) - 1 ];
             }
@@ -308,10 +293,9 @@ class AdminPageFramework_Zip {
          * @since       3.5.4
          * @since       3.6.0       Changed the name from `_compressFile`. Changed the scope from `private` to allow overriding in an extended class.
          * @return      boolean     True on success, false otherwise.
-         * @internal
          */
         public function _replyToCompressFile( ZipArchive $oZip, $sSourceFilePath, $aCallbacks=null ) {
-            $this->_addFromString(
+            $this->___addFromString(
                 $oZip,
                 basename( $sSourceFilePath ),
                 file_get_contents( $sSourceFilePath ),
@@ -321,12 +305,9 @@ class AdminPageFramework_Zip {
         }
 
     /**
-     *
-     * @return      string      'directory' or 'file' or 'unknown'
-     * @internal
+     * @return string 'directory' or 'file' or 'unknown'
      */
-    private function _getSourceType( $sSource ) {
-
+    private function ___getSourceType( $sSource ) {
         if ( true === is_dir( $sSource ) ) {
             return 'directory';
         }
@@ -334,15 +315,15 @@ class AdminPageFramework_Zip {
             return 'file';
         }
         return 'unknown';
-
     }
+    
     /**
      * Checks if the action of compressing files is feasible.
-     * @since       3.5.4
-     * @return      boolean
-     * @internal
+     * @since  3.5.4
+     * @since  3.9.0    Renamed from `isFeasible()`.
+     * @return boolean
      */
-    private function isFeasible( $sSource ) {
+    private function ___canZip( $sSource ) {
         if ( ! extension_loaded( 'zip' ) ) {
             return false;
         }
@@ -352,13 +333,11 @@ class AdminPageFramework_Zip {
     /**
      * Add an empty directory to an archive.
      *
-     * @since       3.5.4
-     * @remark      If the path is empty, it will not process.
-     * @return      void
-     * @internal
+     * @since  3.5.4
+     * @remark If the path is empty, it will not process.
      */
-    private function _addEmptyDir( ZipArchive $oZip, $sInsidePath, $oCallable ) {
-        $sInsidePath = $this->_getFilteredArchivePath( $sInsidePath, $oCallable );
+    private function ___addEmptyDir( ZipArchive $oZip, $sInsidePath, $oCallable ) {
+        $sInsidePath = $this->___getFilteredArchivePath( $sInsidePath, $oCallable );
         if ( ! strlen( $sInsidePath ) ) {
             return;
         }
@@ -369,12 +348,10 @@ class AdminPageFramework_Zip {
      *
      * @since       3.5.4
      * @remark      If the path is empty, it will not process.
-     * @return      void
-     * @internal
      */
-    private function _addFromString( ZipArchive $oZip, $sInsidePath, $sSourceContents='', array $aCallbacks=array() ) {
+    private function ___addFromString( ZipArchive $oZip, $sInsidePath, $sSourceContents='', array $aCallbacks=array() ) {
 
-        $sInsidePath = $this->_getFilteredArchivePath( $sInsidePath, $aCallbacks[ 'file_name' ] );
+        $sInsidePath = $this->___getFilteredArchivePath( $sInsidePath, $aCallbacks[ 'file_name' ] );
         if ( ! strlen( $sInsidePath ) ) {
             return;
         }
@@ -397,9 +374,8 @@ class AdminPageFramework_Zip {
      * Retrieves a filtered archive path.
      * @since       3.5.4
      * @return      string
-     * @internal
      */
-    private function _getFilteredArchivePath( $sArchivePath, $oCallable ) {
+    private function ___getFilteredArchivePath( $sArchivePath, $oCallable ) {
         return is_callable( $oCallable )
             ? call_user_func_array(
                 $oCallable,
