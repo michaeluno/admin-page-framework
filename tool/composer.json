@@ -1,0 +1,5 @@
+{
+    "require": {
+        "michaeluno/php-classmap-generator": "^1.1.0"
+    }
+}

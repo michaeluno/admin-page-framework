@@ -1,0 +1,37 @@
+[
+    {
+        "name": "asika/minify",
+        "version": "1.0.2",
+        "version_normalized": "1.0.2.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/asika32764/minify.git",
+            "reference": "b19ee05208fcd3628d5ba58040a71e36166e20ae"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/asika32764/minify/zipball/b19ee05208fcd3628d5ba58040a71e36166e20ae",
+            "reference": "b19ee05208fcd3628d5ba58040a71e36166e20ae",
+            "shasum": ""
+        },
+        "time": "2018-12-18T08:32:47+00:00",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Asika\\Minifier\\": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Simon Asika",
+                "email": "asika32764@gmail.com"
+            }
+        ],
+        "description": "Simple CSS & JS minify package"
+    }
+]

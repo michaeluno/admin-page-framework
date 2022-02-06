@@ -1,0 +1,40 @@
+[
+    {
+        "name": "michaeluno/php-classmap-generator",
+        "version": "1.1.1",
+        "version_normalized": "1.1.1.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/michaeluno/php-classmap-generator.git",
+            "reference": "bde4622806b6c72497a3d701db481198de100280"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/michaeluno/php-classmap-generator/zipball/bde4622806b6c72497a3d701db481198de100280",
+            "reference": "bde4622806b6c72497a3d701db481198de100280",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.6.20"
+        },
+        "time": "2020-11-05T16:28:57+00:00",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "PHPClassMapGenerator\\": "source/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Michael Uno",
+                "email": "michael2@michaeluno.jp"
+            }
+        ],
+        "description": "A PHP class that generates class maps for autoload."
+    }
+]

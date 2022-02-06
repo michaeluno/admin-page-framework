@@ -1,0 +1,18 @@
+{
+    "name": "asika/minify",
+    "description": "Simple CSS & JS minify package",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Simon Asika",
+            "email": "asika32764@gmail.com"
+        }
+    ],
+    "minimum-stability": "beta",
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "Asika\\Minifier\\": "src/"
+        }
+    }
+}
