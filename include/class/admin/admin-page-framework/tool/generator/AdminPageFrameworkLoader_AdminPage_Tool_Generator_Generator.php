@@ -670,7 +670,7 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator extends AdminP
                 'text_domain' // field id
             )
         );
-        $_sFileNameWOExtension = trim( $_sFileNameWOExtension );
+        $_sFileNameWOExtension = trim( sanitize_text_field( $_sFileNameWOExtension ) );
         return $this->oFactory->oUtil->getAOrB(
                 $_sFileNameWOExtension,
                 $_sFileNameWOExtension . '-admin-page-framework',
