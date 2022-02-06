@@ -426,14 +426,9 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator extends AdminP
              * @since  3.5.4
              * @return string      The modified file contents.
              */
-            public function replyToModifyFileContents( $sFileContents, $sPathInArchive ) {
+            public function replyToModifyFileContents( $sFileContents, $sPathInArchive, $sSourceItemPath ) {
 
-                // Check the file extension.
-                $_aAllowedExtensions = apply_filters(
-                    AdminPageFrameworkLoader_Registry::HOOK_SLUG . '_filter_generator_allowed_file_extensions',
-                    array( 'php', 'css', 'js' )
-                );
-                if ( ! in_array( pathinfo( $sPathInArchive, PATHINFO_EXTENSION ), $_aAllowedExtensions, true ) ) {
+                if ( ! $this->___isAllowedToModifyContent( $sPathInArchive, $sSourceItemPath ) ) {
                     return $sFileContents;
                 }
 
@@ -456,6 +451,37 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator extends AdminP
                 return $this->___getClassNameModifiedByPath( $sFileContents, $sPathInArchive );
 
             }
+                /**
+                 * @return boolean
+                 * @since  3.9.0
+                 */
+                private function ___isAllowedToModifyContent( $sPathInArchive, $sSourceItemPath ) {
+
+                    // Store ignore directory paths
+                    static $_aIgnoreDirPaths = array();
+                    $_sSourceItemDirPath = dirname( $sSourceItemPath );
+                    if ( basename( $sSourceItemPath ) === 'ignore-apf-build.txt' ) {
+                        $_aIgnoreDirPaths[] = $_sSourceItemDirPath;
+                    }
+
+                    // Check the file extension.
+                    $_aAllowedExtensions = apply_filters(
+                        AdminPageFrameworkLoader_Registry::HOOK_SLUG . '_filter_generator_allowed_file_extensions',
+                        array( 'php', 'css', 'js' )
+                    );
+                    if ( ! in_array( pathinfo( $sPathInArchive, PATHINFO_EXTENSION ), $_aAllowedExtensions, true ) ) {
+                        return false;
+                    }
+
+                    // Check if it is inside an ignore directory.
+                    foreach( $_aIgnoreDirPaths as $_sIgnoreDirPath ) {
+                        if ( false !== strpos( $sSourceItemPath, $_sIgnoreDirPath ) ) {
+                            return false;
+                        }
+                    }
+                    return true;
+
+                }
                 /**
                  * Modifies the given file contents.
                  *

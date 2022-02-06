@@ -271,7 +271,8 @@ class AdminPageFramework_Zip {
                                 $_sIterationItem
                             ),
                             file_get_contents( $_sIterationItem ),
-                            $aCallbacks
+                            $aCallbacks,
+                            $_sIterationItem    // 3.9.0
                         );
                     }
 
@@ -299,7 +300,8 @@ class AdminPageFramework_Zip {
                 $oZip,
                 basename( $sSourceFilePath ),
                 file_get_contents( $sSourceFilePath ),
-                $aCallbacks
+                $aCallbacks,
+                $sSourceFilePath
             );
             return $oZip->close();
         }
@@ -346,10 +348,11 @@ class AdminPageFramework_Zip {
     /**
      * Adds a file to an archive by applying a callback to the read file contents.
      *
-     * @since       3.5.4
-     * @remark      If the path is empty, it will not process.
+     * @since  3.5.4
+     * @sine   3.9.0   Added the `$sSourceFilePath` parameter.
+     * @remark If the path is empty, it will not process.
      */
-    private function ___addFromString( ZipArchive $oZip, $sInsidePath, $sSourceContents='', array $aCallbacks=array() ) {
+    private function ___addFromString( ZipArchive $oZip, $sInsidePath, $sSourceContents='', array $aCallbacks=array(), $sSourceFilePath ) {
 
         $sInsidePath = $this->___getFilteredArchivePath( $sInsidePath, $aCallbacks[ 'file_name' ] );
         if ( ! strlen( $sInsidePath ) ) {
@@ -362,7 +365,8 @@ class AdminPageFramework_Zip {
                     $aCallbacks[ 'file_contents' ],
                     array(
                         $sSourceContents,
-                        $sInsidePath
+                        $sInsidePath,
+                        $sSourceFilePath
                     )
                 )
                 : $sSourceContents
