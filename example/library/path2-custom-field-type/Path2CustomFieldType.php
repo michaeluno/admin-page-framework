@@ -126,7 +126,7 @@ class Path2CustomFieldType extends AdminPageFramework_FieldType_image {
                 . "</label>"
             . "</div>"     
             . $aField[ 'after_label' ]
-            . $this->___getModalContent( $aField[ 'input_id' ], $aField[ 'options' ] )
+            . $this->___getModalContent( $aField )
             ;
 
     }
@@ -252,21 +252,24 @@ class Path2CustomFieldType extends AdminPageFramework_FieldType_image {
             }
 
         /**
-         * @param  string $sInputID
-         * @param  array  $aOptions
+         * @param  array  $aField
          * @return string
          */
-        private function ___getModalContent( $sInputID, $aOptions ) {
+        private function ___getModalContent( array $aField ) {
+            $_sInputID = $aField[ 'input_id' ]; 
+            $_aOptions = $aField[ 'options' ]; 
             $_sAttributesContainer = $this->getAttributes(
                 array(
-                    'id'            => "path_selector_{$sInputID}",
+                    'id'            => "path_selector_{$_sInputID}",
                     'class'         => 'jstree-path-modal',
-                    'data-input_id' => $sInputID,
+                    'data-input_id' => $_sInputID,
                     'style'         => 'display: none;'
                 )
             );
-            $aOptions[ 'fileExtensions' ] = is_array( $aOptions[ 'fileExtensions' ] ) ? implode( ',', $aOptions[ 'fileExtensions' ] ) : $aOptions[ 'fileExtensions' ];
-            $_sAttributesTree     = $this->getAttributes( $this->getDataAttributeArray( $aOptions ) );
+            $_aOptions[ 'fileExtensions' ] = is_array( $_aOptions[ 'fileExtensions' ] ) ? implode( ',', $_aOptions[ 'fileExtensions' ] ) : $_aOptions[ 'fileExtensions' ];
+            $_aOptions[ 'sectionId' ]      = $aField[ 'section_id' ];   // @todo this should be `_section_path` for nested sections, but in the on-registration hook, this property is not set so for now, use section IDs.
+            $_aOptions[ 'fieldId' ]        = $aField[ 'field_id' ];
+            $_sAttributesTree     = $this->getAttributes( $this->getDataAttributeArray( $_aOptions ) );
             return "<div {$_sAttributesContainer}>"
                     . "<span class='path2-field-options' {$_sAttributesTree}></span>"
                     . "<div class='path2-node-tree'></div>"
@@ -279,26 +282,42 @@ class Path2CustomFieldType extends AdminPageFramework_FieldType_image {
      * Called when the field type is registered.
      */
     protected function doOnFieldRegistration( $aFieldset ) {
-        $this->___handleQuery();
+        $this->___handleQuery( $aFieldset );
     }
         /**
          * @since  3.9.0
          */
-        private function ___handleQuery() {
+        private function ___handleQuery( $aFieldset ) {
+
             if ( empty( $_POST[ 'admin-page-framework_path2_field_type' ] ) ||  empty( $_POST[ 'nonce' ] ) ) {
                 return;
             }
+
+            // When there are multiple `path2` fields, check which one.
+            // @todo for nested sections, `_section_path` should be checked instead of `section_id` but with the current design, in this hook,
+            // the `_section_path` property is not set so for now, using `section_id`,
+            // which might cause a problem for nested sections
+            $_aPOST =  $this->getArrayMappedRecursive( 'sanitize_text_field', $_POST );
+            if (
+                   $aFieldset[ 'section_id' ] !== $this->getElement( $_aPOST, 'sectionId' )
+                || $aFieldset[ 'field_id' ] !== $this->getElement( $_aPOST, 'fieldId' )
+            ) {
+                return;
+            }
+
             if ( ! wp_verify_nonce( $_POST[ 'nonce' ], get_class( $this ) ) ) {
                 exit();   // silence is golden
             }
-            $_aPath2Options = $this->getArrayMappedRecursive( 'sanitize_text_field', $this->getElementAsArray( $_POST, array( 'options' ) ) );
+
+            $_aPath2Options = $this->getElementAsArray( $_aPOST, array( 'options' ) );
             $_sNodeID       = sanitize_text_field( $_POST[ 'id' ] );
             $_sPath         = empty( $_POST[ 'id' ] ) || '#' === $_sNodeID
-                ? $this->___getRootDirectoryPath( $this->getElement( $_aPath2Options,  array( 'root' ), '' ) )
+                ? $this->___getRootDirectoryPath( $this->getElement( $_aPath2Options, array( 'root' ), '' ) )
                 : $_sNodeID;
             $_oTreeNode     = new Path2CustomFieldType_Node( $_sPath, $_aPath2Options );
             $_aTreeData     = $_oTreeNode->get();
             wp_send_json( $_aTreeData );
+
         }
 
             /**

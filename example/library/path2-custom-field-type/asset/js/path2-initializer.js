@@ -1,3 +1,7 @@
+/**
+ * Name: Path 2 Custom Field Type Initializer
+ * Version: 1.0.0
+ */
 (function ( $ ) {
 
   $( document ).ready( function () {
@@ -28,7 +32,7 @@
 
   function initializeJSTree() {
 
-    var _sInputID = $( this ).data( 'input_id' );
+    var _sInputID     = $( this ).data( 'input_id' );
     tb_show(
       AdminPageFrameworkPath2FieldType.label.selectPath,  // modal window title
       '#TB_inline?width=640&inlineId=path_selector_' + _sInputID  // open the modal with an inline content
@@ -39,9 +43,9 @@
       tb_remove();
     }
 
-    var _oNodeTree = $( '#TB_ajaxContent .path2-node-tree' );
+    var _oNodeTree     = $( '#TB_ajaxContent .path2-node-tree' );
     var _aPath2Options = $( '#TB_ajaxContent .path2-field-options' ).data();
-    var _oButtonPanel = $( '<div class="container-path2-modal-select-button">'
+    var _oButtonPanel  = $( '<div class="container-path2-modal-select-button">'
       + '<div class="media-toolbar-secondary"></div>'
       + '<div class="media-toolbar-primary search-form"><button type="button" class="button media-button button-primary button-small">' + AdminPageFrameworkPath2FieldType.label.select + '</button></div>'
       + '</div>' );
@@ -80,7 +84,9 @@
                 action: 'apf_path2_field_type-admin-page-framework',
                 'admin-page-framework_path2_field_type': 1,
                 nonce: AdminPageFrameworkPath2FieldType.nonce,
-                options: _aPath2Options
+                options: _aPath2Options,
+                sectionId: _aPath2Options[ 'sectionId' ],
+                fieldId: _aPath2Options[ 'fieldId' ],
               },
               success: function ( response ) {
                 cb( response );
