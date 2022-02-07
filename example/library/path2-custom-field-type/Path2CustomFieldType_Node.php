@@ -24,15 +24,21 @@ class Path2CustomFieldType_Node extends AdminPageFramework_Utility {
     public $aArguments = array();
 
     /**
-     * @var string The subject directory path to scan.
+     * @var string The root directory path as an absolute path.
      */
-    public $sDirPath = '';
+    public $sRootDirPath = '';
+
+    /**
+     * @var string The subject directory path to scan. Relative to the set root directory pathy.
+     */
+    public $sRelativeDirPath = '';
 
     /**
      * Sets up properties and hooks.
      */
-    public function __construct( $sDirPath, array $aArguments ) {
-        $this->sDirPath   = $sDirPath;
+    public function __construct( $sRelativeDirPath, $sRootDirPath, array $aArguments ) {
+        $this->sRelativeDirPath   = $sRelativeDirPath;
+        $this->sRootDirPath       = $sRootDirPath;
         $this->aArguments = $this->___getArgumentsFormatted( $aArguments );
     }
         /**
@@ -65,12 +71,12 @@ class Path2CustomFieldType_Node extends AdminPageFramework_Utility {
      */
     public function get() {
 
-        $_sDirPath  = $this->sDirPath;
-        $_aTreeData = array();
-        $_aFiles    = scandir( $_sDirPath );
+        $_aTreeData    = array();
+        $_sScanDirPath = trailingslashit( $this->sRootDirPath ) . trim( $this->sRelativeDirPath, '\\/' );
+        $_aFiles       = scandir( $_sScanDirPath );
         natcasesort( $_aFiles );
         foreach( $_aFiles as $_sFileName ) {
-            $_sFileFullPath = wp_normalize_path( trailingslashit( $_sDirPath ) . $_sFileName );
+            $_sFileFullPath = wp_normalize_path( trailingslashit( $_sScanDirPath ) . $_sFileName );
             if ( ! $this->___canTraverse( $_sFileFullPath, $_sFileName ) ) {
                 continue;
             }
@@ -84,7 +90,7 @@ class Path2CustomFieldType_Node extends AdminPageFramework_Utility {
              * @see
              */
             $_aItem  = array(
-                'id'        => $_sFileFullPath,
+                'id'        => str_replace( $this->sRootDirPath, '', $_sFileFullPath ), // convert it to relative (for security reasons, not to show it to the user)
                 'text'      => $_sFileName,
                 'children'  => $_bIsDir,
                 'type'      => $_bIsDir ? 'folder' : 'file',

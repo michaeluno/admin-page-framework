@@ -309,12 +309,17 @@ class Path2CustomFieldType extends AdminPageFramework_FieldType_image {
                 exit();   // silence is golden
             }
 
+            $_sRoot         = $this->getElement( $aFieldset, array( 'options', 'root' ) );
+            $_sRootDirPath  = $this->___getRootDirectoryPath( $_sRoot );
             $_aPath2Options = $this->getElementAsArray( $_aPOST, array( 'options' ) );
             $_sNodeID       = sanitize_text_field( $_POST[ 'id' ] );
-            $_sPath         = empty( $_POST[ 'id' ] ) || '#' === $_sNodeID
-                ? $this->___getRootDirectoryPath( $this->getElement( $_aPath2Options, array( 'root' ), '' ) )
-                : $_sNodeID;
-            $_oTreeNode     = new Path2CustomFieldType_Node( $_sPath, $_aPath2Options );
+
+            // For security reasons, a relative path is set to the 'id' element.
+            // The reason that an absolute path is not used is that it will be visible in the browser inspector tool and the user would be able to edit it and perform an Ajax request with an arbitrary set path.
+            $_sRelativePath = empty( $_POST[ 'id' ] ) || '#' === $_sNodeID
+                ? '/'
+                : trim( $_sNodeID, '\\/' );
+            $_oTreeNode     = new Path2CustomFieldType_Node( $_sRelativePath, $_sRootDirPath, $_aPath2Options );
             $_aTreeData     = $_oTreeNode->get();
             wp_send_json( $_aTreeData );
 
