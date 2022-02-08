@@ -6,7 +6,7 @@
  *  Author:         Michael Uno
  *  Author URI:     http://en.michaeluno.jp/
  *  Requirements:   PHP 5.2.4 or above, WordPress 3.3 or above.
- *  Version:        3.9.0b10
+ *  Version:        3.9.0b11
  */
 
 /**
@@ -16,13 +16,13 @@
  */
 class AdminPageFrameworkLoader_Registry_Base {
 
-    const VERSION        = '3.9.0b10';    // <--- DON'T FORGET TO CHANGE THIS AS WELL!!
+    const VERSION        = '3.9.0b11';    // <--- DON'T FORGET TO CHANGE THIS AS WELL!!
     const NAME           = 'Admin Page Framework - Loader'; // the name is not 'Admin Page Framework' because warning messages gets confusing.
     const SHORTNAME      = 'Admin Page Framework';  // used for a menu title etc.
     const DESCRIPTION    = 'Loads Admin Page Framework which facilitates WordPress plugin and theme development.';
-    const URI            = 'http://admin-page-framework.michaeluno.jp/';
+    const URI            = 'https://admin-page-framework.michaeluno.jp/';
     const AUTHOR         = 'miunosoft (Michael Uno)';
-    const AUTHOR_URI     = 'http://en.michaeluno.jp/';
+    const AUTHOR_URI     = 'https://en.michaeluno.jp/';
     const COPYRIGHT      = 'Copyright (c) 2013-2021, Michael Uno';
     const LICENSE        = 'GPL v2 or later';
     const CONTRIBUTORS   = '';
