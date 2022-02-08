@@ -1,5 +1,5 @@
 /* Image Uploader Input Field */
-.admin-page-framework-field-path2 input {
+.admin-page-framework-field-path input {
     margin-right: 0.5em;
     vertical-align: middle;
     min-width: 400px;
@@ -14,13 +14,13 @@
     margin-left: 0.2em;
 }
 @media screen and (max-width: 782px) {
-    .admin-page-framework-field-path2 input {
+    .admin-page-framework-field-path input {
         margin: 0.5em 0.5em 0.5em 0;
     }
 }
 
 /* Pick Path Modal */
-.container-path2-modal-select-button {
+.container-path-modal-select-button {
     padding: 0.6em;
     text-align: right;
     border-top: 1px solid #ddd;

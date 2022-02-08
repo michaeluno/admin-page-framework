@@ -15,7 +15,7 @@
  * 
  * @since       3.9.0
  */
-class Path2CustomFieldType_Node extends AdminPageFramework_Utility {
+class PathCustomFieldType_Node extends AdminPageFramework_Utility {
 
     /**
      * @var   array

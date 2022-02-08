@@ -42,7 +42,7 @@ class APF_Demo_CustomFieldType_Path2 {
         );
 
         // Register the field type.
-        new Path2CustomFieldType( $this->sClassName );
+        new PathCustomFieldType( $this->sClassName );
 
         // load + page slug + tab slug
         add_action( 'load_' . $this->sPageSlug . '_' . $this->sTabSlug, array( $this, 'replyToLoadTab' ) );

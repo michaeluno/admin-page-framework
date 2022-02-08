@@ -7,7 +7,7 @@
   $( document ).ready( function () {
 
 
-    $( '.button-select-path2' ).on( 'click', initializeJSTree );
+    $( '.button-select-path' ).on( 'click', initializeJSTree );
     $().registerAdminPageFrameworkCallbacks( {
         /**
          * Called when a field of this field type gets repeated.
@@ -15,17 +15,17 @@
         repeated_field: function ( oCloned, aModel ) {
 
           // Increment element IDs.
-          oCloned.find( '.select_path, .jstree-path-modal, .path2-field-options' ).incrementAttributes(
+          oCloned.find( '.select_path, .jstree-path-modal, .path-field-options' ).incrementAttributes(
             [ 'id', 'data-id', 'href', 'data-input_id' ], // attribute name
             aModel[ 'incremented_from' ], // increment from
             aModel[ 'id' ] // digit model
           );
           // Initialize the event bindings.
-          oCloned.find( '.button-select-path2' ).on( 'click', initializeJSTree );
+          oCloned.find( '.button-select-path' ).on( 'click', initializeJSTree );
 
         },
       },
-      [ 'path2' ]  // subject field type slugs
+      [ 'path' ]  // subject field type slugs
     );
 
   } );
@@ -34,7 +34,7 @@
 
     var _sInputID     = $( this ).data( 'input_id' );
     tb_show(
-      AdminPageFrameworkPath2FieldType.label.selectPath,  // modal window title
+      AdminPageFrameworkPathFieldType.label.selectPath,  // modal window title
       '#TB_inline?width=640&inlineId=path_selector_' + _sInputID  // open the modal with an inline content
     );
 
@@ -43,11 +43,11 @@
       tb_remove();
     }
 
-    var _oNodeTree     = $( '#TB_ajaxContent .path2-node-tree' );
-    var _aPath2Options = $( '#TB_ajaxContent .path2-field-options' ).data();
-    var _oButtonPanel  = $( '<div class="container-path2-modal-select-button">'
+    var _oNodeTree     = $( '#TB_ajaxContent .path-node-tree' );
+    var _aPathOptions = $( '#TB_ajaxContent .path-field-options' ).data();
+    var _oButtonPanel  = $( '<div class="container-path-modal-select-button">'
       + '<div class="media-toolbar-secondary"></div>'
-      + '<div class="media-toolbar-primary search-form"><button type="button" class="button media-button button-primary button-small">' + AdminPageFrameworkPath2FieldType.label.select + '</button></div>'
+      + '<div class="media-toolbar-primary search-form"><button type="button" class="button media-button button-primary button-small">' + AdminPageFrameworkPathFieldType.label.select + '</button></div>'
       + '</div>' );
     $( '#TB_ajaxContent' ).after( _oButtonPanel );
     _oButtonPanel.on( 'click', 'button', function () {
@@ -78,15 +78,15 @@
             $.ajax( {
               type: 'post',
               dataType: 'json',
-              url: AdminPageFrameworkPath2FieldType.ajaxURL,
+              url: AdminPageFrameworkPathFieldType.ajaxURL,
               data: {
                 id: node.id,
-                action: 'apf_path2_field_type-admin-page-framework',
-                'admin-page-framework_path2_field_type': 1,
-                nonce: AdminPageFrameworkPath2FieldType.nonce,
-                options: _aPath2Options,
-                sectionId: _aPath2Options[ 'sectionId' ],
-                fieldId: _aPath2Options[ 'fieldId' ],
+                action: 'apf_path_field_type-admin-page-framework',
+                'admin-page-framework_path_field_type': 1,
+                nonce: AdminPageFrameworkPathFieldType.nonce,
+                options: _aPathOptions,
+                sectionId: _aPathOptions[ 'sectionId' ],
+                fieldId: _aPathOptions[ 'fieldId' ],
               },
               success: function ( response ) {
                 cb( response );
@@ -115,8 +115,8 @@
    * Gets called when a remove button is clicked.
    * @since   3.9.0
    */
-  removeInputValuesForPath2 = function ( oElem ) {
-    $( oElem ).closest( '.admin-page-framework-field' ).find( '.path2-field input' ).val( '' );
+  removeInputValuesForPath = function ( oElem ) {
+    $( oElem ).closest( '.admin-page-framework-field' ).find( '.path-field input' ).val( '' );
   }
 
 })( jQuery );

@@ -2,7 +2,7 @@
 /* Set necessary paths */
 $sTargetBaseDir		= dirname( dirname( dirname( __FILE__ ) ) );
 $aTargetDirs        = array(
-    $sTargetBaseDir . '/example/library/path2-custom-field-type',
+    $sTargetBaseDir . '/example/library/path-custom-field-type',
 );
 
 /* If accessed from a browser, exit. */

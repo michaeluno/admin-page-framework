@@ -111,15 +111,6 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_CustomFieldTypes {
                     'archive_dir_path'     => 'custom-field-types/path-custom-field-type',
                     'text_domain'          => 'admin-page-framework',
                 ),
-                'Path2CustomFieldType'   =>  array(
-                    'class_name'           => 'Path2CustomFieldType',
-                    'label'                => 'Path2',
-                    'description'          => __( 'allows the user to select a file path on the server.', 'admin-page-framework-loader' ),
-                    'directory_path'       => AdminPageFrameworkLoader_Registry::$sDirPath . '/example/library/path2-custom-field-type',
-                    'archive_file_path'    => 'custom-field-types/path2-custom-field-type/Path2CustomFieldType.php',
-                    'archive_dir_path'     => 'custom-field-types/path2-custom-field-type',
-                    'text_domain'          => 'admin-page-framework',
-                ),
                 'ToggleCustomFieldType'   =>  array(
                     'class_name'           => 'ToggleCustomFieldType',
                     'label'                => __( 'Toggle', 'admin-page-framework-loader' ),
