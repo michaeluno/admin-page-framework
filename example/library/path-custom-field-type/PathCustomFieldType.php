@@ -11,6 +11,7 @@
  */
 
 if ( ! class_exists( 'PathCustomFieldType' ) ) :
+include( dirname( __FILE__ ) . '/PathCustomFieldType_Node.php' );
 /**
  * A field type that lets the user pick a file located on the server.
  * 
