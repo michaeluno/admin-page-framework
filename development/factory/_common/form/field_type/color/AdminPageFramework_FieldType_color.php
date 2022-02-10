@@ -136,33 +136,6 @@ class AdminPageFramework_FieldType_color extends AdminPageFramework_FieldType {
     }
 
     /**
-     * Returns the field type specific CSS rules.
-     *
-     * @since  2.1.5
-     * @since  3.3.1 Changed from `_replyToGetStyles()`.
-     * @since  3.9.0 Moved to an external file.
-     * @return string
-     */
-    protected function getStyles() {
-        return '';
-    }
-
-    /**
-     * Returns the color picker JavaScript script loaded in the head tag of the created admin pages.
-     *
-     * @since  2.0.0
-     * @since  2.1.3  Changed to define a global function literal that registers the given input field as a color picker.
-     * @since  2.1.5  Changed the name from `getColorPickerScript()`.
-     * @since  3.3.1  Changed the name from `_replyToGetScripts()`.
-     * @since  3.9.0  Moved to an external file.
-     * @return string The image selector script.
-     * @see    https://github.com/Automattic/Iris
-     */
-    protected function getScripts() {
-        return '';
-    }
-
-    /**
      * Returns the output of the color field.
      *
      * @since 2.1.5
