@@ -843,6 +843,12 @@ th > label > span > .admin-page-framework-form-tooltip {
   margin: 3px;
 }
 
+.sortable .admin-page-framework-field-color .wp-picker-container .wp-color-result.button,
+.sortable .admin-page-framework-field-color .admin-page-framework-input-label-container {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
 /* Contact Field Type */
 .admin-page-framework-field-contact .result-placeholder {
   margin-bottom: 0.4em;

@@ -22,3 +22,9 @@
     /* Overriding the default css rule, margin: 0 6px 6px 0px; to vertically align middle in the sortable box */
     margin: 3px;
 }
+.sortable .admin-page-framework-field-color .wp-picker-container .wp-color-result.button,
+.sortable .admin-page-framework-field-color .admin-page-framework-input-label-container
+{
+    margin-top: 0;
+    margin-bottom: 0;
+}
