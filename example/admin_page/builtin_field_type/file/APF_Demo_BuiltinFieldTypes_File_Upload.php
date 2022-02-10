@@ -155,7 +155,7 @@ EOD
 
         if ( in_array( 0, $_aFileErrors ) ) {
             $oFactory->setSettingNotice(
-                __( '<h3>File(s) Uploaded</h3>', 'admin-page-framework-loader' ) . $oFactory->oDebug->getArray( $_FILES ),
+                __( '<h3>File(s) Uploaded</h3>', 'admin-page-framework-loader' ) . $oFactory->oDebug->get( $_FILES ),
                 'updated'
             );
         }
