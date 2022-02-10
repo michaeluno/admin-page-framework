@@ -176,20 +176,20 @@ class AdminPageFramework_FieldType_color extends AdminPageFramework_FieldType {
         $aField[ 'attributes' ] = $this->___getInputAttributes( $aField );
         return $aField[ 'before_label' ]
             . "<div class='admin-page-framework-input-label-container'>"
+                . ( $aField[ 'label' ] && ! $aField[ 'repeatable' ]
+                    ? "<label><span " . $this->getLabelContainerAttributes( $aField, 'admin-page-framework-input-label-string' ) . ">"
+                            . $aField[ 'label' ]
+                        . "</span></label>"
+                    : ""
+                )
                 . "<label for='{$aField[ 'input_id' ]}'>"
                     . $aField[ 'before_input' ]
-                    . ( $aField[ 'label' ] && ! $aField[ 'repeatable' ]
-                        ? "<span " . $this->getLabelContainerAttributes( $aField, 'admin-page-framework-input-label-string' ) . ">"
-                                . $aField['label']
-                            . "</span>"
-                        : ""
-                    )
                     . "<input " . $this->getAttributes( $aField[ 'attributes' ] ) . " />"
                     . $aField[ 'after_input' ]
-                    . "<div class='repeatable-field-buttons'></div>" // the repeatable field buttons will be replaced with this element.
                 . "</label>"
                 // this div element with this class selector becomes a farbtastic color picker. ( below 3.4.x ) // rel='{$aField['input_id']}'
                 . "<div class='colorpicker admin-page-framework-field-color-picker' id='color_" . esc_attr( $aField[ 'input_id' ] ) . "' data-input_id='" . esc_attr( $aField[ 'input_id' ] ) . "'></div>"
+                . "<div class='repeatable-field-buttons'></div>" // the repeatable field buttons will be replaced with this element.
             . "</div>"
             . $aField['after_label'];
 

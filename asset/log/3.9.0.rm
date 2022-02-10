@@ -4,6 +4,7 @@
 - Refined tooltips.
 - Added the ability for tooltips to include `a` tags.
 - Added the `width` argument for the `tip` field argument.
+- Fixed an issue that field repeat buttons and labels of the `color` field type are hidden by the color picker pallet in recent WordPress versions.
 - Fixed an issue that tooltips created with the `tip` field argument made the document width wider than the initial width.
 - Fixed an issue that class names and text domains of sub-files of custom field types were not converted when building.  
 - Changed the behavior of loading framework resources (stylesheets and JavaScript scripts) from internally to externally for most cases.    
