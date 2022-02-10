@@ -50,33 +50,6 @@ class AdminPageFramework_FieldType_file extends AdminPageFramework_FieldType_tex
     );
 
     /**
-     * Loads the field type necessary components.
-     *
-     * @since       2.1.5
-     * @since       3.3.1       Changed from `_replyToFieldLoader()`.
-     * @internal
-     */
-    protected function setUp() {}
-
-    /**
-     * Returns the field type specific JavaScript script.
-     *
-     * @since       2.1.5
-     * @since       3.3.1       Changed from `_replyToGetScripts()`.
-     * @internal
-     */
-    protected function getScripts() { return ""; }
-
-    /**
-     * Returns the field type specific CSS rules.
-     *
-     * @since       2.1.5
-     * @since       3.3.1       Changed from `_replyToGetStyles()`.
-     * @internal
-     */
-    protected function getStyles() { return ""; }
-
-    /**
      * Returns the output of the field type.
      *
      * @since       2.0.0

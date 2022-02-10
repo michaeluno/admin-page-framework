@@ -42,9 +42,9 @@
  *  )
  * </code>
  *
- * @image           http://admin-page-framework.michaeluno.jp/image/common/form/field_type/export.png
- * @package         AdminPageFramework/Common/Form/FieldType
- * @since           2.1.5
+ * @image   http://admin-page-framework.michaeluno.jp/image/common/form/field_type/export.png
+ * @package AdminPageFramework/Common/Form/FieldType
+ * @since   2.1.5
  */
 class AdminPageFramework_FieldType_export extends AdminPageFramework_FieldType_submit {
 
@@ -68,40 +68,12 @@ class AdminPageFramework_FieldType_export extends AdminPageFramework_FieldType_s
     );
 
     /**
-     * Loads the field type necessary components.
-     *
-     * @since       2.1.5
-     * @since       3.3.1       Changed from `_replyToFieldLoader()`.
-     * @internal
-     */
-    protected function setUp() {}
-
-    /**
-     * Returns the field type specific JavaScript script.
-     *
-     * @since       2.1.5
-     * @since       3.3.1       Changed from `_replyToGetScripts()`.
-     * @internal
-     */
-    protected function getScripts() {
-        return "";
-    }
-
-    /**
-     * Returns the field type specific CSS rules.
-     *
-     * @since       2.1.5
-     * @since       3.3.1       Changed from `_replyToGetStyles()`.
-     * @internal
-     */
-    protected function getStyles() { return ""; }
-
-    /**
      * Returns the output of the field type.
      *
-     * @since       2.1.5       Moved from the AdminPageFramework_FormField class. The name was changed from getHiddenField().
-     * @since       3.3.1       Changed from `_replyToGetField()`.
+     * @since    2.1.5  Moved from the AdminPageFramework_FormField class. The name was changed from getHiddenField().
+     * @since    3.3.1  Changed from `_replyToGetField()`.
      * @internal
+     * @return   string
      */
     protected function getField( $aField ) {
 
@@ -112,7 +84,7 @@ class AdminPageFramework_FieldType_export extends AdminPageFramework_FieldType_s
 
         /* Set some required values */
         $aField['attributes']['name']   = "__export[submit][{$aField['input_id']}]";
-        $aField['file_name']            = $aField['file_name'] ? $aField['file_name'] : $this->_generateExportFileName( $aField['option_key'] ? $aField['option_key'] : $aField['class_name'], $aField['format'] );
+        $aField['file_name']            = $aField['file_name'] ? $aField['file_name'] : $this->___generateExportFileName( $aField['option_key'] ? $aField['option_key'] : $aField['class_name'], $aField['format'] );
         $aField['label']                = $aField['label'] ? $aField['label'] : $this->oMsg->get( 'export' );
 
         return parent::getField( $aField );
@@ -178,7 +150,7 @@ class AdminPageFramework_FieldType_export extends AdminPageFramework_FieldType_s
          * @since 2.1.5 Moved from the AdminPageFramework_FormField class.
          * @internal
          */
-        private function _generateExportFileName( $sOptionKey, $sExportFormat='json' ) {
+        private function ___generateExportFileName( $sOptionKey, $sExportFormat='json' ) {
 
             switch ( trim( strtolower( $sExportFormat ) ) ) {
                 case 'text': // for plain text.
