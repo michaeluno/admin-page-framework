@@ -91,476 +91,51 @@ class AdminPageFramework_FieldType_image extends AdminPageFramework_FieldType {
     }
 
     /**
-     * Returns the field type specific JavaScript script.
-     * @internal
+     * @return array
+     * @since  3.9.0
      */
-    protected function getScripts() {
-        return // $this->_getScript_CustomMediaUploaderObject() . PHP_EOL
-            $this->_getScript_ImageSelector(
-                "admin_page_framework"
-            )  . PHP_EOL
-            . $this->_getScript_RegisterCallbacks();
-    }
-        /**
-         * Returns the JavaScript script that handles repeatable events.
-         *
-         * @since       3.0.0
-         * @return      string
-         * @internal
-         */
-        protected function _getScript_RegisterCallbacks() {
-
-            $_aJSArray = json_encode( $this->aFieldTypeSlugs );
-            /* The below function will be triggered when a new repeatable field is added. Since the APF repeater script does not
-                renew the upload button and the preview elements (while it does on the input tag value), the renewal task must be dealt here separately. */
-            return <<<JAVASCRIPTS
-jQuery( document ).ready( function(){
-
-    jQuery().registerAdminPageFrameworkCallbacks( { 
-        
-        /**
-         * Called when a field of this field type gets repeated.
-         */
-        repeated_field: function( oCloned, aModel ) {
-                                                
-            // Remove the value of the cloned preview element - check the value for repeatable sections.
-            var sValue = oCloned.find( 'input' ).first().val();
-            if ( 1 !== aModel[ 'call_type' ] || ! sValue ) { // if it's not for repeatable sections
-                oCloned.find( '.image_preview' ).hide(); // for the image field type, hide the preview element
-                oCloned.find( '.image_preview img' ).attr( 'src', '' ); // for the image field type, empty the src property for the image uploader field
-            }                        
-                        
-            // Increment element IDs.
-            oCloned.find( '.image_preview, .image_preview img, .select_image' ).incrementAttribute(
-                'id', // attribute name
-                aModel[ 'incremented_from' ], // index incremented from
-                aModel[ 'id' ] // digit model
-            );            
-            
-            // Bind the event.
-            var _oFieldContainer = oCloned.closest( '.admin-page-framework-field' );
-            var _oSelectButton   = _oFieldContainer.find( '.select_image' );            
-            var _oImageInput     = _oFieldContainer.find( '.image-field input' );
-            if ( _oImageInput.length <= 0 ) {
-                return true;
-            }           
-
-            setAdminPageFrameworkImageUploader( 
-                _oImageInput.attr( 'id' ), 
-                true, 
-                _oSelectButton.attr( 'data-enable_external_source' )
-            );                              
-            
-        },
-    },
-    $_aJSArray
-    );
-});
-JAVASCRIPTS;
-
-        }
-
-        /**
-         * Returns the image selector JavaScript script to be loaded in the head tag of the created admin pages.
-         *
-         * @var         string
-         * @remark      It is accessed from the main class and meta box class.
-         * @remark      Moved to the base class since 2.1.0.
-         * @access      private
-         * @return      string      The image selector script.
-         * @since       2.0.0
-         * @since       2.1.5       Moved from the AdminPageFramework_Property_Base class. Changed the name from getImageSelectorScript(). Changed the scope to private and not static anymore.
-         * @since       2.4.2       Removed the second an the their parameter as additional message items need to be defined.
-         * @internal
-         */
-        private function _getScript_ImageSelector( $sReferrer ) {
-
-            $_sThickBoxTitle         = esc_js( $this->oMsg->get( 'upload_image' ) );
-            $_sThickBoxButtonUseThis = esc_js( $this->oMsg->get( 'use_this_image' ) );
-            $_sInsertFromURL         = esc_js( $this->oMsg->get( 'insert_from_url' ) );
-
-            // if the WordPress version is 3.4.x or below
-            if ( ! function_exists( 'wp_enqueue_media' ) ) {
-
-                return <<<JAVASCRIPTS
-/**
- * Bind/rebinds the thickbox script the given selector element.
- * The fMultiple parameter does not do anything. It is there to be consistent with the one for the WordPress version 3.5 or above.
- */
-setAdminPageFrameworkImageUploader = function( sInputID, fMultiple, fExternalSource ) {
-    jQuery( '#select_image_' + sInputID ).off( 'click' ); // for repeatable fields
-    jQuery( '#select_image_' + sInputID ).on( 'click', function() {
-        var sPressedID                  = jQuery( this ).attr( 'id' );     
-        window.sInputID                 = sPressedID.substring( 13 ); // remove the select_image_ prefix and set a property to pass it to the editor callback method.
-        window.original_send_to_editor  = window.send_to_editor;
-        window.send_to_editor           = hfAdminPageFrameworkSendToEditorImage;
-        var fExternalSource             = jQuery( this ).attr( 'data-enable_external_source' );
-        tb_show( '{$_sThickBoxTitle}', 'media-upload.php?post_id=1&amp;enable_external_source=' + fExternalSource + '&amp;referrer={$sReferrer}&amp;button_label={$_sThickBoxButtonUseThis}&amp;type=image&amp;TB_iframe=true', false );
-        return false; // do not click the button after the script by returning false.     
-    });    
-}     
-
-var hfAdminPageFrameworkSendToEditorImage = function( sRawHTML ) {
-
-    var sHTML       = '<div>' + sRawHTML + '</div>'; // This is for the 'From URL' tab. Without the wrapper element. the below attr() method don't catch attributes.
-    var src         = jQuery( 'img', sHTML ).attr( 'src' );
-    var alt         = jQuery( 'img', sHTML ).attr( 'alt' );
-    var title       = jQuery( 'img', sHTML ).attr( 'title' );
-    var width       = jQuery( 'img', sHTML ).attr( 'width' );
-    var height      = jQuery( 'img', sHTML ).attr( 'height' );
-    var classes     = jQuery( 'img', sHTML ).attr( 'class' );
-    var id          = ( classes ) ? classes.replace( /(.*?)wp-image-/, '' ) : ''; // attachment ID    
-    var sCaption    = sRawHTML.replace( /\[(\w+).*?\](.*?)\[\/(\w+)\]/m, '$2' )
-        .replace( /<a.*?>(.*?)<\/a>/m, '' );
-    var align       = sRawHTML.replace( /^.*?\[\w+.*?\salign=([\'\"])(.*?)[\'\"]\s.+$/mg, '$2' ); //\'\" syntax fixer
-    var link        = jQuery( sHTML ).find( 'a:first' ).attr( 'href' );
-
-    // Escape the strings of some of the attributes.
-    var sCaption    = jQuery( '<div/>' ).text( sCaption ).html();
-    var sAlt        = jQuery( '<div/>' ).text( alt ).html();
-    var title       = jQuery( '<div/>' ).text( title ).html();     
-
-    // If the user wants to save relevant attributes, set them.
-    var sInputID    = window.sInputID; // window.sInputID should be assigned when the thickbox is opened.
-
-    jQuery( '#' + sInputID ).val( src ); // sets the image url in the main text field. The url field is mandatory so it does not have the suffix.
-    jQuery( '#' + sInputID + '_id' ).val( id );
-    jQuery( '#' + sInputID + '_width' ).val( width );
-    jQuery( '#' + sInputID + '_height' ).val( height );
-    jQuery( '#' + sInputID + '_caption' ).val( sCaption );
-    jQuery( '#' + sInputID + '_alt' ).val( sAlt );
-    jQuery( '#' + sInputID + '_title' ).val( title );     
-    jQuery( '#' + sInputID + '_align' ).val( align );     
-    jQuery( '#' + sInputID + '_link' ).val( link );     
-    
-    // Update the preview
-    jQuery( '#image_preview_' + sInputID ).attr( 'alt', alt );
-    jQuery( '#image_preview_' + sInputID ).attr( 'title', title );
-    jQuery( '#image_preview_' + sInputID ).attr( 'data-classes', classes );
-    jQuery( '#image_preview_' + sInputID ).attr( 'data-id', id );
-    jQuery( '#image_preview_' + sInputID ).attr( 'src', src ); // updates the preview image
-    jQuery( '#image_preview_container_' + sInputID ).css( 'display', '' ); // updates the visibility
-    jQuery( '#image_preview_' + sInputID ).show() // updates the visibility
-    
-    // restore the original send_to_editor
-    window.send_to_editor = window.original_send_to_editor;
-
-    // close the thickbox
-    tb_remove();    
-
-}
-JAVASCRIPTS;
-            }
-
-            return <<<JAVASCRIPTS
-// Global Function Literal 
-/**
- * Binds/rebinds the uploader button script to the specified element with the given ID.
- */
-setAdminPageFrameworkImageUploader = function( sInputID, fMultiple, fExternalSource ) {
-
-    var _bEscaped = false; // indicates whether the frame is escaped/cancelled.
-    var _oCustomImageUploader;
-
-    // The input element.
-    jQuery( '#' + sInputID + '[data-show_preview=\"1\"]' ).off( 'change' ); // for repeatable fields
-    jQuery( '#' + sInputID + '[data-show_preview=\"1\"]' ).on( 'change', function( e ) {
-        
-        var _sImageURL = jQuery( this ).val();
-        
-        // Check if it is a valid image url.
-        jQuery( '<img>', {
-            src: _sImageURL,
-            error: function() {},
-            load: function() { 
-                // if valid,  set the preview.
-                setImagePreviewElement( 
-                    sInputID, 
-                    { 
-                        url: _sImageURL 
-                    } 
-                );
-            }
-        });
-        
-        
-    } );
-    
-    // The Select button element.
-    jQuery( '#select_image_' + sInputID ).off( 'click' ); // for repeatable fields
-    jQuery( '#select_image_' + sInputID ).on( 'click', function( e ) {
-     
-        // Reassign the input id from the pressed element ( do not use the passed parameter value to the caller function ) for repeatable sections.
-        var sInputID = jQuery( this ).attr( 'id' ).substring( 13 ); // remove the select_image_ prefix and set a property to pass it to the editor callback method.
-        
-        window.wpActiveEditor = null;     
-        e.preventDefault();
-        
-        // If the uploader object has already been created, reopen the dialog
-        if ( 'object' === typeof _oCustomImageUploader ) {
-            _oCustomImageUploader.open();
-            return;
-        }     
-
-        // Store the original select object in a global variable
-        oAdminPageFrameworkOriginalImageUploaderSelectObject = wp.media.view.MediaFrame.Select;
-        
-        // Assign a custom select object
-        wp.media.view.MediaFrame.Select = fExternalSource ? getAdminPageFrameworkCustomMediaUploaderSelectObject() : oAdminPageFrameworkOriginalImageUploaderSelectObject;
-        _oCustomImageUploader = wp.media({
-            id:         sInputID,
-            title:      fExternalSource ? '{$_sInsertFromURL}' : '{$_sThickBoxTitle}',
-            button:     {
-                text: '{$_sThickBoxButtonUseThis}'
-            },       
-            type:       'image', 
-            library:    { type : 'image' },                             
-            multiple:   fMultiple,  // Set this to true to allow multiple files to be selected
-            metadata:   {},
-        });
-        
-        
-        // When the uploader window closes, 
-        _oCustomImageUploader.on( 'escape', function() {
-            _bEscaped = true;
-            return false;
-        });
-        _oCustomImageUploader.on( 'close', function() {
- 
-            var state = _oCustomImageUploader.state();     
-            // Check if it's an external URL
-            if ( typeof( state.props ) != 'undefined' && typeof( state.props.attributes ) != 'undefined' ) {
-                
-                // 3.4.2+ Somehow the image object breaks when it is passed to a function or cloned or enclosed in an object so recreateing it manually.
-                var _oImage = {}, _sKey;
-                for ( _sKey in state.props.attributes ) {
-                    _oImage[ _sKey ] = state.props.attributes[ _sKey ];
-                }      
-                
-            }
-            
-            // If the _oImage variable is not defined at this point, it's an attachment, not an external URL.
-            if ( typeof( _oImage ) !== 'undefined'  ) {
-                setImagePreviewElementWithDelay( sInputID, _oImage );
-          
-            } else {
-                
-                var _oNewField;
-                _oCustomImageUploader.state().get( 'selection' ).each( function( oAttachment, iIndex ) {
-
-                    var _oAttributes = oAttachment.hasOwnProperty( 'attributes' )
-                        ? oAttachment.attributes
-                        : {};
-                    
-                    if ( 0 === iIndex ){    
-                        // place first attachment in the field
-                        setImagePreviewElementWithDelay( sInputID, _oAttributes );
-                        return true;
-                    } 
-
-                    var _oFieldContainer    = 'undefined' === typeof _oNewField 
-                        ? jQuery( '#' + sInputID ).closest( '.admin-page-framework-field' ) 
-                        : _oNewField;
-                    _oNewField              = jQuery( this ).addAdminPageFrameworkRepeatableField( _oFieldContainer.attr( 'id' ) );
-                    var sInputIDOfNewField  = _oNewField.find( 'input' ).attr( 'id' );
-                    setImagePreviewElementWithDelay( sInputIDOfNewField, _oAttributes );
-                    
-                });     
-                
-            }
-            
-            // Restore the original select object.
-            wp.media.view.MediaFrame.Select = oAdminPageFrameworkOriginalImageUploaderSelectObject;
-                            
-        });
-      
-        // Open the uploader dialog
-        _oCustomImageUploader.open();
-        return false;
-        
-    });    
-
-    var setImagePreviewElementWithDelay = function( sInputID, oImage, iMilliSeconds ) {
- 
-        iMilliSeconds = 'undefined' === typeof iMilliSeconds ? 100 : iMilliSeconds;
-           
-        setTimeout( function (){
-            if ( ! _bEscaped ) {
-                setImagePreviewElement( sInputID, oImage );
-            }
-            _bEscaped = false;
-        }, iMilliSeconds );
-        
-    }
-        
-}    
-/**
- * Removes the set values to the input tags.
- * 
- * @since   3.2.0
- */
-removeInputValuesForImage = function( oElem ) {
-
-    var _oImageInput = jQuery( oElem ).closest( '.admin-page-framework-field' ).find( '.image-field input' );                  
-    if ( _oImageInput.length <= 0 )  {
-        return;
-    }
-    
-    // Find the input tag.
-    var _sInputID = _oImageInput.first().attr( 'id' );
-    
-    // Remove the associated values.
-    setImagePreviewElement( _sInputID, {} );
-    
-}
-
-/**
- * Sets the preview element.
- * 
- * @since   3.2.0   Changed the scope to global.
- */
-setImagePreviewElement = function( sInputID, oImage ) {
-
-    var oImage      = jQuery.extend( 
-        true,   // recursive
-        { 
-            caption:    '',  
-            alt:        '',
-            title:      '',
-            url:        '',
-            id:         '',
-            width:      '',
-            height:     '',
-            align:      '',
-            link:       '',
-        },
-        oImage
-    );    
-
-    // Escape the strings of some of the attributes.
-    var _sCaption   = jQuery( '<div/>' ).text( oImage.caption ).html();
-    var _sAlt       = jQuery( '<div/>' ).text( oImage.alt ).html();
-    var _sTitle     = jQuery( '<div/>' ).text( oImage.title ).html();
-
-    // If the user wants the attributes to be saved, set them in the input tags.
-    jQuery( 'input#' + sInputID ).val( oImage.url ); // the url field is mandatory so it does not have the suffix.
-    jQuery( 'input#' + sInputID + '_id' ).val( oImage.id );
-    jQuery( 'input#' + sInputID + '_width' ).val( oImage.width );
-    jQuery( 'input#' + sInputID + '_height' ).val( oImage.height );
-    jQuery( 'input#' + sInputID + '_caption' ).val( _sCaption );
-    jQuery( 'input#' + sInputID + '_alt' ).val( _sAlt );
-    jQuery( 'input#' + sInputID + '_title' ).val( _sTitle );
-    jQuery( 'input#' + sInputID + '_align' ).val( oImage.align );
-    jQuery( 'input#' + sInputID + '_link' ).val( oImage.link );
-    
-    // Update up the preview
-    jQuery( '#image_preview_' + sInputID ).attr( 'data-id', oImage.id );
-    jQuery( '#image_preview_' + sInputID ).attr( 'data-width', oImage.width );
-    jQuery( '#image_preview_' + sInputID ).attr( 'data-height', oImage.height );
-    jQuery( '#image_preview_' + sInputID ).attr( 'data-caption', _sCaption );
-    jQuery( '#image_preview_' + sInputID ).attr( 'alt', _sAlt );
-    jQuery( '#image_preview_' + sInputID ).attr( 'title', _sTitle );
-    jQuery( '#image_preview_' + sInputID ).attr( 'src', oImage.url );
-    if ( oImage.url ) {
-        jQuery( '#image_preview_container_' + sInputID ).show();     
-    } else {
-        jQuery( '#image_preview_container_' + sInputID ).hide();     
-    }
-    
-}                
-JAVASCRIPTS;
-
-        }
-
-    /**
-     * Returns the field type specific CSS rules.
-     * @internal
-     */
-    protected function getStyles() {
-        return <<<CSSRULES
-/* Image Field Preview Container */
-.admin-page-framework-field .image_preview {
-    border: none; 
-    clear: both; 
-    margin-top: 0.4em;
-    margin-bottom: 0.8em;
-    display: block;     
-    max-width: 100%;
-    height: auto;   
-    width: inherit;                
-}     
-.admin-page-framework-field .image_preview img {     
-    display: block;  
-    height: auto; 
-    max-width: 100%;
-}
-.widget .admin-page-framework-field .image_preview {
-    max-width: 100%;
-}            
-@media only screen and ( max-width: 1200px ) {
-    .admin-page-framework-field .image_preview {
-        max-width: 600px;
-    }             
-} 
-@media only screen and ( max-width: 900px ) {
-    .admin-page-framework-field .image_preview {
-        max-width: 440px;
-    }
-}    
-@media only screen and ( max-width: 600px ) {
-    .admin-page-framework-field .image_preview {
-        max-width: 300px;
-    }
-}     
-@media only screen and ( max-width: 480px ) {
-    .admin-page-framework-field .image_preview {
-        max-width: 240px;
-    }
-}
-@media only screen and ( min-width: 1200px ) {
-    .admin-page-framework-field .image_preview {
-        max-width: 600px;
-    }
-}  
-
-/* Image Uploader Input Field */
-.admin-page-framework-field-image input {
-    margin-right: 0.5em;
-    vertical-align: middle;    
-}
-/* Image Uploader Button */
-.select_image.button.button-small,
-.remove_image.button.button-small
-{     
-    vertical-align: middle;
-}
-.remove_image.button.button-small {
-    margin-left: 0.2em;
-}
-
-@media screen and (max-width: 782px) {
-    .admin-page-framework-field-image input {
-        margin: 0.5em 0.5em 0.5em 0;
-    }
-}
-CSSRULES;
-
+    protected function getEnqueuingScripts() {
+        return array(
+            array(
+                'handle_id'     => 'admin-page-framework-field-type-image',
+                'src'           => dirname( __FILE__ ) . '/js/image.bundle.js',
+                'in_footer'         => true,
+                'dependencies'      => array( 'jquery', 'admin-page-framework-script-form-main' ),
+                'translation_var'   => 'AdminPageFrameworkImageFieldType',
+                'translation'       => array(
+                    'fieldTypeSlugs'    => $this->aFieldTypeSlugs,
+                    'referer'           => 'admin_page_framework',
+                    'hasMediaUploader'  => function_exists( 'wp_enqueue_media' ),
+                    'label'             => array(
+                        'uploadImage'    => $this->oMsg->get( 'upload_image' ),
+                        'useThisImage'   => $this->oMsg->get( 'use_this_image' ),
+                        'insertFromURL'  => $this->oMsg->get( 'insert_from_url' ),
+                    ),
+                ),
+            ),
+        );
     }
 
     /**
      * Returns the output of the field type.
      *
-     * @since   2.1.5
-     * @since   3.0.0   Reconstructed entirely.
-     * @since   3.5.3   Changed the name from `_replyToGetField()`.
+     * @since    2.1.5
+     * @since    3.0.0   Reconstructed entirely.
+     * @since    3.5.3   Changed the name from `_replyToGetField()`.
+     * @return   string
      * @internal
      */
     protected function getField( $aField ) {
 
         // If the saving extra attributes are not specified, the input field will be single only for the URL.
         $_iCountAttributes  = count( $this->getElementAsArray( $aField, 'attributes_to_store' ) );
-        $_sImageURL         = $this->_getTheSetImageURL( $aField, $_iCountAttributes );
-        $_aBaseAttributes   = $this->_getBaseAttributes( $aField );
+        $_sImageURL         = $this->___getTheSetImageURL( $aField, $_iCountAttributes );
+        $_aBaseAttributes   = $this->___getBaseAttributes( $aField );
+
+        $_aUploadButtonAttributes = $this->getElementAsArray( $aField, array( 'attributes', 'button' ) ) + $_aBaseAttributes;
+        $_aRemoveButtonAttributes = $this->getElementAsArray( $aField, array( 'attributes', 'remove_button' ) ) + $_aBaseAttributes;
+        $_bIsLabelSet             = isset( $_aRemoveButtonAttributes[ 'data-label' ] ) && $_aRemoveButtonAttributes[ 'data-label' ];
+        $_aRemoveButtonAttributes = $this->_getFormattedRemoveButtonAttributesByType( $aField[ 'input_id' ], $_aRemoveButtonAttributes, $_bIsLabelSet, 'image' );
 
         // Output
         return
@@ -575,7 +150,9 @@ CSSRULES;
                         . "</span>",
                         ''
                     )
-                    . "<input " . $this->getAttributes( $this->_getImageInputAttributes( $aField, $_iCountAttributes, $_sImageURL, $_aBaseAttributes ) ) . " />"
+                    . "<input " . $this->getAttributes( $this->___getImageInputAttributes( $aField, $_iCountAttributes, $_sImageURL, $_aBaseAttributes ) ) . " />"
+                    . $this->___getUploaderButtonHTML( $aField[ 'input_id' ], $_aUploadButtonAttributes, ! empty( $aField[ 'repeatable' ] ), $aField[ 'allow_external_source' ] )
+                    . $this->_getRemoveButtonHTMLByType( $aField[ 'input_id' ], $_aRemoveButtonAttributes, 'image' )
                     . $aField[ 'after_input' ]
                     . "<div class='repeatable-field-buttons'></div>" // the repeatable field buttons will be replaced with this element.
                     . $this->getExtraInputFields( $aField )
@@ -588,23 +165,7 @@ CSSRULES;
                 // Preview container attributes
                 $this->getElementAsArray( $aField, array( 'attributes', 'preview' ) )
                 + $_aBaseAttributes
-            )
-            . $this->_getRemoveButtonScript(
-                $aField[ 'input_id' ],
-                // Remove button atributes
-                $this->getElementAsArray( $aField, array( 'attributes', 'remove_button' ) )
-                + $_aBaseAttributes,
-                $aField[ 'type' ] // image
-            )
-            . $this->_getUploaderButtonScript(
-                $aField[ 'input_id' ],
-                $aField[ 'repeatable' ],
-                $aField[ 'allow_external_source' ],
-                // Uploader button attributes
-                $this->getElementAsArray( $aField, array( 'attributes', 'button' ) )
-                + $_aBaseAttributes
-            )
-        ;
+            );
 
     }
         /**
@@ -613,7 +174,7 @@ CSSRULES;
          * @return      array       The generated base attribute array.
          * @internal
          */
-        private function _getBaseAttributes( array $aField ) {
+        private function ___getBaseAttributes( array $aField ) {
 
             $_aBaseAttributes   = $aField[ 'attributes' ] + array( 'class' => null );
             unset(
@@ -628,7 +189,7 @@ CSSRULES;
             return $_aBaseAttributes;
 
         }
-       /**
+        /**
          * Returns the set image url.
          *
          * When the 'attributes_to_store' argument is present, there will be sub elements to the field value.
@@ -640,7 +201,7 @@ CSSRULES;
          * @return      string      The found image url.
          * @internal
          */
-        private function _getTheSetImageURL( array $aField, $iCountAttributes ) {
+        private function ___getTheSetImageURL( array $aField, $iCountAttributes ) {
 
             $_sCaptureAttribute = $this->getAOrB( $iCountAttributes, 'url', '' );
             return $_sCaptureAttribute
@@ -655,7 +216,7 @@ CSSRULES;
          * @return      array
          * @internal
          */
-        private function _getImageInputAttributes( array $aField, $iCountAttributes, $sImageURL, array $aBaseAttributes ) {
+        private function ___getImageInputAttributes( array $aField, $iCountAttributes, $sImageURL, array $aBaseAttributes ) {
 
             return array(
                 'name'              => $aField[ 'attributes' ][ 'name' ]
@@ -744,6 +305,7 @@ CSSRULES;
          * @since       3.2.0   Made it use dashicon for the select image button.
          * @remark      This class is extended by the media field type and this method will be overridden. So the scope needs to be protected rather than private.
          * @internal
+         * @deprecated  3.9.0   Kept for backward compatibility.
          */
         protected function _getUploaderButtonScript( $sInputID, $abRepeatable, $bExternalSource, array $aButtonAttributes ) {
 
@@ -752,7 +314,7 @@ CSSRULES;
             // Do not include the escaping character (backslash) in the heredoc variable declaration
             // because the minifier script will parse it and the <<<JAVASCRIPTS and JAVASCRIPTS; parts are converted to double quotes (")
             // which causes the PHP syntax error.
-            $_sButtonHTML     = '"' . $this->_getUploaderButtonHTML( $sInputID, $aButtonAttributes, $_bRepeatable, $bExternalSource ) . '"';
+            $_sButtonHTML     = '"' . $this->___getUploaderButtonHTML( $sInputID, $aButtonAttributes, $_bRepeatable, $bExternalSource ) . '"';
             $_sRepeatable     = $this->getAOrB( $_bRepeatable, 'true', 'false' );
             $_bExternalSource = $this->getAOrB( $bExternalSource, 'true', 'false' );
             $_sScript = <<<JAVASCRIPTS
@@ -777,10 +339,10 @@ JAVASCRIPTS;
              * @return      string      The generated HTML uploader button output.
              * @internal
              */
-            private function _getUploaderButtonHTML( $sInputID, array $aButtonAttributes, $bRepeatable, $bExternalSource ) {
+            private function ___getUploaderButtonHTML( $sInputID, array $aButtonAttributes, $bRepeatable, $bExternalSource ) {
 
                 $_bIsLabelSet = isset( $aButtonAttributes[ 'data-label' ] ) && $aButtonAttributes[ 'data-label' ];
-                $_aAttributes = $this->_getFormattedUploadButtonAttributes(
+                $_aAttributes = $this->___getFormattedUploadButtonAttributes(
                     $sInputID,
                     $aButtonAttributes,
                     $_bIsLabelSet,
@@ -804,13 +366,15 @@ JAVASCRIPTS;
                  * @return      array       The formatted upload button attributes array.
                  * @internal
                  */
-                private function _getFormattedUploadButtonAttributes( $sInputID, array $aButtonAttributes, $_bIsLabelSet, $bRepeatable, $bExternalSource ) {
+                private function ___getFormattedUploadButtonAttributes( $sInputID, array $aButtonAttributes, $_bIsLabelSet, $bRepeatable, $bExternalSource ) {
 
                     $_aAttributes           = array(
                             'id'        => "select_image_{$sInputID}",
                             'href'      => '#',
+                            'data-input_id'                 => $sInputID,
+                            'data-repeatable'               => ( string ) ( boolean ) $bRepeatable,
                             'data-uploader_type'            => ( string ) function_exists( 'wp_enqueue_media' ),
-                            'data-enable_external_source'   => ( string ) ( bool ) $bExternalSource, // ? 1 : 0,
+                            'data-enable_external_source'   => ( string ) ( boolean ) $bExternalSource, // ? 1 : 0,
                         )
                         + $aButtonAttributes
                         + array(
@@ -829,8 +393,8 @@ JAVASCRIPTS;
                                 '',
                                 $this->getAOrB(
                                     $bRepeatable,
-                                    $this->_getDashIconSelectorsBySlug( 'images-alt2' ),
-                                    $this->_getDashIconSelectorsBySlug( 'format-image' )
+                                    $this->___getDashIconSelectorsBySlug( 'images-alt2' ),
+                                    $this->___getDashIconSelectorsBySlug( 'format-image' )
                                 )
                             )
                         )
@@ -846,6 +410,7 @@ JAVASCRIPTS;
          * @since       3.5.3       Added the `$sType` parameter.
          * @return      string
          * @internal
+         * @deprecatead 3.9.0  Currently, not used but Kept for backward compatibility.
          */
         protected function _getRemoveButtonScript( $sInputID, array $aButtonAttributes, $sType='image' ) {
 
@@ -902,11 +467,14 @@ JAVASCRIPTS;
              */
             protected function _getFormattedRemoveButtonAttributesByType( $sInputID, array $aButtonAttributes, $_bIsLabelSet, $sType='image' ) {
 
-                $_sOnClickFunctionName  = 'removeInputValuesFor' . ucfirst( $sType );
+                // $_sOnClickFunctionName  = 'removeInputValuesFor' . ucfirst( $sType );
                 $_aAttributes           = array(
-                        'id'        => "remove_{$sType}_{$sInputID}",
-                        'href'      => '#',
-                        'onclick'   => esc_js( "{$_sOnClickFunctionName}( this ); return false;" ),
+                        'id'            => "remove_{$sType}_{$sInputID}",
+                        'href'          => '#',
+                        'data-input_id' => $sInputID,
+                        // @deprecated 3.9.0
+                        // @todo update the Path custom field type that relies on this functionality
+                        // 'onclick'   => esc_js( "{$_sOnClickFunctionName}( this ); return false;" ),
                     )
                     + $aButtonAttributes
                     + array(
@@ -922,7 +490,7 @@ JAVASCRIPTS;
                         $this->getAOrB(
                             $_bIsLabelSet,
                             '',
-                            $this->_getDashIconSelectorsBySlug( 'dismiss' )
+                            $this->___getDashIconSelectorsBySlug( 'dismiss' )
                         )
                     )
                 );
@@ -939,7 +507,7 @@ JAVASCRIPTS;
          * @return      string      The generated class selectors.
          * @internal
          */
-        private function _getDashIconSelectorsBySlug( $sDashIconSlug ) {
+        private function ___getDashIconSelectorsBySlug( $sDashIconSlug ) {
 
             static $_bDashIconSupported;
 
