@@ -1,5 +1,5 @@
 /*! Admin Page Framework - Radio Field Type 0.0.2 */
-(function($){
+( function( $ ){
 
   var apfMain  = AdminPageFrameworkScriptFormMain;
   var apfRadio = AdminPageFrameworkFieldTypeRadio;
@@ -10,22 +10,21 @@
     }
     debugLog( '0.0.2', apfRadio );
 
-    $( document ).ready( function () {
-      $( 'input[type=radio].admin-page-framework-input-radio' ).on( 'change', function ( e ) {
 
-        var _sInputID = $( this ).data( 'id' );
-        // Uncheck the other radio buttons
-        $( this ).closest( '.admin-page-framework-field' ).find( 'input[type=radio][data-id="' + _sInputID + '"]' )
-          .prop( 'checked', false )
-          .attr( 'checked', false );
+    $( 'input[type=radio].admin-page-framework-input-radio' ).on( 'change', function ( e ) {
 
-        // Make sure the clicked item is checked
-        $( this )
-          .prop( 'checked', true )
-          .attr( 'checked', 'checked' );
+      var _sInputID = $( this ).data( 'id' );
+      // Uncheck the other radio buttons
+      $( this ).closest( '.admin-page-framework-field' ).find( 'input[type=radio][data-id="' + _sInputID + '"]' )
+        .prop( 'checked', false )
+        .attr( 'checked', false );
 
-      } );
-    } );         
+      // Make sure the clicked item is checked
+      $( this )
+        .prop( 'checked', true )
+        .attr( 'checked', 'checked' );
+
+    } );
 
     $().registerAdminPageFrameworkCallbacks( {
         /**
@@ -64,4 +63,4 @@
     console.log( 'APF Radio Field Type', ...msg );
   }
 
-}(jQuery));
+}( jQuery ) );
