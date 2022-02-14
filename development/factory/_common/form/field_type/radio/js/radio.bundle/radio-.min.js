@@ -1,1 +1,1 @@
-/*! Admin Page Framework - Checkbox Field Type 0.0.2 */
+/*! Admin Page Framework - Radio Field Type 0.0.2 */
