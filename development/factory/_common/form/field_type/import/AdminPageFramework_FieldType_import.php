@@ -66,62 +66,25 @@ class AdminPageFramework_FieldType_import extends AdminPageFramework_FieldType_s
     );
 
     /**
-     * Loads the field type necessary components.
-     *
-     * @since       2.1.5
-     * @since       3.3.1       Changed from `_replyToFieldLoader()`.
-     * @internal
+     * @return array
+     * @since  3.9.0
      */
-    protected function setUp() {}
-
-    /**
-     * Returns the field type specific JavaScript script.
-     *
-     * @since       2.1.5
-     * @since       3.3.1       Changed from `_replyToGetScripts()`.
-     * @internal
-     */
-    protected function getScripts() {
-        $_sMessageNoFile = $this->oMsg->get( 'import_no_file' );
-        return <<<JAVASCRIPT
-jQuery( document ).ready( function() {
-    jQuery( '.admin-page-framework-field-import input[type=submit]' ).on( 'click', function( event ) {
-        var _iFiles = jQuery( this ).closest( '.admin-page-framework-field-import' ).find( 'input[type=file]' ).get( 0 ).files.length;
-        if ( 0 === _iFiles ) {
-            alert( '{$_sMessageNoFile}' );
-            return false;
-        }
-        return true;
-    } );
-}); // document ready
-JAVASCRIPT;
-
-    }
-
-    /**
-     * Returns the field type specific CSS rules.
-     *
-     * @since       2.1.5
-     * @since       3.3.1       Changed from `_replyToGetStyles()`.
-     * @internal
-     */
-    protected function getStyles() {
-        return <<<CSSRULES
-/* Import Field */
-.admin-page-framework-field-import input {
-    margin-right: 0.5em;
-}
-.admin-page-framework-field-import,
-.admin-page-framework-field-import .admin-page-framework-input-label-container {
-    width: 100%;
-}
-.admin-page-framework-field-import label,
-.form-table td fieldset.admin-page-framework-fieldset .admin-page-framework-field-import label { /* for Wordpress 3.8 or above */
-    display: inline-block; /* to display the submit button in the same line to the file input tag */
-    width: auto;
-    vertical-align: middle;
-}
-CSSRULES;
+    protected function getEnqueuingScripts() {
+        return array(
+            array(
+                'handle_id'     => 'admin-page-framework-field-type-import',
+                'src'           => dirname( __FILE__ ) . '/js/import.bundle.js',
+                'in_footer'         => true,
+                'dependencies'      => array( 'jquery', 'admin-page-framework-script-form-main' ),
+                'translation_var'   => 'AdminPageFrameworkImportFieldType',
+                'translation'       => array(
+                    'fieldTypeSlugs'    => $this->aFieldTypeSlugs,
+                    'label'             => array(
+                        'noFile'    => $this->oMsg->get( 'import_no_file' ),
+                    ),
+                ),
+            ),
+        );
     }
 
     /**
