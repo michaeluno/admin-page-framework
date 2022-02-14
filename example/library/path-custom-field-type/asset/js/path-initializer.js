@@ -1,6 +1,6 @@
-/**
+/*!
  * Name: Path 2 Custom Field Type Initializer
- * Version: 1.0.0
+ * Version: 1.0.1
  */
 (function ( $ ) {
 
@@ -8,6 +8,11 @@
 
 
     $( '.button-select-path' ).on( 'click', initializeJSTree );
+    $( '.remove_path.button' ).on( 'click', function(){
+      $( '#' + $( this ).data( 'input_id' ) ).val( '' );
+      return false;
+    } );
+
     $().registerAdminPageFrameworkCallbacks( {
         /**
          * Called when a field of this field type gets repeated.
@@ -15,14 +20,18 @@
         repeated_field: function ( oCloned, aModel ) {
 
           // Increment element IDs.
-          oCloned.find( '.select_path, .jstree-path-modal, .path-field-options' ).incrementAttributes(
+          oCloned.find( '.select_path, .remove_path, .jstree-path-modal, .path-field-options' ).incrementAttributes(
             [ 'id', 'data-id', 'href', 'data-input_id' ], // attribute name
             aModel[ 'incremented_from' ], // increment from
             aModel[ 'id' ] // digit model
           );
           // Initialize the event bindings.
-          oCloned.find( '.button-select-path' ).on( 'click', initializeJSTree );
-
+          var _sInputID = oCloned.find( '.path-field input[type="text"]' ).first().attr( 'id' );
+          oCloned.find( '#select_path_' + _sInputID ).on( 'click', initializeJSTree );
+          oCloned.find( '#remove_path_' + _sInputID ).on( 'click', function(){
+            $( '#' + $( this ).data( 'input_id' ) ).val( '' );
+            return false;
+          } );
         },
       },
       [ 'path' ]  // subject field type slugs
@@ -108,15 +117,7 @@
         },
         plugins: [ 'sort', 'unique', 'types' ]
       } );
-  }
-
-  /**
-   * Removes the set values to the input tags.
-   * Gets called when a remove button is clicked.
-   * @since   3.9.0
-   */
-  removeInputValuesForPath = function ( oElem ) {
-    $( oElem ).closest( '.admin-page-framework-field' ).find( '.path-field input' ).val( '' );
+    return false;
   }
 
 })( jQuery );
