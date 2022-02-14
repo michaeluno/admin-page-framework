@@ -108,27 +108,6 @@ class AdminPageFramework_FieldType_posttype extends AdminPageFramework_FieldType
         'attachment',
         'nav_menu_item',
     );
-    /**
-     * Returns the field type specific CSS rules.
-     *
-     * @since       2.1.5
-     * @since       3.3.1       Changed from `_replyToGetStyles()`.
-     * @internal
-     * @return
-     */
-    protected function getStyles() {
-        $_sParentStyles = parent::getStyles();
-        return $_sParentStyles . <<<CSSRULES
-/* Posttype Field Type */
-.admin-page-framework-field input[type='checkbox'] {
-    margin-right: 0.5em;
-}     
-.admin-page-framework-field-posttype .admin-page-framework-input-label-container {
-    padding-right: 1em;
-}    
-CSSRULES;
-
-    }
 
     /**
      * Returns the output of the field type.
@@ -144,7 +123,6 @@ CSSRULES;
      * @return      string
      */
     protected function getField( $aField ) {
-
         $this->_sCheckboxClassSelector = '';    // disable the checkbox class selector.
         $aField[ 'label' ] = $this->_getPostTypeArrayForChecklist(
             isset( $aField[ 'slugs_to_remove' ] )
@@ -154,7 +132,6 @@ CSSRULES;
             $aField[ 'operator' ]
         );
         return parent::getField( $aField );
-
     }
 
         /**
@@ -171,7 +148,6 @@ CSSRULES;
          * @internal
          */
         private function _getPostTypeArrayForChecklist( $aSlugsToRemove, $asQueryArgs=array(), $sOperator='and' ) {
-
             $_aPostTypes = array();
             foreach( get_post_types( $asQueryArgs, 'objects' ) as $_oPostType ) {
                 if (  isset( $_oPostType->name, $_oPostType->label ) ) {
@@ -179,7 +155,6 @@ CSSRULES;
                 }
             }
             return array_diff_key( $_aPostTypes, array_flip( $aSlugsToRemove ) );
-
         }
 
 }
