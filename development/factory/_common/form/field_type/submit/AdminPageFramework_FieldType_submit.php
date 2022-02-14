@@ -156,32 +156,6 @@ class AdminPageFramework_FieldType_submit extends AdminPageFramework_FieldType {
     );    
 
     /**
-     * Returns the field type specific CSS rules.
-     * 
-     * @since           2.1.5
-     * @since           3.3.1           Changed from `_replyToGetStyles()`.
-     * @internal
-     * @return          string
-     */ 
-    protected function getStyles() {
-        return <<<CSSRULES
-/* Submit Buttons */
-.admin-page-framework-field input[type='submit'] {
-    margin-bottom: 0.5em;
-}
-/* Confirmation */
-.admin-page-framework-field-submit .submit-confirm-container {
-    display: inline-block;
-    margin-left: 1em;
-    vertical-align: middle;
-}
-.admin-page-framework-field-submit .field-error.submit-confirmation-warning {
-    float: none;
-}
-CSSRULES;
-    }
-
-    /**
      * @return array
      * @since  3.9.0
      */

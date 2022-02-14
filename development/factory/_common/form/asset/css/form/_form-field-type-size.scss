@@ -1,0 +1,13 @@
+/* Size Field Type */
+.admin-page-framework-field-size input {
+    text-align: right;
+}
+.admin-page-framework-field-size select.size-field-select {
+    vertical-align: 0;
+}
+.admin-page-framework-field-size label {
+    width: auto;
+}
+.form-table td fieldset .admin-page-framework-field-size label {
+    display: inline-block;
+}

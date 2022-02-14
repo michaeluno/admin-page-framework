@@ -112,32 +112,6 @@ class AdminPageFramework_FieldType_size extends AdminPageFramework_FieldType_sel
     );
 
     /**
-     * Returns the field type specific CSS rules.
-     *
-     * @since       2.1.5
-     * @since       3.3.1       Changed from `_replyToGetStyles()`.
-     * @internal
-     * @return      string
-     */
-    protected function getStyles() {
-        return <<<CSSRULES
-/* Size Field Type */
-.admin-page-framework-field-size input {
-    text-align: right;
-}
-.admin-page-framework-field-size select.size-field-select {
-    vertical-align: 0px;     
-}
-.admin-page-framework-field-size label {
-    width: auto;     
-} 
-.form-table td fieldset .admin-page-framework-field-size label {
-    display: inline-block;
-}
-CSSRULES;
-    }
-
-    /**
      * Returns the output of the field type.
      *
      * Returns the size input fields. This enables for the user to set a size with a unit. This is made up of a text input field and a drop-down selector field.
@@ -393,6 +367,5 @@ CSSRULES;
                     + $aBaseAttributes;
 
             }
-
 
 }

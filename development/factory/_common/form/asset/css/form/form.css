@@ -1127,6 +1127,68 @@ th > label > span > .admin-page-framework-form-tooltip {
   vertical-align: middle;
 }
 
+/* Select Field Type */
+.admin-page-framework-field-select .admin-page-framework-input-label-container {
+  vertical-align: top;
+}
+
+.admin-page-framework-field-select .admin-page-framework-input-label-container {
+  padding-right: 1em;
+}
+
+/* Size Field Type */
+.admin-page-framework-field-size input {
+  text-align: right;
+}
+
+.admin-page-framework-field-size select.size-field-select {
+  vertical-align: 0;
+}
+
+.admin-page-framework-field-size label {
+  width: auto;
+}
+
+.form-table td fieldset .admin-page-framework-field-size label {
+  display: inline-block;
+}
+
+/* Submit Field Type */
+/* Submit Buttons */
+.admin-page-framework-field input[type=submit] {
+  margin-bottom: 0.5em;
+}
+
+/* Confirmation */
+.admin-page-framework-field-submit .submit-confirm-container {
+  display: inline-block;
+  margin-left: 1em;
+  vertical-align: middle;
+}
+
+.admin-page-framework-field-submit .field-error.submit-confirmation-warning {
+  float: none;
+}
+
+/* System Field Type */
+.admin-page-framework-field-system {
+  width: 100%;
+}
+
+.admin-page-framework-field-system .admin-page-framework-input-label-container {
+  width: 100%;
+}
+
+.admin-page-framework-field-system textarea {
+  background-color: #f9f9f9;
+  width: 97%;
+  outline: 0;
+  font-family: Consolas, Monaco, monospace;
+  white-space: pre;
+  word-wrap: normal;
+  overflow-x: scroll;
+}
+
 /* Text Field Type */
 .admin-page-framework-field.admin-page-framework-field-text > .admin-page-framework-input-label-container {
   /* vertical-align: top; @depracated 3.7.1 */

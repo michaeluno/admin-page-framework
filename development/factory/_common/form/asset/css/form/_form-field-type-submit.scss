@@ -1,0 +1,14 @@
+/* Submit Field Type */
+/* Submit Buttons */
+.admin-page-framework-field input[type='submit'] {
+    margin-bottom: 0.5em;
+}
+/* Confirmation */
+.admin-page-framework-field-submit .submit-confirm-container {
+    display: inline-block;
+    margin-left: 1em;
+    vertical-align: middle;
+}
+.admin-page-framework-field-submit .field-error.submit-confirmation-warning {
+    float: none;
+}

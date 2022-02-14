@@ -122,27 +122,6 @@ class AdminPageFramework_FieldType_select extends AdminPageFramework_FieldType {
         ),
     );
 
-
-    /**
-     * Returns the field type specific CSS rules.
-     *
-     * @since       2.1.5
-     * @since       3.3.1       Changed from `_replyToGetStyles()`.
-     * @return      string
-     */
-    protected function getStyles() {
-        return <<<CSSRULES
-/* Select Field Type */
-.admin-page-framework-field-select .admin-page-framework-input-label-container {
-    vertical-align: top; 
-}
-.admin-page-framework-field-select .admin-page-framework-input-label-container {
-    padding-right: 1em;
-}
-CSSRULES;
-    }
-
-
     /**
      * Returns the output of the field type.
      *
