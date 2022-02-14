@@ -279,9 +279,12 @@ class AdminPageFramework_Utility_Interpreter extends AdminPageFramework_Utility_
                         return '';
                     }
                     $_sList   = "<ul " . self::getAttributes( $_aULAttr ) . ">";
-                    foreach( $aArray as $_sValue ) {
+                    foreach( $aArray as $_asValue ) {
+                        $_sItem  = is_array( $_asValue )
+                            ? self::___getList( $_asValue, $aAllAttributes, $bEscape )
+                            : self::___getHTMLEscaped( $_asValue, $bEscape );
                         $_sList .= "<li " . self::getAttributes( $_aLIAttr ) . ">"
-                            . self::___getHTMLEscaped( $_sValue, $bEscape )
+                                . $_sItem
                             . "</li>";
                     }
                     $_sList  .= "</ul>";
