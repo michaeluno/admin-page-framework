@@ -931,6 +931,27 @@ th > label > span > .admin-page-framework-form-tooltip {
     margin: 0.5em 0.5em 0.5em 0;
   }
 }
+/* Media Field Type */
+/* Media Uploader Button */
+.admin-page-framework-field-media input {
+  margin-right: 0.5em;
+  vertical-align: middle;
+}
+
+@media screen and (max-width: 782px) {
+  .admin-page-framework-field-media input {
+    margin: 0.5em 0.5em 0.5em 0;
+  }
+}
+.select_media.button.button-small,
+.remove_media.button.button-small {
+  vertical-align: middle;
+}
+
+.remove_media.button.button-small {
+  margin-left: 0.2em;
+}
+
 /* Radio Field Type */
 .admin-page-framework-field input[type=radio] {
   margin-right: 0.5em;
