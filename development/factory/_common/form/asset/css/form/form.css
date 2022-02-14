@@ -789,6 +789,26 @@ th > label > span > .admin-page-framework-form-tooltip {
   border-color: transparent #F8F8F8 transparent transparent;
 }
 
+/* Nested fieldsets 3.8.0+ */
+.admin-page-framework-fieldset > .admin-page-framework-fields > .admin-page-framework-field.with-nested-fields > .admin-page-framework-fieldset.multiple-nesting {
+  margin-left: 2em;
+}
+
+.admin-page-framework-fieldset > .admin-page-framework-fields > .admin-page-framework-field.with-nested-fields > .admin-page-framework-fieldset {
+  margin-bottom: 1em;
+}
+
+.with-nested-fields > .admin-page-framework-fieldset.child-fieldset > .admin-page-framework-child-field-title {
+  display: inline-block;
+  padding: 0 0 0.4em 0;
+}
+
+.admin-page-framework-fieldset.child-fieldset > label.admin-page-framework-child-field-title {
+  display: table-row;
+  /* inline does not create a new line in FireFox */
+  white-space: nowrap;
+}
+
 /* Checkbox Field Type */
 .select_all_button_container,
 .select_none_button_container {

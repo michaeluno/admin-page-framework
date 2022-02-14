@@ -30,34 +30,6 @@ class AdminPageFramework_FieldType__nested extends AdminPageFramework_FieldType 
     protected $aDefaultKeys = array(
     );
 
-
-    /**
-     * Returns the field type specific CSS output inside the `<style></style>` tags.
-     *
-     * @since       3.8.0
-     */
-    protected function getStyles() {
-        return <<<CSSRULES
-/* Nested fieldsets 3.8.0+ */
-.admin-page-framework-fieldset > .admin-page-framework-fields > .admin-page-framework-field.with-nested-fields > .admin-page-framework-fieldset.multiple-nesting {
-    margin-left: 2em;
-}
-.admin-page-framework-fieldset > .admin-page-framework-fields > .admin-page-framework-field.with-nested-fields > .admin-page-framework-fieldset {
-    margin-bottom: 1em;
-}
-.with-nested-fields > .admin-page-framework-fieldset.child-fieldset > .admin-page-framework-child-field-title {
-    display: inline-block;
-    padding: 0 0 0.4em 0;
-}
-.admin-page-framework-fieldset.child-fieldset > label.admin-page-framework-child-field-title {
-    display: table-row; /* inline does not create a new line in FireFox */
-    white-space: nowrap;
-}
-
-CSSRULES;
-
-    }
-
     /**
      * Returns the output of the field.
      *
