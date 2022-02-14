@@ -1,8 +1,9 @@
 (function ( $ ) {
 
-  var apfMain  = AdminPageFrameworkScriptFormMain;
-  var apfImage = AdminPageFrameworkImageFieldType;
-  apfImage.hasMediaUploader = !! apfImage.hasMediaUploader;
+  var setAdminPageFrameworkImageUploader;
+
+  debugLog( '0.0.2', apfImage );
+
   $( document ).ready( function () {
 
     // For WordPress 3.4.x or below
@@ -74,159 +75,154 @@
         tb_remove();
 
       }
-      return;
-    } // for WordPress 3.4.x or below
 
+    } else {
 
-    /**
-     * Binds/rebinds the uploader button script to the specified element with the given ID.
-     */
-    setAdminPageFrameworkImageUploader = function ( sInputID, fMultiple, fExternalSource ) {
+      /**
+       * Binds/rebinds the uploader button script to the specified element with the given ID.
+       */
+      setAdminPageFrameworkImageUploader = function ( sInputID, fMultiple, fExternalSource ) {
 
-      var _bEscaped = false; // indicates whether the frame is escaped/cancelled.
-      var _oCustomImageUploader;
+        var _bEscaped = false; // indicates whether the frame is escaped/cancelled.
+        var _oCustomImageUploader;
 
-      // The input element.
-      var _oInput = $( '#' + sInputID + '[data-show_preview="1"]' );
-      _oInput.off( 'change' ); // for repeatable fields
-      _oInput.on( 'change', function ( e ) {
+        // The input element.
+        var _oInput = $( '#' + sInputID + '[data-show_preview="1"]' );
+        _oInput.off( 'change' ); // for repeatable fields
+        _oInput.on( 'change', function ( e ) {
+          var _sImageURL = $( this ).val();
+          // Check if it is a valid image url.
+          $( '<img>', {
+            src: _sImageURL,
+            error: function () {
+            },
+            load: function () {
+              // if valid,  set the preview.
+              setImagePreviewElement(
+                sInputID,
+                {
+                  url: _sImageURL
+                }
+              );
+            }
+          } );
+        } );
 
-        var _sImageURL = $( this ).val();
+        // The Select button element.
+        var _oSelectImage = $( '#select_image_' + sInputID );
+        _oSelectImage.off( 'click' ); // for repeatable fields
+        _oSelectImage.on( 'click', function ( e ) {
 
-        // Check if it is a valid image url.
-        $( '<img>', {
-          src: _sImageURL,
-          error: function () {
-          },
-          load: function () {
-            // if valid,  set the preview.
-            setImagePreviewElement(
-              sInputID,
-              {
-                url: _sImageURL
-              }
-            );
+          // Reassign the input id from the pressed element ( do not use the passed parameter value to the caller function ) for repeatable sections.
+          var sInputID = $( this ).attr( 'id' ).substring( 13 ); // remove the select_image_ prefix and set a property to pass it to the editor callback method.
+
+          window.wpActiveEditor = null;
+          e.preventDefault();
+
+          // If the uploader object has already been created, reopen the dialog
+          if ( 'object' === typeof _oCustomImageUploader ) {
+            _oCustomImageUploader.open();
+            return;
           }
-        } );
 
+          // Store the original select object in a global variable
+          oAdminPageFrameworkOriginalImageUploaderSelectObject = wp.media.view.MediaFrame.Select;
 
-      } );
+          // Assign a custom select object
+          wp.media.view.MediaFrame.Select = fExternalSource ? getAdminPageFrameworkCustomMediaUploaderSelectObject() : oAdminPageFrameworkOriginalImageUploaderSelectObject;
+          _oCustomImageUploader = wp.media( {
+            id: sInputID,
+            title: fExternalSource ? apfImage.label.insertFromURL : apfImage.label.uploadImage,
+            button: {
+              text: apfImage.label.useThisImage
+            },
+            type: 'image',
+            library: { type: 'image' },
+            multiple: fMultiple,  // Set this to true to allow multiple files to be selected
+            metadata: {},
+          } );
 
-      // The Select button element.
-      var _oSelectImage = $( '#select_image_' + sInputID );
-      _oSelectImage.off( 'click' ); // for repeatable fields
-      _oSelectImage.on( 'click', function ( e ) {
+          // When the uploader window closes,
+          _oCustomImageUploader.on( 'escape', function () {
+            _bEscaped = true;
+            return false;
+          } );
+          _oCustomImageUploader.on( 'close', function () {
 
-        // Reassign the input id from the pressed element ( do not use the passed parameter value to the caller function ) for repeatable sections.
-        var sInputID = $( this ).attr( 'id' ).substring( 13 ); // remove the select_image_ prefix and set a property to pass it to the editor callback method.
+            var state = _oCustomImageUploader.state();
+            // Check if it's an external URL
+            if ( typeof (state.props) != 'undefined' && typeof (state.props.attributes) != 'undefined' ) {
 
-        window.wpActiveEditor = null;
-        e.preventDefault();
+              // 3.4.2+ Somehow the image object breaks when it is passed to a function or cloned or enclosed in an object so recreateing it manually.
+              var _oImage = {}, _sKey;
+              for ( _sKey in state.props.attributes ) {
+                _oImage[ _sKey ] = state.props.attributes[ _sKey ];
+              }
 
-        // If the uploader object has already been created, reopen the dialog
-        if ( 'object' === typeof _oCustomImageUploader ) {
-          _oCustomImageUploader.open();
-          return;
-        }
-
-        // Store the original select object in a global variable
-        oAdminPageFrameworkOriginalImageUploaderSelectObject = wp.media.view.MediaFrame.Select;
-
-        // Assign a custom select object
-        wp.media.view.MediaFrame.Select = fExternalSource ? getAdminPageFrameworkCustomMediaUploaderSelectObject() : oAdminPageFrameworkOriginalImageUploaderSelectObject;
-        _oCustomImageUploader = wp.media( {
-          id: sInputID,
-          title: fExternalSource ? apfImage.label.insertFromURL : apfImage.label.uploadImage,
-          button: {
-            text: apfImage.label.useThisImage
-          },
-          type: 'image',
-          library: { type: 'image' },
-          multiple: fMultiple,  // Set this to true to allow multiple files to be selected
-          metadata: {},
-        } );
-
-        // When the uploader window closes,
-        _oCustomImageUploader.on( 'escape', function () {
-          _bEscaped = true;
-          return false;
-        } );
-        _oCustomImageUploader.on( 'close', function () {
-
-          var state = _oCustomImageUploader.state();
-          // Check if it's an external URL
-          if ( typeof (state.props) != 'undefined' && typeof (state.props.attributes) != 'undefined' ) {
-
-            // 3.4.2+ Somehow the image object breaks when it is passed to a function or cloned or enclosed in an object so recreateing it manually.
-            var _oImage = {}, _sKey;
-            for ( _sKey in state.props.attributes ) {
-              _oImage[ _sKey ] = state.props.attributes[ _sKey ];
             }
 
-          }
+            // If the _oImage variable is not defined at this point, it's an attachment, not an external URL.
+            if ( typeof (_oImage) !== 'undefined' ) {
+              setImagePreviewElementWithDelay( sInputID, _oImage );
 
-          // If the _oImage variable is not defined at this point, it's an attachment, not an external URL.
-          if ( typeof (_oImage) !== 'undefined' ) {
-            setImagePreviewElementWithDelay( sInputID, _oImage );
+            } else {
 
-          } else {
+              var _oNewField;
+              _oCustomImageUploader.state().get( 'selection' ).each( function ( oAttachment, iIndex ) {
 
-            var _oNewField;
-            _oCustomImageUploader.state().get( 'selection' ).each( function ( oAttachment, iIndex ) {
+                var _oAttributes = oAttachment.hasOwnProperty( 'attributes' )
+                  ? oAttachment.attributes
+                  : {};
 
-              var _oAttributes = oAttachment.hasOwnProperty( 'attributes' )
-                ? oAttachment.attributes
-                : {};
+                if ( 0 === iIndex ) {
+                  // place first attachment in the field
+                  setImagePreviewElementWithDelay( sInputID, _oAttributes );
+                  return true;
+                }
 
-              if ( 0 === iIndex ) {
-                // place first attachment in the field
-                setImagePreviewElementWithDelay( sInputID, _oAttributes );
-                return true;
-              }
+                var _oFieldContainer = 'undefined' === typeof _oNewField
+                  ? $( '#' + sInputID ).closest( '.admin-page-framework-field' )
+                  : _oNewField;
+                _oNewField = $( this ).addAdminPageFrameworkRepeatableField( _oFieldContainer.attr( 'id' ) );
+                var sInputIDOfNewField = _oNewField.find( 'input' ).attr( 'id' );
+                setImagePreviewElementWithDelay( sInputIDOfNewField, _oAttributes );
 
-              var _oFieldContainer = 'undefined' === typeof _oNewField
-                ? $( '#' + sInputID ).closest( '.admin-page-framework-field' )
-                : _oNewField;
-              _oNewField = $( this ).addAdminPageFrameworkRepeatableField( _oFieldContainer.attr( 'id' ) );
-              var sInputIDOfNewField = _oNewField.find( 'input' ).attr( 'id' );
-              setImagePreviewElementWithDelay( sInputIDOfNewField, _oAttributes );
+              } );
 
-            } );
+            }
 
-          }
+            // Restore the original select object.
+            wp.media.view.MediaFrame.Select = oAdminPageFrameworkOriginalImageUploaderSelectObject;
 
-          // Restore the original select object.
-          wp.media.view.MediaFrame.Select = oAdminPageFrameworkOriginalImageUploaderSelectObject;
+            return false;
+          } );  // on close
+
+          // Open the uploader dialog
+          _oCustomImageUploader.open();
+          return false;
 
         } );
 
-        // Open the uploader dialog
-        _oCustomImageUploader.open();
-        return false;
-
-      } );
-
-      var setImagePreviewElementWithDelay = function ( sInputID, oImage, iMilliSeconds ) {
-
-        iMilliSeconds = 'undefined' === typeof iMilliSeconds ? 100 : iMilliSeconds;
-
-        setTimeout( function () {
-          if ( ! _bEscaped ) {
-            setImagePreviewElement( sInputID, oImage );
-          }
-          _bEscaped = false;
-        }, iMilliSeconds );
+        function setImagePreviewElementWithDelay( sInputID, oImage, iMilliSeconds ) {
+          iMilliSeconds = 'undefined' === typeof iMilliSeconds ? 100 : iMilliSeconds;
+          setTimeout( function () {
+            if ( ! _bEscaped ) {
+              setImagePreviewElement( sInputID, oImage );
+            }
+            _bEscaped = false;
+          }, iMilliSeconds );
+        }
 
       }
-
     }
 
     /**
      * Sets the preview element.
      *
      * @since   3.2.0   Changed the scope to global.
+     * @since   3.9.0   Changed the scope to private.
      */
-    setImagePreviewElement = function ( sInputID, oImage ) {
+    function setImagePreviewElement( sInputID, oImage ) {
 
       oImage = $.extend(
         true,   // recursive
@@ -311,7 +307,7 @@
             _oSelectButton.attr( 'data-enable_external_source' )
           );
           // Remove buttons
-          $( 'a#remove_image_' + _oImageInput.attr( 'id' ) + '.remove_image.button' ).on( 'click', function ( event ) {
+          $( '#remove_image_' + _oImageInput.attr( 'id' ) + '.remove_image.button' ).on( 'click', function ( event ) {
             setImagePreviewElement( $( this ).data( 'input_id' ), {} );
             return false;
           } );
@@ -322,11 +318,11 @@
     );
 
     // Upload buttons
-    $( 'a.select_image.button' ).each( function() {
+    $( '.select_image.button' ).each( function() {
       setAdminPageFrameworkImageUploader( $( this ).data( 'input_id' ), $( this ).data( 'repeatable' ), $( this ).data( 'enable_external_source' ) );
     } );
     // Remove buttons
-    $( 'a.remove_image.button' ).on( 'click', function ( event ) {
+    $( '.remove_image.button' ).on( 'click', function ( event ) {
       setImagePreviewElement( $( this ).data( 'input_id' ), {} );
       return false;
     } );
@@ -337,7 +333,7 @@
     if ( ! parseInt( apfMain.debugMode ) ) {
       return;
     }
-    console.log( 'APF (Image)', ...msg );
+    console.log( 'APF Image Field Type', ...msg );
   }
 
 }( jQuery ));
