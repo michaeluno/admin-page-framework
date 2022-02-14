@@ -60,16 +60,4 @@ class AdminPageFramework_FieldType_number extends AdminPageFramework_FieldType_t
         ),
     );
 
-    /**
-     * Returns the field type specific CSS rules.
-     *
-     * @since       2.1.5
-     * @since       3.3.1       Changed from `_replyToGetStyles()`.
-     * @internal
-     * @return      string
-     */
-    protected function getStyles() {
-        return "";
-    }
-
 }
