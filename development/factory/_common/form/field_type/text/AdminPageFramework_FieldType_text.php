@@ -45,31 +45,7 @@ class AdminPageFramework_FieldType_text extends AdminPageFramework_FieldType {
      *
      * @remark `$_aDefaultKeys` holds shared default key-values defined in the base class.
      */
-    protected $aDefaultKeys = array(
-    );
-
-
-    /**
-     * Returns the field type specific CSS output inside the `<style></style>` tags.
-     *
-     * @since       2.1.5
-     * @since       3.3.1       Changed from `_replyToGetStyles()`.
-     */
-    protected function getStyles() {
-        return <<<CSSRULES
-/* Text Field Type */
-.admin-page-framework-field.admin-page-framework-field-text > .admin-page-framework-input-label-container {
-    /* vertical-align: top; @depracated 3.7.1 */
-    vertical-align: middle; 
-}
-
-.admin-page-framework-field.admin-page-framework-field-text > .admin-page-framework-input-label-container.admin-page-framework-field-text-multiple-labels {
-    /* When the browser screen width gets narrow, avoid the inputs getting placed next each other. */
-    display: block;
-}
-CSSRULES;
-
-    }
+    protected $aDefaultKeys = array();
 
     /**
      * Returns the output of the text input field.

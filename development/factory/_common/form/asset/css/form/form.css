@@ -1085,4 +1085,15 @@ th > label > span > .admin-page-framework-form-tooltip {
   display: inline;
   /* radio labels should not fold(wrap) after the check box */
 }
+
+/* Text Field Type */
+.admin-page-framework-field.admin-page-framework-field-text > .admin-page-framework-input-label-container {
+  /* vertical-align: top; @depracated 3.7.1 */
+  vertical-align: middle;
+}
+
+.admin-page-framework-field.admin-page-framework-field-text > .admin-page-framework-input-label-container.admin-page-framework-field-text-multiple-labels {
+  /* When the browser screen width gets narrow, avoid the inputs getting placed next each other. */
+  display: block;
+}
 /*# sourceMappingURL=form.css.map */
