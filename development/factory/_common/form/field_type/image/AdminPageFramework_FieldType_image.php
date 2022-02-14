@@ -135,7 +135,7 @@ class AdminPageFramework_FieldType_image extends AdminPageFramework_FieldType {
         $_aUploadButtonAttributes = $this->getElementAsArray( $aField, array( 'attributes', 'button' ) ) + $_aBaseAttributes;
         $_aRemoveButtonAttributes = $this->getElementAsArray( $aField, array( 'attributes', 'remove_button' ) ) + $_aBaseAttributes;
         $_bIsLabelSet             = isset( $_aRemoveButtonAttributes[ 'data-label' ] ) && $_aRemoveButtonAttributes[ 'data-label' ];
-        $_aRemoveButtonAttributes = $this->_getFormattedRemoveButtonAttributesByType( $aField[ 'input_id' ], $_aRemoveButtonAttributes, $_bIsLabelSet, 'image' );
+        $_aRemoveButtonAttributes = $this->_getFormattedRemoveButtonAttributesByType( $aField[ 'input_id' ], $_aRemoveButtonAttributes, $_bIsLabelSet, strtolower( $this->getFirstElement( $this->aFieldTypeSlugs ) ) );
 
         // Output
         return
@@ -151,8 +151,8 @@ class AdminPageFramework_FieldType_image extends AdminPageFramework_FieldType {
                         ''
                     )
                     . "<input " . $this->getAttributes( $this->___getImageInputAttributes( $aField, $_iCountAttributes, $_sImageURL, $_aBaseAttributes ) ) . " />"
-                    . $this->___getUploaderButtonHTML( $aField[ 'input_id' ], $_aUploadButtonAttributes, ! empty( $aField[ 'repeatable' ] ), $aField[ 'allow_external_source' ] )
-                    . $this->_getRemoveButtonHTMLByType( $aField[ 'input_id' ], $_aRemoveButtonAttributes, 'image' )
+                    . $this->_getUploaderButtonHTML( $aField[ 'input_id' ], $_aUploadButtonAttributes, ! empty( $aField[ 'repeatable' ] ), $aField[ 'allow_external_source' ] )
+                    . $this->_getRemoveButtonHTMLByType( $aField[ 'input_id' ], $_aRemoveButtonAttributes, strtolower( $this->getFirstElement( $this->aFieldTypeSlugs ) ) )
                     . $aField[ 'after_input' ]
                     . "<div class='repeatable-field-buttons'></div>" // the repeatable field buttons will be replaced with this element.
                     . $this->getExtraInputFields( $aField )
@@ -314,7 +314,7 @@ class AdminPageFramework_FieldType_image extends AdminPageFramework_FieldType {
             // Do not include the escaping character (backslash) in the heredoc variable declaration
             // because the minifier script will parse it and the <<<JAVASCRIPTS and JAVASCRIPTS; parts are converted to double quotes (")
             // which causes the PHP syntax error.
-            $_sButtonHTML     = '"' . $this->___getUploaderButtonHTML( $sInputID, $aButtonAttributes, $_bRepeatable, $bExternalSource ) . '"';
+            $_sButtonHTML     = '"' . $this->_getUploaderButtonHTML( $sInputID, $aButtonAttributes, $_bRepeatable, $bExternalSource ) . '"';
             $_sRepeatable     = $this->getAOrB( $_bRepeatable, 'true', 'false' );
             $_bExternalSource = $this->getAOrB( $bExternalSource, 'true', 'false' );
             $_sScript = <<<JAVASCRIPTS
@@ -335,14 +335,14 @@ JAVASCRIPTS;
         }
             /**
              * Returns an HTML output of an uploader button.
-             * @since       3.5.3
-             * @return      string      The generated HTML uploader button output.
-             * @internal
+             * @since  3.5.3
+             * @since  3.9.0  Changed the visibility scope to protected from private to be overridden by extended classes.
+             * @return string The generated HTML uploader button output.
              */
-            private function ___getUploaderButtonHTML( $sInputID, array $aButtonAttributes, $bRepeatable, $bExternalSource ) {
-
+            protected function _getUploaderButtonHTML( $sInputID, array $aButtonAttributes, $bRepeatable, $bExternalSource ) {
+                
                 $_bIsLabelSet = isset( $aButtonAttributes[ 'data-label' ] ) && $aButtonAttributes[ 'data-label' ];
-                $_aAttributes = $this->___getFormattedUploadButtonAttributes(
+                $_aAttributes = $this->_getFormattedUploadButtonAttributes(
                     $sInputID,
                     $aButtonAttributes,
                     $_bIsLabelSet,
@@ -362,12 +362,11 @@ JAVASCRIPTS;
             }
                 /**
                  * Returns a formatted upload button attributes array.
-                 * @since       3.5.3
-                 * @return      array       The formatted upload button attributes array.
-                 * @internal
+                 * @since  3.5.3
+                 * @since  3.9.0 Changed the visibility scope to protected from private to be overridden by extended classes.
+                 * @return array The formatted upload button attributes array.
                  */
-                private function ___getFormattedUploadButtonAttributes( $sInputID, array $aButtonAttributes, $_bIsLabelSet, $bRepeatable, $bExternalSource ) {
-
+                protected function _getFormattedUploadButtonAttributes( $sInputID, array $aButtonAttributes, $_bIsLabelSet, $bRepeatable, $bExternalSource ) {
                     $_aAttributes           = array(
                             'id'        => "select_image_{$sInputID}",
                             'href'      => '#',
@@ -400,7 +399,6 @@ JAVASCRIPTS;
                         )
                     );
                     return $_aAttributes;
-
                 }
 
         /**
