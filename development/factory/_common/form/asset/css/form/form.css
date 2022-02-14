@@ -951,6 +951,102 @@ th > label > span > .admin-page-framework-form-tooltip {
     margin: 0.5em 0.5em 0.5em 0;
   }
 }
+/* Import Field Type */
+.admin-page-framework-field-import input {
+  margin-right: 0.5em;
+}
+
+.admin-page-framework-field-import,
+.admin-page-framework-field-import .admin-page-framework-input-label-container {
+  width: 100%;
+}
+
+.admin-page-framework-field-import label,
+.form-table td fieldset.admin-page-framework-fieldset .admin-page-framework-field-import label {
+  /* for Wordpress 3.8 or above */
+  display: inline-block;
+  /* to display the submit button in the same line to the file input tag */
+  width: auto;
+  vertical-align: middle;
+}
+
+/* Inline-mixed Field Type */
+.admin-page-framework-field-inline_mixed {
+  width: 98%;
+}
+
+.admin-page-framework-field-inline_mixed > fieldset {
+  display: inline-block;
+  overflow-x: visible;
+  /* Disable scrollbars which appear when the browser width is narrow */
+  padding-right: 0.4em;
+  vertical-align: middle;
+}
+
+.admin-page-framework-field-inline_mixed > fieldset > .admin-page-framework-fields {
+  display: inline;
+  width: auto;
+  table-layout: auto;
+  margin: 0;
+  padding: 0;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.admin-page-framework-field-inline_mixed > fieldset > .admin-page-framework-fields > .admin-page-framework-field {
+  float: none;
+  clear: none;
+  width: 100%;
+  display: inline-block;
+  margin-right: auto;
+  vertical-align: middle;
+  /* For the select field type */
+}
+
+/* inline mixed child field title */
+.with-mixed-fields > fieldset > label {
+  width: auto;
+  padding: 0;
+}
+
+.admin-page-framework-field-inline_mixed > fieldset > .admin-page-framework-fields > .admin-page-framework-field .admin-page-framework-input-label-string {
+  padding: 0;
+}
+
+.admin-page-framework-field-inline_mixed > fieldset > .admin-page-framework-fields > .admin-page-framework-field > .admin-page-framework-input-label-container,
+.admin-page-framework-field-inline_mixed > fieldset > .admin-page-framework-fields > .admin-page-framework-field > * > .admin-page-framework-input-label-container {
+  padding: 0;
+  display: inline;
+  width: 100%;
+  vertical-align: middle;
+}
+
+.admin-page-framework-field-inline_mixed > fieldset > .admin-page-framework-fields > .admin-page-framework-field > .admin-page-framework-input-label-container > label,
+.admin-page-framework-field-inline_mixed > fieldset > .admin-page-framework-fields > .admin-page-framework-field > * > .admin-page-framework-input-label-container > label {
+  display: inline;
+  vertical-align: middle;
+}
+
+.admin-page-framework-field-inline_mixed > fieldset > .admin-page-framework-fields > .admin-page-framework-field > .admin-page-framework-input-label-container > label > input,
+.admin-page-framework-field-inline_mixed > fieldset > .admin-page-framework-fields > .admin-page-framework-field > * > .admin-page-framework-input-label-container > label > input {
+  display: inline;
+  min-width: 100%;
+  margin-right: 0.2em;
+  margin-left: auto;
+  vertical-align: middle;
+}
+
+/* Input container label 3.8.0+ */
+.admin-page-framework-field-inline_mixed .admin-page-framework-input-label-container,
+.admin-page-framework-field-inline_mixed .admin-page-framework-input-label-string {
+  min-width: 0;
+}
+
+/* Buttons - color picker (@todo move this to the color field type) */
+.admin-page-framework-field-inline_mixed .admin-page-framework-input-label-container button.button {
+  margin: 0;
+}
+
 /* Media Field Type */
 /* Media Uploader Button */
 .admin-page-framework-field-media input {
