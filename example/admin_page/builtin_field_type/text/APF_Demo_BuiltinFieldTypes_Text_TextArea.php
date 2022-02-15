@@ -189,7 +189,27 @@ EOD
                         . "</pre>",
                 ),
             ),
+            array(
+                'field_id'      => 'rich_text_area_repeatable',
+                'title'         => __( 'Repeatable Rich Text Area', 'admin-page-framework-loader' ),
+                'type'          => 'textarea',
+                'rich'          => true,
+                'repeatable'    => true,
+                'description'       => array(
+                    "<pre>"
+                        . $oFactory->oWPRMParser->getSyntaxHighlightedPHPCode(
+<<<EOD
 array(
+    'type'          => 'textarea',
+    'rich'          => true,
+    'repeatable     => true, 
+)
+EOD
+                        )
+                        . "</pre>",
+                ),
+            ),
+            array(
                 'field_id'      => 'rich_text_area_with_arguments',
                 'title'         => __( 'Rich Text Area with Arguments', 'admin-page-framework-loader' ),
                 'type'          => 'textarea',
