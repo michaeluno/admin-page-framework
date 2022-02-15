@@ -165,229 +165,27 @@ class AdminPageFramework_FieldType_taxonomy extends AdminPageFramework_FieldType
     );
 
     /**
-     * Loads the field type necessary components.
-     *
-     * @since       2.1.5
-     * @since       3.3.1       Changed from `_replyToFieldLoader()`.
-     * @internal
-     * @return      void
+     * @return array
+     * @since  3.9.0
      */
-    protected function setUp() {}
-
-    /**
-     * Returns the field type specific JavaScript script.
-     *
-     * Returns the JavaScript script of the taxonomy field type.
-     *
-     * @since       2.1.1
-     * @since       2.1.5       Moved from `AdminPageFramework_Property_Base()`.
-     * @since       3.3.1       Changed from `_replyToGetScripts()`.
-     * @internal
-     * @return      string
-     */
-    protected function getScripts() {
-
-        $_aJSArray = json_encode( $this->aFieldTypeSlugs );
-
-        return parent::getScripts() .
-        // return
-<<<JAVASCRIPTS
-/* For tabs */
-var enableAdminPageFrameworkTabbedBox = function( nodeTabBoxContainer ) {
-    jQuery( nodeTabBoxContainer ).each( function() {
-        jQuery( this ).find( '.tab-box-tab' ).each( function( i ) {
-            
-            if ( 0 === i ) {
-                jQuery( this ).addClass( 'active' );
-            }
-                
-            jQuery( this ).on( 'click', function( e ){
-                     
-                // Prevents jumping to the anchor which moves the scroll bar.
-                e.preventDefault();
-                
-                // Remove the active tab and set the clicked tab to be active.
-                jQuery( this ).siblings( 'li.active' ).removeClass( 'active' );
-                jQuery( this ).addClass( 'active' );
-                
-                // Find the element id and select the content element with it.
-                var thisTab = jQuery( this ).find( 'a' ).attr( 'href' );
-                active_content = jQuery( this ).closest( '.tab-box-container' ).find( thisTab ).css( 'display', 'block' ); 
-                active_content.siblings().css( 'display', 'none' );
-                
-            });
-        });     
-    });
-};        
-
-jQuery( document ).ready( function() {
-         
-    enableAdminPageFrameworkTabbedBox( jQuery( '.tab-box-container' ) );
-
-    /* The repeatable event */
-    jQuery().registerAdminPageFrameworkCallbacks( {
-        /**
-         * Called when a field of this field type gets repeated.
-         */
-        repeated_field: function( oCloned, aModel ) {
-                           
-            // Update attributes.            
-            oCloned.find( 'div, li.category-list' ).incrementAttribute(
-                'id', // attribute name
-                aModel[ 'incremented_from' ], // index incremented from
-                aModel[ 'id' ] // digit model
-            );
-            oCloned.find( 'label' ).incrementAttribute(
-                'for', // attribute name
-                aModel[ 'incremented_from' ], // index incremented from
-                aModel[ 'id' ] // digit model
-            );            
-            oCloned.find( 'li.tab-box-tab a' ).incrementAttribute(
-                'href', // attribute name
-                aModel[ 'incremented_from' ], // index incremented from
-                aModel[ 'id' ] // digit model
-            );                 
-            
-            // Initialize
-            enableAdminPageFrameworkTabbedBox( oCloned.find( '.tab-box-container' ) );
-            
-        },
-    },
-    {$_aJSArray}
-    );
-});     
-JAVASCRIPTS;
-
+    protected function getEnqueuingScripts() {
+        return array(
+            array(
+                'handle_id'         => 'admin-page-framework-field-type-taxonomy',
+                'src'               => dirname( __FILE__ ) . '/js/taxonomy.bundle.js',
+                'in_footer'         => true,
+                'dependencies'      => array( 'jquery', 'admin-page-framework-script-form-main' ),
+                'translation_var'   => 'AdminPageFrameworkFieldTypeTaxonomy',
+                'translation'       => array(
+                    'fieldTypeSlugs' => $this->aFieldTypeSlugs,
+                    'label'          => array(),
+                ),
+            ),
+        );
     }
 
     /**
-     * Returns the field type specific CSS rules.
-     *
-     * @since       2.1.5
-     * @since       3.3.1       Changed from `_replyToGetStyles()`.
-     * @internal
-     * @return      string
-     */
-    protected function getStyles() {
-        return <<<CSSRULES
-/* Taxonomy Field Type */
-.admin-page-framework-field .taxonomy-checklist li { 
-    margin: 8px 0 8px 20px; 
-}
-.admin-page-framework-field div.taxonomy-checklist {
-    padding: 8px 0 8px 10px;
-    margin-bottom: 20px;
-}
-.admin-page-framework-field .taxonomy-checklist ul {
-    list-style-type: none;
-    margin: 0;
-}
-.admin-page-framework-field .taxonomy-checklist ul ul {
-    margin-left: 1em;
-}
-.admin-page-framework-field .taxonomy-checklist-label {
-    /* margin-left: 0.5em; */
-    white-space: nowrap;     
-}    
-/* Tabbed box */
-.admin-page-framework-field .tab-box-container.categorydiv {
-    max-height: none;
-}
-.admin-page-framework-field .tab-box-tab-text {
-    display: inline-block;
-    font-size: 13px;
-    font-size: smaller;
-    padding: 2px;
-}
-.admin-page-framework-field .tab-box-tabs {
-    line-height: 12px;
-    margin-bottom: 0;
-}
-/* .admin-page-framework-field .tab-box-tab {     
-    vertical-align: top;
-} */
-.admin-page-framework-field .tab-box-tabs .tab-box-tab.active {
-    display: inline;
-    border-color: #dfdfdf #dfdfdf #fff;
-    margin-bottom: 0px;
-    padding-bottom: 4px;
-    background-color: #fff;
-    
-}
-.admin-page-framework-field .tab-box-container { 
-    position: relative; 
-    width: 100%; 
-    clear: both;
-    margin-bottom: 1em;
-}
-.admin-page-framework-field .tab-box-tabs li a { color: #333; text-decoration: none; }
-.admin-page-framework-field .tab-box-contents-container {  
-    padding: 0 0 0 1.8em;
-    padding: 0.55em 0.5em 0.55em 1.8em;
-    border: 1px solid #dfdfdf; 
-    background-color: #fff;
-}
-.admin-page-framework-field .tab-box-contents { 
-    overflow: hidden; 
-    overflow-x: hidden; 
-    position: relative; 
-    top: -1px; 
-    height: 300px;  
-}
-.admin-page-framework-field .tab-box-content { 
-
-    /* height: 300px; */
-    display: none; 
-    overflow: auto; 
-    display: block; 
-    position: relative; 
-    overflow-x: hidden;
-}
-.admin-page-framework-field .tab-box-content .taxonomychecklist {
-    margin-right: 3.2em;
-}
-.admin-page-framework-field .tab-box-content:target, 
-.admin-page-framework-field .tab-box-content:target, 
-.admin-page-framework-field .tab-box-content:target { 
-    display: block; 
-}  
-/* tab-box-content */
-.admin-page-framework-field .tab-box-content .select_all_button_container, 
-.admin-page-framework-field .tab-box-content .select_none_button_container
-{
-    display: inline-block;    /* 3.8.8 For some reasons, it became `block` */
-    margin-top: 0.8em;
-}
-/* Nested Checkbox Items */
-.admin-page-framework-field .taxonomychecklist .children {
-    margin-top: 6px;
-    margin-left: 1em;
-}
-CSSRULES;
-
-    }
-
-    /**
-     * Returns the field type specific CSS rules.
-     *
-     * @since       2.1.5
-     * @since       3.3.1       Changed from `_replyToGetInputIEStyles()`.
-     * @internal
-     * @return      string
-     */
-    protected function getIEStyles() {
-        return <<<CSSRULES
-.tab-box-content { display: block; }
-.tab-box-contents { overflow: hidden;position: relative; }
-b { position: absolute; top: 0px; right: 0px; width:1px; height: 251px; overflow: hidden; text-indent: -9999px; }
-CSSRULES;
-
-    }
-
-    /**
-     * Returns the output of the field type.
-     *
-     * Returns the output of taxonomy check-list check boxes.
+     * Returns the output of taxonomy field type which shows check-list check boxes of taxonomy terms.
      *
      * @remark      Multiple fields are not supported.
      * @remark      Repeater fields are not supported.
@@ -411,12 +209,12 @@ CSSRULES;
         $_aTabs         = array();
         $_aCheckboxes   = array();
         foreach( $this->getAsArray( $aField[ 'taxonomy_slugs' ] ) as $_isKey => $_sTaxonomySlug ) {
-            $_aAssociatedDataAttributes = $this->_getDataAttributesOfAssociatedPostTypes(
+            $_aAssociatedDataAttributes = $this->___getDataAttributesOfAssociatedPostTypes(
                 $_sTaxonomySlug,
-                $this->_getPostTypesByTaxonomySlug( $_sTaxonomySlug )
+                $this->___getPostTypesByTaxonomySlug( $_sTaxonomySlug )
             );
-            $_aTabs[]                   = $this->_getTaxonomyTab( $aField, $_isKey, $_sTaxonomySlug, $_aAssociatedDataAttributes );
-            $_aCheckboxes[]             = $this->_getTaxonomyCheckboxes( $aField, $_isKey, $_sTaxonomySlug, $_aAssociatedDataAttributes );
+            $_aTabs[]                   = $this->___getTaxonomyTab( $aField, $_isKey, $_sTaxonomySlug, $_aAssociatedDataAttributes );
+            $_aCheckboxes[]             = $this->___getTaxonomyCheckboxes( $aField, $_isKey, $_sTaxonomySlug, $_aAssociatedDataAttributes );
         }
 
         // Output
@@ -438,7 +236,7 @@ CSSRULES;
          * @since       3.8.8
          * @return      array       Post type slugs associated with the given taxonomy.
          */
-        private function _getPostTypesByTaxonomySlug( $sTaxonomySlug ) {
+        private function ___getPostTypesByTaxonomySlug( $sTaxonomySlug ) {
             $_oTaxonomy = get_taxonomy( $sTaxonomySlug );
             return $_oTaxonomy->object_type;
         }
@@ -448,7 +246,7 @@ CSSRULES;
          * @since       3.8.8
          * @return      array
          */
-        private function _getDataAttributesOfAssociatedPostTypes( $sTaxonomySlusg, $aPostTypes ) {
+        private function ___getDataAttributesOfAssociatedPostTypes( $sTaxonomySlusg, $aPostTypes ) {
             return array(
                 'data-associated-with'       => $sTaxonomySlusg,
                 'data-associated-post-types' => implode( ',', $aPostTypes ) . ',',  // must add a trailing comma for jQuery to detect the item.
@@ -463,7 +261,7 @@ CSSRULES;
          * @return      string      the generated HTML output of taxonomy checkboxes.
          * @internal
          */
-        private function _getTaxonomyCheckboxes( array $aField, $sKey, $sTaxonomySlug, $aAttributes ) {
+        private function ___getTaxonomyCheckboxes( array $aField, $sKey, $sTaxonomySlug, $aAttributes ) {
 
             $_aTabBoxContainerArguments = array(
                 'id'    => "tab_{$aField['input_id']}_{$sKey}",
@@ -480,7 +278,7 @@ CSSRULES;
                     . "<div " . $this->getAttributes( $this->_getCheckboxContainerAttributes( $aField ) ) . ">"
                     . "</div>"
                     . "<ul class='list:category taxonomychecklist form-no-clear'>"
-                        . $this->_getTaxonomyChecklist( $aField, $sKey, $sTaxonomySlug )
+                        . $this->___getTaxonomyChecklist( $aField, $sKey, $sTaxonomySlug )
                     . "</ul>"
                     . "<!--[if IE]><b>.</b><![endif]-->"
                     . $this->getElement( $aField, array( 'after_label', $sKey ) )
@@ -495,7 +293,7 @@ CSSRULES;
              * @internal
              * @return      string
              */
-            private function _getTaxonomyChecklist( $aField, $sKey, $sTaxonomySlug ) {
+            private function ___getTaxonomyChecklist( $aField, $sKey, $sTaxonomySlug ) {
                 return wp_list_categories(
                     array(
                         'walker'                => new AdminPageFramework_WalkerTaxonomyChecklist, // a walker class instance
@@ -510,7 +308,7 @@ CSSRULES;
                         ) + $aField[ 'attributes' ],
 
                         // checked items ( term IDs ) e.g.  array( 6, 10, 7, 15 ),
-                        '_selected_items'       => $this->_getSelectedKeyArray( $aField['value'], $sTaxonomySlug ),
+                        '_selected_items'       => $this->___getSelectedKeyArray( $aField['value'], $sTaxonomySlug ),
 
                         'echo'                  => false,  // returns the output
                         'show_post_count'       => $aField[ 'show_post_count' ],      // 3.2.0+
@@ -540,14 +338,12 @@ CSSRULES;
              * @return  array   Returns an numerically indexed array holding the keys that yield true as the value. e.g. `array( 6, 10, 7, 15 )`
              * @internal
              */
-            private function _getSelectedKeyArray( $vValue, $sTaxonomySlug ) {
-
+            private function ___getSelectedKeyArray( $vValue, $sTaxonomySlug ) {
                 $_aSelected = $this->getElementAsArray(
                     $this->getAsArray( $vValue ), // The initial value (null) may not be an array.
                     array( $sTaxonomySlug )
                 );
                 return array_keys( $_aSelected, true ); // return keys that are `true`.
-
             }
 
         /**
@@ -558,14 +354,14 @@ CSSRULES;
          * @return      string      The generated HTML tab list item output.
          * @internal
          */
-        private function _getTaxonomyTab( $aField, $sKey, $sTaxonomySlug, $aAttributes ) {
-            $_aLiAttribues = array(
+        private function ___getTaxonomyTab( $aField, $sKey, $sTaxonomySlug, $aAttributes ) {
+            $_aLiAttributes = array(
                 'class' => 'tab-box-tab',
             ) + $aAttributes;
-            return "<li " . $this->getAttributes( $_aLiAttribues ) . ">"
+            return "<li " . $this->getAttributes( $_aLiAttributes ) . ">"
                     . "<a href='#tab_{$aField['input_id']}_{$sKey}'>"
                         . "<span class='tab-box-tab-text'>"
-                            . $this->_getLabelFromTaxonomySlug( $sTaxonomySlug )
+                            . $this->___getLabelFromTaxonomySlug( $sTaxonomySlug )
                         . "</span>"
                     ."</a>"
                 ."</li>";
@@ -580,11 +376,9 @@ CSSRULES;
              * @return      string
              * @internal
              */
-            private function _getLabelFromTaxonomySlug( $sTaxonomySlug ) {
+            private function ___getLabelFromTaxonomySlug( $sTaxonomySlug ) {
                 $_oTaxonomy = get_taxonomy( $sTaxonomySlug );
-                return isset( $_oTaxonomy->label )
-                    ? $_oTaxonomy->label
-                    : '';
+                return isset( $_oTaxonomy->label ) ? $_oTaxonomy->label : '';
             }
 
 }
