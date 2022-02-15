@@ -42,7 +42,7 @@ class APF_Demo_AdvancedUsage_Section_Repeatable {
             array(
                 'section_id'    => $this->sSectionID,
                 'tab_slug'      => $this->sTabSlug,
-                'title'             => __( 'Repeatable Sections', 'admin-page-framework-loader' ),
+                'title'             => __( 'Repeatable & Sortable Sections', 'admin-page-framework-loader' ),
                 'description'       => array(
                     __( 'As of v3, it is possible to repeat sections.', 'admin-page-framework-loader' ) . ' '
                     . __( 'As of v3.6, it is possible to sort sections.', 'admin-page-framework-loader' ),

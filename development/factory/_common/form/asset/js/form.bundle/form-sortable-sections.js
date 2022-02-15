@@ -20,6 +20,9 @@
         _oTarget        = _bIsTabbed
             ? _oTarget.find( 'ul.admin-page-framework-section-tabs' )
             : _oTarget;
+        _oTarget        = ! _bIsTabbed && ! _bCollapsible
+          ? _oTarget.parent()
+          : _oTarget;
 
         _oTarget.off( 'sortupdate' );
         _oTarget.off( 'sortstop' );
@@ -27,7 +30,7 @@
         var _aSortableOptions = {
                 items: _bIsTabbed
                     ? '> li:not( .disabled )'
-                    : '> div:not( .disabled, .admin-page-framework-collapsible-toggle-all-button-container )',
+                    : '.admin-page-framework-section:not( .disabled, .admin-page-framework-collapsible-toggle-all-button-container )',
                 handle: _bCollapsible
                     ? '.admin-page-framework-section-caption'
                     : false,
@@ -35,30 +38,39 @@
                 stop: function(e,ui) {
 
                     // Callback the registered callback functions.
-                    jQuery( this ).trigger(
+                    $( this ).trigger(
                         'admin-page-framework_stopped_sorting_sections',
                         []  // parameters for the callbacks
                     );
 
                 },
 
-
                 // @todo Figure out how to allow the user to highlight text in sortable elements.
                 // cancel: '.admin-page-framework-section-description, .admin-page-framework-section-title'
 
-            }
+            };
+
         var _oSortable  = _oTarget.sortable( _aSortableOptions );
 
         if ( ! _bIsTabbed ) {
 
             _oSortable.on( 'sortstop', function() {
 
-                jQuery( this ).find( 'caption > .admin-page-framework-section-title:not(.admin-page-framework-collapsible-sections-title,.admin-page-framework-collapsible-section-title)' ).first().show();
-                jQuery( this ).find( 'caption > .admin-page-framework-section-title:not(.admin-page-framework-collapsible-sections-title,.admin-page-framework-collapsible-section-title)' ).not( ':first' ).hide();
+                $( this ).find( 'caption > .admin-page-framework-section-title:not(.admin-page-framework-collapsible-sections-title,.admin-page-framework-collapsible-section-title)' ).first().show();
+                $( this ).find( 'caption > .admin-page-framework-section-title:not(.admin-page-framework-collapsible-sections-title,.admin-page-framework-collapsible-section-title)' ).not( ':first' ).hide();
 
             } );
 
         }
 
     };
-}( jQuery ));
+
+
+  function debugLog( ...message ) {
+    if ( ! parseInt( AdminPageFrameworkScriptFormMain.debugMode ) ) {
+      return;
+    }
+    console.log( 'APF Sortable Sections:', ...message );
+  }
+
+}( jQuery ) );
