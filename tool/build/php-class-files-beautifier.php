@@ -1,8 +1,11 @@
 <?php
 /**
  * Beautify PHP files.
- *
  */
+
+// Disable PHP notices produced in recent PHP versions by Beautifier (as it is old)
+error_reporting( error_reporting() & ~E_NOTICE );
+
 $_nStart = microtime( true );
 
 /* Set necessary paths */
