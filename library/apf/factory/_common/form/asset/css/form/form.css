@@ -1,5 +1,5 @@
 @charset "UTF-8";
-/*! Admin Page Framework Form Style 1.0.7 */
+/*! Admin Page Framework Form Style 1.0.8 */
 .admin-page-framework-form-warning {
   font-size: 1em;
 }
@@ -789,6 +789,26 @@ th > label > span > .admin-page-framework-form-tooltip {
   border-color: transparent #F8F8F8 transparent transparent;
 }
 
+/* Nested fieldsets 3.8.0+ */
+.admin-page-framework-fieldset > .admin-page-framework-fields > .admin-page-framework-field.with-nested-fields > .admin-page-framework-fieldset.multiple-nesting {
+  margin-left: 2em;
+}
+
+.admin-page-framework-fieldset > .admin-page-framework-fields > .admin-page-framework-field.with-nested-fields > .admin-page-framework-fieldset {
+  margin-bottom: 1em;
+}
+
+.with-nested-fields > .admin-page-framework-fieldset.child-fieldset > .admin-page-framework-child-field-title {
+  display: inline-block;
+  padding: 0 0 0.4em 0;
+}
+
+.admin-page-framework-fieldset.child-fieldset > label.admin-page-framework-child-field-title {
+  display: table-row;
+  /* inline does not create a new line in FireFox */
+  white-space: nowrap;
+}
+
 /* Checkbox Field Type */
 .select_all_button_container,
 .select_none_button_container {
@@ -813,6 +833,42 @@ th > label > span > .admin-page-framework-form-tooltip {
   /* Checkbox labels should not fold(wrap) by creating an indent after the check box */
 }
 
+/* Color Picker Field Type */
+.repeatable .colorpicker {
+  display: inline;
+}
+
+.admin-page-framework-field-color .wp-picker-container {
+  vertical-align: middle;
+}
+
+.admin-page-framework-field-color .ui-widget-content {
+  border: none;
+  background: none;
+  color: transparent;
+}
+
+.admin-page-framework-field-color .ui-slider-vertical {
+  width: inherit;
+  height: auto;
+  margin-top: -11px;
+}
+
+.admin-page-framework-field-color .admin-page-framework-repeatable-field-buttons {
+  margin-top: 0;
+}
+
+.admin-page-framework-field-color .wp-color-result {
+  /* Overriding the default css rule, margin: 0 6px 6px 0px; to vertically align middle in the sortable box */
+  margin: 3px;
+}
+
+.sortable .admin-page-framework-field-color .wp-picker-container .wp-color-result.button,
+.sortable .admin-page-framework-field-color .admin-page-framework-input-label-container {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
 /* Contact Field Type */
 .admin-page-framework-field-contact .result-placeholder {
   margin-bottom: 0.4em;
@@ -824,6 +880,201 @@ th > label > span > .admin-page-framework-form-tooltip {
 
 .admin-page-framework-field-contact .result-placeholder .error {
   color: #d63638;
+}
+
+/* Image Field Type */
+/* Image Field Preview Container */
+.admin-page-framework-field .image_preview {
+  border: none;
+  clear: both;
+  margin-top: 0.4em;
+  margin-bottom: 0.8em;
+  display: block;
+  max-width: 100%;
+  height: auto;
+  width: inherit;
+}
+
+.admin-page-framework-field .image_preview img {
+  display: block;
+  height: auto;
+  max-width: 100%;
+}
+
+.widget .admin-page-framework-field .image_preview {
+  max-width: 100%;
+}
+
+@media only screen and (max-width: 1200px) {
+  .admin-page-framework-field .image_preview {
+    max-width: 600px;
+  }
+}
+@media only screen and (max-width: 900px) {
+  .admin-page-framework-field .image_preview {
+    max-width: 440px;
+  }
+}
+@media only screen and (max-width: 600px) {
+  .admin-page-framework-field .image_preview {
+    max-width: 300px;
+  }
+}
+@media only screen and (max-width: 480px) {
+  .admin-page-framework-field .image_preview {
+    max-width: 240px;
+  }
+}
+@media only screen and (min-width: 1200px) {
+  .admin-page-framework-field .image_preview {
+    max-width: 600px;
+  }
+}
+/* Image Uploader Input Field */
+.admin-page-framework-field-image input {
+  margin-right: 0.5em;
+  vertical-align: middle;
+}
+
+/* Image Uploader Button */
+.select_image.button.button-small,
+.remove_image.button.button-small {
+  vertical-align: middle;
+}
+
+.remove_image.button.button-small {
+  margin-left: 0.2em;
+}
+
+@media screen and (max-width: 782px) {
+  .admin-page-framework-field-image input {
+    margin: 0.5em 0.5em 0.5em 0;
+  }
+}
+/* Import Field Type */
+.admin-page-framework-field-import input {
+  margin-right: 0.5em;
+}
+
+.admin-page-framework-field-import,
+.admin-page-framework-field-import .admin-page-framework-input-label-container {
+  width: 100%;
+}
+
+.admin-page-framework-field-import label,
+.form-table td fieldset.admin-page-framework-fieldset .admin-page-framework-field-import label {
+  /* for Wordpress 3.8 or above */
+  display: inline-block;
+  /* to display the submit button in the same line to the file input tag */
+  width: auto;
+  vertical-align: middle;
+}
+
+/* Inline-mixed Field Type */
+.admin-page-framework-field-inline_mixed {
+  width: 98%;
+}
+
+.admin-page-framework-field-inline_mixed > fieldset {
+  display: inline-block;
+  overflow-x: visible;
+  /* Disable scrollbars which appear when the browser width is narrow */
+  padding-right: 0.4em;
+  vertical-align: middle;
+}
+
+.admin-page-framework-field-inline_mixed > fieldset > .admin-page-framework-fields {
+  display: inline;
+  width: auto;
+  table-layout: auto;
+  margin: 0;
+  padding: 0;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.admin-page-framework-field-inline_mixed > fieldset > .admin-page-framework-fields > .admin-page-framework-field {
+  float: none;
+  clear: none;
+  width: 100%;
+  display: inline-block;
+  margin-right: auto;
+  vertical-align: middle;
+  /* For the select field type */
+}
+
+/* inline mixed child field title */
+.with-mixed-fields > fieldset > label {
+  width: auto;
+  padding: 0;
+}
+
+.admin-page-framework-field-inline_mixed > fieldset > .admin-page-framework-fields > .admin-page-framework-field .admin-page-framework-input-label-string {
+  padding: 0;
+}
+
+.admin-page-framework-field-inline_mixed > fieldset > .admin-page-framework-fields > .admin-page-framework-field > .admin-page-framework-input-label-container,
+.admin-page-framework-field-inline_mixed > fieldset > .admin-page-framework-fields > .admin-page-framework-field > * > .admin-page-framework-input-label-container {
+  padding: 0;
+  display: inline;
+  width: 100%;
+  vertical-align: middle;
+}
+
+.admin-page-framework-field-inline_mixed > fieldset > .admin-page-framework-fields > .admin-page-framework-field > .admin-page-framework-input-label-container > label,
+.admin-page-framework-field-inline_mixed > fieldset > .admin-page-framework-fields > .admin-page-framework-field > * > .admin-page-framework-input-label-container > label {
+  display: inline;
+  vertical-align: middle;
+}
+
+.admin-page-framework-field-inline_mixed > fieldset > .admin-page-framework-fields > .admin-page-framework-field > .admin-page-framework-input-label-container > label > input,
+.admin-page-framework-field-inline_mixed > fieldset > .admin-page-framework-fields > .admin-page-framework-field > * > .admin-page-framework-input-label-container > label > input {
+  display: inline;
+  min-width: 100%;
+  margin-right: 0.2em;
+  margin-left: auto;
+  vertical-align: middle;
+}
+
+/* Input container label 3.8.0+ */
+.admin-page-framework-field-inline_mixed .admin-page-framework-input-label-container,
+.admin-page-framework-field-inline_mixed .admin-page-framework-input-label-string {
+  min-width: 0;
+}
+
+/* Buttons - color picker (@todo move this to the color field type) */
+.admin-page-framework-field-inline_mixed .admin-page-framework-input-label-container button.button {
+  margin: 0;
+}
+
+/* Media Field Type */
+/* Media Uploader Button */
+.admin-page-framework-field-media input {
+  margin-right: 0.5em;
+  vertical-align: middle;
+}
+
+@media screen and (max-width: 782px) {
+  .admin-page-framework-field-media input {
+    margin: 0.5em 0.5em 0.5em 0;
+  }
+}
+.select_media.button.button-small,
+.remove_media.button.button-small {
+  vertical-align: middle;
+}
+
+.remove_media.button.button-small {
+  margin-left: 0.2em;
+}
+
+/* Post Type Field Type */
+.admin-page-framework-field input[type=checkbox] {
+  margin-right: 0.5em;
+}
+
+.admin-page-framework-field-posttype .admin-page-framework-input-label-container {
+  padding-right: 1em;
 }
 
 /* Radio Field Type */
@@ -842,5 +1093,250 @@ th > label > span > .admin-page-framework-form-tooltip {
 .admin-page-framework-field.admin-page-framework-field-radio .admin-page-framework-input-label-string {
   display: inline;
   /* radio labels should not fold(wrap) after the check box */
+}
+
+/* Section Title Field Type */
+.admin-page-framework-section-tab .admin-page-framework-field-section_title {
+  padding: 0.5em;
+}
+
+.admin-page-framework-section-tab .admin-page-framework-field-section_title .admin-page-framework-input-label-string {
+  vertical-align: middle;
+  margin-left: 0.2em;
+}
+
+.admin-page-framework-section-tab .admin-page-framework-fields {
+  display: inline-block;
+}
+
+.admin-page-framework-field.admin-page-framework-field-section_title {
+  float: none;
+}
+
+.admin-page-framework-field.admin-page-framework-field-section_title input {
+  background-color: #fff;
+  color: #333;
+  border-color: #ddd;
+  -webkit-box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.07);
+          box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.07);
+  border-width: 1px;
+  border-style: solid;
+  outline: 0;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  vertical-align: middle;
+}
+
+/* Select Field Type */
+.admin-page-framework-field-select .admin-page-framework-input-label-container {
+  vertical-align: top;
+}
+
+.admin-page-framework-field-select .admin-page-framework-input-label-container {
+  padding-right: 1em;
+}
+
+/* Size Field Type */
+.admin-page-framework-field-size input {
+  text-align: right;
+}
+
+.admin-page-framework-field-size select.size-field-select {
+  vertical-align: 0;
+}
+
+.admin-page-framework-field-size label {
+  width: auto;
+}
+
+.form-table td fieldset .admin-page-framework-field-size label {
+  display: inline-block;
+}
+
+/* Submit Field Type */
+/* Submit Buttons */
+.admin-page-framework-field input[type=submit] {
+  margin-bottom: 0.5em;
+}
+
+/* Confirmation */
+.admin-page-framework-field-submit .submit-confirm-container {
+  display: inline-block;
+  margin-left: 1em;
+  vertical-align: middle;
+}
+
+.admin-page-framework-field-submit .field-error.submit-confirmation-warning {
+  float: none;
+}
+
+/* System Field Type */
+.admin-page-framework-field-system {
+  width: 100%;
+}
+
+.admin-page-framework-field-system .admin-page-framework-input-label-container {
+  width: 100%;
+}
+
+.admin-page-framework-field-system textarea {
+  background-color: #f9f9f9;
+  width: 97%;
+  outline: 0;
+  font-family: Consolas, Monaco, monospace;
+  white-space: pre;
+  word-wrap: normal;
+  overflow-x: scroll;
+}
+
+/* Taxonomy Field Type */
+.admin-page-framework-field .taxonomy-checklist li {
+  margin: 8px 0 8px 20px;
+}
+
+.admin-page-framework-field div.taxonomy-checklist {
+  padding: 8px 0 8px 10px;
+  margin-bottom: 20px;
+}
+
+.admin-page-framework-field .taxonomy-checklist ul {
+  list-style-type: none;
+  margin: 0;
+}
+
+.admin-page-framework-field .taxonomy-checklist ul ul {
+  margin-left: 1em;
+}
+
+.admin-page-framework-field .taxonomy-checklist-label {
+  white-space: nowrap;
+}
+
+/* Repeatable Buttons */
+.admin-page-framework-field-taxonomy .admin-page-framework-repeatable-field-buttons {
+  margin-bottom: 0.6em;
+}
+
+/* Tabbed box */
+.admin-page-framework-field .tab-box-container.categorydiv {
+  max-height: none;
+}
+
+.admin-page-framework-field .tab-box-tab-text {
+  display: inline-block;
+  font-size: 13px;
+  font-size: smaller;
+  padding: 2px;
+}
+
+.admin-page-framework-field .tab-box-tabs {
+  line-height: 12px;
+  margin-bottom: 0;
+}
+
+.admin-page-framework-field .tab-box-tabs .tab-box-tab.active {
+  display: inline;
+  border-color: #dfdfdf #dfdfdf #fff;
+  margin-bottom: 0px;
+  padding-bottom: 4px;
+  background-color: #fff;
+}
+
+.admin-page-framework-field .tab-box-container {
+  position: relative;
+  width: 100%;
+  clear: both;
+  margin-bottom: 1em;
+}
+
+.admin-page-framework-field .tab-box-tabs li a {
+  color: #333;
+  text-decoration: none;
+}
+
+.admin-page-framework-field .tab-box-contents-container {
+  padding: 0 0 0 1.8em;
+  padding: 0.55em 0.5em 0.55em 1.8em;
+  border: 1px solid #dfdfdf;
+  background-color: #fff;
+}
+
+.admin-page-framework-field .tab-box-contents {
+  overflow: hidden;
+  overflow-x: hidden;
+  position: relative;
+  top: -1px;
+  height: 300px;
+}
+
+.admin-page-framework-field .tab-box-content {
+  /* height: 300px; */
+  display: none;
+  overflow: auto;
+  display: block;
+  position: relative;
+  overflow-x: hidden;
+}
+
+.admin-page-framework-field .tab-box-content .taxonomychecklist {
+  margin-right: 3.2em;
+}
+
+.admin-page-framework-field .tab-box-content:target,
+.admin-page-framework-field .tab-box-content:target,
+.admin-page-framework-field .tab-box-content:target {
+  display: block;
+}
+
+/* tab-box-content */
+.admin-page-framework-field .tab-box-content .select_all_button_container,
+.admin-page-framework-field .tab-box-content .select_none_button_container {
+  display: inline-block;
+  /* 3.8.8 For some reasons, it became `block` */
+  margin-top: 0.8em;
+}
+
+/* Nested Checkbox Items */
+.admin-page-framework-field .taxonomychecklist .children {
+  margin-top: 6px;
+  margin-left: 1em;
+}
+
+/* Text Field Type */
+.admin-page-framework-field.admin-page-framework-field-text > .admin-page-framework-input-label-container {
+  /* vertical-align: top; @depracated 3.7.1 */
+  vertical-align: middle;
+}
+
+.admin-page-framework-field.admin-page-framework-field-text > .admin-page-framework-input-label-container.admin-page-framework-field-text-multiple-labels {
+  /* When the browser screen width gets narrow, avoid the inputs getting placed next each other. */
+  display: block;
+}
+
+/* Textarea Field Type */
+.admin-page-framework-field-textarea .admin-page-framework-input-label-string {
+  vertical-align: top;
+  margin-top: 2px;
+}
+
+/* Rich Text Editor */
+.admin-page-framework-field-textarea .wp-core-ui.wp-editor-wrap {
+  margin-bottom: 0.5em;
+}
+
+.admin-page-framework-field-textarea.admin-page-framework-field .admin-page-framework-input-label-container {
+  vertical-align: top;
+  float: left;
+  clear: both;
+}
+
+/* For meta-boxes */
+.postbox .admin-page-framework-field-textarea .admin-page-framework-input-label-container {
+  width: 100%;
+}
+
+/* Prevents the input box sticks out in a meta box, especially in the side meta box. */
+.admin-page-framework-field-textarea textarea {
+  max-width: 100%;
 }
 /*# sourceMappingURL=form.css.map */
