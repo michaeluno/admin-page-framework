@@ -18,6 +18,29 @@
 class AdminPageFramework_WPUtility_SiteInformation extends AdminPageFramework_WPUtility_Meta {
 
     /**
+     * Retrieves the site debug data.
+     *
+     * Same as the one displayed in the Site Health screen (Dashboard -> Tools -> Site Health -> Info).
+     *
+     * @return array    If the used WordPress version does not support the debug class, an empty array is returned.
+     * @since  3.9.0
+     */
+    static public function getSiteData() {
+        $_sWPDebugClassFilePath = ABSPATH . 'wp-admin/includes/class-wp-debug-data.php';
+        if ( file_exists( $_sWPDebugClassFilePath ) ) {
+            include_once( $_sWPDebugClassFilePath );
+        }
+        if ( ! class_exists( 'WP_Debug_Data' ) ) {
+            return array();
+        }
+        try {
+            return WP_Debug_Data::debug_data();
+        } catch ( Exception $_oException ) {
+            return array();
+        }
+    }
+
+    /**
      * Checks if the site debug mode is on.
      *
      * @since       3.5.3
