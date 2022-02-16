@@ -59,9 +59,8 @@ class AdminPageFramework_FieldType_hidden extends AdminPageFramework_FieldType {
      * @internal
      */
     protected function getField( $aField ) {
-
         return
-            $aField['before_label']
+            $aField[ 'before_label' ]
             . "<div class='admin-page-framework-input-label-container'>"
                 . "<label for='{$aField[ 'input_id' ]}'>"
                     . $aField[ 'before_input' ]
@@ -72,11 +71,10 @@ class AdminPageFramework_FieldType_hidden extends AdminPageFramework_FieldType {
                         : ""
                     )
                     . "<input " . $this->getAttributes( $aField[ 'attributes' ] ) . " />"
-                    . $aField['after_input']
+                    . $aField[ 'after_input' ]
                 . "</label>"
             . "</div>"
-            . $aField['after_label'];
-
+            . $aField[ 'after_label' ];
     }
 
 }
