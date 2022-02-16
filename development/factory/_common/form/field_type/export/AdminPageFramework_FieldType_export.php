@@ -8,7 +8,7 @@
  */
 
 /**
- * Defines the export field type.
+ * The Export field type let the user download arbitrary data.
  *
  * <h2>Field Definition Arguments</h2>
  * <h3>Field Type Specific Arguments</h3>
