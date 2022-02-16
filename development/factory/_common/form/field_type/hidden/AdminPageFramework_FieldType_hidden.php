@@ -43,7 +43,9 @@ class AdminPageFramework_FieldType_hidden extends AdminPageFramework_FieldType {
     /**
      * Defines the default key-values of this field type.
      */
-    protected $aDefaultKeys = array();
+    protected $aDefaultKeys = array(
+        'hidden' => true,
+    );
 
     /**
      * Returns the output of the field type.
