@@ -1,3 +1,3 @@
 #!/usr/bin/php
-apigen --config config.neon
+php ./apigen/apigen.php --config config.neon
 $SHELL
