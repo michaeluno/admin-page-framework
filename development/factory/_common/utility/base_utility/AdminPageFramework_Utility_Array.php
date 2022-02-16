@@ -18,19 +18,6 @@
 abstract class AdminPageFramework_Utility_Array extends AdminPageFramework_Utility_String {
 
     /**
-     * Returns the first element of an array.
-     * @param  array $aArray
-     * @return mixed|null
-     * @since  3.9.0
-     */
-    static public function getFirstElement( array $aArray ) {
-        foreach( $aArray as $mValue ) {
-            return $mValue;
-        }
-        return null;
-    }
-
-    /**
      * Performs `array_map()` recursively.
      *
      * @remark Accepts arguments.

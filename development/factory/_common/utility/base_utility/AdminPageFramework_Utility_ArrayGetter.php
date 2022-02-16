@@ -21,13 +21,16 @@ abstract class AdminPageFramework_Utility_ArrayGetter extends AdminPageFramework
 
     /**
      * Returns a first iterated array element.
-     * @since       3.6.0
-     * @since       3.7.0       Moved from `AdminPageFramework_Utility_Array`.
+     * @since  3.6.0
+     * @since  3.7.0 Moved from `AdminPageFramework_Utility_Array`.
+     * @since  3.9.0 Returns `null` if not found instead of void.
+     * @return mixed `null` will be returned if not found.
      */
     static public function getFirstElement( array $aArray ) {
         foreach( $aArray as $_mElement ) {
             return $_mElement;
         }
+        return null;
     }
 
     /**
