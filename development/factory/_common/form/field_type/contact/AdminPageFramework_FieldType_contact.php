@@ -8,7 +8,7 @@
  */
 
 /**
- * Defines the `contact` field type. [3.9.0+]
+ * [3.9.0+] The Contact field type is a custom submit field that helps create custom contact forms by sending data of sibling fields within the same section.
  * 
  * <h2>Field Definition Arguments</h2>
  * <h3>Field Type Specific Arguments</h3>
@@ -40,75 +40,109 @@
  * 
  * <h2>Example</h2>
  * <code>
- *  array( 
- *      'field_id'          => 'contact',
-... @todo add example
- *  )
- * </code>
- *
- * <h3>Email</h3>
- * With the `email` argument, the user can send form data as an email.
- * <code>
- *  $this->addSettingFields(
- *      'report',   // section ID
- *      array( 
- *          'field_id'          => 'name',
- *          'title'             => __( 'Your Name', 'admin-page-framework-loader' ),
- *          'type'              => 'text',
- *          'attributes'        => array(
- *              'required'      => 'required',
- *              'placeholder'   => __( 'Type your name.', 'admin-page-framewrok-demo' ),
- *          ),
- *      ),    
- *      array( 
- *          'field_id'          => 'from',
- *          'title'             => __( 'Your Email Address', 'admin-page-framework-loader' ),
- *          'type'              => 'text',
- *          'default'           => $_oCurrentUser->user_email,
- *          'attributes'        => array(
- *              'required'      => 'required',
- *              'placeholder'   =>  __( 'Type your email that the developer replies backt to.', 'admin-page-framework-loader' )
- *          ),
- *      ),                
- *      array( 
- *          'field_id'          => 'message',
- *          'title'             => __( 'Message', 'admin-page-framework-loader' ),
- *          'type'              => 'textarea',
- *          'attributes'        => array(
- *              'required'  => 'required',
- *          ),
- *      ),  
- *
- *      array( 
- *          'field_id'          => 'send',
- *          'type'              => 'submit',
- *          'label_min_width'   => 0,
- *          'value'             => 'email' === $oFactory->oUtil->getElement( `$_GET`, 'confirmation' )
- *              ? __( 'Send', 'admin-page-framework-demo' )
- *              : __( 'Preview', 'admin-page-framework-demo' )
- *          ), 
- *          'email'             => array(
- *              // Each argument can accept a string or an array representing the dimensional array key.
- *              // For example, if there is a field for the email title, and its section id is 'my_section'  and  the field id is 'my_field', pass an array, array( 'my_section', 'my_field' )
- *              'to'            => 'email-address@your.domain',
- *              'subject'       => 'Reporting Issue',
- *              'message'       => array( 'report', 'message' ), // the section name enclosed in an array. If it is a field, set it to the second element like array( 'seciton id', 'field id' ).
- *              'headers'       => '',
- *              'attachments'   => '', // the file path(s)
- *              'name'          => '', // The email sender name. If the 'name' argument is empty, the field named 'name' in this section will be applied
- *              'from'          => '', // The sender email address. If the 'from' argument is empty, the field named 'from' in this section will be applied.
- *              // 'is_html'       => true,
- *              'data'          => array(
- *                  'Custom Data' => array( 'foo' => 'bar' ),
+ *      $_sSectionID   = 'my_contact_form'; // add your section in prior
+ *      $_oCurrentUser = wp_get_current_user();
+ *      $oFactory->addSettingFields(
+ *          $_sSectionID, // the target section id
+ *          array(
+ *              'field_id'          => 'name',
+ *              'title'             => __( 'Your Name', 'admin-page-framework-loader' ),
+ *              'type'              => 'text',
+ *              'default'           => $_oCurrentUser->user_firstname || $_oCurrentUser->user_lastname
+ *                  ? $_oCurrentUser->user_lastname . ' ' .  $_oCurrentUser->user_lastname
+ *                  : '',
+ *              'attributes'        => array(
+ *                  'required' => 'required',
+ *                  'placeholder'   => __( 'Type your name.', 'admin-page-framewrok-demo' ),
  *              ),
  *          ),
- *          'message'           => array(
- *              'error'         => __( 'Something went wrong.'. 'your-text-domain' ),
- *              'success'       => __( 'Thanks for your feedback!.'. 'your-text-domain' ),
- *              'failure'       => __( 'Email could not be sent. Please try again later.'. 'your-text-domain' ),
+ *          array(
+ *              'field_id'          => 'from',
+ *              'title'             => __( 'Your Email Address', 'admin-page-framework-loader' ),
+ *              'type'              => 'text',
+ *              'default'           => $_oCurrentUser->user_email,
+ *              'attributes'        => array(
+ *                  'required'      => 'required',
+ *                  'placeholder'   =>  __( 'Type your email here.', 'admin-page-framework-loader' ),
+ *              ),
+ *          ),
+ *          array(
+ *              'field_id'          => 'use_for_commercial_products',
+ *              'title'             => __( 'I use the framework for', 'admin-page-framework-loader' ),
+ *              'type'              => 'radio',
+ *              'default'           => 1,
+ *              'label'             => array(
+ *                  1       => __( 'Commercial Products', 'admin-page-framework-loader' ),
+ *                  0       => __( 'Non-commercial Products', 'admin-page-framework-loader' ),
+ *              ),
+ *          ),
+ *          array(
+ *              'field_id'          => 'use_for',
+ *              'title'             => __( 'I use the framework for', 'admin-page-framework-loader' ),
+ *              'type'              => 'radio',
+ *              'default'           => 'others',
+ *              'label'             => array(
+ *                  'plugins'   => __( 'Plugins', 'admin-page-framework-loader' ),
+ *                  'themes'    => __( 'Themes', 'admin-page-framework-loader' ),
+ *                  'others'    => __( 'Others', 'admin-page-framework-loader' ),
+ *              ),
+ *          ),
+ *          array(
+ *              'field_id'          => 'subject',
+ *              'title'             => __( 'Subject', 'admin-page-framework-loader' ),
+ *              'type'              => 'text',
+ *              'attributes'        => array(
+ *                  'size' => 40,
+ *                  'placeholder'   =>  __( 'Type the title here.', 'admin-page-framework-loader' ),
+ *              ),
+ *          ),
+ *          array(
+ *              'field_id'          => 'body',
+ *              'title'             => __( 'Message', 'admin-page-framework-loader' ),
+ *              'type'              => 'textarea',
+ *              'rich'              => array(
+ *                  'textarea_rows' => 10,  // set height
+ *                  // Or use the below to set height
+ *                  // 'editor_height' => 300,
+ *                  // @see _WP_Editors::parse_settings()
+ *              ),
+ *              'attributes'        => array(
+ *                  'placeholder'   =>  __( 'Type the message here.', 'admin-page-framework-loader' ),
+ *              ),
+ *          ),
+ *          array(
+ *              'field_id'          => 'ip',
+ *              'type'              => 'hidden',
+ *              'value'             => $_SERVER[ "REMOTE_ADDR" ],
+ *          ),
+ *          array(
+ *              'field_id'          => 'send',
+ *              'type'              => 'contact',
+ *              'label_min_width'   => 0,
+ *              'value'             => __( 'Send', 'admin-page-framework-demo' ),
+ *              'attributes'        => array(
+ *                  'field' => array(
+ *                      'style' => 'float:right; clear:none; display: inline;',
+ *                  ),
+ *              ),
+ *              'skip_confirmation' => true,
+ *              'system_message'    => array(
+ *                  'success' => __( 'Thanks for the feedback!', 'admin-page-framework-demo' ),
+ *              ),
+ *              'email'             => array(
+ *                  // Each argument can accept a string or an array representing the dimensional array key.
+ *                  // For example, if there is a field for the email title, and its section id is 'my_section'  and  the field id is 'my_field', pass an array, array( 'my_section', 'my_field' )
+ *                  'to'          => 'admin-page-framework@michaeluno.jp',
+ *                  'subject'     => array( $_sSectionID, 'subject' ),
+ *                  'message'     => array( $_sSectionID ), // the section name enclosed in an array. If it is a field, set it to the second element like array( 'section id', 'field id' ).
+ *                  'headers'     => '',
+ *                  'attachments' => '',    // the file path
+ *                  'is_html'     => true,  // boolean  Whether the mail should be sent as an html text
+ *                  'from'        => array( $_sSectionID, 'from' ),
+ *                  'name'        => array( $_sSectionID, 'name' ),
+ *              ),
  *          )
- *      )
- *  );  
+ *      );
  * </code>
  * 
  * @image           http://admin-page-framework.michaeluno.jp/image/common/form/field_type/contact.png
