@@ -75,7 +75,7 @@ class APF_Demo_Contact_Tab_Feedback {
                 'field_id'          => 'name',
                 'title'             => __( 'Your Name', 'admin-page-framework-loader' ),
                 'type'              => 'text',
-                'default'           => $_oCurrentUser->user_firstname || $_oCurrentUser->user_firstname
+                'default'           => $_oCurrentUser->user_firstname || $_oCurrentUser->user_lastname
                     ? $_oCurrentUser->user_lastname . ' ' .  $_oCurrentUser->user_lastname
                     : '',
                 'attributes'        => array(
