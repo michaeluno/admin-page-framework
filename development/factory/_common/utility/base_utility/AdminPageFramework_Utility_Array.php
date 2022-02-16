@@ -117,6 +117,9 @@ abstract class AdminPageFramework_Utility_Array extends AdminPageFramework_Utili
      * @since  3.0.0
      * @since  3.5.3   Moved from `AdminPageFramework_Utility_Array`.
      * @since  3.9.0   Revived and moved from `AdminPageFramework_Utility_Deprecated`.
+     * @remark Same as `isAssociative()`.
+     * @see    AdminPageFramework_Utility_Array::isAssociative()
+     * @todo   Deprecate either of AdminPageFramework_Utility_Array::isAssociative() or this.
      * @param  array   $aArray
      * @return boolean
      */
