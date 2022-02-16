@@ -36,18 +36,14 @@ class APF_Demo_Contact_Tab_Feedback {
         );
 
         // load + page slug + tab slug
-        add_action(
-            'load_' . $this->_sPageSlug . '_' . $this->_sTabSlug,
-            array( $this, 'replyToAddFormElements' )
-        );
+        add_action( 'load_' . $this->_sPageSlug . '_' . $this->_sTabSlug, array( $this, 'replyToAddFormElements' ) );
 
     }
 
     /**
      * Triggered when the tab is loaded.
      *
-     * @return      void
-     * @callback    action      load_{page slug}_{tab slug}
+     * @callback add_action() load_{page slug}_{tab slug}
      */
     public function replyToAddFormElements( $oFactory ) {
 
