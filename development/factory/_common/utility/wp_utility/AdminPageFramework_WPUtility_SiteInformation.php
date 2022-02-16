@@ -22,10 +22,12 @@ class AdminPageFramework_WPUtility_SiteInformation extends AdminPageFramework_WP
      *
      * Same as the one displayed in the Site Health screen (Dashboard -> Tools -> Site Health -> Info).
      *
-     * @return array    If the used WordPress version does not support the debug class, an empty array is returned.
+     * @param  array|string dimensional keys
+     * @return mixed        If the used WordPress version does not support the debug class, an empty array is returned.
      * @since  3.9.0
+     * @see    WP_Debug_Data::debug_data()
      */
-    static public function getSiteData() {
+    static public function getSiteData( $asKeys=array() ) {
         $_sWPDebugClassFilePath = ABSPATH . 'wp-admin/includes/class-wp-debug-data.php';
         if ( file_exists( $_sWPDebugClassFilePath ) ) {
             include_once( $_sWPDebugClassFilePath );
@@ -34,7 +36,14 @@ class AdminPageFramework_WPUtility_SiteInformation extends AdminPageFramework_WP
             return array();
         }
         try {
-            return WP_Debug_Data::debug_data();
+            $_mCache = self::getObjectCache( __CLASS__ . '::' . __METHOD__ );
+            $_aDebugData = ! isset( $_mCache )
+                ? WP_Debug_Data::debug_data()
+                : $_mCache;
+            self::setObjectCache( __CLASS__ . '::' . __METHOD__, $_aDebugData );
+            return empty( $asKeys )
+                ? $_aDebugData
+                : self::getElement( $_aDebugData, $asKeys );
         } catch ( Exception $_oException ) {
             return array();
         }
