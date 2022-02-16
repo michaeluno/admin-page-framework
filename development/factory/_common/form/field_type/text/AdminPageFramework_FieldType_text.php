@@ -10,7 +10,7 @@
 /**
  * A text field that lets the user set short text values.
  *
- * This class defines the `text` field type. Also the field types of 'password', 'datetime', 'datetime-local', 'email', 'month', 'search', 'tel', 'url', and 'week' are defined.
+ * This class defines the `text` field type. Also, the field types of 'password', 'datetime', 'datetime-local', 'email', 'month', 'search', 'tel', 'url', and 'week' are defined.
  *
  * <h3>Example</h3>
  * <code>
@@ -28,10 +28,10 @@
  *
  * For common field definition arguments, see {@link AdminPageFramework_Factory_Controller::addSettingField()}.
  *
- * @image           http://admin-page-framework.michaeluno.jp/image/common/form/field_type/text_field_type.png
- * @package         AdminPageFramework/Common/Form/FieldType
- * @since           2.1.5
- * @since           3.3.1       Changed to extend `AdminPageFramework_FieldType` from `AdminPageFramework_FieldType_Base`.
+ * @image   http://admin-page-framework.michaeluno.jp/image/common/form/field_type/text_field_type.png
+ * @package AdminPageFramework/Common/Form/FieldType
+ * @since   2.1.5
+ * @since   3.3.1 Changed to extend `AdminPageFramework_FieldType` from `AdminPageFramework_FieldType_Base`.
  */
 class AdminPageFramework_FieldType_text extends AdminPageFramework_FieldType {
 
@@ -43,42 +43,36 @@ class AdminPageFramework_FieldType_text extends AdminPageFramework_FieldType {
     /**
      * Defines the default key-values of this field type.
      *
-     * @remark `$_aDefaultKeys` holds shared default key-values defined in the base class.
+     * @var array Holds shared default key-values for the field type.
      */
     protected $aDefaultKeys = array();
 
     /**
      * Returns the output of the text input field.
      *
-     * @since       2.1.5
-     * @since       3.0.0       Removed unnecessary parameters.
-     * @since       3.3.1       Changed from `_replyToGetField()`.
+     * @since    2.1.5
+     * @since    3.0.0       Removed unnecessary parameters.
+     * @since    3.3.1       Changed from `_replyToGetField()`.
      * @internal
      */
     protected function getField( $aField ) {
-
         $_aOutput = array();
         foreach( ( array ) $aField[ 'label' ] as $_sKey => $_sLabel ) {
-            $_aOutput[] = $this->_getFieldOutputByLabel(
+            $_aOutput[] = $this->___getFieldOutputByLabel(
                 $_sKey,
                 $_sLabel,
                 $aField
             );
         }
-
         // the repeatable field buttons will be replaced with this element.
         $_aOutput[] = "<div class='repeatable-field-buttons'></div>";
         return implode( '', $_aOutput );
-
     }
-
         /**
-         * @internal
-         * @since       3.5.8
-         * @return      string
+         * @since  3.5.8
+         * @return string
          */
-        private function _getFieldOutputByLabel( $sKey, $sLabel, $aField ) {
-
+        private function ___getFieldOutputByLabel( $sKey, $sLabel, $aField ) {
             $_bIsArray          = is_array( $aField[ 'label' ] );
             $_sClassSelector    = $_bIsArray
                 ? 'admin-page-framework-field-text-multiple-labels'
@@ -113,7 +107,6 @@ class AdminPageFramework_FieldType_text extends AdminPageFramework_FieldType {
                 $this->getElementByLabel( $aField[ 'after_label' ], $sKey, $aField[ 'label' ] ),
             );
             return implode( '', $_aOutput );
-
         }
 
 }
