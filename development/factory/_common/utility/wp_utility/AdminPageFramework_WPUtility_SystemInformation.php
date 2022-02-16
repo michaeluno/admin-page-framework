@@ -21,16 +21,17 @@ class AdminPageFramework_WPUtility_SystemInformation extends AdminPageFramework_
      * Caches the MySQL information.
      * @since       3.4.6
      */
-    static private $_aMySQLInfo;
+    static private $___aMySQLInfo;
 
     /**
      * Returns MySQL configurations.
-     * @since       3.4.6
+     * @since  3.4.6
+     * @return array
      */
     static public function getMySQLInfo() {
 
-        if ( isset( self::$_aMySQLInfo ) ) {
-            return self::$_aMySQLInfo;
+        if ( isset( self::$___aMySQLInfo ) ) {
+            return self::$___aMySQLInfo;
         }
 
         global $wpdb;
@@ -42,45 +43,37 @@ class AdminPageFramework_WPUtility_SystemInformation extends AdminPageFramework_
         );
 
         foreach( ( array ) $wpdb->get_results( "SHOW VARIABLES", ARRAY_A ) as $_iIndex => $_aItem ) {
-
             $_aItem     = array_values( $_aItem );
             $_sKey      = array_shift( $_aItem );
             $_sValue    = array_shift( $_aItem );
             $_aOutput[ $_sKey ] = $_sValue;
-
         }
 
-        self::$_aMySQLInfo = $_aOutput;
-        return self::$_aMySQLInfo;
+        self::$___aMySQLInfo = $_aOutput;
+        return self::$___aMySQLInfo;
 
     }
 
     /**
      * Returns the MySQL error log path.
-     * @since       3.4.6
+     * @since  3.4.6
+     * @return string
      */
     static public function getMySQLErrorLogPath() {
-
         $_aMySQLInfo = self::getMySQLInfo();
-        return isset( $_aMySQLInfo['log_error'] )
-            ? $_aMySQLInfo['log_error']
+        return isset( $_aMySQLInfo[ 'log_error' ] )
+            ? $_aMySQLInfo[ 'log_error' ]
             : '';
-
     }
 
     /**
      * Returns a PHP error log.
-     * @since       3.4.6
+     * @since  3.4.6
+     * @return string
      */
     static public function getMySQLErrorLog( $iLines=1 ) {
-
         $_sLog = self::getFileTailContents( self::getMySQLErrorLogPath(), $iLines );
-
-        // @todo If empty, return an alternative.
-        return $_sLog
-            ? $_sLog
-            : '';
-
+        return $_sLog ? $_sLog : '';    // @todo If empty, return an alternative.
     }
 
 }
