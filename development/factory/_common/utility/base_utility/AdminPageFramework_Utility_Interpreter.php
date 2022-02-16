@@ -130,30 +130,34 @@ class AdminPageFramework_Utility_Interpreter extends AdminPageFramework_Utility_
     /**
      * Generates a table output of a given array.
      * Designed to display key-value pairs in a table.
-     * @since  3.9.0
-     * @return string
-     * @param  array   $aArray
-     * @param  array   $aAllAttributes
+     *
+     * @param  array   $aArray           The data to display in a table.
+     * @param  array   $aAllAttributes   A set of array representing tag attributes.
      * @param  array   $aHeader          Key value pairs of the table header. Only the first depth is supported.
      * @param  array   $aFooter          Key value pairs of the table footer. Only the first depth is supported.
      * @param  boolean $bEscape          Whether to escape values or not.
+     * @param  string  $sCaption         The table caption.
+     * @return string
+     * @since  3.9.0
      */
-    static public function getTableOfArray( array $aArray, array $aAllAttributes=array(), array $aHeader=array(), array $aFooter=array(), $bEscape=true ) {
+    static public function getTableOfArray( array $aArray, array $aAllAttributes=array(), array $aHeader=array(), array $aFooter=array(), $bEscape=true, $sCaption='' ) {
 
         $_aAllAttributes = $aAllAttributes + array(
-            'table' => array(),
-            'tbody' => array(),
-            'td'    => array(
+            'table'   => array(),
+            'caption' => array(),
+            'tbody'   => array(),
+            'td'      => array(
                 array(),
                 array(),
             ),
-            'tr'    => array(),
-            't'     => array(),
-            'ul'    => array(),
-            'li'    => array(),
-            'p'     => array(),
+            'tr'      => array(),
+            't'       => array(),
+            'ul'      => array(),
+            'li'      => array(),
+            'p'       => array(),
         );
         return "<table " . self::getAttributes( self::getElementAsArray( $_aAllAttributes, 'table' ) ) . ">"
+                . self::___getTableCaption( $sCaption, $_aAllAttributes, $bEscape )
                 . self::___getTableHeader( $aHeader, $_aAllAttributes, $bEscape )
                 . "<tbody " . self::getAttributes( self::getElementAsArray( $_aAllAttributes, 'tbody' ) ) . ">"
                     . self::___getTableRows( $aArray, $_aAllAttributes, $bEscape )
@@ -161,6 +165,19 @@ class AdminPageFramework_Utility_Interpreter extends AdminPageFramework_Utility_
                 . self::___getTableFooter( $aFooter, $_aAllAttributes, $bEscape )
             . "</table>";
     }
+        static private function ___getTableCaption( $sCaption, $aAllAttributes, $bEscape ) {
+            $sCaption = ( string ) $sCaption;
+            if ( ! strlen( $sCaption ) ) {
+                return '';
+            }
+            $_aCapAttr = self::getElementAsArray( $aAllAttributes, 'caption' );
+            $_sCaption = $bEscape
+                ? htmlspecialchars( $sCaption )
+                : $sCaption;
+            return "<caption " . self::getAttributes( $_aCapAttr ) . ">"
+                    . $_sCaption
+                . "</caption>";
+        }
         static private function ___getHTMLEscaped( $sOutput, $bEscape ) {
             return $bEscape ? htmlspecialchars( $sOutput ) : $sOutput;
         }
