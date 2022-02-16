@@ -1,5 +1,5 @@
 @charset "UTF-8";
-/*! Admin Page Framework Form Style 1.0.9 */
+/*! Admin Page Framework Form Style 1.0.10 */
 .admin-page-framework-form-warning {
   font-size: 1em;
 }
@@ -1048,6 +1048,13 @@ th > label > span > .admin-page-framework-form-tooltip {
 /* Buttons - color picker (@todo move this to the color field type) */
 .admin-page-framework-field-inline_mixed .admin-page-framework-input-label-container button.button {
   margin: 0;
+}
+
+/* Repeatable Buttons */
+.admin-page-framework-field-inline_mixed .repeatable-field-button {
+  /* 3.9.0 Repeatable buttons inside `inline_mixed` fields get horizontally long for some reasons. */
+  width: 32px;
+  height: 32px;
 }
 
 /* Media Field Type */
