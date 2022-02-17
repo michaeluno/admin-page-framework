@@ -1,16 +1,19 @@
 ## Change Log
 
+### 1.4.1
+- Fixed indents at the end of each file.
+
 ### 1.4.0
 - Added the `include` argument.
 - Added the `exclude_dir_names_regex` and `exclude_file_names_regex` search arguments.
 - Fixed a bug of an undefined variable .
 
 ### 1.3.0 - 2019/02/17
-- Added the library path option wchich allows the location to download.
+- Added the library path option which allows the location to download.
 - Fixed PHP Warning:  count(): Parameter must be an array or an object that implements Countable in ...Beautifier.php on line 1513
 
 ### 1.2.0
-- Added tha ability to minify iline CSS rules.
+- Added tha ability to minify inline CSS rules.
 - Made it not remove the trailing slash at the end of the generated file.
 
 ### 

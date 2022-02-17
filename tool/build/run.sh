@@ -1,4 +1,4 @@
 #!/usr/bin/php
-php php-class-files-beautifier.php
+php build.php
 start notice.mp3
 $SHELL

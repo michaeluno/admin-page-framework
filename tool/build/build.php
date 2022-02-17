@@ -9,7 +9,7 @@ error_reporting( error_reporting() & ~E_NOTICE );
 $_nStart = microtime( true );
 
 /* Set necessary paths */
-$sTargetBaseDir              = dirname( dirname( dirname( __FILE__ ) ) );
+$sTargetBaseDir              = dirname( dirname( __DIR__ ) );
 $sTargetDir                  = $sTargetBaseDir . '/development';
 $sDestinationDirectoryPath   = $sTargetBaseDir . '/library/apf';
 $sLicenseFileName            = 'LICENSE.txt';
@@ -27,7 +27,7 @@ if ( ! $bIsCLI ) {
 }
 
 /* Include necessary files */
-require( dirname( __FILE__ ) . '/class/PHP_Class_Files_Beautifier.php' );
+require( __DIR__ . '/class/PHP_Class_Files_Beautifier.php' );
 
 /* Check the permission to write. */
 if (  ! is_writable( dirname( $sDestinationDirectoryPath ) ) ) {
@@ -84,7 +84,7 @@ new PHP_Class_Files_Beautifier(
 );
 
 // Generate a inclusion class list.
-include( 'create-list-admin-page-framework-beautified-version.php' );
+include( __DIR__ . '/generate-class-map-compiled.php' );
 
 echo 'Done!' . $sCarriageReturn;
 echo 'Elapsed Seconds: ' . ( microtime( true ) - $_nStart ) . $sCarriageReturn;

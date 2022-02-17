@@ -7,7 +7,7 @@
  * @license     MIT    <http://opensource.org/licenses/MIT>
  */
 if ( ! class_exists( 'PHP_Class_Files_Script_Generator_Base' ) ) {
-    require( dirname( dirname( dirname( __FILE__ ) ) ) . '/php_class_files_script_generator/PHP_Class_Files_Script_Generator_Base.php' );
+    require( __DIR__ . '/library/php_class_files_script_generator/PHP_Class_Files_Script_Generator_Base.php' );
 }
 
 /**
@@ -325,7 +325,7 @@ class PHP_Class_Files_Beautifier extends PHP_Class_Files_Script_Generator_Base {
         }
         /**
          * @remark      The closet ancestor (the direct parent) will come first and the farthest one goes the last in the array
-         * The order is important as the their contents will be appended to the subject class code. And in some PHP versions,
+         * The order is important as their contents will be appended to the subject class code. And in some PHP versions,
          * parent classes must be written before its child class; otherwise. it causes a fatal error.
          * @since       1.1.0
          * @return      array
@@ -357,7 +357,7 @@ class PHP_Class_Files_Beautifier extends PHP_Class_Files_Script_Generator_Base {
             $_aAncestors[] = $_sParentClass;
 
             return array_merge(
-                $_aAncestors,   // for numeric numeric items, the first parameter items will come first
+                $_aAncestors,   // for numeric items, the first parameter items will come first
                 $this->___getAncestorClassNames( $_sParentClass, $aFiles, $bOnlyInTheSameDirectory )
             );
             
@@ -729,13 +729,20 @@ class PHP_Class_Files_Beautifier extends PHP_Class_Files_Script_Generator_Base {
 
             $sCode = $_oBeautifier->get();
 
-            // $sCode = trim( $sCode );    // remove trailing line-feed.
+            $sCode = trim( $sCode );    // remove trailing line-feed.
+
+            // Add the file comment header
             $sCode = preg_replace(
                 '/^<\?php\s+?/',        // search
                 '<?php ' . PHP_EOL . $sHeaderComment . PHP_EOL, // replace
                 $sCode  // subject
-            ); // File comment header
-            return $sCode;
+            );
+            // Somehow the ending enclosing braces gets 4-spaced indents. So fix them.
+            return preg_replace(
+                '/[\r\n]\K\s{4}\}$/', // search
+                '}',
+                $sCode  // subject
+            );
 
         }
 
