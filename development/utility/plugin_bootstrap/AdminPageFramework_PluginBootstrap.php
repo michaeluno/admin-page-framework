@@ -112,15 +112,27 @@ abstract class AdminPageFramework_PluginBootstrap {
      * @var     string
      */
     public $sHookPrefix;
+
+    /**
+     * The action hook name for the set-up callback
+     * @var string
+     */
+    public $sSetUpHook = 'plugins_loaded';
+
+    /**
+     * Set-up hook priority.
+     * @var int
+     */
+    public $iPriority = 10;
     /**#@-*/
 
     /**
      * Sets up properties and hooks.
      *
-     * @param       string      $sPluginFilePath        The plugin file path.
-     * @param       string      $sPluginHookPrefix      The plugin hook slug without underscore. This will be used to construct hook names.
-     * @param       string      $sSetUpHook             The action hook name for the setUp callback. Default 'plugins_loaded'.
-     * @param       string      $iPriority              The priority. Set a lower number to get loader earlier. Default: `10`.
+     * @param string        $sPluginFilePath        The plugin file path.
+     * @param string        $sPluginHookPrefix      The plugin hook slug without underscore. This will be used to construct hook names.
+     * @param string        $sSetUpHook             The action hook name for the setUp callback. Default 'plugins_loaded'.
+     * @param integer|float $iPriority              The priority. Set a lower number to get loader earlier. Default: `10`.
      */
     public function __construct( $sPluginFilePath, $sPluginHookPrefix='', $sSetUpHook='plugins_loaded', $iPriority=10 ) {
 
