@@ -8,7 +8,9 @@
  */
 
 /**
- * Defines the `system` field type.
+ * The System field type displays site information in a text area field.
+ *
+ * Used to create a page that helps to report issues with their server information.
  *
  * <h2>Field Definition Arguments</h2>
  * <h3>Field Type Specific Arguments</h3>
