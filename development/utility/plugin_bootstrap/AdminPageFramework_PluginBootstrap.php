@@ -21,16 +21,9 @@
  * <code>
  *  final class AdminPageFrameworkLoader_Bootstrap extends AdminPageFramework_PluginBootstrap {
  *
- *
  *      // Register classes to be auto-loaded.
  *      public function getClasses() {
- *
- *          // Include the include lists. The including file reassigns the list(array) to the $_aClassFiles variable.
- *          $_aClassFiles   = array();
- *          include( dirname( $this->sFilePath ) . '/include/loader-class-list.php' );
- *          $this->_aClassFiles = $_aClassFiles;
- *          return $_aClassFiles;
- *
+ *          return include( dirname( $this->sFilePath ) . '/include/loader-class-map.php' );
  *      }
  *
  *      // The plugin activation callback method.
@@ -141,47 +134,46 @@ abstract class AdminPageFramework_PluginBootstrap {
             return;
         }
 
-        // 1. Set up properties
+        // Set up properties
         $this->sFilePath   = $sPluginFilePath;
         $this->bIsAdmin    = is_admin();
         $this->sHookPrefix = $sPluginHookPrefix;
         $this->sSetUpHook  = $sSetUpHook;
         $this->iPriority   = $iPriority;
 
-        // 2. Call the (public) user constructor.
+        // Call the (public) user constructor.
         $_bValid = $this->start();
         if ( false === $_bValid ) {
             return;
         }
 
-        // 3. Define constants.
+        // Define constants.
         $this->setConstants();
 
-        // 4. Set global variables.
+        // Set global variables.
         $this->setGlobals();
 
-        // 5. Set up auto-load classes.
+        // Set up auto-load classes.
         $this->_registerClasses();
 
-        // 6. Set up activation hook.
+        // Set up activation hook.
         register_activation_hook( $this->sFilePath, array( $this, 'replyToPluginActivation' ) );
 
-        // 7. Set up deactivation hook.
+        // Set up deactivation hook.
         register_deactivation_hook( $this->sFilePath, array( $this, 'replyToPluginDeactivation' ) );
 
-        // 8. Schedule to load plugin specific components.
+        // Schedule to load plugin specific components.
         if ( ! $this->sSetUpHook || did_action( $this->sSetUpHook ) )  {
             $this->_replyToLoadPluginComponents();
         } else {
             add_action( $this->sSetUpHook, array( $this, '_replyToLoadPluginComponents' ), $this->iPriority );
         }
 
-        // 9. Set up localization
+        // Set up localization
         add_action( 'init', array( $this, 'setLocalization' ) );
 
-        // 10. Call the (protected) user constructor.
+        // Call the (protected) user constructor.
         $this->construct();
-
 
     }
 
@@ -206,7 +198,7 @@ abstract class AdminPageFramework_PluginBootstrap {
         /**
          * Register classes to be auto-loaded.
          *
-         * @since       3.5.0
+         * @since    3.5.0
          * @internal
          */
         protected function _registerClasses() {
@@ -253,15 +245,11 @@ abstract class AdminPageFramework_PluginBootstrap {
 
     /**
      * Sets up constants.
-     *
-     * @return      void
      */
     public function setConstants() {}
 
     /**
      * Sets up global variables.
-     *
-     * @return      void
      */
     public function setGlobals() {}
 
@@ -283,36 +271,32 @@ abstract class AdminPageFramework_PluginBootstrap {
 
     /**
      * Returns an array holding scanning directory paths.
-     * @since       3.5.0
-     * @return      array       An array holding directory paths.
+     * @since  3.5.0
+     * @return array       An array holding directory paths.
      */
     public function getScanningDirs() {
-        $_aDirs = array();
-        return $_aDirs;
+        return array();
     }
 
     /**
      * The plugin activation callback method.
      *
-     * @since       3.5.0
-     * @return      void
+     * @since 3.5.0
      */
     public function replyToPluginActivation() {}
 
     /**
      * The plugin deactivation callback method.
      *
-     * @since       3.5.0
-     * @return      void
+     * @since 3.5.0
      */
     public function replyToPluginDeactivation() {}
 
     /**
      * Load localization files.
      *
-     * @since       3.5.0
-     * @return      void
-     * @callback    action      init
+     * @since    3.5.0
+     * @callback add_action() init
      */
     public function setLocalization() {}
 
@@ -325,8 +309,7 @@ abstract class AdminPageFramework_PluginBootstrap {
      * On the other hand, for extension plugins, use the construct() method below and hook into the "{$this->sHookPrefix}_action_after_loading_plugin" action hook.
      * This way, the extension plugin can load their components after the main plugin components get loaded.
      *
-     * @since       3.5.0
-     * @return      void
+     * @since 3.5.0
      */
     public function setUp() {}
 
@@ -335,9 +318,8 @@ abstract class AdminPageFramework_PluginBootstrap {
      *
      * For extension plugins, use this method to hook into the "{$this->sHookPrefix}_action_after_loading_plugin" action hook.
      *
-     * @since       3.5.0
-     * @access      protected       This is meant to be called within the class definition. For public access use the `start()` method.
-     * @return      void
+     * @since  3.5.0
+     * @access protected This is meant to be called within the class definition. For public access use the `start()` method.
      */
     protected function construct() {}
 
