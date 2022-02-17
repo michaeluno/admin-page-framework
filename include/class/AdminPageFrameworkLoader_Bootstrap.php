@@ -17,40 +17,27 @@
  * @since       3.5.0
  */
 final class AdminPageFrameworkLoader_Bootstrap extends AdminPageFramework_PluginBootstrap {
-
-    /**
-     * Stores class files.
-     */
-    private $_aClassFiles = array();
-
+    
     /**
      * Register classes to be auto-loaded.
      *
-     * @since       3.5.0
+     * @since 3.5.0
      */
     public function getClasses() {
-
-        // Include the include lists. The including file reassigns the list(array) to the $_aClassFiles variable.
-        $_aClassFiles   = array();
-        include( dirname( $this->sFilePath ) . '/include/loader-class-list.php' );
-        $this->_aClassFiles = $_aClassFiles;
-        return $_aClassFiles;
-
+        return include( dirname( $this->sFilePath ) . '/include/loader-class-map.php' );
     }
 
     /**
      * The plugin activation callback method.
      */
     public function replyToPluginActivation() {
-
-        $this->_checkRequirements();
-
+        $this->___checkRequirements();
     }
         /**
          *
-         * @since            3.5.0
+         * @since 3.5.0
          */
-        private function _checkRequirements() {
+        private function ___checkRequirements() {
 
             $_oRequirementCheck = new AdminPageFramework_Requirement(
                 AdminPageFrameworkLoader_Registry::$aRequirements,
@@ -70,7 +57,7 @@ final class AdminPageFrameworkLoader_Bootstrap extends AdminPageFramework_Plugin
     /**
      * Load localization files.
      *
-     * @callback    action      init
+     * @callback add_action() init
      */
     public function setLocalization() {
 
@@ -97,12 +84,12 @@ final class AdminPageFrameworkLoader_Bootstrap extends AdminPageFramework_Plugin
     /**
      * Loads the plugin specific components.
      *
-     * @remark        All the necessary classes should have been already loaded.
+     * @remark All the necessary classes should have been already loaded.
      */
     public function setUp() {
 
         // Admin pages
-        if ( $this->_shouldShowAdminPages() ) {
+        if ( $this->___shouldShowAdminPages() ) {
 
             // Dashboard
             new AdminPageFrameworkLoader_AdminPageWelcome(
@@ -134,11 +121,10 @@ final class AdminPageFrameworkLoader_Bootstrap extends AdminPageFramework_Plugin
 
     }
         /**
-         * @return      boolean
-         * @since       3.6.4
+         * @return boolean
+         * @since  3.6.4
          */
-        private function _shouldShowAdminPages() {
-
+        private function ___shouldShowAdminPages() {
             if ( ! $this->bIsAdmin ) {
                 return false;
             }
@@ -146,7 +132,6 @@ final class AdminPageFrameworkLoader_Bootstrap extends AdminPageFramework_Plugin
                 return false;
             }
             return true;
-
         }
 
 }

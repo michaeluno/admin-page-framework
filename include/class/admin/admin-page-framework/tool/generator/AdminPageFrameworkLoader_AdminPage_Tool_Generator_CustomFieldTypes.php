@@ -186,7 +186,7 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_CustomFieldTypes {
                 }
 
                 // The inclusion class list file needs to be handled differently.
-                if ( $this->oFactory->oUtil->hasSuffix( 'admin-page-framework-include-class-list.php', $sPathInArchive ) ) {
+                if ( $this->oFactory->oUtil->hasSuffix( 'admin-page-framework-class-map.php', $sPathInArchive ) ) {
                     return $this->___getModifiedIncludeList( $sFileContents );
                 }
 

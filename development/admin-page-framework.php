@@ -111,25 +111,14 @@ final class AdminPageFramework_Registry extends AdminPageFramework_Registry_Base
     static public function setUp( $sFilePath=__FILE__ ) {
         self::$sFilePath             = $sFilePath;
         self::$sDirPath              = dirname( self::$sFilePath );
-        self::$sClassMapPath         = self::$sDirPath . '/admin-page-framework-include-class-list.php';
-        self::$aClassFiles           = self::___getClassMap( self::$sClassMapPath );
+        self::$sClassMapPath         = self::$sDirPath . '/admin-page-framework-class-map.php';
+        self::$aClassFiles           = include( self::$sClassMapPath );
         self::$sAutoLoaderPath       = isset( self::$aClassFiles[ 'AdminPageFramework_RegisterClasses' ] )
             ? self::$aClassFiles[ 'AdminPageFramework_RegisterClasses' ]
             : '';
         self::$bIsMinifiedVersion    = class_exists( 'AdminPageFramework_MinifiedVersionHeader', false );
-        self::$bIsDevelopmentVersion = isset( self::$aClassFiles[ 'AdminPageFramework_InclusionClassFilesHeader' ] );
+        self::$bIsDevelopmentVersion = isset( self::$aClassFiles[ 'AdminPageFramework_ClassMapHeader' ] );
     }
-        /**
-         * Returns the class file path list.
-         * @since  3.5.4
-         * @since  3.9.0 Renamed from `_getClassFilePathList()`.
-         * @return array
-         */
-        static private function ___getClassMap( $sClassMapPath ) {
-            $aClassFiles = array();    // this will be updated if the inclusion below is successful.
-            include( $sClassMapPath );
-            return $aClassFiles;
-        }
 
     /**
      * Returns the framework version.

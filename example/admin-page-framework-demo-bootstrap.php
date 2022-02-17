@@ -118,15 +118,11 @@ class AdminPageFrameworkLoader_Demo_Bootstrap {
          * @return      void
          */
         private function _registerClasses() {
-
-            $_aClassFiles = array();
-            include( AdminPageFrameworkLoader_Registry::$sDirPath . '/example/class-file-list.php' );
             new AdminPageFramework_RegisterClasses( 
                 array(),              // scanning directory paths
                 array(),              // autoloader options
-                $_aClassFiles         // pre-generated class list
-            );            
-            
+                include( AdminPageFrameworkLoader_Registry::$sDirPath . '/example/demo-class-map.php' ) // pre-generated class list
+            );
         }
  
 }
