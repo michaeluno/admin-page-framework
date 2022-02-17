@@ -1,0 +1,86 @@
+/* Table Field Type */
+.admin-page-framework-field-table {
+
+    width: 100%;    /* Prevent the width from being shrank when `collapsible` is on */
+
+    .table-container > table {
+        width: 100%;
+    }
+    .table-container > table {
+        caption {
+            font-weight: 600;
+            margin-bottom: 1em;
+        }
+        .key-value > *:first-child {
+            width: 20%;
+        }
+        th,
+        td {
+            padding: 1em;
+        }
+    }
+
+    .column-key {
+        width: 20%;
+    }
+
+    /* Collapsible */
+    .accordion-container {
+        border: 1px solid #c3c4c7;
+        background: #fff;
+    }
+    .accordion-title,
+    .accordion-content {
+        padding: 1em;
+    }
+    .accordion-content {
+        /* For simple FAQ tables */
+        > p,
+        > .text-content
+        {
+            margin: 1em 1em 2em;
+        }
+    }
+    .accordion-title {
+        color: #2c3338;
+        font-weight: 500;
+        margin: 0;
+        padding: 1.2em 1em 1.2em 1.5em; /* the right padding needs to be narrower to place the fold arrow icon */
+        line-height: 1;
+        /* To place the title on the left and the icon to the right side by side, similar to .postbox-header, the meta-box container header element selector */
+        display: flex;
+        justify-content: space-between;
+        align-items: center;    /* vertical alignments of items to middle */
+    }
+    .accordion-title > h4 {
+        padding: 0;
+        margin: 0;
+        width: 100%;
+    }
+    /* When the collapsible title bar is clicked, switch the arrow icons */
+    .accordion-title.ui-accordion-header-collapsed .icon-collapsible:before {
+        content: "\f140";
+    }
+    .accordion-title.ui-accordion-header-active .icon-collapsible:before {
+        content: "\f142";
+    }
+}
+/* Responsiveness */
+@media screen and (max-width: 782px) {  /* when the screen is within 782px, */
+    .admin-page-framework-field-table {
+        .table-container > table {
+            .key-value > *:first-child {
+                width: inherit;
+            }
+        }
+        .column-key {
+            width: inherit;
+            padding: 6px 0 4px;
+        }
+        th > p,
+        td > p
+        {
+            margin: 0 1em;
+        }
+    }
+}

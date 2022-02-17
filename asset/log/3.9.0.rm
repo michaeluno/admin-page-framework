@@ -1,3 +1,4 @@
+- Added the `table` built-in field type.
 - Added the `contact` built-in field type.
 - Added the `selector` argument to the `select2` custom field type that enables to show/hide elements on selection.
 - Refined the `path` custom field type due to the deprecation of the `jQueryFileTree` library and switching to `jstree`, which involves deprecation of some arguments and UI improvements.  

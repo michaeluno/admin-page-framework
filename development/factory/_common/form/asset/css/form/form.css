@@ -1,5 +1,5 @@
 @charset "UTF-8";
-/*! Admin Page Framework Form Style 1.0.10 */
+/*! Admin Page Framework Form Style 1.0.11 */
 .admin-page-framework-form-warning {
   font-size: 1em;
 }
@@ -1199,6 +1199,91 @@ th > label > span > .admin-page-framework-form-tooltip {
   overflow-x: scroll;
 }
 
+/* Table Field Type */
+.admin-page-framework-field-table {
+  width: 100%;
+  /* Prevent the width from being shrank when `collapsible` is on */
+  /* Collapsible */
+  /* When the collapsible title bar is clicked, switch the arrow icons */
+}
+.admin-page-framework-field-table .table-container > table {
+  width: 100%;
+}
+.admin-page-framework-field-table .table-container > table caption {
+  font-weight: 600;
+  margin-bottom: 1em;
+}
+.admin-page-framework-field-table .table-container > table .key-value > *:first-child {
+  width: 20%;
+}
+.admin-page-framework-field-table .table-container > table th,
+.admin-page-framework-field-table .table-container > table td {
+  padding: 1em;
+}
+.admin-page-framework-field-table .column-key {
+  width: 20%;
+}
+.admin-page-framework-field-table .accordion-container {
+  border: 1px solid #c3c4c7;
+  background: #fff;
+}
+.admin-page-framework-field-table .accordion-title,
+.admin-page-framework-field-table .accordion-content {
+  padding: 1em;
+}
+.admin-page-framework-field-table .accordion-content {
+  /* For simple FAQ tables */
+}
+.admin-page-framework-field-table .accordion-content > p,
+.admin-page-framework-field-table .accordion-content > .text-content {
+  margin: 1em 1em 2em;
+}
+.admin-page-framework-field-table .accordion-title {
+  color: #2c3338;
+  font-weight: 500;
+  margin: 0;
+  padding: 1.2em 1em 1.2em 1.5em;
+  /* the right padding needs to be narrower to place the fold arrow icon */
+  line-height: 1;
+  /* To place the title on the left and the icon to the right side by side, similar to .postbox-header, the meta-box container header element selector */
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  /* vertical alignments of items to middle */
+}
+.admin-page-framework-field-table .accordion-title > h4 {
+  padding: 0;
+  margin: 0;
+  width: 100%;
+}
+.admin-page-framework-field-table .accordion-title.ui-accordion-header-collapsed .icon-collapsible:before {
+  content: "";
+}
+.admin-page-framework-field-table .accordion-title.ui-accordion-header-active .icon-collapsible:before {
+  content: "";
+}
+
+/* Responsiveness */
+@media screen and (max-width: 782px) {
+  /* when the screen is within 782px, */
+  .admin-page-framework-field-table .table-container > table .key-value > *:first-child {
+    width: inherit;
+  }
+  .admin-page-framework-field-table .column-key {
+    width: inherit;
+    padding: 6px 0 4px;
+  }
+  .admin-page-framework-field-table th > p,
+.admin-page-framework-field-table td > p {
+    margin: 0 1em;
+  }
+}
 /* Taxonomy Field Type */
 .admin-page-framework-field .taxonomy-checklist li {
   margin: 8px 0 8px 20px;
