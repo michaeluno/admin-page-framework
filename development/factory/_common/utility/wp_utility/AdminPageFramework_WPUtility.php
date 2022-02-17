@@ -10,12 +10,11 @@
 /**
  * Provides utility methods which use WordPress functions.
  *
- * @since           2.0.0
- * @extends         AdminPageFramework_WPUtility_SystemInformation
- * @package         AdminPageFramework/Utility
+ * @since    2.0.0
+ * @package  AdminPageFramework/Utility
  * @internal
  */
-class AdminPageFramework_WPUtility extends AdminPageFramework_WPUtility_SystemInformation {
+class AdminPageFramework_WPUtility extends AdminPageFramework_WPUtility_Time {
 
     /**
      * @var integer

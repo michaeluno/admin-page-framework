@@ -281,6 +281,7 @@ $aClassFiles = array(
     "AdminPageFramework_WPUtility_Page"=> AdminPageFramework_Registry::$sDirPath . "/factory/_common/utility/wp_utility/AdminPageFramework_WPUtility_Page.php", 
     "AdminPageFramework_WPUtility_SiteInformation"=> AdminPageFramework_Registry::$sDirPath . "/factory/_common/utility/wp_utility/AdminPageFramework_WPUtility_SiteInformation.php", 
     "AdminPageFramework_WPUtility_SystemInformation"=> AdminPageFramework_Registry::$sDirPath . "/factory/_common/utility/wp_utility/AdminPageFramework_WPUtility_SystemInformation.php", 
+    "AdminPageFramework_WPUtility_Time"=> AdminPageFramework_Registry::$sDirPath . "/factory/_common/utility/wp_utility/AdminPageFramework_WPUtility_Time.php", 
     "AdminPageFramework_WPUtility_URL"=> AdminPageFramework_Registry::$sDirPath . "/factory/_common/utility/wp_utility/AdminPageFramework_WPUtility_URL.php", 
     "AdminPageFramework_Factory"=> AdminPageFramework_Registry::$sDirPath . "/factory/_common/_abstract/AdminPageFramework_Factory.php", 
     "AdminPageFramework_Factory_Controller"=> AdminPageFramework_Registry::$sDirPath . "/factory/_common/_abstract/AdminPageFramework_Factory_Controller.php", 
