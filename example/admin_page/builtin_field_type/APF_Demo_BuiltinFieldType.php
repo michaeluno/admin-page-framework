@@ -124,7 +124,8 @@ class APF_Demo_BuiltinFieldType {
             'APF_Demo_BuiltinFieldTypes_File',
             'APF_Demo_BuiltinFieldTypes_Checklist',
             'APF_Demo_BuiltinFieldTypes_MISC',
-            'APF_Demo_BuiltinFieldTypes_System', 
+            'APF_Demo_BuiltinFieldTypes_Table',
+            'APF_Demo_BuiltinFieldTypes_System',
         );
         foreach ( $_aTabClasses as $_sTabClassName ) {
             if ( ! class_exists( $_sTabClassName ) ) {
