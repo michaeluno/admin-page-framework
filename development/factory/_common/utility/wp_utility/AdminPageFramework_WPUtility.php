@@ -45,9 +45,6 @@ class AdminPageFramework_WPUtility extends AdminPageFramework_WPUtility_SystemIn
          */
         static public function _replyToSetNonceLifeSpan( $iLifespanInSeconds ) {
             return self::$___iCustomNonceLifeSpan;
-            return isset( self::$___iCustomNonceLifeSpan )
-                ? self::$___iCustomNonceLifeSpan
-                : $iLifespanInSeconds;
         }
 
     /**
