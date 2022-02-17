@@ -3,7 +3,7 @@
  * Helps to generate class maps.
  * 
  * @author       Michael Uno <michael@michaeluno.jp>
- * @copyright    2020 (c) Michael Uno
+ * @copyright    2020- (c) Michael Uno
  * @license      MIT <http://opensource.org/licenses/MIT>
  */
 
@@ -17,7 +17,7 @@ use PHPClassMapGenerator\Header\HeaderGenerator;
  * This is meant to be used for the callback function for the spl_autoload_register() function.
  *
  * @remark		The parsed class file must have a name of the class defined in the file.
- * @version		1.1.1
+ * @version		1.2.2
  */
 class PHPClassMapGenerator implements interfacePHPClassMapGenerator {
 
@@ -117,6 +117,7 @@ class PHPClassMapGenerator implements interfacePHPClassMapGenerator {
         'output_var_name'		=> '$aClassMap',
         'structure'             => 'CLASS',     // 1.1.0 Accepted values: `CLASS`, `PATH` For `CLASS`, the generated array keys consist of class names. For `PATH` array keys will consist of file paths.
         'do_in_constructor'     => true,        // 1.1.0 Whether to perform the task in the constructor
+        'short_array_syntax'    => false,       // [1.2.0+]
 
         // Search options
         'search'	=>	array(
@@ -151,18 +152,20 @@ class PHPClassMapGenerator implements interfacePHPClassMapGenerator {
      */
     public function getMap() {
 
-        $_aData = array(
+        $_sOpening = $this->aOptions[ 'short_array_syntax' ] ? '[' : 'array(';
+        $_sClosing = $this->aOptions[ 'short_array_syntax' ] ? ']' : ')';
+        $_aData    = array(
             mb_convert_encoding( '<?php ' . PHP_EOL . $this->sHeaderComment, 'UTF-8', 'auto' ),
             'return' === $this->aOptions[ 'output_var_name' ]
-                ? 'return array(' . PHP_EOL
-                : $this->aOptions[ 'output_var_name' ] . ' = array( ' . PHP_EOL,
+                ? "return {$_sOpening}" . PHP_EOL
+                : $this->aOptions[ 'output_var_name' ] . " = {$_sOpening} " . PHP_EOL,
         );
         foreach( $this->get() as $_sClassName => $_sPath ) {
             $_sClassName = str_replace( '\\', '\\\\', $_sClassName ); // escape backslashes as \t (tab character) will cause a problem
             $_aData[]    = "    " . '"' . $_sClassName . '"' . ' => '
                 . $_sPath . ', ' . PHP_EOL;
         }
-        $_aData[] = ');';
+        $_aData[] = "{$_sClosing};";
         return trim( implode( '', $_aData ) );
 
     }
@@ -242,7 +245,7 @@ class PHPClassMapGenerator implements interfacePHPClassMapGenerator {
                     ) + $this->_getDefinedObjectConstructs( '<?php ' . $_sPHPCode );
 
                     // the file name without extension will be assigned to the key
-                    foreach( array_merge( $_aFileInfo[ 'classes' ], $_aFileInfo[ 'interfaces' ], $_aFileInfo[ 'traits' ] ) as $_sClassName ) {
+                    foreach( array_merge( $_aFileInfo[ 'classes' ], $_aFileInfo[ 'interfaces' ], $_aFileInfo[ 'traits' ], $_aFileInfo[ 'aliases' ] ) as $_sClassName ) {
                         $_aFiles[ $_sClassName ] = $_aFileInfo;
                     }
 
@@ -334,7 +337,7 @@ class PHPClassMapGenerator implements interfacePHPClassMapGenerator {
 
                         $_aAdditionalClasses = array();
                         foreach( $aItems as $_sClassName => $_aItem ) {
-                            $_aObjectConstructs = array_merge( $_aItem[ 'classes' ], $_aItem[ 'traits' ], $_aItem[ 'interfaces' ] );
+                            $_aObjectConstructs = array_merge( $_aItem[ 'classes' ], $_aItem[ 'traits' ], $_aItem[ 'interfaces' ], $_aItem[ 'aliases' ] );
                             foreach( $_aObjectConstructs as $_sAdditionalClass ) {
                                 if ( in_array( $_sAdditionalClass, $aExcludingClassNames ) ) {
                                     continue;

@@ -101,6 +101,7 @@ trait traitCodeParser {
         $_aConstructs       = array(
             'classes'    => array(), 'interfaces' => array(),
             'traits'     => array(), 'namespaces' => array(),
+            'aliases'    => array(),
         );
         $_aTokens           = token_get_all( $sPHPCode );
         $_iCount            = count( $_aTokens );
@@ -117,32 +118,59 @@ trait traitCodeParser {
             $_sClassName = $this->___getObjectConstructNameExtractedFromToken( $_aTokens, $i, T_CLASS );
             if ( $_sClassName ) {
                 $_aConstructs[ 'classes' ][] = $_sCurrentNameSpace . $_sClassName;
-//                    if ( ! $_sCurrentNameSpace ) {
-//                        $_aConstructs[ 'classes' ][] = '\\' . $_sClassName; // global namespace; no heading backslash version is added also for backward-compatibility with PHP v5.2.x.
-//                    }
             }
 
             // Interface
             $_sInterface = $this->___getObjectConstructNameExtractedFromToken( $_aTokens, $i, T_INTERFACE );
             if ( $_sInterface ) {
                 $_aConstructs[ 'interfaces' ][] = $_sCurrentNameSpace . $_sInterface;
-//                    if ( ! $_sCurrentNameSpace ) {
-//                        $_aConstructs[ 'interfaces' ][] = '\\' . $_sInterface;
-//                    }
             }
 
             // Trait
-            $_sInterface = $this->___getObjectConstructNameExtractedFromToken( $_aTokens, $i, T_TRAIT );
-            if ( $_sInterface ) {
-                $_aConstructs[ 'traits' ][] = $_sCurrentNameSpace . $_sInterface;
-//                    if ( ! $_sCurrentNameSpace ) {
-//                        $_aConstructs[ 'traits' ][] = '\\' . $_sInterface;
-//                    }
+            $_sTrait = $this->___getObjectConstructNameExtractedFromToken( $_aTokens, $i, T_TRAIT );
+            if ( $_sTrait ) {
+                $_aConstructs[ 'traits' ][] = $_sCurrentNameSpace . $_sTrait;
             }
+
+            // Class Alias
+            $_aClassAliasParameters = $this->___getClassAliasFromToken( $_aTokens, $i );
+            if ( isset( $_aClassAliasParameters[ 1 ] ) ) {
+                $_aConstructs[ 'aliases' ][] = $_aClassAliasParameters[ 1 ];
+            }
+
         }
         return $_aConstructs;
 
     }
+        /**
+         * @param  array   $aTokens An array holding token arrays.
+         * @param  integer $i       The token array index being parsed.
+         * @return array
+         * @since  1.2.0
+         */
+        private function ___getClassAliasFromToken( array $aTokens, $i ) {
+            if ( T_STRING !== $aTokens[ $i ][ 0 ] ) {
+                return array();
+            }
+            if ( 'class_alias' !== $aTokens[ $i ][ 1 ] ) {
+                return array();
+            }
+            $_aParameters = array();
+            for ( $_i = $i; $_i < count( $aTokens ); $_i++ ) {
+                if ( ! is_array( $aTokens[ $_i ] ) ) {
+                    continue;
+                }
+                if ( 323 !== $aTokens[ $_i ][ 0 ] ) {
+                    continue;
+                }
+                $_aParameters[] = trim( $aTokens[ $_i ][ 1 ],'\'"' ); // any combination of ' and "
+                if ( 2 === count( $_aParameters ) ) {
+                    break;
+                }
+            }
+            return $_aParameters;
+        }
+
         private function ___getObjectConstructNameExtractedFromToken( array $aTokens, $i, $iObjectConstruct ) {
             if ( $iObjectConstruct !== $aTokens[ $i - 2 ][ 0 ] ) {
                 return '';
@@ -153,7 +181,7 @@ trait traitCodeParser {
             if ( T_STRING !== $aTokens[ $i ][ 0 ] ) {
                 return '';
             }
-            return $aTokens[ $i ][ 1 ];;
+            return $aTokens[ $i ][ 1 ];
         }
         private function ___getNamespaceExtractedFromTokens( array $aTokens, $i, $iCount ) {
             $_sNamespace = '';

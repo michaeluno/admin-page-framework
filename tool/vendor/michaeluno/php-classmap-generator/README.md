@@ -26,7 +26,7 @@ $aClassMap = array(
 Before include the map file, define the constant `CLASS_MAP_BASE_DIR_VAR`. 
 
 ```php
-    define( 'CLASS_MAP_BASE_DIR_VAR', __DIR__ )
+    define( 'CLASS_MAP_BASE_DIR_VAR', __DIR__ );
 ``` 
 or whatever the base directory path should be.
 
@@ -73,7 +73,8 @@ This parameter accepts an array holding options.
  - `base_dir_var`		: (string)	the variable or constant name that is prefixed before the inclusion path.
  - `output_var_name`	: (string)  the variable string that the map array is assigned to. Default: `$aClassMap`. If `return` is set, the variable will not be set but the file just returns the generated map array. 
  - `do_in_constructor`  : (boolean) whether to perform the action in the constructor. Default: `true`.
- - `structure`          : (string) either `CLASS` or `PATH`. When `CLASS` is set, the generated array keys consist of class names. When `PATH` is set, the generated array keys consist of paths. Default: `CLASS`.   
+ - `structure`          : (string) either `CLASS` or `PATH`. When `CLASS` is set, the generated array keys consist of class names. When `PATH` is set, the generated array keys consist of paths. Default: `CLASS`.
+ - `short_array_syntax` : (boolean) whether to use `array()` or `[]` for array declaration. `true` for `[]`. Default: `false`.
  - `search`				: (array)	the arguments for the directory search options.
     - `allowed_extensions`: (array) allowed file extensions to be listed. e.g. `[ 'php', 'inc' ]` 
     - `exclude_dir_paths`: (array) directory paths to exclude from the list.  
@@ -110,8 +111,8 @@ new \PHPClassMapGenerator\PHPClassMapGenerator(
 ##### Do not write to a file
 ```php
 $_oGenerator = new \PHPClassMapGenerator\PHPClassMapGenerator(
-    __DIR__, // base dir
-    __DIR__ . '/_scandir', // scan dir name
+    __DIR__,                        // base dir
+    __DIR__ . '/_scandir',          // scan dir name
     __DIR__ . '/class-map.php',
     [
         'do_in_constructor'     => false,
@@ -123,8 +124,8 @@ print_r( $_oGenerator->get() );
 #### Find CSS files
 ```php
 $_oGenerator = new \PHPClassMapGenerator\PHPClassMapGenerator(
-    __DIR__, // base dir
-    __DIR__ . '/_scandir', // scan dir name
+    __DIR__,                        // base dir
+    __DIR__ . '/_scandir',          // scan dir name
     __DIR__ . '/class-map.php',
     [
         'output_var_name'		=> 'return',

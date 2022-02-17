@@ -49,7 +49,7 @@ class HeaderGenerator {
                 );
             }
 
-            if ( $aOptions[' header_class_name' ] ) {
+            if ( $aOptions[ 'header_class_name' ] ) {
                 return $this->___getProjectHeaderCommentGenerated(
                     isset( $aItems[ $aOptions[ 'header_class_name' ] ] )
                         ? $aItems[ $aOptions['header_class_name'] ][ 'path' ]

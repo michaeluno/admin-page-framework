@@ -8,16 +8,16 @@
     "packages": [
         {
             "name": "michaeluno/php-classmap-generator",
-            "version": "1.1.1",
+            "version": "1.2.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/michaeluno/php-classmap-generator.git",
-                "reference": "bde4622806b6c72497a3d701db481198de100280"
+                "reference": "7c945304ea80cbca8cd0d67e97d59c4735e09cac"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/michaeluno/php-classmap-generator/zipball/bde4622806b6c72497a3d701db481198de100280",
-                "reference": "bde4622806b6c72497a3d701db481198de100280",
+                "url": "https://api.github.com/repos/michaeluno/php-classmap-generator/zipball/7c945304ea80cbca8cd0d67e97d59c4735e09cac",
+                "reference": "7c945304ea80cbca8cd0d67e97d59c4735e09cac",
                 "shasum": ""
             },
             "require": {
@@ -40,7 +40,11 @@
                 }
             ],
             "description": "A PHP class that generates class maps for autoload.",
-            "time": "2020-11-05T16:28:57+00:00"
+            "support": {
+                "issues": "https://github.com/michaeluno/php-classmap-generator/issues",
+                "source": "https://github.com/michaeluno/php-classmap-generator/tree/1.2.2"
+            },
+            "time": "2022-02-17T11:35:59+00:00"
         }
     ],
     "packages-dev": [],
@@ -50,5 +54,6 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": [],
-    "platform-dev": []
+    "platform-dev": [],
+    "plugin-api-version": "2.1.0"
 }
