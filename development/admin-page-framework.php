@@ -22,18 +22,18 @@ if ( ! class_exists( 'AdminPageFramework_Registry', false ) ) :
  * @heading             Admin Page Framework
  * @author              Michael Uno
  * @copyright           2013-2021 (c) Michael Uno
- * @license             http://opensource.org/licenses/MIT  MIT
+ * @license             https://opensource.org/licenses/MIT  MIT
  * @since               3.1.3
  * @repository          https://github.com/michaeluno/admin-page-framework
- * @link                http://wordpress.org/plugins/admin-page-framework/
- * @link                http://en.michaeluno.jp/admin-page-framework
+ * @link                https://wordpress.org/plugins/admin-page-framework/
+ * @link                https://en.michaeluno.jp/admin-page-framework
  * @package             AdminPageFramework
  * @requirement         >= WordPress 3.4
  * @requirement         >= PHP 5.2.4
  * @remark              To use the framework, 1. Extend the class 2. Override the setUp() method. 3. Use the hook functions.
  * @remark              The documentation employs the <a href="http://en.wikipedia.org/wiki/PHPDoc">PHPDOc(DocBlock)</a> syntax.
  * @download_latest     https://github.com/michaeluno/admin-page-framework/archive/master.zip
- * @download_stable     http://downloads.wordpress.org/plugin/admin-page-framework.latest-stable.zip
+ * @download_stable     https://downloads.wordpress.org/plugin/admin-page-framework.latest-stable.zip
  * @catchcopy           The framework for all WordPress developers.
  * @version             3.9.0b13
  */
@@ -46,7 +46,7 @@ abstract class AdminPageFramework_Registry_Base {
     const AUTHOR        = 'Michael Uno';
     const AUTHOR_URI    = 'https://en.michaeluno.jp/';
     const COPYRIGHT     = 'Copyright (c) 2013-2021, Michael Uno';
-    const LICENSE       = 'MIT <http://opensource.org/licenses/MIT>';
+    const LICENSE       = 'MIT <https://opensource.org/licenses/MIT>';
     const CONTRIBUTORS  = '';
 
 }
@@ -54,8 +54,8 @@ abstract class AdminPageFramework_Registry_Base {
 /**
  * Defines the framework common information.
  *
- * @since       3.1.3
- * @package     AdminPageFramework
+ * @since    3.1.3
+ * @package  AdminPageFramework
  * @internal
  */
 final class AdminPageFramework_Registry extends AdminPageFramework_Registry_Base {
@@ -66,32 +66,38 @@ final class AdminPageFramework_Registry extends AdminPageFramework_Registry_Base
     /**
      * Indicates whether the framework is loaded from the minified version or not.
      *
-     * @remark      The value will be reassigned by the bootstrap script.
-     * @remark      The minified version will be deprecated in the near future.
+     * @remark The value will be reassigned by the bootstrap script.
+     * @remark The minified version will be deprecated in the near future.
+     * @var    boolean
      */
     static public $bIsMinifiedVersion = true;
 
     /**
      * Indicates whether the framework is the development version or not.
      *
-     * @since       3.5.4
+     * @since 3.5.4
+     * @var   boolean
      */
     static public $bIsDevelopmentVersion = true;
 
     /**
      * Stores the autoloader class file path.
+     * @var string
      */
     static public $sAutoLoaderPath;
 
     /**
-     * Stores the include class list file path.
-     * @since       3.5.4
+     * Stores the file path of the inclusion class map.
+     * @since 3.5.4
+     * @since 3.9.0  Renamed from `$sIncludeClassListPath`.
+     * @var   string
      */
-    static public $sIncludeClassListPath;
+    static public $sClassMapPath;
 
     /**
      * Stores paths of class files.
-     * @since       3.5.4
+     * @since 3.5.4
+     * @var   array
      */
     static public $aClassFiles = array();
 
@@ -101,37 +107,35 @@ final class AdminPageFramework_Registry extends AdminPageFramework_Registry_Base
 
     /**
      * Sets up static properties.
-     * @return      void
      */
     static public function setUp( $sFilePath=__FILE__ ) {
-
-        self::$sFilePath                = $sFilePath;
-        self::$sDirPath                 = dirname( self::$sFilePath );
-        self::$sIncludeClassListPath    = self::$sDirPath . '/admin-page-framework-include-class-list.php';
-        self::$aClassFiles              = self::_getClassFilePathList( self::$sIncludeClassListPath );
-        self::$sAutoLoaderPath          = isset( self::$aClassFiles[ 'AdminPageFramework_RegisterClasses' ] )
+        self::$sFilePath             = $sFilePath;
+        self::$sDirPath              = dirname( self::$sFilePath );
+        self::$sClassMapPath         = self::$sDirPath . '/admin-page-framework-include-class-list.php';
+        self::$aClassFiles           = self::___getClassMap( self::$sClassMapPath );
+        self::$sAutoLoaderPath       = isset( self::$aClassFiles[ 'AdminPageFramework_RegisterClasses' ] )
             ? self::$aClassFiles[ 'AdminPageFramework_RegisterClasses' ]
             : '';
-        self::$bIsMinifiedVersion       = class_exists( 'AdminPageFramework_MinifiedVersionHeader', false );
-        self::$bIsDevelopmentVersion    = isset( self::$aClassFiles[ 'AdminPageFramework_InclusionClassFilesHeader' ] );
-
+        self::$bIsMinifiedVersion    = class_exists( 'AdminPageFramework_MinifiedVersionHeader', false );
+        self::$bIsDevelopmentVersion = isset( self::$aClassFiles[ 'AdminPageFramework_InclusionClassFilesHeader' ] );
     }
         /**
          * Returns the class file path list.
-         * @since       3.5.4
-         * @return      array
+         * @since  3.5.4
+         * @since  3.9.0 Renamed from `_getClassFilePathList()`.
+         * @return array
          */
-        static private function _getClassFilePathList( $sInclusionClassListPath ) {
+        static private function ___getClassMap( $sClassMapPath ) {
             $aClassFiles = array();    // this will be updated if the inclusion below is successful.
-            include( $sInclusionClassListPath );
+            include( $sClassMapPath );
             return $aClassFiles;
         }
 
     /**
      * Returns the framework version.
      *
-     * @since       3.3.1
-     * @return      string
+     * @since  3.3.1
+     * @return string
      */
     static public function getVersion() {
 
@@ -139,7 +143,7 @@ final class AdminPageFramework_Registry extends AdminPageFramework_Registry_Base
             trigger_error( self::NAME . ': ' . ' : ' . sprintf( __( 'The method is called too early. Perform <code>%2$s</code> earlier.', 'admin-page-framework' ), __METHOD__, 'setUp()' ), E_USER_WARNING );
             return self::VERSION;
         }
-        $_aMinifiedVesionSuffix     = array(
+        $_aMinifiedVersionSuffix    = array(
             0 => '',
             1 => '.min',
         );
@@ -148,7 +152,7 @@ final class AdminPageFramework_Registry extends AdminPageFramework_Registry_Base
             1 => '.dev',
         );
         return self::VERSION
-            . $_aMinifiedVesionSuffix[ ( integer ) self::$bIsMinifiedVersion ]
+            . $_aMinifiedVersionSuffix[ ( integer ) self::$bIsMinifiedVersion ]
             . $_aDevelopmentVersionSuffix[ ( integer ) self::$bIsDevelopmentVersion ];
 
     }
@@ -156,8 +160,8 @@ final class AdminPageFramework_Registry extends AdminPageFramework_Registry_Base
     /**
      * Returns an information array of this class.
      *
-     * @since       3.4.6
-     * @return      array
+     * @since  3.4.6
+     * @return array
      */
     static public function getInfo() {
         $_oReflection = new ReflectionClass( __CLASS__ );
@@ -172,8 +176,8 @@ if ( ! class_exists( 'AdminPageFramework_Bootstrap', false ) ) :
 /**
  * Loads the Admin Page Framework library.
  *
- * @since       3.0.0
- * @package     AdminPageFramework/Utility
+ * @since    3.0.0
+ * @package  AdminPageFramework/Utility
  * @internal
  */
 final class AdminPageFramework_Bootstrap {
@@ -181,14 +185,15 @@ final class AdminPageFramework_Bootstrap {
     /**
      * Indicates whether the bootstrap has run or not.
      */
-    static private $_bLoaded = false;
+    static private $___bLoaded = false;
 
     /**
      * Loads the framework.
      */
     public function __construct( $sLibraryPath ) {
 
-        if ( ! $this->_isLoadable() ) {
+        // Singleton
+        if ( ! $this->___isLoadable() ) {
             return;
         }
 
@@ -201,22 +206,22 @@ final class AdminPageFramework_Bootstrap {
         }
 
         // Load the classes only for the non-minified version.
-        $this->_include();
+        $this->___include();
 
     }
         /**
          * Checks whether the framework can be loaded or not.
          *
-         * @since       3.5.4
-         * @return      boolean
+         * @since  3.5.4
+         * @return boolean
          */
-        private function _isLoadable() {
+        private function ___isLoadable() {
 
             // Prevent it from being loaded multiple times.
-            if ( self::$_bLoaded ) {
+            if ( self::$___bLoaded ) {
                 return false;
             }
-            self::$_bLoaded = true;
+            self::$___bLoaded = true;
 
             // The minifier script will include this file (but it does not include WordPress) to use the reflection class to extract the doc-block.
             return defined( 'ABSPATH' );
@@ -226,10 +231,9 @@ final class AdminPageFramework_Bootstrap {
         /**
          * Includes required files and registers auto-load classes.
          *
-         * @since       3.7.3
-         * @return      void
+         * @since 3.7.3
          */
-        private function _include() {
+        private function ___include() {
 
             include( AdminPageFramework_Registry::$sAutoLoaderPath );
             new AdminPageFramework_RegisterClasses(
@@ -255,17 +259,18 @@ final class AdminPageFramework_Bootstrap {
              * so that the next time the program utilizing the framework tries to instantiate its class has a less nesting level of nested function calls,
              * which reduces the chance of getting the fatal error.
              */
-            self::$_bXDebug = isset( self::$_bXDebug ) ? self::$_bXDebug : extension_loaded( 'xdebug' );
-            if ( self::$_bXDebug ) {
+            self::$___bXDebug = isset( self::$___bXDebug ) ? self::$___bXDebug : extension_loaded( 'xdebug' );
+            if ( self::$___bXDebug ) {
                 new AdminPageFramework_Utility;
                 new AdminPageFramework_WPUtility;
             }
 
         }
             /**
-             * @since       3.7.10
+             * @since 3.7.10
+             * @var   boolean
              */
-            static private $_bXDebug;
+            static private $___bXDebug;
 
 }
 new AdminPageFramework_Bootstrap( __FILE__ );
