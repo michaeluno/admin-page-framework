@@ -50,7 +50,7 @@ $_oGenerator = new \PHPClassMapGenerator\PHPClassMapGenerator(
             'AdminPageFramework_Bootstrap',
         ],
         'search'            => [
-            'exclude_dir_names'      => [ '_document', 'document', 'del.bak', '_del', '_bak', 'apf', 'library', '_notes', 'vendor', 'node_modules' ],
+            'exclude_dir_names'      => [ '_document', 'document', 'del.bak', '_del', '_bak', 'apf', '_notes', 'vendor', 'node_modules', 'asset', 'assets' ],
             'is_recursive'           => true,
             'allowed_extensions'     => [ 'php' ],
             // 'exclude_file_names'     => [ '.min.', ],
