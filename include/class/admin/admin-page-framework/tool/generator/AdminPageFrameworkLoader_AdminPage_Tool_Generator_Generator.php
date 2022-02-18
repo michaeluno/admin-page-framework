@@ -9,18 +9,20 @@
 /**
  * Adds the 'Generator' section to the 'Generator' tab.
  *
- * @since       3.5.4
+ * @since 3.5.4
  */
 class AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator extends AdminPageFrameworkLoader_AdminPage_Section_Base {
 
     /**
      * Stores the admin page factory object.
+     * @var AdminPageFramework
      */
     public $oFactory;
 
     /**
      * A user constructor.
      *
+     * @param AdminPageFramework $oFactory
      * @since 3.5.4
      */
     protected function construct( $oFactory ) {
@@ -43,7 +45,7 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator extends AdminP
         );
         add_action(
             "export_header_{$oFactory->oProp->sClassName}_{$this->sSectionID}",
-            array( $this, 'replyToModifyExportHTTPHeader' ),
+            array( $this, 'replyToGetExportHTTPHeaderModified' ),
             10,
             6
         );
@@ -169,6 +171,10 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator extends AdminP
      * Validates the submitted form data.
      *
      * @since  3.5.4
+     * @param  array $aInputs
+     * @param  array $aOldInputs
+     * @param  AdminPageFramework $oAdminPage
+     * @param  array $aSubmitInfo
      * @return array
      */
     public function validate( $aInputs, $aOldInputs, $oAdminPage, $aSubmitInfo ) {
@@ -206,6 +212,8 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator extends AdminP
         /**
          * Sanitizes user-submitted form field values.
          * @since  3.5.4
+         * @param  array $aInputs
+         * @param  AdminPageFramework $oAdminPage
          * @return array The modified input array.
          */
         private function ___getFieldValuesSanitized( array $aInputs, $oAdminPage ) {
@@ -230,6 +238,10 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator extends AdminP
      * Lets the user download their own version of Admin Page Framework.
      *
      * @since    3.5.4
+     * @param    array              $aSavedData
+     * @param    string             $sSubmittedFieldID
+     * @param    string             $sSubmittedInputID
+     * @param    AdminPageFramework $oAdminPage
      * @callback add_filter() export_{instantiated class name}_{section id}_{field id}
      */
     public function replyToDownloadFramework( $aSavedData, $sSubmittedFieldID, $sSubmittedInputID, $oAdminPage ) {
@@ -253,7 +265,7 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator extends AdminP
          * Generates the framework zip data.
          *
          * @since  3.5.4
-         * @return string      The binary zip data.
+         * @return string The binary zip data.
          */
         private function ___getDownloadFrameworkZipFile( $sFrameworkDirPath, $sDestinationPath ) {
 
@@ -268,9 +280,9 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator extends AdminP
                     ),
                 ),
                 array(  // callbacks
-                    'file_name'         => array( $this, 'replyToModifyPathInArchive' ),
-                    'directory_name'    => array( $this, 'replyToModifyPathInArchive' ),
-                    'file_contents'     => array( $this, 'replyToModifyFileContents' ),
+                    'file_name'         => array( $this, 'replyToGetPathInArchiveModified' ),
+                    'directory_name'    => array( $this, 'replyToGetPathInArchiveModified' ),
+                    'file_contents'     => array( $this, 'replyToGetFileContentModified' ),
                 )
             );
             $_bSucceed = $_oZip->compress();
@@ -286,11 +298,11 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator extends AdminP
              * Return an empty string to drop the item.
              *
              * @remark Gets called earlier than the callback for file contents.
-             * @param  string      $sPathInArchive      The internal path of the archive including the parsing file name.
+             * @param  string $sPathInArchive The internal path of the archive including the parsing file name.
              * @since  3.5.4
              * @return string
              */
-            public function replyToModifyPathInArchive( $sPathInArchive ) {
+            public function replyToGetPathInArchiveModified( $sPathInArchive ) {
                 // Check if it belongs to selected components.
                 if ( false === $this->___isAllowedArchivePath( $sPathInArchive ) ) {
                     return '';  // empty value will drop the entry
@@ -301,7 +313,7 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator extends AdminP
                  * Checks whether the passed archive path is allowed.
                  *
                  * @since  3.5.4
-                 * @remark string      $sPath              The path to check. It can be a directory or a file.
+                 * @param  string  $sPath The path to check. It can be a directory or a file.
                  * @return boolean
                  */
                 private function ___isAllowedArchivePath( $sPath ) {
@@ -360,8 +372,8 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator extends AdminP
                 );
                 /**
                  * Returns an array holding allowed paths set to the archive.
-                 * @since       3.5.4
-                 * @return      array
+                 * @since  3.5.4
+                 * @return array
                  */
                 private function ___getDisallowedArchiveDirectoryPaths() {
 
@@ -403,8 +415,8 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator extends AdminP
                 }
                     /**
                      * Returns an array holding elements that the user has selected in the form.
-                     * @since       3.5.4
-                     * @return      array
+                     * @since  3.5.4
+                     * @return array
                      */
                     private function ___getCheckedComponents() {
                         $_aCheckedComponents = $this->oFactory->oUtil->getElementAsArray(
@@ -424,9 +436,9 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator extends AdminP
              * Modifies the file contents of the archive.
              *
              * @since  3.5.4
-             * @return string      The modified file contents.
+             * @return string The modified file contents.
              */
-            public function replyToModifyFileContents( $sFileContents, $sPathInArchive, $sSourceItemPath ) {
+            public function replyToGetFileContentModified( $sFileContents, $sPathInArchive, $sSourceItemPath ) {
 
                 if ( ! $this->___isAllowedToModifyContent( $sPathInArchive, $sSourceItemPath ) ) {
                     return $sFileContents;
@@ -473,7 +485,7 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator extends AdminP
                         return false;
                     }
 
-                    // Check if it is inside an ignore directory.
+                    // Check if it is inside an ignored directory.
                     foreach( $_aIgnoreDirPaths as $_sIgnoreDirPath ) {
                         if ( false !== strpos( $sSourceItemPath, $_sIgnoreDirPath ) ) {
                             return false;
@@ -624,7 +636,7 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator extends AdminP
      * @since     3.5.4
      * @return    array
      */
-    public function replyToModifyExportHTTPHeader( $aHeader, $sFieldID, $sInputID, $mData, $sFileName, $oFactory ) {
+    public function replyToGetExportHTTPHeaderModified( $aHeader, $sFieldID, $sInputID, $mData, $sFileName, $oFactory ) {
 
         $sFileName = $this->___getDownloadFileName();
         return array(
