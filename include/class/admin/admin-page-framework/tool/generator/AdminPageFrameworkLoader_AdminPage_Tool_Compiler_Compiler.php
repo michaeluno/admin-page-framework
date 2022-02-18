@@ -419,7 +419,7 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Compiler_Compiler extends AdminPag
                      * @return array
                      */
                     private function ___getCheckedComponents() {
-                        $_aCheckedComponents = $this->oFactory->oUtil->getElementAsArray(
+                        $_aChecked = $this->oFactory->oUtil->getElementAsArray(
                             $_POST,
                             array(
                                 $this->oFactory->oProp->sOptionKey,
@@ -428,8 +428,8 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Compiler_Compiler extends AdminPag
                             ),
                             array()
                         );
-                        $_aCheckedComponents = array_filter( $_aCheckedComponents );
-                        return array_keys( $_aCheckedComponents );
+                        $_aChecked = array_filter( $_aChecked );
+                        return array_keys( $_aChecked );
                     }
 
             /**
@@ -438,16 +438,16 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Compiler_Compiler extends AdminPag
              * @since  3.5.4
              * @return string The modified file contents.
              */
-            public function replyToGetFileContentModified( $sFileContents, $sPathInArchive, $sSourceItemPath ) {
+            public function replyToGetFileContentModified( $sFileContent, $sPathInArchive, $sSourceItemPath ) {
 
                 if ( ! $this->___isAllowedToModifyContent( $sPathInArchive, $sSourceItemPath ) ) {
-                    return $sFileContents;
+                    return $sFileContent;
                 }
 
                 // Modify the file contents.
-                $sFileContents = apply_filters(
+                $sFileContent = apply_filters(
                     AdminPageFrameworkLoader_Registry::HOOK_SLUG . '_filter_generator_file_contents',
-                    $sFileContents,
+                    $sFileContent,
                     $sPathInArchive,
                     $this->oFactory->oUtil->getElement(
                         $_POST,
@@ -460,7 +460,7 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Compiler_Compiler extends AdminPag
                 );
 
                 // At this point, it is a php file.
-                return $this->___getClassNameModifiedByPath( $sFileContents, $sPathInArchive );
+                return $this->___getClassNameModifiedByPath( $sFileContent, $sPathInArchive );
 
             }
                 /**
@@ -500,48 +500,49 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Compiler_Compiler extends AdminPag
                  * @since  3.5.4
                  * @return string
                  */
-                private function ___getClassNameModifiedByPath( $sFileContents, $sPathInArchive ) {
+                private function ___getClassNameModifiedByPath( $sFileContent, $sPathInArchive ) {
 
                     // The inclusion class list file needs to be handled differently.
                     if ( $this->oFactory->oUtil->hasSuffix( 'admin-page-framework-class-map.php', $sPathInArchive ) ) {
-                        return $this->___getClassNameOfIncludeListModified( $sFileContents );
+                        return $this->___getClassNameOfIncludeListModified( $sFileContent );
                     }
 
-                    // Insert a included component note in the header comment.
+                    // Insert notes in the header comment.
                     if ( $this->oFactory->oUtil->hasSuffix( 'admin-page-framework.php', $sPathInArchive ) ) {
-                        $sFileContents = $this->___modifyFileDocblock( $sFileContents );
-                        return $this->___getClassNameModified( $sFileContents );
+                        $sFileContent = $this->___getFileDocblockModified( $sFileContent );
+                        return $this->___getClassNameModified( $sFileContent );
                     }
 
-                    $sFileContents = $this->___getClassNameModified( $sFileContents );
+                    $sFileContent = $this->___getClassNameModified( $sFileContent );
 
                     // If it is the message class, modify the text domain.
                     // @deprecated  3.6.0+
                     // if ( ! $this->oFactory->oUtil->hasSuffix( 'AdminPageFramework_Message.php', $sPathInArchive ) ) {
-                        // return $sFileContents;
+                        // return $sFileContent;
                     // }
-                    return $this->___getTextDomainModified( $sFileContents );
+                    return $this->___getTextDomainModified( $sFileContent );
 
                 }
                     /**
                      * Inserts additional information such as an included component list and a date to the file doc-block (the header comment part).
-                     * @since       3.5.4
-                     * @return      string
+                     * @since  3.5.4
+                     * @return string
                      */
-                    private function ___modifyFileDocblock( $sFileContents ) {
+                    private function ___getFileDocblockModified( $sFileContent ) {
 
                         $_aCheckedComponents = $this->oFactory->oUtil->getArrayElementsByKeys(
                             $this->___getComponentLabels(),
                             $this->___getCheckedComponents()
                         );
-                        $_aInsert = array(
-                            'Included Components: ' . implode( ', ', $_aCheckedComponents ),
+                        $_aInsert            = array(
                             'Compiled on ' . date( 'Y-m-d' ),  // today's date
+                            'Included Components: ' . implode( ', ', $_aCheckedComponents ),
                         );
+                        $_sInsertComment     = apply_filters( AdminPageFrameworkLoader_Registry::HOOK_SLUG . '_filter_generator_header_comment', implode( PHP_EOL . '  ', $_aInsert ) );
                         return preg_replace(
                             '#\*/#', // needle - matches '*/'
-                            implode( PHP_EOL . ' ', $_aInsert ) . ' \0', // replacement \0 is a back-reference to '*/'
-                            $sFileContents, // subject
+                            PHP_EOL . '  ' . trim( $_sInsertComment ) . PHP_EOL . ' \0', // replacement \0 is a back-reference to '*/'
+                            $sFileContent, // subject
                             1 // replace only the first occurrence
                         );
 

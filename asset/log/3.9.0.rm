@@ -1,10 +1,11 @@
+- Refined tooltips.
+- Refined the `path` custom field type due to the deprecation of the `jQueryFileTree` library and switching to `jstree`, which involves deprecation of some arguments and UI improvements.
 - Added the `table` built-in field type.
 - Added the `contact` built-in field type.
 - Added the `selector` argument to the `select2` custom field type that enables to show/hide elements on selection.
-- Refined the `path` custom field type due to the deprecation of the `jQueryFileTree` library and switching to `jstree`, which involves deprecation of some arguments and UI improvements.  
-- Refined tooltips.
 - Added the ability for tooltips to include `a` tags.
 - Added the `width` argument for the `tip` field argument.
+- Added the ability to insert included custom field type labels in the file header comment of the compiled bootstrap file.
 - Fixed a bug that sortable sections could not be sorted in some cases.
 - Fixed an issue that field repeat buttons and labels of the `color` field type are hidden by the color picker pallet in recent WordPress versions.
 - Fixed an issue that tooltips created with the `tip` field argument made the document width wider than the initial width.

@@ -15,8 +15,14 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Compiler_CustomFieldTypes {
 
     /**
      * Stores the admin page factory object.
+     * @var AdminPageFramework
      */
     public $oFactory;
+
+    /**
+     * @var string
+     */
+    public $sSectionID = '';
 
     /**
      * @var array
@@ -43,7 +49,8 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Compiler_CustomFieldTypes {
     public function __construct( $oFactory, $sSectionID ) {
 
         // Properties
-        $this->oFactory = $oFactory;
+        $this->oFactory   = $oFactory;
+        $this->sSectionID = $sSectionID;
         $this->___setProperties();
 
         // Form fields - the field type pack extension also uses this field.
@@ -74,6 +81,12 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Compiler_CustomFieldTypes {
             array( $this, 'replyToModifyFileContents' ),
             10,
             4
+        );
+
+        /// [3.9.0] Insert checked custom field types in the file comment header
+        add_filter(
+            AdminPageFrameworkLoader_Registry::HOOK_SLUG . '_filter_generator_header_comment',
+            array( $this, 'replyToGetAdditionalHeaderComment' )
         );
 
     }
@@ -433,4 +446,36 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Compiler_CustomFieldTypes {
                     );
                 }
 
+    /**
+     * @param  string $sComment
+     * @return string
+     * @since  3.9.0
+     */
+    public function replyToGetAdditionalHeaderComment( $sComment ) {
+        $_aCustomFieldTypeLabels = array();
+        foreach( $this->___getCheckedCustomFieldTypeKeys() as $_sCheckedKey ) {
+            $_sThisLabel = $this->oFactory->oUtil->getElement( $this->aCustomFieldTypes, array( $_sCheckedKey, 'label' ) );
+            $_aCustomFieldTypeLabels[] = strlen( $_sThisLabel ) ? $_sThisLabel : $_sCheckedKey;
+        }
+        return empty( $_aCustomFieldTypeLabels )
+            ? $sComment
+            : $sComment . PHP_EOL . '  Custom Field Types: ' . implode( ', ', $_aCustomFieldTypeLabels );
+    }
+        /**
+         * @return string[]
+         * @since  3.9.0
+         */
+        private function ___getCheckedCustomFieldTypeKeys() {
+            $_aChecked = $this->oFactory->oUtil->getElementAsArray(
+                $_POST,
+                array(
+                    $this->oFactory->oProp->sOptionKey,
+                    $this->sSectionID,
+                    'custom_field_types' // field id
+                ),
+                array()
+            );
+            $_aChecked = array_filter( $_aChecked );
+            return array_keys( $_aChecked );
+        }
 }
