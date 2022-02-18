@@ -4,7 +4,7 @@
  *
  * @author      Michael Uno <michael@michaeluno.jp>
  * @copyright   2015-2016 (c) Michael Uno
- * @license     MIT    <http://opensource.org/licenses/MIT>
+ * @license     MIT <http://opensource.org/licenses/MIT>
  */
 if ( ! class_exists( 'PHP_Class_Files_Script_Generator_Base' ) ) {
     require( __DIR__ . '/library/php_class_files_script_generator/PHP_Class_Files_Script_Generator_Base.php' );
@@ -13,7 +13,7 @@ if ( ! class_exists( 'PHP_Class_Files_Script_Generator_Base' ) ) {
 /**
  * Copies files in a specified directory into a set destination directory and applies beautification.
  *
- * @version    1.4.0
+ * @version    1.4.1
  */
 class PHP_Class_Files_Beautifier extends PHP_Class_Files_Script_Generator_Base {
 
@@ -129,8 +129,8 @@ class PHP_Class_Files_Beautifier extends PHP_Class_Files_Script_Generator_Base {
      *     The accepted values are 'CONSTANTS' or 'DOCBLOCK'.
      * <h3>Example</h3>
      * <code>array(
-     *        'header_class_name' => 'HeaderClassForMinifiedVerions',
-     *        'file_pettern'      => '/.+\.(php|inc)/i',
+     *        'header_class_name' => 'HeaderClassForMinifiedVersions',
+     *        'file_pattern'      => '/.+\.(php|inc)/i',
      *        'output_buffer'     => false,
      *        'header_type'       => 'CONSTANTS',
      *
@@ -425,7 +425,7 @@ class PHP_Class_Files_Beautifier extends PHP_Class_Files_Script_Generator_Base {
             if ( ! class_exists( 'JSMinPlus' ) ) {
                 $this->oOutput(
                     sprintf(
-                        'In order to minify Inline JavaScirpt sciripts, a modified version of JSMinPlus is required. The library could not be located.',
+                        'In order to minify Inline JavaScript scripts, a modified version of JSMinPlus is required. The library could not be located.',
                         PHP_VERSION
                     )
                 );
@@ -530,7 +530,7 @@ class PHP_Class_Files_Beautifier extends PHP_Class_Files_Script_Generator_Base {
     private function ___getInlineCSSMinified( array $aFiles, array $aOptions ) {
 
         $_sCR = $aOptions[ 'carriage_return' ];
-        $this->output( 'Minifiying inline CSS rules.', $aOptions );
+        $this->output( 'Minifying inline CSS rules.', $aOptions );
         $this->output( 'Here-doc Keys: ' . implode( ',', $aOptions[ 'css_heredoc_keys' ] ), $aOptions );
         $aOptions[ 'carriage_return' ] = '';
 

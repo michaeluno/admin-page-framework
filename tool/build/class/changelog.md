@@ -1,6 +1,7 @@
 ## Change Log
 
 ### 1.4.1
+- Fixed typos in output buffer.
 - Fixed indents at the end of each file.
 
 ### 1.4.0
