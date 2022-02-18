@@ -536,7 +536,7 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator extends AdminP
                         );
                         $_aInsert = array(
                             'Included Components: ' . implode( ', ', $_aCheckedComponents ),
-                            'Generated on ' . date( 'Y-m-d' ),  // today's date
+                            'Compiled on ' . date( 'Y-m-d' ),  // today's date
                         );
                         return preg_replace(
                             '#\*/#', // needle - matches '*/'
