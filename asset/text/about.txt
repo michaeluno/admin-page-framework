@@ -65,12 +65,12 @@ Let's create a very simple plugin to understand the whole workflow of using Admi
 
 First, you need to have your own copy of the framework files. 
 
-1. Go to **Dashboard** -> **Admin Page Framework** -> **Tools** -> **[Generator](%WP_ADMIN_URL%/admin.php?page=apfl_tools)**.
+1. Go to **Dashboard** -> **Admin Page Framework** -> **Tools** -> **[Compiler](%WP_ADMIN_URL%/admin.php?page=apfl_tools)**.
 2. **(Important!)** Enter your unique prefix. If your plugin is named, let's say "My First Plugin" then you may set the prefix "`MyFirstPlugin_`".
 3. Also set the text domain of your project, `my-first-plugin` as an example. This will be used when creating translation files.
 4. Download the file by pressing **Download**.
 5. If download is successful, you'll get a zip file named `{your text domain-}admin-page-framework.zip`. Extract the contents to your preferred location at your convenience. 
-Make sure `admin-page-framework.php`, `admin-page-framework-include-class-list.php` and some other sub-directories are present in the extracted directory.
+Make sure `admin-page-framework.php`, `admin-page-framework-class-map.php` and some other sub-directories are present in the extracted directory.
 
 <h3>Step 2 - Include the Framework</h3>
 
@@ -111,7 +111,7 @@ The `setUp()` method is one of them, and in this method, you set up necessary co
 
 The `setRootMenuPage()` method allows you to set the top-level page and the `addSubMenuItem()` method allows you to add sub-menu pages and links.
 
-Let's add a page to the `Settings` page. You need to decide what pag slug to use. Pick a unique one. Here we use `my_first_page` as an example.
+Let's add a page to the `Settings` page. You need to decide what page slug to use. Pick a unique one. Here we use `my_first_page` as an example.
 
 `
 public function setUp() {

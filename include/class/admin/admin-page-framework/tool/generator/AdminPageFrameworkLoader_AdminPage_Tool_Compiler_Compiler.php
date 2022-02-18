@@ -7,11 +7,11 @@
  */
 
 /**
- * Adds the 'Generator' section to the 'Generator' tab.
+ * Adds the 'Compiler' section to the 'Compiler' tab.
  *
  * @since 3.5.4
  */
-class AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator extends AdminPageFrameworkLoader_AdminPage_Section_Base {
+class AdminPageFrameworkLoader_AdminPage_Tool_Compiler_Compiler extends AdminPageFrameworkLoader_AdminPage_Section_Base {
 
     /**
      * Stores the admin page factory object.
@@ -37,7 +37,7 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator extends AdminP
             5
         );
         add_action(
-            // export_{instantiated clasa name}_{section id}_{field id}
+            // export_{instantiated class name}_{section id}_{field id}
             "export_{$oFactory->oProp->sClassName}_{$this->sSectionID}_download",
             array( $this, 'replyToDownloadFramework' ),
             10,
@@ -122,11 +122,11 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator extends AdminP
             ),
             array(
                 'field_id'          => 'download',
-                'title'             => __( 'Download', 'admin-page-framework-loader' ),
+                'title'             => __( 'Compile', 'admin-page-framework-loader' ),
                 'type'              => 'export',
                 'label_min_width'   => 0,
                 'order'             => 100,
-                'value'             => __( 'Download', 'adimn-page-framework-demo' ),
+                'value'             => __( 'Download', 'admin-page-framework-demo' ),
                 'file_name'         => 'admin-page-framework.zip',  // the default file name. This will be modified by the filter.
                 'format'            => 'text',  // 'json', 'text', 'array'
                 'description'       => $oFactory->oUtil->getAOrB(
@@ -144,7 +144,7 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator extends AdminP
             )
         );
 
-        new AdminPageFrameworkLoader_AdminPage_Tool_Generator_CustomFieldTypes( $oFactory, $sSectionID );
+        new AdminPageFrameworkLoader_AdminPage_Tool_Compiler_CustomFieldTypes( $oFactory, $sSectionID );
 
     }
         /**

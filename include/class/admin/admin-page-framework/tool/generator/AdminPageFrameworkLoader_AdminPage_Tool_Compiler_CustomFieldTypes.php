@@ -7,11 +7,11 @@
  */
 
 /**
- * Adds the 'custom_field_types' field to the 'Generator' section.
+ * Adds the 'custom_field_types' field to the 'Compiler' section.
  *
  * @since 3.6.0
  */
-class AdminPageFrameworkLoader_AdminPage_Tool_Generator_CustomFieldTypes {
+class AdminPageFrameworkLoader_AdminPage_Tool_Compiler_CustomFieldTypes {
 
     /**
      * Stores the admin page factory object.

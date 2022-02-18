@@ -15,14 +15,14 @@
  * @since       3.5.4
  * @extends     AdminPageFrameworkLoader_AdminPage_Tab_Base
  */
-class AdminPageFrameworkLoader_AdminPage_Tool_Generator extends AdminPageFrameworkLoader_AdminPage_Tab_Base {
+class AdminPageFrameworkLoader_AdminPage_Tool_Compiler extends AdminPageFrameworkLoader_AdminPage_Tab_Base {
 
     /**
      * Triggered when the tab is loaded.
      */
     public function replyToLoadTab( $oAdminPage ) {
 
-        new  AdminPageFrameworkLoader_AdminPage_Tool_Generator_Generator(
+        new AdminPageFrameworkLoader_AdminPage_Tool_Compiler_Compiler(
             $oAdminPage,
             $this->sPageSlug,
             array(
@@ -30,7 +30,7 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Generator extends AdminPageFramewo
                 'tab_slug'      => $this->sTabSlug,
                 'title'         => __( 'Download Framework', 'admin-page-framework-loader' ),
                 'description'   => array(
-                    __( 'Generate your own version of the framework to avoid library conflicts.', 'admin-page-framework-loader' ),
+                    __( 'Compile your own version of the framework to avoid library conflicts.', 'admin-page-framework-loader' ),
                 ),
             )
         );
