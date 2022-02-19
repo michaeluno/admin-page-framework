@@ -3,6 +3,7 @@
 /tool/beautifier/class/library/
 */PHP_Beautifier
 node_modules/
+vendor/
 
 # Documentation generated files
 documentation/
