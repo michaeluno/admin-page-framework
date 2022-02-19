@@ -1,5 +1,6 @@
 {
     "require": {
-        "michaeluno/php-classmap-generator": "^1.1.0"
+        "michaeluno/php-classmap-generator": "^1.1.0",
+        "asika/minify": "^1.0"
     }
 }
