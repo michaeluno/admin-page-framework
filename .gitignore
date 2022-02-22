@@ -12,6 +12,7 @@ documentation/
 _del/
 _old/
 _bak/
+*.del
 
 # Editor files
 .idea
