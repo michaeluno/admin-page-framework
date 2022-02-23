@@ -1,4 +1,4 @@
 #!/usr/bin/php
-php comiple.php
+php build.php
 start notice.mp3
 $SHELL

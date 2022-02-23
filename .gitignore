@@ -9,7 +9,7 @@ vendor/
 documentation/
 
 # Test and scratch files
-tool/compile/output
+tool/build/output
 
 # Temporary directories
 _del/

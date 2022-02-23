@@ -3,6 +3,7 @@ This script beautifies PHP code in files of given source directories.
 
 ### Requirements
   - Composer
+  - [Admin Page Framework Compiler] (https://github.com/michaeluno/admin-page-framework-compiler)
   - [PHP Tokenizer extension](https://www.php.net/manual/en/book.tokenizer.php)
   
 ### Set-ups
