@@ -29,6 +29,6 @@ if ( php_sapi_name() === 'cli' ) {
 final class AdminPageFramework_BeautifiedVersionHeader extends AdminPageFramework_Registry_Base {
 
     const NAME          = 'Admin Page Framework';
-    const DESCRIPTION   = 'Compiled by PHP Class Files Script Generator <https://github.com/michaeluno/PHP-Class-Files-Script-Generator>';
+    const DESCRIPTION   = 'Compiled with Admin Page Framework Compiler <https://github.com/michaeluno/admin-page-framework-compiler>';
 
 }

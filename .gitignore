@@ -8,6 +8,9 @@ vendor/
 # Documentation generated files
 documentation/
 
+# Test and scratch files
+tool/compile/output
+
 # Temporary directories
 _del/
 _old/
