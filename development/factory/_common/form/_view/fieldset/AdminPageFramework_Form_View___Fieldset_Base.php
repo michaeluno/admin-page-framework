@@ -160,6 +160,10 @@ abstract class AdminPageFramework_Form_View___Fieldset_Base extends AdminPageFra
 
             $_aArguments            = $aArguments;
             $_sSmallButtonSelector  = $bSmall ? ' button-small' : '';
+            $_sDisabledContent      = $this->getModalForDisabledRepeatableElement(
+                'repeatable_field_disabled_' . $sFieldsContainerID,
+                $_aArguments[ 'disabled' ]
+            );
             if ( version_compare( $GLOBALS[ 'wp_version' ], '5.3', '>=' ) ) {
                 return "<div " . $this->___getContainerAttributes( $_aArguments ) . " >"
                         . "<a " . $this->___getRemoveButtonAttributes( $sFieldsContainerID, $_sSmallButtonSelector, $iFieldCount ) . ">"
@@ -169,10 +173,7 @@ abstract class AdminPageFramework_Form_View___Fieldset_Base extends AdminPageFra
                             . "<span class='dashicons dashicons-plus-alt2'></span>"
                         ."</a>"
                     . "</div>"
-                    . $this->getModalForDisabledRepeatableElement(
-                        'repeatable_field_disabled_' . $sFieldsContainerID,
-                        $_aArguments[ 'disabled' ]
-                    );
+                    . $_sDisabledContent;
             }
             return "<div " . $this->___getContainerAttributes( $_aArguments ) . " >"
                     . "<a " . $this->___getRemoveButtonAttributes( $sFieldsContainerID, $_sSmallButtonSelector, $iFieldCount ) . ">"
@@ -182,10 +183,7 @@ abstract class AdminPageFramework_Form_View___Fieldset_Base extends AdminPageFra
                         . "+"
                     ."</a>"
                 . "</div>"
-                . $this->getModalForDisabledRepeatableElement(
-                    'repeatable_field_disabled_' . $sFieldsContainerID,
-                    $_aArguments[ 'disabled' ]
-                );
+                . $_sDisabledContent;
 
         }
 
