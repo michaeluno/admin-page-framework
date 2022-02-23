@@ -2,6 +2,7 @@
 
     // Initialize repeatable buttons
     $( document ).ready( function() {
+
         $( '.admin-page-framework-fields.repeatable' ).each( function() {
             var _buttonModel = $( this ).siblings( '.repeatable-field-buttons-model' );
             if ( ! _buttonModel.length ) {
@@ -9,13 +10,13 @@
             }
             var _aSettings           = _buttonModel.data();
             var _buttonContainer     = _buttonModel.children( '.admin-page-framework-repeatable-field-buttons' ).first();
-            _buttonModel.remove();
+            // _buttonModel.remove();   // do not remove it since when the `disable` argument is set, a modal content element gets inserted in this element.
             var _buttonsNestedFields = $( _buttonContainer );
             var _buttonsSmall        = $( _buttonContainer ).clone();
             _buttonsNestedFields.find( '.repeatable-field-button' ).addClass( 'button-large' );
             _buttonsSmall.find( '.repeatable-field-button' ).addClass( 'button-small' );
 
-            // For unnested fields
+            // For non-nested fields
             var _childFields = $( this ).find( '> .admin-page-framework-field.without-child-fields' );
             var _oButtonPlaceHolders = _childFields.find( '.repeatable-field-buttons' );
             /* If the button place-holder is set in the field type definition, replace it with the created output */
@@ -31,6 +32,7 @@
                     _childFields.prepend( _buttonsSmall );
                 }
             }
+
 
             /**
              * For nested fields, add buttons to the fields tag.
