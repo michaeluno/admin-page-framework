@@ -40,7 +40,7 @@ class AdminPageFramework_AdminNotice extends AdminPageFramework_FrameworkUtility
     /**
      * Stores all the registered notification messages.
      */
-    static private $_aNotices = array();
+    static private $___aNotices = array();
 
     public $sNotice     = '';
     public $aAttributes = array();
@@ -52,14 +52,14 @@ class AdminPageFramework_AdminNotice extends AdminPageFramework_FrameworkUtility
     /**
      * Sets up hooks and properties.
      *
-     * @param       string      $sNotice        The message to display.
-     * @param       array       $aAttributes    An attribute array. Set 'updated' to the 'class' element to display it in a green box.
-     * @param       array       $aCallbacks     [3.7.0+] An array storing callbacks.
+     * @param string $sNotice        The message to display.
+     * @param array  $aAttributes    An attribute array. Set 'updated' to the 'class' element to display it in a green box.
+     * @param array  $aCallbacks     [3.7.0+] An array storing callbacks.
      * <h4>Arguments</h4>
      * <ul>
      *      <li>`should_show` - (callable) Determines whether the admin notice should be displayed or not.</li>
      * </ul>
-     * @since       3.5.0
+     * @since 3.5.0
      */
     public function __construct( $sNotice, array $aAttributes=array( 'class' => 'error' ), array $aCallbacks=array() ) {
 
@@ -85,29 +85,21 @@ class AdminPageFramework_AdminNotice extends AdminPageFramework_FrameworkUtility
 
         // This prevents duplicates
         $this->sNotice = $sNotice;
-        self::$_aNotices[ $sNotice ] = $sNotice;
+        self::$___aNotices[ $sNotice ] = $sNotice;
 
-        $this->registerAction(
-            'admin_notices',
-            array( $this, '_replyToDisplayAdminNotice' )
-        );
-        $this->registerAction(
-            'network_admin_notices',
-            array( $this, '_replyToDisplayAdminNotice' )
-        );
-
+        $this->registerAction( 'admin_notices', array( $this, '_replyToDisplayAdminNotice' ) );
+        $this->registerAction( 'network_admin_notices', array( $this, '_replyToDisplayAdminNotice' ) );
 
     }
 
         /**
          * Displays the set admin notice.
-         * @since       3.5.0
+         * @since    3.5.0
          * @internal
-         * @return      void
          */
         public function _replyToDisplayAdminNotice() {
 
-            if ( ! $this->_shouldProceed() ) {
+            if ( ! $this->___shouldProceed() ) {
                 return;
             }
 
@@ -120,39 +112,32 @@ class AdminPageFramework_AdminNotice extends AdminPageFramework_FrameworkUtility
 
             echo "<div " . $this->getAttributes( $_aAttributes ) . ">"
                     . "<p>"
-                        . self::$_aNotices[ $this->sNotice ]
+                        . self::$___aNotices[ $this->sNotice ]
                     . "</p>"
                 . "</div>"
                 // Insert the same message except it is not hidden.
                 . "<noscript>"
                     . "<div " . $this->getAttributes( $this->aAttributes ) . ">"
                         . "<p>"
-                            . self::$_aNotices[ $this->sNotice ]
+                            . self::$___aNotices[ $this->sNotice ]
                         . "</p>"
                     . "</div>"
                 . "</noscript>";
 
-            unset( self::$_aNotices[ $this->sNotice ] );
+            unset( self::$___aNotices[ $this->sNotice ] );
 
         }
             /**
              * Decides whether the notification should be displayed or not.
-             * @return      boolean
-             * @since       3.7.0
+             * @return   boolean
+             * @since    3.7.0
              * @internal
              */
-            private function _shouldProceed() {
-
+            private function ___shouldProceed() {
                 if ( ! is_callable( $this->aCallbacks[ 'should_show' ] ) ) {
                     return true;
                 }
-                return call_user_func_array(
-                    $this->aCallbacks[ 'should_show' ],
-                    array(
-                        true,
-                    )
-                );
-
+                return call_user_func_array( $this->aCallbacks[ 'should_show' ], array( true, ) );
             }
 
 }
