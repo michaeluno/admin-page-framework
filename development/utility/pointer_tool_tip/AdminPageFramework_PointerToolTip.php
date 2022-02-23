@@ -100,26 +100,21 @@ class AdminPageFramework_PointerToolTip extends AdminPageFramework_FrameworkUtil
         $this->sPointerID    = $sPointerID;
         $this->aPointerData  = $aPointerData;
 
-        $this->_setHooks( $this->aScreenIDs );
+        $this->___setHooks( $this->aScreenIDs );
 
     }
         /**
          * Sets up hooks.
-         * @since       3.7.0
+         * @since    3.7.0
          * @internal
-         * @return      void
          */
-        private function _setHooks( $aScreenIDs ) {
+        private function ___setHooks( $aScreenIDs ) {
 
             foreach( $aScreenIDs as $_sScreenID ) {
                 if ( ! $_sScreenID ) {
                     continue;
                 }
-                add_filter(
-                    get_class( $this ) . '-' . $_sScreenID,
-                    array( $this, '_replyToSetPointer' )
-                );
-
+                add_filter( get_class( $this ) . '-' . $_sScreenID, array( $this, '_replyToSetPointer' ) );
             }
 
             if ( ! $this->_hasBeenCalled() ) {
@@ -127,11 +122,7 @@ class AdminPageFramework_PointerToolTip extends AdminPageFramework_FrameworkUtil
             }
 
             // Checks the screen id and page slug and add items if they match the current screen
-            add_action(
-                'admin_enqueue_scripts',
-                array( $this, '_replyToLoadPointers' ),
-                1000
-            );
+            add_action( 'admin_enqueue_scripts', array( $this, '_replyToLoadPointers' ), 1000 );
 
         }
             /**
@@ -147,7 +138,7 @@ class AdminPageFramework_PointerToolTip extends AdminPageFramework_FrameworkUtil
             }
 
         /**
-         * @callback    filter      {class name}-{screen id}
+         * @callback    apply_filter()      {class name}-{screen id}
          * @return      array
          * @internal
          */
@@ -160,9 +151,8 @@ class AdminPageFramework_PointerToolTip extends AdminPageFramework_FrameworkUtil
     /**
      * Checks the screen id and page slug and add items if they match the current screen
      *
-     * @callback    action      admin_enqueue_scripts
-     * @since       3.7.0
-     * @return      void
+     * @callback add_action() admin_enqueue_scripts
+     * @since    3.7.0
      * @internal
      */
     public function _replyToLoadPointers( /* $hook_suffix */ ) {
@@ -226,7 +216,7 @@ class AdminPageFramework_PointerToolTip extends AdminPageFramework_FrameworkUtil
                 );
 
                 // Sanity check
-                if ( $this->_shouldSkip( $_iPointerID, $_aDismissed, $_aPointer ) ) {
+                if ( $this->___shouldSkip( $_iPointerID, $_aDismissed, $_aPointer ) ) {
                     continue;
                 }
 
@@ -246,7 +236,7 @@ class AdminPageFramework_PointerToolTip extends AdminPageFramework_FrameworkUtil
              * @since       3.7.0
              * @internal
              */
-            private function _shouldSkip( $_iPointerID, $_aDismissed, $_aPointer ) {
+            private function ___shouldSkip( $_iPointerID, $_aDismissed, $_aPointer ) {
 
                 if ( in_array( $_iPointerID, $_aDismissed ) ) {
                     return true;
@@ -281,27 +271,21 @@ class AdminPageFramework_PointerToolTip extends AdminPageFramework_FrameworkUtil
             wp_enqueue_style( 'wp-pointer' );
 
             // Embeds the inline script
-            add_action(
-                'admin_print_footer_scripts',
-                array( $this, '_replyToInsertInternalScript' )
-            );
+            add_action( 'admin_print_footer_scripts', array( $this, '_replyToInsertInternalScript' ) );
 
         }
 
     /**
-     * @since       3.7.0
-     * @callback    action      admin_print_footer_scripts
-     * @return      void
+     * @since    3.7.0
+     * @callback add_action() admin_print_footer_scripts
      * @internal
      */
     public function _replyToInsertInternalScript() {
-
         echo "<script type='text/javascript' class='admin-page-framework-pointer-tool-tip'>"
             . '/* <![CDATA[ */'
-            . $this->_getInternalScript( self::$aPointers )
+            . $this->___getInternalScript( self::$aPointers )
             . '/* ]]> */'
         . "</script>";
-
     }
         /**
          * Returns an inline JavaScript script.
@@ -310,7 +294,7 @@ class AdminPageFramework_PointerToolTip extends AdminPageFramework_FrameworkUtil
          * @return      string
          * @internal
          */
-        public function _getInternalScript( $aPointers=array() ) {
+        public function ___getInternalScript( $aPointers=array() ) {
 
             $_aJSArray      = json_encode( $aPointers );
 
@@ -318,23 +302,23 @@ class AdminPageFramework_PointerToolTip extends AdminPageFramework_FrameworkUtil
              * Checks check-boxes in siblings.
              */
             return <<<JAVASCRIPTS
-( function( jQuery ) {
-jQuery( document ).ready( function( jQuery ) {
-    jQuery.each( $_aJSArray, function( iIndex, _aPointer ) {
-        var _aOptions = jQuery.extend( _aPointer.options, {
+( function( $ ) {
+$( document ).ready( function( $ ) {
+    $.each( $_aJSArray, function( iIndex, _aPointer ) {
+        var _aOptions = $.extend( _aPointer.options, {
             close: function() {
-                jQuery.post( ajaxurl, {
+                $.post( ajaxurl, {
                     pointer: _aPointer.pointer_id,
                     action: 'dismiss-wp-pointer'
                 });
             }
         });
-        jQuery.each( _aPointer.target, function( iIndex, _sTarget ) {
-            var _oTarget = jQuery( _sTarget );
+        $.each( _aPointer.target, function( iIndex, _sTarget ) {
+            var _oTarget = $( _sTarget );
             if ( _oTarget.length <= 0 ) {
                 return true;    // skip
             }
-            var _oResult = jQuery( _sTarget ).pointer( _aOptions ).pointer( 'open' );
+            var _oResult = $( _sTarget ).pointer( _aOptions ).pointer( 'open' );
             if ( _oResult.length > 0 ) {
                 return false;   // escape to ensure no same item gets displayed in one screen
             }

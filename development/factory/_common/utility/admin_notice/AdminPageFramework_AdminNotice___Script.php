@@ -20,7 +20,7 @@ class AdminPageFramework_AdminNotice___Script extends AdminPageFramework_Factory
     /**
      * The initial set-ups.
      *
-     * @callback        action       wp_enqueue_scripts
+     * @callback add_action() wp_enqueue_scripts
      */
     public function load() {
         wp_enqueue_script( 'jquery' );
@@ -29,9 +29,9 @@ class AdminPageFramework_AdminNotice___Script extends AdminPageFramework_Factory
     /**
      * Returns an inline JavaScript script.
      *
-     * @since       3.7.0
-     * @param       $oMsg       object      The message object.
-     * @return      string      The inline JavaScript script.
+     * @since  3.7.0
+     * @param  $oMsg       object      The message object.
+     * @return string      The inline JavaScript script.
      */
     static public function getScript( /* $oMsg */ ) {
 
@@ -44,21 +44,21 @@ class AdminPageFramework_AdminNotice___Script extends AdminPageFramework_Factory
          */
         return <<<JAVASCRIPTS
 ( function( $ ) {
-    jQuery( document ).ready( function() {         
+    $( document ).ready( function() {         
 
-        var _oAdminNotices = jQuery( '.admin-page-framework-settings-notice-message' );
+        var _oAdminNotices = $( '.admin-page-framework-settings-notice-message' );
         if ( _oAdminNotices.length ) {
                     
             // Animation of the `slideDown()` method does not work well when the target element has a margin
-            // so enclose the elemnet in a new container and apply new margins to it.
-            var _oContainer     = jQuery( _oAdminNotices )
+            // so enclose the element in a new container and apply new margins to it.
+            var _oContainer     = $( _oAdminNotices )
                 .css( 'margin', '0' )   // prevents jumpy animation
                 .wrap( "<div class='admin-page-framework-admin-notice-animation-container'></div>" );
             _oContainer.css( 'margin-top', '1em' );
             _oContainer.css( 'margin-bottom', '1em' );
             
             // Now animate.
-            jQuery( _oAdminNotices )
+            $( _oAdminNotices )
                 .css( 'visibility', 'hidden' )
                 .slideDown( 800 )
                 .css( {opacity: 0, visibility: 'visible'})
