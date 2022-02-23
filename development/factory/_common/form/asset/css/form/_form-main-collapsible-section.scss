@@ -4,9 +4,13 @@
 {
     font-size:13px;
     background-color: #fff;
-    padding: 1em 2.6em 1em 2em;
+    padding: 1em 3.6em 1em 1.6em;
     border-top: 1px solid #eee;
     border-bottom: 1px solid #eee;
+    /* 3.9.0 */
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
 }
 
 .admin-page-framework-collapsible-sections-title.admin-page-framework-collapsible-type-box.collapsed,
@@ -27,7 +31,6 @@
 {
     font-size: 1em;
     margin: 0 1em 0 0;  /* 3.8.13+ The margin-right is required for fields in the section title area. */
-
 }
 #poststuff .admin-page-framework-collapsible-section-title.admin-page-framework-collapsible-type-box.admin-page-framework-section-title > .section-title-outer-container > .section-title-container > fieldset {
     line-height: 0; /* 3.8.13 to vertically align in the center */
@@ -36,7 +39,7 @@
     margin: 0;
     padding: 0;
 }
-/* Collapsible Sections Title Dashicon */
+/* Collapsible Sections Title Dash-icon */
 .admin-page-framework-collapsible-sections-title.admin-page-framework-collapsible-type-box.accordion-section-title:after,
 .admin-page-framework-collapsible-section-title.admin-page-framework-collapsible-type-box.accordion-section-title:after
 {
@@ -104,11 +107,13 @@ tbody.admin-page-framework-collapsible-content.table-caption {
 .admin-page-framework-collapsible-section-title.admin-page-framework-collapsible-type-box .admin-page-framework-repeatable-section-buttons {
     /* Collapsible section bar has an icon at the right end so the repeatable button needs to be placed before it */
     margin: 0;
-    margin-right: 1em;    /* 3.9.0 the repeatable buttons and the collapsible bottom arrow are too close */
+    /*margin-right: 1em;*/    /* 3.9.0 the repeatable buttons and the collapsible bottom arrow are too close. */ /* @deprecated This can be solved by displaying as flex */
     /* margin-right: 2em; @deprecated 3.8.13+ The section repeatable buttons are no longer float but positioned with the `position` property. */
     /* margin-top: -0.32em; @deprecated 3.8.7+ It is placed somewhat high in WP 4.6.1. */
+    float: none;    /* 3.9.0 now the collapsible bar is displayed as flex so no need to float */
+    margin-left: auto; /* 3.9.0 This aligns the button container to right */
 }
-/* When a section_title field is in the caption tag, do not set the margin-top to align vertically */
+/* When a `section_title` field is in the caption tag, do not set the margin-top to align vertically */
 .admin-page-framework-collapsible-section-title.admin-page-framework-collapsible-type-box .admin-page-framework-repeatable-section-buttons.section_title_field_sibling {
     margin-top: 0;
 }
@@ -138,7 +143,7 @@ tbody.admin-page-framework-collapsible-content.table-caption {
 .admin-page-framework-collapsible-sections-title.admin-page-framework-collapsible-type-box .section-title-outer-container,
 .admin-page-framework-collapsible-section-title.admin-page-framework-collapsible-type-box .section-title-outer-container
 {
-    width: 88%;
+    width: 90%;
     display: inline-block;
     text-align: left;
     vertical-align: middle;
@@ -157,6 +162,11 @@ tbody.admin-page-framework-collapsible-content.table-caption {
     .admin-page-framework-collapsible-section-title.admin-page-framework-collapsible-type-box .section-title-outer-container
     {
         width: 87.8%;
+    }
+    .admin-page-framework-collapsible-section-title.admin-page-framework-collapsible-type-box .repeatable-section-button {
+        min-height: unset;
+        height: 40px;
+        width: 40px;
     }
 }
 
