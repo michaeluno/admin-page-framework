@@ -51,7 +51,7 @@ class APF_Demo_AdvancedUsage_Argument_DisabledRepeatableSection {
                 'repeatable'        => array(
                     'disabled'               => array(
                         'message'       => __( 'The ability to repeat sections is disabled.', 'admin-page-framework-loader' )
-                            . ' ' . __( 'You can insert your custom message here such as \"<a>Upgrade the program</a> to enhance this feature!\"', 'admin-page-framework-loader' ),
+                            . ' ' . __( 'You can insert your custom message here such as "<a>Upgrade the program</a> to enhance this feature!"', 'admin-page-framework-loader' ),
                         'caption'       => __( 'Your Program Name', 'admin-page-framework-loader' ),
                         'box_width'     => 300,
                         'box_height'    => 100,
