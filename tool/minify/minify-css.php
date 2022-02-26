@@ -1,4 +1,7 @@
 <?php
+require( dirname( __DIR__ ) . '/vendor/autoload.php' );
+use MatthiasMullie\Minify\Exceptions\IOException;
+
 /* Set necessary paths */
 $sTargetBaseDir		= dirname( dirname( dirname( __FILE__ ) ) );
 $aTargetDirs        = array(
@@ -11,10 +14,6 @@ $sCarriageReturn	= $bIsCLI ? PHP_EOL : '<br />';
 if ( ! $bIsCLI ) { 
     exit( 'Please run the script with a console program.' );
 }
-
-/* Include necessary files */
-require( dirname( __DIR__ ) . '/vendor/autoload.php' );
-require( dirname( __FILE__ ) . '/class/vendor/autoload.php' );
 
 /* Create a minified version of the framework. */
 echo 'Started...' . $sCarriageReturn;
@@ -55,15 +54,21 @@ foreach( $_oGenerator->get() as $_sFilePath ) {
     $_aFileInfo      = $_oGenerator->getFileHeaderComment( $_sFilePath, $_aFileInfoStruct );
     $_sTitle         = trim( "{$_aFileInfo[ 'name' ]} {$_aFileInfo[ 'version' ]} {$_aFileInfo[ 'Name' ]} {$_aFileInfo[ 'Version' ]}" );
     $_sHeader        = $_sTitle ? "/* {$_sTitle} */" . PHP_EOL : '';
-    $_oMinifier      = Asika\Minifier\MinifierFactory::create('css' );
-    $_oMinifier->addFile( $_sFilePath );
-    $_sContent       = trim( $_sHeader . $_oMinifier->minify() );
-    if ( $_sPrevContent === $_sContent ) {
+
+    try {
+        $_oMinifier      = new MatthiasMullie\Minify\CSS();
+        $_oMinifier->addFile( $_sFilePath );
+        $_sContent       = trim( $_sHeader . $_oMinifier->minify() );
+        if ( $_sPrevContent === $_sContent ) {
+            continue;
+        }
+        file_put_contents( $_sMinScriptPath, $_sContent );
+        echo "{$_iCount}: Writing to " . $_sMinScriptPath . $sCarriageReturn;
+        $_iCount++;
+    } catch( IOException $_oIOException ) {
+        echo $_oIOException->getMessage() . $sCarriageReturn;
         continue;
     }
 
-    file_put_contents( $_sMinScriptPath, $_sContent );
-    echo "{$_iCount}: Writing to " . $_sMinScriptPath . $sCarriageReturn;
-    $_iCount++;
 }
 echo 'Done!' . $sCarriageReturn;

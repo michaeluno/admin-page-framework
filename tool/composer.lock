@@ -4,45 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7be8f6a0a79997ac2a6326d11a905b43",
+    "content-hash": "adf52db3007e94e2d6811f56270aef0d",
     "packages": [
-        {
-            "name": "asika/minify",
-            "version": "1.0.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/asika32764/minify.git",
-                "reference": "b19ee05208fcd3628d5ba58040a71e36166e20ae"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/asika32764/minify/zipball/b19ee05208fcd3628d5ba58040a71e36166e20ae",
-                "reference": "b19ee05208fcd3628d5ba58040a71e36166e20ae",
-                "shasum": ""
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Asika\\Minifier\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Simon Asika",
-                    "email": "asika32764@gmail.com"
-                }
-            ],
-            "description": "Simple CSS & JS minify package",
-            "support": {
-                "issues": "https://github.com/asika32764/minify/issues",
-                "source": "https://github.com/asika32764/minify/tree/master"
-            },
-            "time": "2018-12-18T08:32:47+00:00"
-        },
         {
             "name": "composer/pcre",
             "version": "3.0.0",

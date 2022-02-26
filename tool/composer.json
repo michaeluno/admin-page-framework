@@ -2,7 +2,6 @@
     "require": {
         "michaeluno/php-classmap-generator": "^1.3.0",
         "michaeluno/admin-page-framework-compiler": "^1.1.0",
-        "matthiasmullie/minify": "^1.3",
-        "asika/minify": "^1.0"
+        "matthiasmullie/minify": "^1.3"
     }
 }
