@@ -1,13 +1,12 @@
 <?php
 /*
- * Admin Page Framework v3.9.0b15 by Michael Uno
+ * Admin Page Framework v3.9.0b17 by Michael Uno
  * Compiled with Admin Page Framework Compiler <https://github.com/michaeluno/admin-page-framework-compiler>
  * <https://en.michaeluno.jp/admin-page-framework>
  * Copyright (c) 2013-2022, Michael Uno; Licensed under MIT <https://opensource.org/licenses/MIT>
  */
 
-class AdminPageFramework_Form_Model___Format_FieldsetOutput extends AdminPageFramework_Form_Model___Format_Fieldset
-{
+class AdminPageFramework_Form_Model___Format_FieldsetOutput extends AdminPageFramework_Form_Model___Format_Fieldset {
     public static $aStructure = array( '_section_index' => null, 'tag_id' => null, '_tag_id_model' => '', '_field_name' => '', '_field_name_model' => '', '_field_name_flat' => '', '_field_name_flat_model' => '', '_field_address' => '', '_field_address_model' => '', '_parent_field_object' => null, '_parent_tag_id' => null, );
     public $aFieldset = array();
     public $iSectionIndex = null;

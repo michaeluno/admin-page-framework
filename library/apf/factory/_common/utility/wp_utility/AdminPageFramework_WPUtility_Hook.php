@@ -1,13 +1,12 @@
 <?php
 /*
- * Admin Page Framework v3.9.0b15 by Michael Uno
+ * Admin Page Framework v3.9.0b17 by Michael Uno
  * Compiled with Admin Page Framework Compiler <https://github.com/michaeluno/admin-page-framework-compiler>
  * <https://en.michaeluno.jp/admin-page-framework>
  * Copyright (c) 2013-2022, Michael Uno; Licensed under MIT <https://opensource.org/licenses/MIT>
  */
 
-class AdminPageFramework_WPUtility_Hook extends AdminPageFramework_WPUtility_Page
-{
+class AdminPageFramework_WPUtility_Hook extends AdminPageFramework_WPUtility_Page {
     public static function registerAction($sActionHook, $oCallable, $iPriority=10)
     {
         if (did_action($sActionHook)) {

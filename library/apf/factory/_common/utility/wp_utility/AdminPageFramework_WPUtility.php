@@ -1,13 +1,12 @@
 <?php
 /*
- * Admin Page Framework v3.9.0b15 by Michael Uno
+ * Admin Page Framework v3.9.0b17 by Michael Uno
  * Compiled with Admin Page Framework Compiler <https://github.com/michaeluno/admin-page-framework-compiler>
  * <https://en.michaeluno.jp/admin-page-framework>
  * Copyright (c) 2013-2022, Michael Uno; Licensed under MIT <https://opensource.org/licenses/MIT>
  */
 
-class AdminPageFramework_WPUtility extends AdminPageFramework_WPUtility_Time
-{
+class AdminPageFramework_WPUtility extends AdminPageFramework_WPUtility_Time {
     private static $___iCustomNonceLifeSpan;
     public static function getNonceCreated($sAction=-1, $iLifespan=86400)
     {
@@ -55,7 +54,7 @@ class AdminPageFramework_WPUtility extends AdminPageFramework_WPUtility_Time
             return;
         }
         $_sFunctionName = array( 0 => 'wp_redirect', 1 => 'wp_safe_redirect', );
-        exit($_sFunctionName[ ( int ) $iType ]($sURL));
+        exit($_sFunctionName[ ( integer ) $iType ]($sURL));
     }
     public static function getRedirectPreError($sURL, $iType)
     {
@@ -69,7 +68,7 @@ class AdminPageFramework_WPUtility extends AdminPageFramework_WPUtility_Time
     }
     public static function isDebugMode()
     {
-        return ( bool ) defined('WP_DEBUG') && WP_DEBUG;
+        return ( boolean ) defined('WP_DEBUG') && WP_DEBUG;
     }
     public static function isDoingAjax()
     {

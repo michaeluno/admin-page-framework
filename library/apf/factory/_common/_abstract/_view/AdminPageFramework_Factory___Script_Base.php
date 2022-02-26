@@ -1,13 +1,12 @@
 <?php
 /*
- * Admin Page Framework v3.9.0b15 by Michael Uno
+ * Admin Page Framework v3.9.0b17 by Michael Uno
  * Compiled with Admin Page Framework Compiler <https://github.com/michaeluno/admin-page-framework-compiler>
  * <https://en.michaeluno.jp/admin-page-framework>
  * Copyright (c) 2013-2022, Michael Uno; Licensed under MIT <https://opensource.org/licenses/MIT>
  */
 
-abstract class AdminPageFramework_Factory___Script_Base extends AdminPageFramework_FrameworkUtility
-{
+abstract class AdminPageFramework_Factory___Script_Base extends AdminPageFramework_FrameworkUtility {
     public $oMsg;
     public function __construct($oMsg=null)
     {
@@ -22,11 +21,9 @@ abstract class AdminPageFramework_Factory___Script_Base extends AdminPageFramewo
         add_action('wp_enqueue_scripts', array( $this, 'load' ));
     }
     public function construct()
-    {
-    }
+    {}
     public function load()
-    {
-    }
+    {}
     public function _replyToPrintScript()
     {
         $_sScript = $this->getScript($this->oMsg);

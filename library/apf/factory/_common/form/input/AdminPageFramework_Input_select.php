@@ -1,13 +1,12 @@
 <?php
 /*
- * Admin Page Framework v3.9.0b15 by Michael Uno
+ * Admin Page Framework v3.9.0b17 by Michael Uno
  * Compiled with Admin Page Framework Compiler <https://github.com/michaeluno/admin-page-framework-compiler>
  * <https://en.michaeluno.jp/admin-page-framework>
  * Copyright (c) 2013-2022, Michael Uno; Licensed under MIT <https://opensource.org/licenses/MIT>
  */
 
-class AdminPageFramework_Input_select extends AdminPageFramework_Input_Base
-{
+class AdminPageFramework_Input_select extends AdminPageFramework_Input_Base {
     public $aStructureOptions = array( 'input_container_tag' => 'span', 'input_container_attributes' => array( 'class' => 'admin-page-framework-input-container', ), 'label_container_tag' => 'span', 'label_container_attributes' => array( 'class' => 'admin-page-framework-input-label-string', ), );
     protected function construct()
     {

@@ -1,13 +1,12 @@
 <?php
 /*
- * Admin Page Framework v3.9.0b15 by Michael Uno
+ * Admin Page Framework v3.9.0b17 by Michael Uno
  * Compiled with Admin Page Framework Compiler <https://github.com/michaeluno/admin-page-framework-compiler>
  * <https://en.michaeluno.jp/admin-page-framework>
  * Copyright (c) 2013-2022, Michael Uno; Licensed under MIT <https://opensource.org/licenses/MIT>
  */
 
-class AdminPageFramework_Requirement
-{
+class AdminPageFramework_Requirement {
     private $_aRequirements = array();
     public $aWarnings = array();
     private $_aDefaultRequirements = array( 'php' => array( 'version' => '5.2.4', 'error' => 'The plugin requires the PHP version %1$s or higher.', ), 'wordpress' => array( 'version' => '3.3', 'error' => 'The plugin requires the WordPress version %1$s or higher.', ), 'mysql' => array( 'version' => '5.0', 'error' => 'The plugin requires the MySQL version %1$s or higher.', ), 'functions' => array( ), 'classes' => array( ), 'constants' => array( ), 'files' => array( ), );

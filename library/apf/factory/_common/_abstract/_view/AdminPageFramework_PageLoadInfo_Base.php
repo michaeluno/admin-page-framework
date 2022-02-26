@@ -1,13 +1,12 @@
 <?php
 /*
- * Admin Page Framework v3.9.0b15 by Michael Uno
+ * Admin Page Framework v3.9.0b17 by Michael Uno
  * Compiled with Admin Page Framework Compiler <https://github.com/michaeluno/admin-page-framework-compiler>
  * <https://en.michaeluno.jp/admin-page-framework>
  * Copyright (c) 2013-2022, Michael Uno; Licensed under MIT <https://opensource.org/licenses/MIT>
  */
 
-abstract class AdminPageFramework_PageLoadInfo_Base extends AdminPageFramework_FrameworkUtility
-{
+abstract class AdminPageFramework_PageLoadInfo_Base extends AdminPageFramework_FrameworkUtility {
     public $oProp;
     public $oMsg;
     protected $_nInitialMemoryUsage;
@@ -26,11 +25,10 @@ abstract class AdminPageFramework_PageLoadInfo_Base extends AdminPageFramework_F
         if ($oProp->bIsAdminAjax || ! $oProp->bIsAdmin) {
             return false;
         }
-        return ( bool ) $oProp->bShowDebugInfo;
+        return ( boolean ) $oProp->bShowDebugInfo;
     }
     public function _replyToSetPageLoadInfoInFooter()
-    {
-    }
+    {}
     private static $_bLoadedPageLoadInfo = false;
     public function _replyToGetPageLoadInfo($sFooterHTML)
     {

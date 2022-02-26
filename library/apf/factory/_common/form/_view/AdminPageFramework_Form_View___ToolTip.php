@@ -1,13 +1,12 @@
 <?php
 /*
- * Admin Page Framework v3.9.0b15 by Michael Uno
+ * Admin Page Framework v3.9.0b17 by Michael Uno
  * Compiled with Admin Page Framework Compiler <https://github.com/michaeluno/admin-page-framework-compiler>
  * <https://en.michaeluno.jp/admin-page-framework>
  * Copyright (c) 2013-2022, Michael Uno; Licensed under MIT <https://opensource.org/licenses/MIT>
  */
 
-class AdminPageFramework_Form_View___ToolTip extends AdminPageFramework_Form_View___Section_Base
-{
+class AdminPageFramework_Form_View___ToolTip extends AdminPageFramework_Form_View___Section_Base {
     public $aArguments = array( 'attributes' => array( 'container' => array(), 'title' => array(), 'content' => array(), 'description' => array(), 'icon' => array(), ), 'icon' => null, 'dash-icon' => 'dashicons-editor-help', 'icon_alt_text' => '[?]', 'title' => null, 'content' => null, 'width' => null, 'height' => null, );
     public $sTitleElementID;
     public function __construct()

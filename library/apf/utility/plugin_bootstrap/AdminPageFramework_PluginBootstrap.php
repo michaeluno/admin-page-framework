@@ -1,13 +1,12 @@
 <?php
 /*
- * Admin Page Framework v3.9.0b15 by Michael Uno
+ * Admin Page Framework v3.9.0b17 by Michael Uno
  * Compiled with Admin Page Framework Compiler <https://github.com/michaeluno/admin-page-framework-compiler>
  * <https://en.michaeluno.jp/admin-page-framework>
  * Copyright (c) 2013-2022, Michael Uno; Licensed under MIT <https://opensource.org/licenses/MIT>
  */
 
-abstract class AdminPageFramework_PluginBootstrap
-{
+abstract class AdminPageFramework_PluginBootstrap {
     public $sFilePath;
     public $bIsAdmin;
     public $sHookPrefix;
@@ -67,11 +66,9 @@ abstract class AdminPageFramework_PluginBootstrap
         }
     }
     public function setConstants()
-    {
-    }
+    {}
     public function setGlobals()
-    {
-    }
+    {}
     public function getClasses()
     {
         $_aClasses = array();
@@ -82,21 +79,15 @@ abstract class AdminPageFramework_PluginBootstrap
         return array();
     }
     public function replyToPluginActivation()
-    {
-    }
+    {}
     public function replyToPluginDeactivation()
-    {
-    }
+    {}
     public function setLocalization()
-    {
-    }
+    {}
     public function setUp()
-    {
-    }
+    {}
     protected function construct()
-    {
-    }
+    {}
     public function start()
-    {
-    }
+    {}
 }

@@ -1,13 +1,12 @@
 <?php
 /*
- * Admin Page Framework v3.9.0b15 by Michael Uno
+ * Admin Page Framework v3.9.0b17 by Michael Uno
  * Compiled with Admin Page Framework Compiler <https://github.com/michaeluno/admin-page-framework-compiler>
  * <https://en.michaeluno.jp/admin-page-framework>
  * Copyright (c) 2013-2022, Michael Uno; Licensed under MIT <https://opensource.org/licenses/MIT>
  */
 
-class AdminPageFramework_Form extends AdminPageFramework_Form_Controller
-{
+class AdminPageFramework_Form extends AdminPageFramework_Form_Controller {
     public $sStructureType = '';
     public $aFieldTypeDefinitions = array();
     public $aSectionsets = array( '_default' => array( 'section_id' => '_default', ), );
@@ -23,7 +22,7 @@ class AdminPageFramework_Form extends AdminPageFramework_Form_Controller
         $_aParameters = func_get_args() + array( $this->aArguments, $this->aCallbacks, $this->oMsg, );
         $this->aArguments = $this->___getArgumentsFormatted($_aParameters[ 0 ]);
         $this->aCallbacks = $this->getAsArray($_aParameters[ 1 ]) + array( 'get_form_object' => array( $this, 'replyToGetSelf' ), ) + $this->aCallbacks;
-        $this->oMsg = $_aParameters[ 2 ] ? $_aParameters[ 2 ] : new $this->aSubClasses[ 'message' ]();
+        $this->oMsg = $_aParameters[ 2 ] ? $_aParameters[ 2 ] : new $this->aSubClasses[ 'message' ];
         $this->___setSubClassObjects();
         parent::__construct();
         $this->construct();
@@ -40,7 +39,7 @@ class AdminPageFramework_Form extends AdminPageFramework_Form_Controller
     private function ___setSubClassObjects()
     {
         if (class_exists($this->aSubClasses[ 'submit_notice' ])) {
-            $this->oSubmitNotice = new $this->aSubClasses[ 'submit_notice' ]();
+            $this->oSubmitNotice = new $this->aSubClasses[ 'submit_notice' ];
         }
         if (class_exists($this->aSubClasses[ 'field_error' ])) {
             $this->oFieldError = new $this->aSubClasses[ 'field_error' ]($this->aArguments[ 'caller_id' ]);
@@ -50,6 +49,5 @@ class AdminPageFramework_Form extends AdminPageFramework_Form_Controller
         }
     }
     public function construct()
-    {
-    }
+    {}
 }

@@ -1,13 +1,12 @@
 <?php
 /*
- * Admin Page Framework v3.9.0b15 by Michael Uno
+ * Admin Page Framework v3.9.0b17 by Michael Uno
  * Compiled with Admin Page Framework Compiler <https://github.com/michaeluno/admin-page-framework-compiler>
  * <https://en.michaeluno.jp/admin-page-framework>
  * Copyright (c) 2013-2022, Michael Uno; Licensed under MIT <https://opensource.org/licenses/MIT>
  */
 
-class AdminPageFramework_Form_Model___SetFieldResources extends AdminPageFramework_Form_Base
-{
+class AdminPageFramework_Form_Model___SetFieldResources extends AdminPageFramework_Form_Base {
     public $aArguments = array();
     public $aFieldsets = array();
     public $aResources = array( 'internal_styles' => array(), 'internal_styles_ie' => array(), 'internal_scripts' => array(), 'src_styles' => array(), 'src_scripts' => array(), 'register' => array( 'styles' => array(), 'scripts' => array(), ), );

@@ -1,13 +1,12 @@
 <?php
 /*
- * Admin Page Framework v3.9.0b15 by Michael Uno
+ * Admin Page Framework v3.9.0b17 by Michael Uno
  * Compiled with Admin Page Framework Compiler <https://github.com/michaeluno/admin-page-framework-compiler>
  * <https://en.michaeluno.jp/admin-page-framework>
  * Copyright (c) 2013-2022, Michael Uno; Licensed under MIT <https://opensource.org/licenses/MIT>
  */
 
-class AdminPageFramework_Input_radio extends AdminPageFramework_Input_Base
-{
+class AdminPageFramework_Input_radio extends AdminPageFramework_Input_Base {
     public function get()
     {
         $_aParams = func_get_args() + array( 0 => '', 1 => array() );

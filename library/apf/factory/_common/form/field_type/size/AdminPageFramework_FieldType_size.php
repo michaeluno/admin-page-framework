@@ -1,13 +1,12 @@
 <?php
 /*
- * Admin Page Framework v3.9.0b15 by Michael Uno
+ * Admin Page Framework v3.9.0b17 by Michael Uno
  * Compiled with Admin Page Framework Compiler <https://github.com/michaeluno/admin-page-framework-compiler>
  * <https://en.michaeluno.jp/admin-page-framework>
  * Copyright (c) 2013-2022, Michael Uno; Licensed under MIT <https://opensource.org/licenses/MIT>
  */
 
-class AdminPageFramework_FieldType_size extends AdminPageFramework_FieldType_select
-{
+class AdminPageFramework_FieldType_size extends AdminPageFramework_FieldType_select {
     public $aFieldTypeSlugs = array( 'size', );
     protected $aDefaultKeys = array( 'is_multiple' => false, 'units' => null, 'attributes' => array( 'size' => array( 'min' => null, 'max' => null, 'style' => 'width: 160px;', ), 'unit' => array( 'multiple' => null, 'size' => 1, 'autofocusNew' => null, 'required' => null, ), 'optgroup' => array(), 'option' => array(), ), );
     protected $aDefaultUnits = array( 'px' => 'px', '%' => '%', 'em' => 'em', 'ex' => 'ex', 'in' => 'in', 'cm' => 'cm', 'mm' => 'mm', 'pt' => 'pt', 'pc' => 'pc', );

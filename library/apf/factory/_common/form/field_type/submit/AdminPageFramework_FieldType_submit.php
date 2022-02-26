@@ -1,15 +1,14 @@
 <?php
 /*
- * Admin Page Framework v3.9.0b15 by Michael Uno
+ * Admin Page Framework v3.9.0b17 by Michael Uno
  * Compiled with Admin Page Framework Compiler <https://github.com/michaeluno/admin-page-framework-compiler>
  * <https://en.michaeluno.jp/admin-page-framework>
  * Copyright (c) 2013-2022, Michael Uno; Licensed under MIT <https://opensource.org/licenses/MIT>
  */
 
-class AdminPageFramework_FieldType_submit extends AdminPageFramework_FieldType
-{
+class AdminPageFramework_FieldType_submit extends AdminPageFramework_FieldType {
     public $aFieldTypeSlugs = array( 'submit', );
-    protected $aDefaultKeys = array( 'redirect_url' => null, 'href' => null, 'reset' => null, 'email' => null, 'confirm' => '', 'skip_confirmation' => false, 'attributes' => array( 'class' => 'button button-primary', ), );
+    protected $aDefaultKeys = array( 'redirect_url' => null, 'href' => null, 'reset' => null, 'email' => null, 'confirm' => '', 'skip_confirmation' => false, 'attributes' => array( 'class' => 'button button-primary', ), 'save' => false, );
     protected function getEnqueuingScripts()
     {
         return array( array( 'handle_id' => 'admin-page-framework-submit-field-type', 'src' => dirname(__FILE__) . '/js/submit.bundle.js', 'in_footer' => true, 'dependencies' => array( 'jquery', ), ), );

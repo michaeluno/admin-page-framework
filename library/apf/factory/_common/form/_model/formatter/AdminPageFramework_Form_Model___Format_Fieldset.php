@@ -1,13 +1,12 @@
 <?php
 /*
- * Admin Page Framework v3.9.0b15 by Michael Uno
+ * Admin Page Framework v3.9.0b17 by Michael Uno
  * Compiled with Admin Page Framework Compiler <https://github.com/michaeluno/admin-page-framework-compiler>
  * <https://en.michaeluno.jp/admin-page-framework>
  * Copyright (c) 2013-2022, Michael Uno; Licensed under MIT <https://opensource.org/licenses/MIT>
  */
 
-class AdminPageFramework_Form_Model___Format_Fieldset extends AdminPageFramework_Form_Model___Format_FormField_Base
-{
+class AdminPageFramework_Form_Model___Format_Fieldset extends AdminPageFramework_Form_Model___Format_FormField_Base {
     public static $aStructure = array( 'field_id' => null, 'section_id' => null, 'type' => null, 'section_title' => null, 'page_slug' => null, 'tab_slug' => null, 'option_key' => null, 'class_name' => null, 'capability' => null, 'title' => null, 'tip' => null, 'description' => null, 'error_message' => null, 'before_label' => null, 'after_label' => null, 'if' => true, 'order' => null, 'default' => null, 'value' => null, 'help' => null, 'help_aside' => null, 'repeatable' => null, 'sortable' => null, 'show_title_column' => true, 'hidden' => null, 'placement' => 'normal', 'attributes' => null, 'class' => array( 'fieldrow' => array(), 'fieldset' => array(), 'fields' => array(), 'field' => array(), ), 'save' => true, 'content' => null, 'show_debug_info' => null, '_fields_type' => null, '_structure_type' => null, '_caller_object' => null, '_section_path' => '', '_section_path_array' => '', '_nested_depth' => 0, '_subsection_index' => null, '_section_repeatable' => false, '_is_section_repeatable' => false, '_field_path' => '', '_field_path_array' => array(), '_parent_field_path' => '', '_parent_field_path_array' => array(), '_is_title_embedded' => false, );
     public $aFieldset = array();
     public $sStructureType = '';

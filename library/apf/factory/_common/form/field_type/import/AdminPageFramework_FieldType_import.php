@@ -1,13 +1,12 @@
 <?php
 /*
- * Admin Page Framework v3.9.0b15 by Michael Uno
+ * Admin Page Framework v3.9.0b17 by Michael Uno
  * Compiled with Admin Page Framework Compiler <https://github.com/michaeluno/admin-page-framework-compiler>
  * <https://en.michaeluno.jp/admin-page-framework>
  * Copyright (c) 2013-2022, Michael Uno; Licensed under MIT <https://opensource.org/licenses/MIT>
  */
 
-class AdminPageFramework_FieldType_import extends AdminPageFramework_FieldType_submit
-{
+class AdminPageFramework_FieldType_import extends AdminPageFramework_FieldType_submit {
     public $aFieldTypeSlugs = array( 'import', );
     protected $aDefaultKeys = array( 'option_key' => null, 'format' => 'json', 'is_merge' => false, 'attributes' => array( 'class' => 'button button-primary', 'file' => array( 'accept' => 'audio/*|video/*|image/*|MIME_type', 'class' => 'import', 'type' => 'file', ), 'submit' => array( 'class' => 'import button button-primary', 'type' => 'submit', ), ), );
     protected function getEnqueuingScripts()

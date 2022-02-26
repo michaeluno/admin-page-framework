@@ -1,13 +1,12 @@
 <?php
 /*
- * Admin Page Framework v3.9.0b15 by Michael Uno
+ * Admin Page Framework v3.9.0b17 by Michael Uno
  * Compiled with Admin Page Framework Compiler <https://github.com/michaeluno/admin-page-framework-compiler>
  * <https://en.michaeluno.jp/admin-page-framework>
  * Copyright (c) 2013-2022, Michael Uno; Licensed under MIT <https://opensource.org/licenses/MIT>
  */
 
-abstract class AdminPageFramework_Resource_Base extends AdminPageFramework_FrameworkUtility
-{
+abstract class AdminPageFramework_Resource_Base extends AdminPageFramework_FrameworkUtility {
     protected static $_aStructure_EnqueuingResources = array( 'sSRC' => null, 'sSRCRaw' => null, 'aPostTypes' => array(), 'sPageSlug' => null, 'sTabSlug' => null, 'sType' => null, 'handle_id' => null, 'dependencies' => array(), 'version' => false, 'attributes' => array(), 'conditional' => null, 'translation' => array(), 'translation_var' => '', 'in_footer' => false, 'media' => 'all', 'rtl' => null, 'suffix' => null, 'alt' => null, 'title' => null, );
     protected $_sClassSelector_Style = 'admin-page-framework-style';
     protected $_sClassSelector_Script = 'admin-page-framework-script';
@@ -17,7 +16,7 @@ abstract class AdminPageFramework_Resource_Base extends AdminPageFramework_Frame
     public function __construct($oProp)
     {
         $this->oProp = $oProp;
-        $this->oUtil = new AdminPageFramework_WPUtility();
+        $this->oUtil = new AdminPageFramework_WPUtility;
         if ($this->isDoingAjax()) {
             return;
         }
@@ -197,7 +196,7 @@ abstract class AdminPageFramework_Resource_Base extends AdminPageFramework_Frame
     }
     private function ___enqueueScript($sSRC, array $aEnqueueItem)
     {
-        wp_enqueue_script($aEnqueueItem[ 'handle_id' ], $sSRC, $aEnqueueItem[ 'dependencies' ], $aEnqueueItem[ 'version' ], did_action('admin_body_class') || ( bool ) $aEnqueueItem[ 'in_footer' ]);
+        wp_enqueue_script($aEnqueueItem[ 'handle_id' ], $sSRC, $aEnqueueItem[ 'dependencies' ], $aEnqueueItem[ 'version' ], did_action('admin_body_class') || ( boolean ) $aEnqueueItem[ 'in_footer' ]);
         if ($aEnqueueItem[ 'translation' ]) {
             wp_localize_script($aEnqueueItem[ 'handle_id' ], empty($aEnqueueItem[ 'translation_var' ]) ? $aEnqueueItem[ 'handle_id' ] : $aEnqueueItem[ 'translation_var' ], $aEnqueueItem[ 'translation' ]);
         }

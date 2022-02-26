@@ -1,13 +1,12 @@
 <?php
 /*
- * Admin Page Framework v3.9.0b15 by Michael Uno
+ * Admin Page Framework v3.9.0b17 by Michael Uno
  * Compiled with Admin Page Framework Compiler <https://github.com/michaeluno/admin-page-framework-compiler>
  * <https://en.michaeluno.jp/admin-page-framework>
  * Copyright (c) 2013-2022, Michael Uno; Licensed under MIT <https://opensource.org/licenses/MIT>
  */
 
-abstract class AdminPageFramework_Form_View___Fieldset_Base extends AdminPageFramework_Form_Utility
-{
+abstract class AdminPageFramework_Form_View___Fieldset_Base extends AdminPageFramework_Form_Utility {
     public $aFieldset = array();
     public $aFieldTypeDefinitions = array();
     public $aOptions = array();
@@ -48,10 +47,11 @@ abstract class AdminPageFramework_Form_View___Fieldset_Base extends AdminPageFra
     {
         $_aArguments = $aArguments;
         $_sSmallButtonSelector = $bSmall ? ' button-small' : '';
+        $_sDisabledContent = $this->getModalForDisabledRepeatableElement('repeatable_field_disabled_' . $sFieldsContainerID, $_aArguments[ 'disabled' ]);
         if (version_compare($GLOBALS[ 'wp_version' ], '5.3', '>=')) {
-            return "<div " . $this->___getContainerAttributes($_aArguments) . " >" . "<a " . $this->___getRemoveButtonAttributes($sFieldsContainerID, $_sSmallButtonSelector, $iFieldCount) . ">" . "<span class='dashicons dashicons-minus'></span>" . "</a>" . "<a " . $this->___getAddButtonAttributes($_aArguments, $sFieldsContainerID, $_sSmallButtonSelector) . ">" . "<span class='dashicons dashicons-plus-alt2'></span>" ."</a>" . "</div>" . $this->getModalForDisabledRepeatableElement('repeatable_field_disabled_' . $sFieldsContainerID, $_aArguments[ 'disabled' ]);
+            return "<div " . $this->___getContainerAttributes($_aArguments) . " >" . "<a " . $this->___getRemoveButtonAttributes($sFieldsContainerID, $_sSmallButtonSelector, $iFieldCount) . ">" . "<span class='dashicons dashicons-minus'></span>" . "</a>" . "<a " . $this->___getAddButtonAttributes($_aArguments, $sFieldsContainerID, $_sSmallButtonSelector) . ">" . "<span class='dashicons dashicons-plus-alt2'></span>" ."</a>" . "</div>" . $_sDisabledContent;
         }
-        return "<div " . $this->___getContainerAttributes($_aArguments) . " >" . "<a " . $this->___getRemoveButtonAttributes($sFieldsContainerID, $_sSmallButtonSelector, $iFieldCount) . ">" . "-" . "</a>" . "<a " . $this->___getAddButtonAttributes($_aArguments, $sFieldsContainerID, $_sSmallButtonSelector) . ">" . "+" ."</a>" . "</div>" . $this->getModalForDisabledRepeatableElement('repeatable_field_disabled_' . $sFieldsContainerID, $_aArguments[ 'disabled' ]);
+        return "<div " . $this->___getContainerAttributes($_aArguments) . " >" . "<a " . $this->___getRemoveButtonAttributes($sFieldsContainerID, $_sSmallButtonSelector, $iFieldCount) . ">" . "-" . "</a>" . "<a " . $this->___getAddButtonAttributes($_aArguments, $sFieldsContainerID, $_sSmallButtonSelector) . ">" . "+" ."</a>" . "</div>" . $_sDisabledContent;
     }
     private function ___getAddButtonAttributes($aArguments, $sFieldsContainerID, $sSmallButtonSelector)
     {

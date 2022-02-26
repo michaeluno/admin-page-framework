@@ -1,13 +1,12 @@
 <?php
 /*
- * Admin Page Framework v3.9.0b15 by Michael Uno
+ * Admin Page Framework v3.9.0b17 by Michael Uno
  * Compiled with Admin Page Framework Compiler <https://github.com/michaeluno/admin-page-framework-compiler>
  * <https://en.michaeluno.jp/admin-page-framework>
  * Copyright (c) 2013-2022, Michael Uno; Licensed under MIT <https://opensource.org/licenses/MIT>
  */
 
-abstract class AdminPageFramework_Property_Base extends AdminPageFramework_FrameworkUtility
-{
+abstract class AdminPageFramework_Property_Base extends AdminPageFramework_FrameworkUtility {
     private static $_aStructure_CallerInfo = array( 'sPath' => null, 'sType' => null, 'sName' => null, 'sURI' => null, 'sVersion' => null, 'sThemeURI' => null, 'sScriptURI' => null, 'sAuthorURI' => null, 'sAuthor' => null, 'sDescription' => null, );
     public static $_aLibraryData;
     public $_sPropertyType = '';
@@ -181,7 +180,7 @@ abstract class AdminPageFramework_Property_Base extends AdminPageFramework_Frame
             return $this->sScriptType;
         }
         if ('oUtil' === $sName) {
-            $this->oUtil = new AdminPageFramework_WPUtility();
+            $this->oUtil = new AdminPageFramework_WPUtility;
             return $this->oUtil;
         }
     }

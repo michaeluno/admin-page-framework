@@ -1,13 +1,12 @@
 <?php
 /*
- * Admin Page Framework v3.9.0b15 by Michael Uno
+ * Admin Page Framework v3.9.0b17 by Michael Uno
  * Compiled with Admin Page Framework Compiler <https://github.com/michaeluno/admin-page-framework-compiler>
  * <https://en.michaeluno.jp/admin-page-framework>
  * Copyright (c) 2013-2022, Michael Uno; Licensed under MIT <https://opensource.org/licenses/MIT>
  */
 
-class AdminPageFramework_FieldType_image extends AdminPageFramework_FieldType
-{
+class AdminPageFramework_FieldType_image extends AdminPageFramework_FieldType {
     public $aFieldTypeSlugs = array( 'image', );
     protected $aDefaultKeys = array( 'attributes_to_store' => array(), 'show_preview' => true, 'allow_external_source' => true, 'attributes' => array( 'input' => array( 'size' => 40, 'maxlength' => 400, ), 'button' => array( ), 'remove_button' => array( ), 'preview' => array(), ), );
     protected function setUp()
@@ -80,7 +79,7 @@ JAVASCRIPTS;
     }
     protected function _getFormattedUploadButtonAttributes($sInputID, array $aButtonAttributes, $_bIsLabelSet, $bRepeatable, $bExternalSource)
     {
-        $_aAttributes = array( 'id' => "select_image_{$sInputID}", 'href' => '#', 'data-input_id' => $sInputID, 'data-repeatable' => ( string ) ( bool ) $bRepeatable, 'data-uploader_type' => ( string ) function_exists('wp_enqueue_media'), 'data-enable_external_source' => ( string ) ( bool ) $bExternalSource, ) + $aButtonAttributes + array( 'title' => $_bIsLabelSet ? $aButtonAttributes[ 'data-label' ] : $this->oMsg->get('select_image'), 'data-label' => null, );
+        $_aAttributes = array( 'id' => "select_image_{$sInputID}", 'href' => '#', 'data-input_id' => $sInputID, 'data-repeatable' => ( string ) ( boolean ) $bRepeatable, 'data-uploader_type' => ( string ) function_exists('wp_enqueue_media'), 'data-enable_external_source' => ( string ) ( boolean ) $bExternalSource, ) + $aButtonAttributes + array( 'title' => $_bIsLabelSet ? $aButtonAttributes[ 'data-label' ] : $this->oMsg->get('select_image'), 'data-label' => null, );
         $_aAttributes[ 'class' ] = $this->getClassAttribute('select_image button button-small ', $this->getAOrB(trim($aButtonAttributes[ 'class' ]), $aButtonAttributes[ 'class' ], $this->getAOrB($_bIsLabelSet, '', $this->getAOrB($bRepeatable, $this->___getDashIconSelectorsBySlug('images-alt2'), $this->___getDashIconSelectorsBySlug('format-image')))));
         return $_aAttributes;
     }

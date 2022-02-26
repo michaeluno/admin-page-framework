@@ -1,13 +1,12 @@
 <?php
 /*
- * Admin Page Framework v3.9.0b15 by Michael Uno
+ * Admin Page Framework v3.9.0b17 by Michael Uno
  * Compiled with Admin Page Framework Compiler <https://github.com/michaeluno/admin-page-framework-compiler>
  * <https://en.michaeluno.jp/admin-page-framework>
  * Copyright (c) 2013-2022, Michael Uno; Licensed under MIT <https://opensource.org/licenses/MIT>
  */
 
-class AdminPageFramework_WPUtility_Option extends AdminPageFramework_WPUtility_File
-{
+class AdminPageFramework_WPUtility_Option extends AdminPageFramework_WPUtility_File {
     public static function isNetworkAdmin()
     {
         if (isset(self::$_bIsNetworkAdmin)) {
@@ -73,7 +72,7 @@ class AdminPageFramework_WPUtility_Option extends AdminPageFramework_WPUtility_F
         $_wp_using_ext_object_cache = false;
         $sTransientKey = self::_getCompatibleTransientKey($sTransientKey);
         $_aFunctionNames = array( 0 => 'delete_transient', 1 => 'delete_site_transient', );
-        $_vTransient = $_aFunctionNames[ ( int ) self::isNetworkAdmin() ]($sTransientKey);
+        $_vTransient = $_aFunctionNames[ ( integer ) self::isNetworkAdmin() ]($sTransientKey);
         $_wp_using_ext_object_cache = $_bWpUsingExtObjectCacheTemp;
         return $_vTransient;
     }
@@ -84,7 +83,7 @@ class AdminPageFramework_WPUtility_Option extends AdminPageFramework_WPUtility_F
         $_wp_using_ext_object_cache = false;
         $sTransientKey = self::_getCompatibleTransientKey($sTransientKey);
         $_aFunctionNames = array( 0 => 'get_transient', 1 => 'get_site_transient', );
-        $_vTransient = $_aFunctionNames[ ( int ) self::isNetworkAdmin() ]($sTransientKey);
+        $_vTransient = $_aFunctionNames[ ( integer ) self::isNetworkAdmin() ]($sTransientKey);
         $_wp_using_ext_object_cache = $_bWpUsingExtObjectCacheTemp;
         return null === $vDefault ? $_vTransient : (false === $_vTransient ? $vDefault : $_vTransient);
     }
@@ -95,7 +94,7 @@ class AdminPageFramework_WPUtility_Option extends AdminPageFramework_WPUtility_F
         $_wp_using_ext_object_cache = false;
         $sTransientKey = self::_getCompatibleTransientKey($sTransientKey);
         $_aFunctionNames = array( 0 => 'set_transient', 1 => 'set_site_transient', );
-        $_bIsSet = $_aFunctionNames[ ( int ) self::isNetworkAdmin() ]($sTransientKey, $vValue, $iExpiration);
+        $_bIsSet = $_aFunctionNames[ ( integer ) self::isNetworkAdmin() ]($sTransientKey, $vValue, $iExpiration);
         $_wp_using_ext_object_cache = $_bWpUsingExtObjectCacheTemp;
         return $_bIsSet;
     }

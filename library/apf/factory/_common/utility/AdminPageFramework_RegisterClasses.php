@@ -1,13 +1,12 @@
 <?php
 /*
- * Admin Page Framework v3.9.0b15 by Michael Uno
+ * Admin Page Framework v3.9.0b17 by Michael Uno
  * Compiled with Admin Page Framework Compiler <https://github.com/michaeluno/admin-page-framework-compiler>
  * <https://en.michaeluno.jp/admin-page-framework>
  * Copyright (c) 2013-2022, Michael Uno; Licensed under MIT <https://opensource.org/licenses/MIT>
  */
 
-class AdminPageFramework_RegisterClasses
-{
+class AdminPageFramework_RegisterClasses {
     public $_aClasses = array();
     protected static $_aStructure_Options = array( 'is_recursive' => true, 'exclude_dir_paths' => array(), 'exclude_dir_names' => array( 'asset', 'assets', 'css', 'js', 'image', 'images', 'license', 'document', 'documents' ), 'allowed_extensions' => array( 'php', ), 'include_function' => 'include', 'exclude_class_names' => array( ), );
     public function __construct($asScanDirPaths, array $aOptions=array(), array $aClasses=array())

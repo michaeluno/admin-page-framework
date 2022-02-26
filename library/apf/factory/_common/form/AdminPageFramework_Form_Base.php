@@ -1,13 +1,12 @@
 <?php
 /*
- * Admin Page Framework v3.9.0b15 by Michael Uno
+ * Admin Page Framework v3.9.0b17 by Michael Uno
  * Compiled with Admin Page Framework Compiler <https://github.com/michaeluno/admin-page-framework-compiler>
  * <https://en.michaeluno.jp/admin-page-framework>
  * Copyright (c) 2013-2022, Michael Uno; Licensed under MIT <https://opensource.org/licenses/MIT>
  */
 
-abstract class AdminPageFramework_Form_Base extends AdminPageFramework_Form_Utility
-{
+abstract class AdminPageFramework_Form_Base extends AdminPageFramework_Form_Utility {
     public $oSubmitNotice;
     public $oFieldError;
     public $oLastInputs;
@@ -43,7 +42,7 @@ abstract class AdminPageFramework_Form_Base extends AdminPageFramework_Form_Util
         if (! $sCapability) {
             return true;
         }
-        return ( bool ) current_user_can($sCapability);
+        return ( boolean ) current_user_can($sCapability);
     }
     public function isInThePage()
     {

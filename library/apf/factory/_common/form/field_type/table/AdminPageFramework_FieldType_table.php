@@ -1,13 +1,12 @@
 <?php
 /*
- * Admin Page Framework v3.9.0b15 by Michael Uno
+ * Admin Page Framework v3.9.0b17 by Michael Uno
  * Compiled with Admin Page Framework Compiler <https://github.com/michaeluno/admin-page-framework-compiler>
  * <https://en.michaeluno.jp/admin-page-framework>
  * Copyright (c) 2013-2022, Michael Uno; Licensed under MIT <https://opensource.org/licenses/MIT>
  */
 
-class AdminPageFramework_FieldType_table extends AdminPageFramework_FieldType
-{
+class AdminPageFramework_FieldType_table extends AdminPageFramework_FieldType {
     public $aFieldTypeSlugs = array( 'table', );
     protected $aDefaultKeys = array( 'save' => false, 'data' => array(), 'stripe' => true, 'collapsible' => false, 'escape' => false, 'caption' => '', 'header' => array(), 'footer' => array(), 'sortable_column' => array(), );
     protected function getEnqueuingScripts()
@@ -36,7 +35,7 @@ class AdminPageFramework_FieldType_table extends AdminPageFramework_FieldType
         $_sCaption = $aField[ 'caption' ] ? $aField[ 'caption' ] : __('Set the caption with the <code>caption</code> argument.', 'admin-page-framework');
         $_sContent = is_scalar($aField[ 'data' ]) ? "<div class='text-content'>{$aField[ 'data' ]}</div>" : $this->getTableOfArray($this->getAsArray($aField[ 'data' ]), $_aAttributes, $aField[ 'header' ], $_aFooter, $aField[ 'escape' ]);
         $_aCollapsible = $this->getAsArray($_aCollapsible) + array( 'active' => null );
-        $_aCollapsible[ 'active' ] = is_numeric($_aCollapsible[ 'active' ]) ? ( int ) $_aCollapsible[ 'active' ] : ($_aCollapsible[ 'active' ] ? 'true' : 'false');
+        $_aCollapsible[ 'active' ] = is_numeric($_aCollapsible[ 'active' ]) ? ( integer ) $_aCollapsible[ 'active' ] : ($_aCollapsible[ 'active' ] ? 'true' : 'false');
         return "<div class='accordion-container' " . $this->getDataAttributes($_aCollapsible) . ">" . "<div class='accordion-title'><h4><span>{$_sCaption}</span></h4></div>" . "<div class='accordion-content'>{$_sContent}</div>" . "</div>";
     }
     private function ___getTableAttributesFormatted(array $aField)

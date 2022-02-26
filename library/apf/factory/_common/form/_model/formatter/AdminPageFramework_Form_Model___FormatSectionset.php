@@ -1,13 +1,12 @@
 <?php
 /*
- * Admin Page Framework v3.9.0b15 by Michael Uno
+ * Admin Page Framework v3.9.0b17 by Michael Uno
  * Compiled with Admin Page Framework Compiler <https://github.com/michaeluno/admin-page-framework-compiler>
  * <https://en.michaeluno.jp/admin-page-framework>
  * Copyright (c) 2013-2022, Michael Uno; Licensed under MIT <https://opensource.org/licenses/MIT>
  */
 
-class AdminPageFramework_Form_Model___FormatSectionset extends AdminPageFramework_Form_Utility
-{
+class AdminPageFramework_Form_Model___FormatSectionset extends AdminPageFramework_Form_Utility {
     public static $aStructure = array( 'section_id' => '_default', 'page_slug' => null, 'tab_slug' => null, 'section_tab_slug' => null, 'title' => null, 'description' => null, 'capability' => null, 'if' => true, 'order' => null, 'help' => null, 'help_aside' => null, 'repeatable' => false, 'sortable' => false, 'attributes' => array( 'class' => null, 'style' => null, 'tab' => array(), ), 'class' => array( 'tab' => array(), ), 'hidden' => false, 'collapsible' => false, 'save' => true, 'content' => null, 'tip' => null, '_fields_type' => null, '_structure_type' => null, '_is_first_index' => false, '_is_last_index' => false, '_section_path' => '', '_section_path_array' => '', '_nested_depth' => 0, '_caller_object' => null, 'show_debug_info' => null, );
     public $aSectionset = array();
     public $sSectionPath = '';

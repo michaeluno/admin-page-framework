@@ -1,13 +1,12 @@
 <?php
 /*
- * Admin Page Framework v3.9.0b15 by Michael Uno
+ * Admin Page Framework v3.9.0b17 by Michael Uno
  * Compiled with Admin Page Framework Compiler <https://github.com/michaeluno/admin-page-framework-compiler>
  * <https://en.michaeluno.jp/admin-page-framework>
  * Copyright (c) 2013-2022, Michael Uno; Licensed under MIT <https://opensource.org/licenses/MIT>
  */
 
-class AdminPageFramework_Form_View__Resource__Head extends AdminPageFramework_FrameworkUtility
-{
+class AdminPageFramework_Form_View__Resource__Head extends AdminPageFramework_FrameworkUtility {
     public $oForm;
     public function __construct($oForm, $sHeadActionHook='admin_head')
     {
@@ -33,7 +32,7 @@ class AdminPageFramework_Form_View__Resource__Head extends AdminPageFramework_Fr
     }
     private function _getInternalCSS()
     {
-        $_oLoadingCSS = new AdminPageFramework_Form_View___CSS_Loading();
+        $_oLoadingCSS = new AdminPageFramework_Form_View___CSS_Loading;
         $_oLoadingCSS->add($this->_getScriptElementConcealerCSSRules());
         return $_oLoadingCSS->get();
     }

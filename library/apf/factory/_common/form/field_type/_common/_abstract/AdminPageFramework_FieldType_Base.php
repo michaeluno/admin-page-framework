@@ -1,13 +1,12 @@
 <?php
 /*
- * Admin Page Framework v3.9.0b15 by Michael Uno
+ * Admin Page Framework v3.9.0b17 by Michael Uno
  * Compiled with Admin Page Framework Compiler <https://github.com/michaeluno/admin-page-framework-compiler>
  * <https://en.michaeluno.jp/admin-page-framework>
  * Copyright (c) 2013-2022, Michael Uno; Licensed under MIT <https://opensource.org/licenses/MIT>
  */
 
-abstract class AdminPageFramework_FieldType_Base extends AdminPageFramework_Form_Utility
-{
+abstract class AdminPageFramework_FieldType_Base extends AdminPageFramework_Form_Utility {
     public $_sFieldSetType = '';
     public $aFieldTypeSlugs = array( 'default' );
     protected $aDefaultKeys = array();
@@ -25,8 +24,7 @@ abstract class AdminPageFramework_FieldType_Base extends AdminPageFramework_Form
         $this->construct();
     }
     protected function construct()
-    {
-    }
+    {}
     protected function isTinyMCESupported()
     {
         return version_compare($GLOBALS[ 'wp_version' ], '3.3', '>=') && function_exists('wp_editor') ;
@@ -83,15 +81,13 @@ abstract class AdminPageFramework_FieldType_Base extends AdminPageFramework_Form
         return '';
     }
     public function _replyToFieldLoader()
-    {
-    }
+    {}
     public function _replyToFieldTypeSetter($sFieldSetType='')
     {
         $this->_sFieldSetType = $sFieldSetType;
     }
     public function _replyToDoOnFieldRegistration($aField)
-    {
-    }
+    {}
     protected function _replyToGetEnqueuingScripts()
     {
         return array();
@@ -141,7 +137,7 @@ abstract class AdminPageFramework_FieldType_Base extends AdminPageFramework_Form
         if (! isset($_REQUEST[ 'enable_external_source' ])) {
             return $aTabs;
         }
-        if (! ( bool ) $_REQUEST[ 'enable_external_source' ]) {
+        if (! ( boolean ) $_REQUEST[ 'enable_external_source' ]) {
             unset($aTabs[ 'type_url' ]);
         }
         return $aTabs;

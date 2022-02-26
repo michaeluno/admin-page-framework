@@ -1,13 +1,12 @@
 <?php
 /*
- * Admin Page Framework v3.9.0b15 by Michael Uno
+ * Admin Page Framework v3.9.0b17 by Michael Uno
  * Compiled with Admin Page Framework Compiler <https://github.com/michaeluno/admin-page-framework-compiler>
  * <https://en.michaeluno.jp/admin-page-framework>
  * Copyright (c) 2013-2022, Michael Uno; Licensed under MIT <https://opensource.org/licenses/MIT>
  */
 
-class AdminPageFramework_Model__FormSubmission extends AdminPageFramework_Model__FormSubmission_Base
-{
+class AdminPageFramework_Model__FormSubmission extends AdminPageFramework_Model__FormSubmission_Base {
     public $oFactory;
     public function __construct($oFactory, $aSavedData, $aArguments, $aSectionsets, $aFieldsets)
     {
@@ -68,7 +67,9 @@ class AdminPageFramework_Model__FormSubmission extends AdminPageFramework_Model_
     private function _doActions_submit($_aInputs, $_aOptions, $_sPageSlug, $_sTabSlug, $_sSubmitSectionID, $_sPressedFieldID, $_sPressedInputID)
     {
         if (has_action("submit_{$this->oFactory->oProp->sClassName}_{$_sPressedInputID}")) {
-            $this->oFactory->oUtil->showDeprecationNotice('The hook, submit_{instantiated class name}_{pressed input id},', 'submit_{instantiated class name}_{pressed field id}');
+            $this->oFactory->oUtil->showDeprecationNotice('The hook, submit_{instantiated
+class name}_{pressed input id},', 'submit_{instantiated
+class name}_{pressed field id}');
         }
         $this->addAndDoActions($this->oFactory, array( "submit_{$this->oFactory->oProp->sClassName}_{$_sPressedInputID}", $_sSubmitSectionID ? "submit_{$this->oFactory->oProp->sClassName}_{$_sSubmitSectionID}_{$_sPressedFieldID}" : "submit_{$this->oFactory->oProp->sClassName}_{$_sPressedFieldID}", $_sSubmitSectionID ? "submit_{$this->oFactory->oProp->sClassName}_{$_sSubmitSectionID}" : null, isset($_POST[ 'tab_slug' ]) ? "submit_{$this->oFactory->oProp->sClassName}_{$_sPageSlug}_{$_sTabSlug}" : null, "submit_{$this->oFactory->oProp->sClassName}_{$_sPageSlug}", "submit_{$this->oFactory->oProp->sClassName}", ), $_aInputs, $_aOptions, $this->oFactory);
     }

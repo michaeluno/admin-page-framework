@@ -1,26 +1,26 @@
 <?php
 /*
- * Admin Page Framework v3.9.0b15 by Michael Uno
+ * Admin Page Framework v3.9.0b17 by Michael Uno
  * Compiled with Admin Page Framework Compiler <https://github.com/michaeluno/admin-page-framework-compiler>
  * <https://en.michaeluno.jp/admin-page-framework>
  * Copyright (c) 2013-2022, Michael Uno; Licensed under MIT <https://opensource.org/licenses/MIT>
  */
 
-if (! class_exists('AdminPageFramework_Registry', false)) : abstract class AdminPageFramework_Registry_Base
-{
-    public const VERSION = '3.9.0b15';
-    public const NAME = 'Admin Page Framework';
-    public const DESCRIPTION = 'Facilitates WordPress plugin and theme development.';
-    public const URI = 'https://en.michaeluno.jp/admin-page-framework';
-    public const AUTHOR = 'Michael Uno';
-    public const AUTHOR_URI = 'https://en.michaeluno.jp/';
-    public const COPYRIGHT = 'Copyright (c) 2013-2022, Michael Uno';
-    public const LICENSE = 'MIT <https://opensource.org/licenses/MIT>';
-    public const CONTRIBUTORS = '';
-} final class AdminPageFramework_Registry extends AdminPageFramework_Registry_Base
-{
-    public const TEXT_DOMAIN = 'admin-page-framework';
-    public const TEXT_DOMAIN_PATH = '/language';
+if (! class_exists('AdminPageFramework_Registry', false)) :
+abstract class AdminPageFramework_Registry_Base {
+    const VERSION = '3.9.0b17';
+    const NAME = 'Admin Page Framework';
+    const DESCRIPTION = 'Facilitates WordPress plugin and theme development.';
+    const URI = 'https://en.michaeluno.jp/admin-page-framework';
+    const AUTHOR = 'Michael Uno';
+    const AUTHOR_URI = 'https://en.michaeluno.jp/';
+    const COPYRIGHT = 'Copyright (c) 2013-2022, Michael Uno';
+    const LICENSE = 'MIT <https://opensource.org/licenses/MIT>';
+    const CONTRIBUTORS = '';
+}
+final class AdminPageFramework_Registry extends AdminPageFramework_Registry_Base {
+    const TEXT_DOMAIN = 'admin-page-framework';
+    const TEXT_DOMAIN_PATH = '/language';
     public static $bIsMinifiedVersion = true;
     public static $bIsDevelopmentVersion = true;
     public static $sAutoLoaderPath;
@@ -46,15 +46,17 @@ if (! class_exists('AdminPageFramework_Registry', false)) : abstract class Admin
         }
         $_aMinifiedVersionSuffix = array( 0 => '', 1 => '.min', );
         $_aDevelopmentVersionSuffix = array( 0 => '', 1 => '.dev', );
-        return self::VERSION . $_aMinifiedVersionSuffix[ ( int ) self::$bIsMinifiedVersion ] . $_aDevelopmentVersionSuffix[ ( int ) self::$bIsDevelopmentVersion ];
+        return self::VERSION . $_aMinifiedVersionSuffix[ ( integer ) self::$bIsMinifiedVersion ] . $_aDevelopmentVersionSuffix[ ( integer ) self::$bIsDevelopmentVersion ];
     }
     public static function getInfo()
     {
         $_oReflection = new ReflectionClass(__CLASS__);
         return $_oReflection->getConstants() + $_oReflection->getStaticProperties();
     }
-} endif; if (! class_exists('AdminPageFramework_Bootstrap', false)) : final class AdminPageFramework_Bootstrap
-{
+}
+endif;
+if (! class_exists('AdminPageFramework_Bootstrap', false)) :
+final class AdminPageFramework_Bootstrap {
     private static $___bLoaded = false;
     public function __construct($sLibraryPath)
     {
@@ -81,9 +83,10 @@ if (! class_exists('AdminPageFramework_Registry', false)) : abstract class Admin
         new AdminPageFramework_RegisterClasses('', array( 'exclude_class_names' => array( 'AdminPageFramework_MinifiedVersionHeader', 'AdminPageFramework_BeautifiedVersionHeader', ), ), AdminPageFramework_Registry::$aClassFiles);
         self::$___bXDebug = isset(self::$___bXDebug) ? self::$___bXDebug : extension_loaded('xdebug');
         if (self::$___bXDebug) {
-            new AdminPageFramework_Utility();
-            new AdminPageFramework_WPUtility();
+            new AdminPageFramework_Utility;
+            new AdminPageFramework_WPUtility;
         }
     }
     private static $___bXDebug;
-} new AdminPageFramework_Bootstrap(__FILE__); endif;
+} new AdminPageFramework_Bootstrap(__FILE__);
+endif;

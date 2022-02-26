@@ -1,13 +1,12 @@
 <?php
 /*
- * Admin Page Framework v3.9.0b15 by Michael Uno
+ * Admin Page Framework v3.9.0b17 by Michael Uno
  * Compiled with Admin Page Framework Compiler <https://github.com/michaeluno/admin-page-framework-compiler>
  * <https://en.michaeluno.jp/admin-page-framework>
  * Copyright (c) 2013-2022, Michael Uno; Licensed under MIT <https://opensource.org/licenses/MIT>
  */
 
-class AdminPageFramework_Form_Model___Format_EachField extends AdminPageFramework_Form_Model___Format_FormField_Base
-{
+class AdminPageFramework_Form_Model___Format_EachField extends AdminPageFramework_Form_Model___Format_FormField_Base {
     public static $aStructure = array( '_is_sub_field' => false, '_index' => 0, '_is_multiple_fields' => false, '_saved_value' => null, '_is_value_set_by_user' => false, '_field_container_id' => '', '_input_id_model' => '', '_input_name_model' => '', '_input_name_flat' => '', '_fields_container_id' => '', '_fieldset_container_id' => '', '_field_object' => null, '_parent_field_object' => null, );
     public $aField = array();
     public $isIndex = 0;

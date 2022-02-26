@@ -1,13 +1,12 @@
 <?php
 /*
- * Admin Page Framework v3.9.0b15 by Michael Uno
+ * Admin Page Framework v3.9.0b17 by Michael Uno
  * Compiled with Admin Page Framework Compiler <https://github.com/michaeluno/admin-page-framework-compiler>
  * <https://en.michaeluno.jp/admin-page-framework>
  * Copyright (c) 2013-2022, Michael Uno; Licensed under MIT <https://opensource.org/licenses/MIT>
  */
 
-class AdminPageFramework_FieldType_taxonomy extends AdminPageFramework_FieldType_checkbox
-{
+class AdminPageFramework_FieldType_taxonomy extends AdminPageFramework_FieldType_checkbox {
     public $aFieldTypeSlugs = array( 'taxonomy', );
     protected $aDefaultKeys = array( 'taxonomy_slugs' => 'category', 'height' => '250px', 'width' => null, 'max_width' => '100%', 'show_post_count' => true, 'attributes' => array(), 'select_all_button' => true, 'select_none_button' => true, 'label_no_term_found' => null, 'label_list_title' => '', 'query' => array( 'child_of' => 0, 'parent' => '', 'orderby' => 'name', 'order' => 'ASC', 'hide_empty' => false, 'hierarchical' => true, 'number' => '', 'pad_counts' => false, 'exclude' => array(), 'exclude_tree' => array(), 'include' => array(), 'fields' => 'all', 'slug' => '', 'get' => '', 'name__like' => '', 'description__like' => '', 'offset' => '', 'search' => '', 'cache_domain' => 'core', ), 'queries' => array(), 'save_unchecked' => true, );
     protected function getEnqueuingScripts()
@@ -42,7 +41,7 @@ class AdminPageFramework_FieldType_taxonomy extends AdminPageFramework_FieldType
     }
     private function ___getTaxonomyChecklist($aField, $sKey, $sTaxonomySlug)
     {
-        return wp_list_categories(array( 'walker' => new AdminPageFramework_WalkerTaxonomyChecklist(), 'taxonomy' => $sTaxonomySlug, '_name_prefix' => is_array($aField[ 'taxonomy_slugs' ]) ? "{$aField[ '_input_name' ]}[{$sTaxonomySlug}]" : $aField[ '_input_name' ], '_input_id_prefix' => $aField[ 'input_id' ], '_attributes' => $this->getElementAsArray($aField, array( 'attributes', $sKey )) + $aField[ 'attributes' ], '_selected_items' => $this->___getSelectedKeyArray($aField['value'], $sTaxonomySlug), 'echo' => false, 'show_post_count' => $aField[ 'show_post_count' ], 'show_option_none' => $aField[ 'label_no_term_found' ], 'title_li' => $aField[ 'label_list_title' ], '_save_unchecked' => $aField[ 'save_unchecked' ], ) + $this->getAsArray($this->getElement($aField, array( 'queries', $sTaxonomySlug ), array()), true) + $aField[ 'query' ]);
+        return wp_list_categories(array( 'walker' => new AdminPageFramework_WalkerTaxonomyChecklist, 'taxonomy' => $sTaxonomySlug, '_name_prefix' => is_array($aField[ 'taxonomy_slugs' ]) ? "{$aField[ '_input_name' ]}[{$sTaxonomySlug}]" : $aField[ '_input_name' ], '_input_id_prefix' => $aField[ 'input_id' ], '_attributes' => $this->getElementAsArray($aField, array( 'attributes', $sKey )) + $aField[ 'attributes' ], '_selected_items' => $this->___getSelectedKeyArray($aField['value'], $sTaxonomySlug), 'echo' => false, 'show_post_count' => $aField[ 'show_post_count' ], 'show_option_none' => $aField[ 'label_no_term_found' ], 'title_li' => $aField[ 'label_list_title' ], '_save_unchecked' => $aField[ 'save_unchecked' ], ) + $this->getAsArray($this->getElement($aField, array( 'queries', $sTaxonomySlug ), array()), true) + $aField[ 'query' ]);
     }
     private function ___getSelectedKeyArray($vValue, $sTaxonomySlug)
     {

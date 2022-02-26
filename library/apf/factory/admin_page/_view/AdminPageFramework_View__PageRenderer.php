@@ -1,5 +1,5 @@
-<?php class AdminPageFramework_View__PageRenderer extends AdminPageFramework_FrameworkUtility
-{
+<?php
+class AdminPageFramework_View__PageRenderer extends AdminPageFramework_FrameworkUtility {
     public $oFactory;
     public $sPageSlug;
     public $sTabSlug;

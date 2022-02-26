@@ -1,13 +1,12 @@
 <?php
 /*
- * Admin Page Framework v3.9.0b15 by Michael Uno
+ * Admin Page Framework v3.9.0b17 by Michael Uno
  * Compiled with Admin Page Framework Compiler <https://github.com/michaeluno/admin-page-framework-compiler>
  * <https://en.michaeluno.jp/admin-page-framework>
  * Copyright (c) 2013-2022, Michael Uno; Licensed under MIT <https://opensource.org/licenses/MIT>
  */
 
-class AdminPageFramework_Debug_Log extends AdminPageFramework_Debug_Base
-{
+class AdminPageFramework_Debug_Log extends AdminPageFramework_Debug_Base {
     protected static function _log($mValue, $sFilePath=null, $bStackTrace=false, $iTrace=0, $iStringLengthLimit=99999, $iArrayDepthLimit=50)
     {
         static $_fPreviousTimeStamp = 0;
@@ -53,7 +52,7 @@ class AdminPageFramework_Debug_Log extends AdminPageFramework_Debug_Base
             return true;
         }
         $_bhResource = fopen($sFilePath, 'w');
-        return ( bool ) $_bhResource;
+        return ( boolean ) $_bhResource;
     }
     private static function ___getLogHeadingLine($fCurrentTimeStamp, $nElapsed, $sCallerClass, $sCallerFunction)
     {

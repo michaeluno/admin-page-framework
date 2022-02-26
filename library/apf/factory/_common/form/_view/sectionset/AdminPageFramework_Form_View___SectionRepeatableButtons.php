@@ -1,13 +1,12 @@
 <?php
 /*
- * Admin Page Framework v3.9.0b15 by Michael Uno
+ * Admin Page Framework v3.9.0b17 by Michael Uno
  * Compiled with Admin Page Framework Compiler <https://github.com/michaeluno/admin-page-framework-compiler>
  * <https://en.michaeluno.jp/admin-page-framework>
  * Copyright (c) 2013-2022, Michael Uno; Licensed under MIT <https://opensource.org/licenses/MIT>
  */
 
-class AdminPageFramework_Form_View___SectionRepeatableButtons extends AdminPageFramework_Form_Utility
-{
+class AdminPageFramework_Form_View___SectionRepeatableButtons extends AdminPageFramework_Form_Utility {
     public static function get($sContainerTagID, $iSectionCount, $asArguments, $oMsg)
     {
         if (empty($asArguments)) {

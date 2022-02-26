@@ -1,13 +1,12 @@
 <?php
 /*
- * Admin Page Framework v3.9.0b15 by Michael Uno
+ * Admin Page Framework v3.9.0b17 by Michael Uno
  * Compiled with Admin Page Framework Compiler <https://github.com/michaeluno/admin-page-framework-compiler>
  * <https://en.michaeluno.jp/admin-page-framework>
  * Copyright (c) 2013-2022, Michael Uno; Licensed under MIT <https://opensource.org/licenses/MIT>
  */
 
-class AdminPageFramework_WPUtility_Time extends AdminPageFramework_WPUtility_SystemInformation
-{
+class AdminPageFramework_WPUtility_Time extends AdminPageFramework_WPUtility_SystemInformation {
     public static function getSiteReadableDate($iTimeStamp, $sDateTimeFormat=null, $bAdjustGMT=false)
     {
         static $_iOffsetSeconds, $_sDateFormat, $_sTimeFormat;
@@ -55,8 +54,8 @@ class AdminPageFramework_WPUtility_Time extends AdminPageFramework_WPUtility_Sys
     }
     private static function ___getNumberedOffsetString($fOffset)
     {
-        $_iHours = ( int ) $fOffset;
-        $_fiMinutes = abs(($fOffset - ( int ) $fOffset) * 60);
+        $_iHours = ( integer ) $fOffset;
+        $_fiMinutes = abs(($fOffset - ( integer ) $fOffset) * 60);
         return sprintf('%+03d:%02d', $_iHours, $_fiMinutes);
     }
 }

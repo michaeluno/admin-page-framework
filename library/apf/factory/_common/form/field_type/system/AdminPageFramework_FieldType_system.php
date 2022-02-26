@@ -1,13 +1,12 @@
 <?php
 /*
- * Admin Page Framework v3.9.0b15 by Michael Uno
+ * Admin Page Framework v3.9.0b17 by Michael Uno
  * Compiled with Admin Page Framework Compiler <https://github.com/michaeluno/admin-page-framework-compiler>
  * <https://en.michaeluno.jp/admin-page-framework>
  * Copyright (c) 2013-2022, Michael Uno; Licensed under MIT <https://opensource.org/licenses/MIT>
  */
 
-class AdminPageFramework_FieldType_system extends AdminPageFramework_FieldType
-{
+class AdminPageFramework_FieldType_system extends AdminPageFramework_FieldType {
     public $aFieldTypeSlugs = array( 'system', );
     protected $aDefaultKeys = array( 'data' => array(), 'print_type' => 1, 'attributes' => array( 'rows' => 60, 'autofocus' => null, 'disabled' => null, 'formNew' => null, 'maxlength' => null, 'placeholder' => null, 'readonly' => 'readonly', 'required' => null, 'wrap' => null, 'style' => null, ), );
     protected function getField($aField)
@@ -150,7 +149,7 @@ class AdminPageFramework_FieldType_system extends AdminPageFramework_FieldType
         if (! $bGenerateInfo || isset(self::$_aPHPInfo)) {
             return self::$_aPHPInfo;
         }
-        $_oErrorReporting = new AdminPageFramework_ErrorReporting();
+        $_oErrorReporting = new AdminPageFramework_ErrorReporting;
         self::$_aPHPInfo = array( __('Version', 'admin-page-framework') => phpversion(), __('Safe Mode', 'admin-page-framework') => $this->getAOrB(@ini_get('safe_mode'), $this->oMsg->get('yes'), $this->oMsg->get('no')), __('Memory Limit', 'admin-page-framework') => @ini_get('memory_limit'), __('Upload Max Size', 'admin-page-framework') => @ini_get('upload_max_filesize'), __('Post Max Size', 'admin-page-framework') => @ini_get('post_max_size'), __('Upload Max File Size', 'admin-page-framework') => @ini_get('upload_max_filesize'), __('Max Execution Time', 'admin-page-framework') => @ini_get('max_execution_time'), __('Max Input Vars', 'admin-page-framework') => @ini_get('max_input_vars'), __('Argument Separator', 'admin-page-framework') => @ini_get('arg_separator.output'), __('Allow URL File Open', 'admin-page-framework') => $this->getAOrB(@ini_get('allow_url_fopen'), $this->oMsg->get('yes'), $this->oMsg->get('no')), __('Display Errors', 'admin-page-framework') => $this->getAOrB(@ini_get('display_errors'), $this->oMsg->get('on'), $this->oMsg->get('off')), __('Log Errors', 'admin-page-framework') => $this->getAOrB(@ini_get('log_errors'), $this->oMsg->get('on'), $this->oMsg->get('off')), __('Error log location', 'admin-page-framework') => @ini_get('error_log'), __('Error Reporting Level', 'admin-page-framework') => $_oErrorReporting->getErrorLevel(), __('FSOCKOPEN', 'admin-page-framework') => $this->getAOrB(function_exists('fsockopen'), $this->oMsg->get('supported'), $this->oMsg->get('not_supported')), __('cURL', 'admin-page-framework') => $this->getAOrB(function_exists('curl_init'), $this->oMsg->get('supported'), $this->oMsg->get('not_supported')), __('SOAP', 'admin-page-framework') => $this->getAOrB(class_exists('SoapClient'), $this->oMsg->get('supported'), $this->oMsg->get('not_supported')), __('SUHOSIN', 'admin-page-framework') => $this->getAOrB(extension_loaded('suhosin'), $this->oMsg->get('supported'), $this->oMsg->get('not_supported')), 'ini_set()' => $this->getAOrB(function_exists('ini_set'), $this->oMsg->get('supported'), $this->oMsg->get('not_supported')), ) + $this->getPHPInfo() + array( __('Constants', 'admin-page-framework') => $this->___getDefinedConstants(null, 'user') ) ;
         return self::$_aPHPInfo;
     }

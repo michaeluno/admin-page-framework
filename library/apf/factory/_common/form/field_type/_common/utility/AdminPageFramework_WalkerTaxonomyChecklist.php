@@ -1,13 +1,12 @@
 <?php
 /*
- * Admin Page Framework v3.9.0b15 by Michael Uno
+ * Admin Page Framework v3.9.0b17 by Michael Uno
  * Compiled with Admin Page Framework Compiler <https://github.com/michaeluno/admin-page-framework-compiler>
  * <https://en.michaeluno.jp/admin-page-framework>
  * Copyright (c) 2013-2022, Michael Uno; Licensed under MIT <https://opensource.org/licenses/MIT>
  */
 
-class AdminPageFramework_WalkerTaxonomyChecklist extends Walker_Category
-{
+class AdminPageFramework_WalkerTaxonomyChecklist extends Walker_Category {
     public function start_el(&$sOutput, $oTerm, $iDepth=0, $aArgs=array(), $iCurrentObjectID=0)
     {
         $aArgs = $aArgs + array( '_name_prefix' => null, '_input_id_prefix' => null, '_attributes' => array(), '_selected_items' => array(), 'taxonomy' => null, 'disabled' => null, '_save_unchecked' => true, );

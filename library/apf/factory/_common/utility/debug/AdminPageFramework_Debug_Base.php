@@ -1,13 +1,12 @@
 <?php
 /*
- * Admin Page Framework v3.9.0b15 by Michael Uno
+ * Admin Page Framework v3.9.0b17 by Michael Uno
  * Compiled with Admin Page Framework Compiler <https://github.com/michaeluno/admin-page-framework-compiler>
  * <https://en.michaeluno.jp/admin-page-framework>
  * Copyright (c) 2013-2022, Michael Uno; Licensed under MIT <https://opensource.org/licenses/MIT>
  */
 
-class AdminPageFramework_Debug_Base extends AdminPageFramework_FrameworkUtility
-{
+class AdminPageFramework_Debug_Base extends AdminPageFramework_FrameworkUtility {
     public static $iLegibleArrayDepthLimit = 50;
     public static $iLegibleStringCharacterLimit = 99999;
     protected static function _getLegibleDetails($mValue, $iStringLengthLimit=0, $iArrayDepthLimit=0)
@@ -101,7 +100,7 @@ class AdminPageFramework_Debug_Base extends AdminPageFramework_FrameworkUtility
     private static function ___getLegibleString($sString, $iLengthLimit, $bShowDetails=true)
     {
         static $_iMBSupport;
-        $_iMBSupport = isset($_iMBSupport) ? $_iMBSupport : ( int ) function_exists('mb_strlen');
+        $_iMBSupport = isset($_iMBSupport) ? $_iMBSupport : ( integer ) function_exists('mb_strlen');
         $_aStrLenMethod = array( 'strlen', 'mb_strlen' );
         $_aSubstrMethod = array( 'substr', 'mb_substr' );
         $iCharLimit = $iLengthLimit ? $iLengthLimit : self::$iLegibleStringCharacterLimit;
@@ -146,7 +145,7 @@ class AdminPageFramework_Debug_Base extends AdminPageFramework_FrameworkUtility
         $_oException = new Exception();
         if (is_object($iSkip) && $iSkip instanceof Exception) {
             $_oException = $iSkip;
-            $iSkip = ( int ) $_deprecated;
+            $iSkip = ( integer ) $_deprecated;
         }
         $_iSkip = $_iSkip + $iSkip;
         $_aTraces = array();

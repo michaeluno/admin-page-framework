@@ -1,13 +1,12 @@
 <?php
 /*
- * Admin Page Framework v3.9.0b15 by Michael Uno
+ * Admin Page Framework v3.9.0b17 by Michael Uno
  * Compiled with Admin Page Framework Compiler <https://github.com/michaeluno/admin-page-framework-compiler>
  * <https://en.michaeluno.jp/admin-page-framework>
  * Copyright (c) 2013-2022, Michael Uno; Licensed under MIT <https://opensource.org/licenses/MIT>
  */
 
-class AdminPageFramework_Form_View__Resource extends AdminPageFramework_FrameworkUtility
-{
+class AdminPageFramework_Form_View__Resource extends AdminPageFramework_FrameworkUtility {
     public $oForm;
     public function __construct($oForm)
     {
@@ -80,7 +79,7 @@ class AdminPageFramework_Form_View__Resource extends AdminPageFramework_Framewor
             return;
         }
         self::$_aEnqueued[ $_sCacheID ] = $_aEnqueueItem;
-        wp_enqueue_script($_aEnqueueItem[ 'handle_id' ], $_aEnqueueItem[ 'src' ], $_aEnqueueItem[ 'dependencies' ], $_aEnqueueItem[ 'version' ], did_action('admin_body_class') || ( bool ) $_aEnqueueItem[ 'in_footer' ]);
+        wp_enqueue_script($_aEnqueueItem[ 'handle_id' ], $_aEnqueueItem[ 'src' ], $_aEnqueueItem[ 'dependencies' ], $_aEnqueueItem[ 'version' ], did_action('admin_body_class') || ( boolean ) $_aEnqueueItem[ 'in_footer' ]);
         if ($_aEnqueueItem[ 'translation' ]) {
             wp_localize_script($_aEnqueueItem[ 'handle_id' ], empty($_aEnqueueItem[ 'translation_var' ]) ? $_aEnqueueItem[ 'handle_id' ] : $_aEnqueueItem[ 'translation_var' ], $_aEnqueueItem[ 'translation' ]);
         }

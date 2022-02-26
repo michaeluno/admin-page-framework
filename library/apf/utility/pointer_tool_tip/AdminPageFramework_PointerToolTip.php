@@ -1,13 +1,12 @@
 <?php
 /*
- * Admin Page Framework v3.9.0b15 by Michael Uno
+ * Admin Page Framework v3.9.0b17 by Michael Uno
  * Compiled with Admin Page Framework Compiler <https://github.com/michaeluno/admin-page-framework-compiler>
  * <https://en.michaeluno.jp/admin-page-framework>
  * Copyright (c) 2013-2022, Michael Uno; Licensed under MIT <https://opensource.org/licenses/MIT>
  */
 
-class AdminPageFramework_PointerToolTip extends AdminPageFramework_FrameworkUtility
-{
+class AdminPageFramework_PointerToolTip extends AdminPageFramework_FrameworkUtility {
     private static $_bResourceLoaded = false;
     private static $aPointers = array();
     public $sPointerID;
@@ -21,9 +20,9 @@ class AdminPageFramework_PointerToolTip extends AdminPageFramework_FrameworkUtil
         $this->aScreenIDs = $this->getAsArray($asScreenIDs);
         $this->sPointerID = $sPointerID;
         $this->aPointerData = $aPointerData;
-        $this->_setHooks($this->aScreenIDs);
+        $this->___setHooks($this->aScreenIDs);
     }
-    private function _setHooks($aScreenIDs)
+    private function ___setHooks($aScreenIDs)
     {
         foreach ($aScreenIDs as $_sScreenID) {
             if (! $_sScreenID) {
@@ -75,7 +74,7 @@ class AdminPageFramework_PointerToolTip extends AdminPageFramework_FrameworkUtil
         $_aValidPointers = array();
         foreach ($_aPointers as $_iPointerID => $_aPointer) {
             $_aPointer = $_aPointer + array( 'target' => null, 'options' => null, 'pointer_id' => null, );
-            if ($this->_shouldSkip($_iPointerID, $_aDismissed, $_aPointer)) {
+            if ($this->___shouldSkip($_iPointerID, $_aDismissed, $_aPointer)) {
                 continue;
             }
             $_aPointer[ 'target' ] = $this->getAsArray($_aPointer[ 'target' ]);
@@ -84,7 +83,7 @@ class AdminPageFramework_PointerToolTip extends AdminPageFramework_FrameworkUtil
         }
         return $_aValidPointers;
     }
-    private function _shouldSkip($_iPointerID, $_aDismissed, $_aPointer)
+    private function ___shouldSkip($_iPointerID, $_aDismissed, $_aPointer)
     {
         if (in_array($_iPointerID, $_aDismissed)) {
             return true;
@@ -112,9 +111,9 @@ class AdminPageFramework_PointerToolTip extends AdminPageFramework_FrameworkUtil
     }
     public function _replyToInsertInternalScript()
     {
-        echo "<script type='text/javascript' class='admin-page-framework-pointer-tool-tip'>" . '/* <![CDATA[ */' . $this->_getInternalScript(self::$aPointers) . '/* ]]> */' . "</script>";
+        echo "<script type='text/javascript' class='admin-page-framework-pointer-tool-tip'>" . '/* <![CDATA[ */' . $this->___getInternalScript(self::$aPointers) . '/* ]]> */' . "</script>";
     }
-    public function _getInternalScript($aPointers=array())
+    public function ___getInternalScript($aPointers=array())
     {
         $_aJSArray = json_encode($aPointers);
         return <<<JAVASCRIPTS

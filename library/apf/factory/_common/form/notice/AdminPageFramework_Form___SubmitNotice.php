@@ -1,13 +1,12 @@
 <?php
 /*
- * Admin Page Framework v3.9.0b15 by Michael Uno
+ * Admin Page Framework v3.9.0b17 by Michael Uno
  * Compiled with Admin Page Framework Compiler <https://github.com/michaeluno/admin-page-framework-compiler>
  * <https://en.michaeluno.jp/admin-page-framework>
  * Copyright (c) 2013-2022, Michael Uno; Licensed under MIT <https://opensource.org/licenses/MIT>
  */
 
-class AdminPageFramework_Form___SubmitNotice extends AdminPageFramework_FrameworkUtility
-{
+class AdminPageFramework_Form___SubmitNotice extends AdminPageFramework_FrameworkUtility {
     private static $_aNotices = array();
     public $sTransientKey;
     public function __construct()
@@ -21,7 +20,7 @@ class AdminPageFramework_Form___SubmitNotice extends AdminPageFramework_Framewor
     public function hasNotice($sType='')
     {
         if (! $sType) {
-            return ( bool ) count(self::$_aNotices);
+            return ( boolean ) count(self::$_aNotices);
         }
         foreach (self::$_aNotices as $_aNotice) {
             $_sClassAttribute = $this->getElement($_aNotice, array( 'aAttributes', 'class' ), '');

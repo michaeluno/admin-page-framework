@@ -1,13 +1,12 @@
 <?php
 /*
- * Admin Page Framework v3.9.0b15 by Michael Uno
+ * Admin Page Framework v3.9.0b17 by Michael Uno
  * Compiled with Admin Page Framework Compiler <https://github.com/michaeluno/admin-page-framework-compiler>
  * <https://en.michaeluno.jp/admin-page-framework>
  * Copyright (c) 2013-2022, Michael Uno; Licensed under MIT <https://opensource.org/licenses/MIT>
  */
 
-abstract class AdminPageFramework_Form_Utility extends AdminPageFramework_FrameworkUtility
-{
+abstract class AdminPageFramework_Form_Utility extends AdminPageFramework_FrameworkUtility {
     public static function getInputsUnset(array $aInputs, $sFieldsType, $iSkipDepth=0)
     {
         $_sUnsetKey = '__unset_' . $sFieldsType;
@@ -95,7 +94,7 @@ abstract class AdminPageFramework_Form_Utility extends AdminPageFramework_Framew
         $_oCallerForm = $aFieldset[ '_caller_object' ];
         $aFieldset[ '_parent_field_path' ] = self::getAOrB($bHasSubFields, $aFieldset[ '_parent_field_path' ] . '|' . $iSubFieldIndex, $aFieldset[ '_parent_field_path' ]);
         $aFieldset[ '_parent_tag_id' ] = self::getAOrB($bHasSubFields, $aParentFieldset[ 'tag_id' ] . '__' . $iSubFieldIndex, $aParentFieldset[ 'tag_id' ]);
-        $_oFieldsetFormatter = new AdminPageFramework_Form_Model___Format_Fieldset($aFieldset, $aFieldset[ '_structure_type' ], $aFieldset[ 'capability' ], ( int ) $iSubFieldIndex + 1, $aFieldset[ '_subsection_index' ], $aFieldset[ '_is_section_repeatable' ], $aFieldset[ '_caller_object' ]);
+        $_oFieldsetFormatter = new AdminPageFramework_Form_Model___Format_Fieldset($aFieldset, $aFieldset[ '_structure_type' ], $aFieldset[ 'capability' ], ( integer ) $iSubFieldIndex + 1, $aFieldset[ '_subsection_index' ], $aFieldset[ '_is_section_repeatable' ], $aFieldset[ '_caller_object' ]);
         $aFieldset = $_oFieldsetFormatter->get();
         $_oFieldsetOutputFormatter = new AdminPageFramework_Form_Model___Format_FieldsetOutput($aFieldset, $aFieldset[ '_section_index' ], $_oCallerForm->aFieldTypeDefinitions);
         return $_oFieldsetOutputFormatter->get();

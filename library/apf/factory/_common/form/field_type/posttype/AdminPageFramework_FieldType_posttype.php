@@ -1,13 +1,12 @@
 <?php
 /*
- * Admin Page Framework v3.9.0b15 by Michael Uno
+ * Admin Page Framework v3.9.0b17 by Michael Uno
  * Compiled with Admin Page Framework Compiler <https://github.com/michaeluno/admin-page-framework-compiler>
  * <https://en.michaeluno.jp/admin-page-framework>
  * Copyright (c) 2013-2022, Michael Uno; Licensed under MIT <https://opensource.org/licenses/MIT>
  */
 
-class AdminPageFramework_FieldType_posttype extends AdminPageFramework_FieldType_checkbox
-{
+class AdminPageFramework_FieldType_posttype extends AdminPageFramework_FieldType_checkbox {
     public $aFieldTypeSlugs = array( 'posttype', );
     protected $aDefaultKeys = array( 'slugs_to_remove' => null, 'query' => array(), 'operator' => 'and', 'attributes' => array( 'size' => 30, 'maxlength' => 400, ), 'select_all_button' => true, 'select_none_button' => true, 'save_unchecked' => true, );
     protected $aDefaultRemovingPostTypeSlugs = array( 'revision', 'attachment', 'nav_menu_item', );
