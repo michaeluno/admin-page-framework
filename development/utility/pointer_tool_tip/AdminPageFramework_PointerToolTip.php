@@ -302,23 +302,23 @@ class AdminPageFramework_PointerToolTip extends AdminPageFramework_FrameworkUtil
              * Checks check-boxes in siblings.
              */
             return <<<JAVASCRIPTS
-( function( $ ) {
-$( document ).ready( function( $ ) {
-    $.each( $_aJSArray, function( iIndex, _aPointer ) {
-        var _aOptions = $.extend( _aPointer.options, {
+( function( jQuery ) {
+jQuery( document ).ready( function( jQuery ) {
+    jQuery.each( $_aJSArray, function( iIndex, _aPointer ) {
+        var _aOptions = jQuery.extend( _aPointer.options, {
             close: function() {
-                $.post( ajaxurl, {
+                jQuery.post( ajaxurl, {
                     pointer: _aPointer.pointer_id,
                     action: 'dismiss-wp-pointer'
                 });
             }
         });
-        $.each( _aPointer.target, function( iIndex, _sTarget ) {
-            var _oTarget = $( _sTarget );
+        jQuery.each( _aPointer.target, function( iIndex, _sTarget ) {
+            var _oTarget = jQuery( _sTarget );
             if ( _oTarget.length <= 0 ) {
                 return true;    // skip
             }
-            var _oResult = $( _sTarget ).pointer( _aOptions ).pointer( 'open' );
+            var _oResult = jQuery( _sTarget ).pointer( _aOptions ).pointer( 'open' );
             if ( _oResult.length > 0 ) {
                 return false;   // escape to ensure no same item gets displayed in one screen
             }
