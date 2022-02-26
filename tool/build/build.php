@@ -20,6 +20,7 @@ if ( ! $bIsCLI ) {
     exit( 'Please run the script with a console program.' );
 }
 
+$dStarted = microtime( true );
 echo 'Started...' . PHP_EOL;
 $oCompiler = new \AdminPageFrameworkCompiler\Compiler(
     $sSourceDirPath,
@@ -61,6 +62,9 @@ $oCompiler = new \AdminPageFrameworkCompiler\Compiler(
                 'AdminPageFramework_MetaBox_Page',
             ],
         ],
+        'php_cs_fixer' => [
+            'config' => __DIR__ . '/.php-cs-fixer.php',
+        ],
     ]
 );
 $oCompiler->run();
@@ -99,4 +103,5 @@ $_oClassMap      = new \PHPClassMapGenerator\PHPClassMapGenerator(
         ],
     )
 );
+echo sprintf( 'Elapsed %1$s seconds.', round( ( integer ) ( microtime( true ) - $dStarted ) ) ) . $sCarriageReturn;
 echo 'Done!' . $sCarriageReturn;
