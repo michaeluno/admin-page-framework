@@ -24,6 +24,7 @@
  *     </li>
  *     <li>**skip_confirmation** - [3.7.6+] (optional, boolean) Whether to skip confirmation. Default: `false`.</li>
  *     <li>**email** - [3.9.0+] deprecated Use the `contact` field type.
+ *     <li>**save** - [3.9.0+] (optional, boolean) Whether to save the value of the button, which is usually the label text. Default: `false`.</li>
  *     </li>
  * </ul>
  * 
@@ -152,7 +153,8 @@ class AdminPageFramework_FieldType_submit extends AdminPageFramework_FieldType {
         'skip_confirmation' => false,   // 3.7.6+ For emails.
         'attributes'    => array(
             'class' => 'button button-primary',
-        ),    
+        ),
+        'save'          => false,       // 3.9.0+
     );    
 
     /**
