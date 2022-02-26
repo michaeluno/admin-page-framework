@@ -1,27 +1,27 @@
 == New Features ==
-<h3>Nested Fields</h3>
+<h3>Table Built-in Field Type</h3>
 
-The new feature of nested fields allows you to repeat a set of fields with different field types.
+The new `table` built-in field type lets you display tables from given arrays. Also, simple FAQ tables can be created with the `collapsible` argument.
 
 <div class='main-image'>
-    <img src="%PLUGIN_DIR_URL%/asset/image/new_feature/nested_fields.jpg" alt="Nested Fields">
+    <img src="%PLUGIN_DIR_URL%/asset/image/new_feature/table-field-type.png" alt="Table Field Type">
 </div>
 
 <div class='apfl_columns_row'>
 
     <div class='apfl_columns_first_col apfl_columns_col apfl_col_element_of_2'>
-        <div class='apfl_cell'>
-            <h3>Inline Mixed Field Type</h3>
-            <img src="%PLUGIN_DIR_URL%/asset/image/new_feature/inline_mixed.jpg" alt="Inline Mixed">
-            <p>The new built-in `inline_mixed` field type allows you to mix different field types in a single field with more flexible layouts.</p>
+        <div class='apfl_cell second-image'>
+            <h3>Contact Built-in Field Type</h3>
+            <img src="%PLUGIN_DIR_URL%/asset/image/new_feature/contact-field-type.png" alt="Contact Build-in Field Type">
+            <p>The new built-in `contact` field type is an extended submit field type that lets the user submit Emails with the inputs of the section that the contact button is within.</p>
         </div> 
     </div>
 
     <div class='apfl_columns_col apfl_col_element_of_2'>
-        <div class='apfl_cell'>
-            <h3>Placement Argument</h3>
-            <img src="%PLUGIN_DIR_URL%/asset/image/new_feature/placement_argument.jpg" alt="Placement Argument">
-            <p>The new `placement` argument lets you place a chosen field in the field/section title area.</p>
+        <div class='apfl_cell third-image'>
+            <h3>Enhanced Select2 Custom Field Type</h3>
+            <img src="%PLUGIN_DIR_URL%/asset/image/new_feature/select2-field-type.png" alt="Placement Argument">
+            <p>The new `selector` argument lets you show/hide elements.</p>
         </div>
     </div>
 
@@ -31,25 +31,36 @@ The new feature of nested fields allows you to repeat a set of fields with diffe
 <div class='apfl_columns_row'>
 
     <div class='apfl_columns_first_col apfl_columns_col apfl_col_element_of_3'>
-        <div class='apfl_cell'>    
-            <h3>Term Meta Factory</h3>
-            <p>The new `AdminPageFramework_TermMeta` class lets you add form fields in the term definition screens. This is similar to the existent `AdminPageFramework_TaxonomyFields` factory class but it supports the Term Meta API introduced in WordPress 4.4.</p>
+        <div class='apfl_cell'>
+            <h3>Refined Tooltips</h3>
+            <p>Tooltips shown with the `tip` field/section argument are refined and they are more flexible now.</p>
         </div>
     </div>
 
     <div class='apfl_columns_col apfl_col_element_of_3'>
         <div class='apfl_cell'>
-            <h3>Fixes and Clean-ups</h3>
-            <p>Several bugs have been patched and the directory structure has been restructured to shorten overall file paths.</p>
+            <h3>Refined Path Custom Field Type</h3>
+            <p>The `path` custom field type has been refined and improved UI by changing abundant dependency to a new well-maintained one.</p>
         </div>  
     </div>
 
     <div class='apfl_columns_col apfl_col_element_of_3'>
         <div class='apfl_cell'>
-            <h3>More Changes</h3>
-            <p>Find out the more details of new changes <a href="%WP_ADMIN_URL%?page=apfl_about#section-change_log__">here</a>.</p>
+            <h3>Fixes and Refactoring</h3>
+            <p>Several bugs have been patched and the most internal resources have been ported to separate files to be sourced as external files so that it gives more flexibility to dequeue them when necessary.</p>
         </div> 
     </div>
+</div>
+
+<div class='apfl_columns_row'>
+
+    <div class='apfl_columns_first_col apfl_columns_col apfl_col_element_of_3'>
+        <div class='apfl_cell'>
+            <h3>More Changes</h3>
+            <p>Find out the more details of new changes <a href="%WP_ADMIN_URL%?page=apfl_about#section-change_log__">here</a>.</p>
+        </div>
+    </div>
+
 </div>
 
 == Getting Started ==
