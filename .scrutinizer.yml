@@ -34,6 +34,8 @@ filter:
         - 'test/*'
         - 'example/*'
         - '*/library/*'
+        - '*.bundle.js'
+        - '*.min.js'
 
 coding_style:
     php:
