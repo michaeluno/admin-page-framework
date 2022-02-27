@@ -40,9 +40,9 @@ class AdminPageFramework_Debug_Base extends AdminPageFramework_FrameworkUtility 
     static protected function _getLegibleDetails( $mValue, $iStringLengthLimit=0, $iArrayDepthLimit=0 ) {
         if ( is_array( $mValue ) ) {
             return '(array, length: ' . count( $mValue ).') '
-                . print_r( self::___getLegibleDetailedArray( $mValue, $iStringLengthLimit, $iArrayDepthLimit ) , true );
+                . ( string ) print_r( self::___getLegibleDetailedArray( $mValue, $iStringLengthLimit, $iArrayDepthLimit ) , true );
         }
-        return print_r( self::getLegibleDetailedValue( $mValue, $iStringLengthLimit ), true );
+        return ( string ) print_r( self::getLegibleDetailedValue( $mValue, $iStringLengthLimit ), true );
     }
 
     /**
