@@ -542,7 +542,7 @@ See examples, https://gist.github.com/michaeluno/c30713fcfe0d9d45d89f, https://g
 - Fixed irregular vertical alignment of elements with the `inline_mixed` field type.
 
 = 3.8.33 - 2021/08/16 =
-- Fixed a bug that `<img>` tags were dropped in sending Emails with the `email` argument of the `submit` field type.
+- Fixed a bug that `img` tags were dropped in sending Emails with the `email` argument of the `submit` field type.
 - Fixed a bug that delayed sending Emails with the `email` argument of the `submit` field type, started in v3.8.32.
 
 = 3.8.32 - 2021/08/14 =
