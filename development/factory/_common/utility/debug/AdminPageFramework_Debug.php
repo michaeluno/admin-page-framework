@@ -162,18 +162,4 @@ class AdminPageFramework_Debug extends AdminPageFramework_Debug_Log {
         AdminPageFramework_Debug::log( $asArray, $sFilePath );
     }
 
-    /**
-     * Returns a string representation of the given value.
-     * @since       3.5.0
-     * @param       mixed       $mValue     The value to get as a string
-     * @internal
-     * @return      string
-     * @deprecated  3.8.9
-     */
-    static public function getAsString( $mValue ) {
-        self::showDeprecationNotice( 'AdminPageFramework_Debug::' . __FUNCTION__ );
-        return self::_getLegible( $mValue );
-    }
-
-
 }

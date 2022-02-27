@@ -17,6 +17,30 @@
 abstract class AdminPageFramework_Utility_String extends AdminPageFramework_Utility_VariableType {
 
     /**
+     * Get a value as a string.
+     *
+     * This is used when dealing with a function that returns mixed value types and wanting a string value, for example to concatenate strings.
+     *
+     * @param  mixed  $mValue
+     * @return string
+     * @since  3.9.0
+     */
+    static public function getAsString( $mValue ) {
+        if ( is_string( $mValue ) ) {
+            return $mValue;
+        }
+        if ( is_scalar( $mValue ) ) {
+            return ( string ) $mValue;
+        }
+        // if null or false,
+        if ( empty( $mValue ) ) {
+            return '';
+        }
+        // Convert it to string
+        return ( string ) $mValue;
+    }
+
+    /**
      * Returns the width for HTML attributes.
      *
      * When a value may be a number with a unit like, '100%', it returns the value itself.
