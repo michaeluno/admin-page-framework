@@ -31,7 +31,7 @@ build:
     test-with-php74:
       tests:
         override:
-          - command: bash ./test/run.sh -c ./test/settings.scrutinizer.cfg -l 'coverage.xml';
+          - command: bash ./test/run.sh -c ./test/settings.scrutinizer.cfg
             coverage:
               file: ./coverage.xml
               format: clover
