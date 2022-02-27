@@ -144,6 +144,9 @@ PHP
     
 }
     setup_database_table(){
+
+        echo 'MySQL Version:'
+        mysql -V
         
         # If the database table already exists, drop it.
         # if [[ -z "$DB_PASS" ]]; then
