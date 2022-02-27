@@ -78,11 +78,14 @@ build:
     stop_on_failure: true
     before:
       -
-        command: service apache2 start
-      -
         command: mysql -h 127.0.0.1 -P 3306 -u root -p
+        on_node: 2
+      -
+        command: service apache2 start
+        on_node: 1
       -
         command: bash ./test/install.sh -c ./test/settings.scrutinizer.cfg
+        on_node: 1
     # before:
     #  - command:
     #    stop_on_failure: true # If true, tests execution will stop when this command failed.
