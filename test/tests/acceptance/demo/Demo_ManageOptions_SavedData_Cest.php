@@ -26,7 +26,7 @@ class Demo_ManageOptions_SavedData_Cest extends \Demo_AdminPage_Base {
 
         // This is the default tab so check an element first.
         $this->_checkCommonElements( $I );
-        $I->seeElement( '//pre[contains(@class, "dump-array")]' );
+        $I->seeElement( '//table[contains(@class, "demo-options")]' );
 
         // Click on the 'SavedData' tab.
         $I->click( '//a[@data-tab-slug="saved_data"]' );
