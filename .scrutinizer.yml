@@ -49,13 +49,18 @@ build:
     mysql: 5.7
 
   environment:
-    php:
-      version: 7.4
     variables:
       WP_VERSION: latest
       WP_MULTISITE: 0
       TEMP: /tmp
-
+    php:
+      version: 7.4
+    apache2:
+      modules: ['rewrite']
+      sites:
+        symfony_app:
+            web_root: 'web/'
+#            host: 'local.dev'
   # Follows the same structure like the dependencies section.
   # Used for running your tests and open-source analysis tools.
   # We will execute all commands even if one of them fails.
