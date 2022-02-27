@@ -256,9 +256,9 @@ class AdminPageFramework_Debug_Base extends AdminPageFramework_FrameworkUtility 
             }
 
     /**
-     * @return      string
-     * @since       3.8.9
-     * @param       string  $sString
+     * @param  string $sString
+     * @since  3.8.9
+     * @return string
      */
     static protected function _getArrayRepresentationSanitized( $sString ) {
 
@@ -270,12 +270,11 @@ class AdminPageFramework_Debug_Base extends AdminPageFramework_FrameworkUtility 
         );
 
         // Fix empty array output
-        $sString = preg_replace(
+        return preg_replace(
             '/Array(\r\n?|\n)\s+\((\r\n?|\n)\s+\)/', // needle
             'Array()', // replacement
             $sString // subject
         );
-        return $sString;
 
     }
 
