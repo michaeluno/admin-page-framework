@@ -55,8 +55,8 @@ build:
 #      - mysql -V
 
   environment:
-    hosts:
-      local.dev: '127.0.0.1'
+#    hosts:
+#      local.dev: '127.0.0.1'
     variables:
       WP_VERSION: latest
       WP_MULTISITE: 0
@@ -68,7 +68,7 @@ build:
       sites:
         symfony_app:
             web_root: 'web/'
-            host: 'local.dev'
+#            host: 'local.dev'
 
   # Follows the same structure like the dependencies section.
   # Used for running your tests and open-source analysis tools.
