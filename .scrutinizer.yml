@@ -62,7 +62,8 @@ build:
             web_root: 'web/'
             host: 'local.dev'
   commands:
-    - service apache2 restart
+    -
+      command: service apache2 restart
 
   # Follows the same structure like the dependencies section.
   # Used for running your tests and open-source analysis tools.
