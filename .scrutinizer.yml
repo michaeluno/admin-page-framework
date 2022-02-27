@@ -61,9 +61,6 @@ build:
         symfony_app:
             web_root: 'web/'
             host: 'local.dev'
-  commands:
-    -
-      command: service apache2 restart
 
   # Follows the same structure like the dependencies section.
   # Used for running your tests and open-source analysis tools.
@@ -72,7 +69,10 @@ build:
     # If true, tests execution will stop by any command failure. @see https://scrutinizer-ci.com/docs/build/stop_tests_running_on_failure
     stop_on_failure: true
     before:
-      - bash ./test/install.sh -c ./test/settings.scrutinizer.cfg
+      -
+        command: service apache2 restart
+      -
+        command: bash ./test/install.sh -c ./test/settings.scrutinizer.cfg
     # before:
     #  - command:
     #    stop_on_failure: true # If true, tests execution will stop when this command failed.
