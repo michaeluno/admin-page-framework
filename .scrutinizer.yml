@@ -48,7 +48,14 @@ build:
   services:
     mysql: 5.7
 
+  dependencies:
+    before:
+      - echo "MySQL VERSION:"
+      - mysql -V
+
   environment:
+    hosts:
+      local.dev: '127.0.0.1'
     variables:
       WP_VERSION: latest
       WP_MULTISITE: 0
