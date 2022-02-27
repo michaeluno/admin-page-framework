@@ -36,6 +36,12 @@ filter:
         - '*/library/*'
         - '*.bundle.js'
         - '*.min.js'
+    dependency_paths:
+        # @see https://scrutinizer-ci.com/docs/tools/php/php-scrutinizer/analyzing-wordpress
+        - wordpress/
+        - veondor/
+        - library/
+        - node_modules/
 
 coding_style:
     php:
