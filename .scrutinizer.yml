@@ -1,8 +1,21 @@
+build:
+  nodes:
+    analysis:
+      tests:
+        override:
+          # Add the respective Scrutinizer analysis for your language like
+          # - go-scrutinizer-run
+          - js-scrutinizer-run
+          # - java-scrutinizer-run
+          - php-scrutinizer-run
+          # - py-scrutinizer-run
+          # - ruby-scrutinizer-run
+          # ....
 checks:
     php:
         code_rating: true
         duplication: false
-tools:
+#tools:
     # php_sim: true
     # php_pdepend: true
     # php_analyzer: true
