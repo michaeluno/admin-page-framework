@@ -106,18 +106,24 @@ set -e
 
 installWordPress() {
 
+    echo "Installing WordPress..."
+
     # Remove the destination folder if exists to perform a clean install
     # If the project directory path is the test site directory, which is the case of on Travis CI, do not delete it.
     if [ ! "$PROJECT_DIR" == "$WP_TEST_DIR" ]; then  
         rm -rf "$WP_TEST_DIR"
     fi
-    
+
+    echo "Downloading WordPress..."
+
     # We use wp-cli command
     php "$WP_CLI" core download --force --path="$WP_TEST_DIR"
   
     # Change directory to the test WordPres install directory.
     cd "$WP_TEST_DIR"    
-    
+
+    echo "Setting up WordPress configurations..."
+
     rm -f wp-config.php
     dbpass=
     if [[ $DB_PASS ]]; then
@@ -133,6 +139,8 @@ PHP
     php "$WP_CLI" config set WP_DEBUG_LOG true --raw
 
     # Renew the database table
+
+    echo "Setting up the database table..."
     setup_database_table    
 
     # Create/renew the database - if the environment variable WP_MULTISITE is set, install multi site network Wordpress.
@@ -141,7 +149,8 @@ PHP
     else
         php "$WP_CLI" core install --url="$WP_URL" --title="$WP_SITE_TITLE" --admin_user="$WP_ADMIN_USER_NAME" --admin_password="$WP_ADMIN_PASSWORD" --admin_email="$WP_ADMIN_EMAIL"
     fi    
-    
+
+    echo "WordPress installation is done..."
 }
     setup_database_table(){
 

@@ -48,10 +48,10 @@ build:
   services:
     mysql: 5.7
 
-  dependencies:
-    before:
-      - echo "MySQL VERSION:"
-      - mysql -V
+#  dependencies:
+#    before:
+#      - echo "MySQL VERSION:"
+#      - mysql -V
 
   environment:
     hosts:
