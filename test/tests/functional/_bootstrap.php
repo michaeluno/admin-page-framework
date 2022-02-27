@@ -1,4 +1,6 @@
 <?php
+include( dirname( dirname( __DIR__ ) ) . '/vendor/autoload.php' );
+
 codecept_debug( 'Functional: _bootstrap.php loaded' );
 $_sTestsDirPath                 = getenv( 'WP_TESTS_DIR' );
 // $_sSystemTempDirPath         = getenv( 'TEMP' ) ? getenv( 'TEMP' ) : '/tmp';

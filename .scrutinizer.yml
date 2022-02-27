@@ -91,11 +91,14 @@ build:
   # Used for deployment.
   # Will only be executed if all tests succeeded.
   # If run in parallel, will be executed in the container where tests finish last.
-  # deployment:
+   deployment:
     # - # Optional. If this should only be executed for pushes to a certain branch.
       # branch: master            # The branch name is exactly "master"
       # branch: '/^feature/'      # Any branch name that starts with "feature"
-      # commands:
+       commands:
+         - cd ./test
+         - composer install --no-interaction
+         - cd ../
       #   - aws s3 cp my-file s3://my-bucket/my-file
       #   - git push heroku master
       #   - or-any-other-command
