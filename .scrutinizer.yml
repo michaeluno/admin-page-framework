@@ -80,6 +80,8 @@ build:
       -
         command: service apache2 start
       -
+        command: mysql -h 127.0.0.1 -P 3306 -u root -p
+      -
         command: bash ./test/install.sh -c ./test/settings.scrutinizer.cfg
     # before:
     #  - command:
