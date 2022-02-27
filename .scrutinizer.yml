@@ -46,7 +46,8 @@ build:
 #          WP_MULTISITE: 1
 
   services:
-    mysql: 5.7
+#    mysql: 5.7
+    mariadb: 10
 
 #  dependencies:
 #    before:
