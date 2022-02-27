@@ -1,5 +1,8 @@
 Change Log
 
+### 1.2.0 - 2022/02/28
+- Changed the WP-CLI command to use `config create` instead of `core config` as it has been deprecated.
+
 ### 1.1.2 - 2019/02/23
 - Fixed an issue that has no longer been able to run on Travis tests against PHP 5.6 by changing the Codeception version to v2.5.4 for the PHP 5.x build. 
 
