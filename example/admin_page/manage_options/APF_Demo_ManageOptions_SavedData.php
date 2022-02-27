@@ -79,7 +79,7 @@ class APF_Demo_ManageOptions_SavedData {
                 $this->_oFactory->oProp->aOptions,
                 array(
                     'table' => array(
-                        'class' => 'widefat striped fixed product-details',
+                        'class' => 'widefat striped fixed demo-options',
                     ),
                     'th'    => array(
                         array( 'style' => 'width:10%;', ),  // first th
