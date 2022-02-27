@@ -197,11 +197,11 @@ class AdminPageFramework_Debug_Base extends AdminPageFramework_FrameworkUtility 
 
         }
         /**
-         * @return      string
-         * @param       integer|float|boolean $sScalar
-         * @param       integer $iStringLengthLimit
-         * @since       3.8.9
-         * @since       3.8.22      Renamed from `_getLegibleScalar()`.
+         * @since  3.8.9
+         * @since  3.8.22                       Renamed from `_getLegibleScalar()`.
+         * @param  integer|float|boolean|string $sScalar
+         * @param  integer $iStringLengthLimit
+         * @return string
          */
         static private function ___getLegibleDetailedScalar( $sScalar, $iStringLengthLimit ) {
             if ( is_bool( $sScalar ) ) {
@@ -213,10 +213,10 @@ class AdminPageFramework_Debug_Base extends AdminPageFramework_FrameworkUtility 
         }
             /**
              * Returns a length of a value.
-             * @since       3.5.3
              * @internal
-             * @return      integer|null For string or integer, the string length. For array, the element lengths. For other types, null.
-             * @param       mixed        $mValue
+             * @since    3.5.3
+             * @return   integer|null For string or integer, the string length. For array, the element lengths. For other types, null.
+             * @param    mixed        $mValue
              */
             static private function ___getValueLength( $mValue ) {
                 $_sVariableType = gettype( $mValue );
@@ -333,8 +333,8 @@ class AdminPageFramework_Debug_Base extends AdminPageFramework_FrameworkUtility 
     }
 
     /**
-     * @param   integer $iSkip    The number of skipping records. This is used when the caller does not want to include the self function/method.
-     * @param   null    $_deprecated
+     * @param   integer     $iSkip    The number of skipping records. This is used when the caller does not want to include the self function/method.
+     * @param   null|mixed  $_deprecated
      * @return  string
      * @since   3.8.22
      * @since   3.8.23 Deprecated the `$oException` parameter.
