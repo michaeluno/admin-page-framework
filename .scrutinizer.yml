@@ -11,6 +11,11 @@ build:
           # - py-scrutinizer-run
           # - ruby-scrutinizer-run
           # ....
+      dependencies:
+        before:
+          # Disable warnings of "The function *** was not found" which suggests inserting `/** @scrutinizer ignore-call */`.
+          # @see https://scrutinizer-ci.com/docs/tools/php/php-scrutinizer/analyzing-wordpress
+          - composer require --dev johnpbloch/wordpress
 checks:
     php:
         code_rating: true
