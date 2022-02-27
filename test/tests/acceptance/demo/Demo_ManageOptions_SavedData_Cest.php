@@ -35,7 +35,7 @@ class Demo_ManageOptions_SavedData_Cest extends \Demo_AdminPage_Base {
 
         // Check some field elements.
 
-        $I->seeElement( '//pre[contains(@class, "dump-array")]' );
+        $I->seeElement( '//table[contains(@class, "demo-options")]' );
 
         // @todo fill the form and confirm that values are stored
 
