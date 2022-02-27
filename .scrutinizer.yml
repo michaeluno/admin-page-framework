@@ -70,7 +70,7 @@ build:
     stop_on_failure: true
     before:
       -
-        command: service apache2 restart
+        command: service apache2 start
       -
         command: bash ./test/install.sh -c ./test/settings.scrutinizer.cfg
     # before:
