@@ -12,22 +12,22 @@ build:
 #          # Disable warnings of "The function *** was not found" which suggests inserting `/** @scrutinizer ignore-call */`.
 #          # @see https://scrutinizer-ci.com/docs/tools/php/php-scrutinizer/analyzing-wordpress
 #          - composer require --dev johnpbloch/wordpress
-#    test-with-php54:
-#      environment:
-#        php:
-#          version: 5.4
-#    test-with-php56:
-#      environment:
-#        php:
-#          version: 5.6
-#    test-with-php72:
-#      environment:
-#        php:
-#          version: 7.2
-#    test-with-php73:
-#      environment:
-#        php:
-#          version: 7.3
+    test-with-php54:
+      environment:
+        php:
+          version: 5.4
+    test-with-php56:
+      environment:
+        php:
+          version: 5.6
+    test-with-php72:
+      environment:
+        php:
+          version: 7.2
+    test-with-php73:
+      environment:
+        php:
+          version: 7.3
     test-with-php74:
       tests:
         override:
