@@ -32,9 +32,9 @@ build:
       tests:
         override:
           - command: bash ./test/run.sh -c ./test/settings.scrutinizer.cfg
-            coverage:
-              file: ./coverage.xml
-              format: clover
+#            coverage:
+#              file: ./coverage.xml
+#              format: clover
 #    test-with-php80:
 #      environment:
 #        php:
