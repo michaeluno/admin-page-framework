@@ -132,8 +132,8 @@ installWordPress() {
     fi    
     php "$WP_CLI" config create --dbname=$DB_NAME --dbuser="$DB_USER" $dbpass --dbprefix="$WP_TABLE_PREFIX" --dbhost="$DB_HOST"
 
-    # Set the WP_DEBUG constant to true.
-    php "$WP_CLI" config set WP_DEBUG true --raw
+    # Set the WP_DEBUG constant to false.
+    php "$WP_CLI" config set WP_DEBUG false --raw
     php "$WP_CLI" config set WP_DEBUG_LOG true --raw
 
     # Renew the database table
