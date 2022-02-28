@@ -5,6 +5,9 @@ downloadCodeception() {
     # For other versions @see https://codeception.com/builds
     # download "http://codeception.com/codecept.phar" "$1"
 
+    # v4.1.29 Error -> Cannot declare class PHPUnit_Framework_TestCase, because the name is already in use in ...
+    # Looks like you're using PHPUnit 8.5.23. WordPress requires at least PHPUnit 5.4 and is currently only compatible with PHPUnit up to 7.x.
+
     # v2.5.4 (stable as of 2019/02/23)
     # download "http://codeception.com/releases/2.5.4/codecept.phar" "$1"
 
@@ -13,7 +16,7 @@ downloadCodeception() {
     download "https://codeception.com/releases/2.5.4/php54/codecept.phar" "$1"
     # download "https://codeception.com/releases/2.5.1/php54/codecept.phar" "$1"
 
-    # v2.5.1 (stable as of 2018/11/01) -> does not run on Travis tests against PHP 5.6
+    # v2.5.1 (stable as of 2018/11/01) -> does not run on Travis tests against PHP 5.6 -> Serialization of 'Closure' is not allowed
     # download "http://codeception.com/releases/2.5.1/codecept.phar" "$1"
 
     # v2.5.0
