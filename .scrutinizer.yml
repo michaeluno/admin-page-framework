@@ -2,16 +2,16 @@
 build:
   nodes:
     analysis:
-#      tests:
-#        override:
-#          # Add the respective Scrutinizer analysis for your language like
-#          - js-scrutinizer-run
-#          - php-scrutinizer-run
-#      dependencies:
-#        before:
-#          # Disable warnings of "The function *** was not found" which suggests inserting `/** @scrutinizer ignore-call */`.
-#          # @see https://scrutinizer-ci.com/docs/tools/php/php-scrutinizer/analyzing-wordpress
-#          - composer require --dev johnpbloch/wordpress
+      tests:
+        override:
+          # Add the respective Scrutinizer analysis for your language like
+          - js-scrutinizer-run
+          - php-scrutinizer-run
+      dependencies:
+        before:
+          # Disable warnings of "The function *** was not found" which suggests inserting `/** @scrutinizer ignore-call */`.
+          # @see https://scrutinizer-ci.com/docs/tools/php/php-scrutinizer/analyzing-wordpress
+          - composer require --dev johnpbloch/wordpress
 #    test-with-php54:
 #      environment:
 #        php:
