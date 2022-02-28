@@ -14,6 +14,12 @@ define( 'WP_USE_THEMES', false );
 
 // Referenced from bootstrap.php
 $GLOBALS[ '_sTestsDirPath' ] = $_sTestsDirPath;
+$_sPathPHPUnit6Compat = file_exists( $GLOBALS[ '_sTestsDirPath' ] . '/includes/phpunit6-compat.php' )
+    ? $GLOBALS[ '_sTestsDirPath' ] . '/includes/phpunit6-compat.php'
+    : $GLOBALS[ '_sTestsDirPath' ] . '/includes/phpunit6/compat.php';
+if ( file_exists( $_sPathPHPUnit6Compat ) ) {
+    require_once( $_sPathPHPUnit6Compat );
+}
 require_once $GLOBALS[ '_sTestsDirPath' ] . '/includes/functions.php';
 
 /**
