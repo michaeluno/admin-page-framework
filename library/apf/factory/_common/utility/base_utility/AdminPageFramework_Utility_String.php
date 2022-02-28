@@ -1,12 +1,25 @@
 <?php
 /*
- * Admin Page Framework v3.9.0b17 by Michael Uno
+ * Admin Page Framework v3.9.0b18 by Michael Uno
  * Compiled with Admin Page Framework Compiler <https://github.com/michaeluno/admin-page-framework-compiler>
  * <https://en.michaeluno.jp/admin-page-framework>
  * Copyright (c) 2013-2022, Michael Uno; Licensed under MIT <https://opensource.org/licenses/MIT>
  */
 
 abstract class AdminPageFramework_Utility_String extends AdminPageFramework_Utility_VariableType {
+    public static function getAsString($mValue)
+    {
+        if (is_string($mValue)) {
+            return $mValue;
+        }
+        if (is_scalar($mValue)) {
+            return ( string ) $mValue;
+        }
+        if (empty($mValue)) {
+            return '';
+        }
+        return ( string ) $mValue;
+    }
     public static function getLengthSanitized($sLength, $sUnit='px')
     {
         $sLength = $sLength ? $sLength : 0;

@@ -1,6 +1,6 @@
 <?php
 /*
- * Admin Page Framework v3.9.0b17 by Michael Uno
+ * Admin Page Framework v3.9.0b18 by Michael Uno
  * Compiled with Admin Page Framework Compiler <https://github.com/michaeluno/admin-page-framework-compiler>
  * <https://en.michaeluno.jp/admin-page-framework>
  * Copyright (c) 2013-2022, Michael Uno; Licensed under MIT <https://opensource.org/licenses/MIT>
@@ -12,9 +12,9 @@ class AdminPageFramework_Debug_Base extends AdminPageFramework_FrameworkUtility 
     protected static function _getLegibleDetails($mValue, $iStringLengthLimit=0, $iArrayDepthLimit=0)
     {
         if (is_array($mValue)) {
-            return '(array, length: ' . count($mValue).') ' . print_r(self::___getLegibleDetailedArray($mValue, $iStringLengthLimit, $iArrayDepthLimit), true);
+            return '(array, length: ' . count($mValue).') ' . self::getAsString(print_r(self::___getLegibleDetailedArray($mValue, $iStringLengthLimit, $iArrayDepthLimit), true));
         }
-        return print_r(self::getLegibleDetailedValue($mValue, $iStringLengthLimit), true);
+        return self::getAsString(print_r(self::getLegibleDetailedValue($mValue, $iStringLengthLimit), true));
     }
     public static function getObjectName($mItem)
     {
@@ -29,7 +29,7 @@ class AdminPageFramework_Debug_Base extends AdminPageFramework_FrameworkUtility 
         $mValue = is_object($mValue) ? (method_exists($mValue, '__toString') ? ( string ) $mValue : ( array ) $mValue) : $mValue;
         $mValue = is_array($mValue) ? self::getArrayMappedRecursive(array( __CLASS__, 'getObjectName' ), self::_getSlicedByDepth($mValue, $iArrayDepthLimit), array()) : $mValue;
         $mValue = is_string($mValue) ? self::___getLegibleString($mValue, $iStringLengthLimit, false) : $mValue;
-        return self::_getArrayRepresentationSanitized(print_r($mValue, true));
+        return self::_getArrayRepresentationSanitized(self::getAsString(print_r($mValue, true)));
     }
     private static function ___getLegibleDetailedCallable($asoCallable)
     {
@@ -113,8 +113,7 @@ class AdminPageFramework_Debug_Base extends AdminPageFramework_FrameworkUtility 
     protected static function _getArrayRepresentationSanitized($sString)
     {
         $sString = preg_replace('/\)(\r\n?|\n)(?=(\r\n?|\n)\s+[\[)])/', ')', $sString);
-        $sString = preg_replace('/Array(\r\n?|\n)\s+\((\r\n?|\n)\s+\)/', 'Array()', $sString);
-        return $sString;
+        return preg_replace('/Array(\r\n?|\n)\s+\((\r\n?|\n)\s+\)/', 'Array()', $sString);
     }
     public static function getSlicedByDepth(array $aSubject, $iDepth=0, $sMore='(array truncated) ...')
     {

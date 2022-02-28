@@ -1,6 +1,6 @@
 <?php
 /*
- * Admin Page Framework v3.9.0b17 by Michael Uno
+ * Admin Page Framework v3.9.0b18 by Michael Uno
  * Compiled with Admin Page Framework Compiler <https://github.com/michaeluno/admin-page-framework-compiler>
  * <https://en.michaeluno.jp/admin-page-framework>
  * Copyright (c) 2013-2022, Michael Uno; Licensed under MIT <https://opensource.org/licenses/MIT>
@@ -87,7 +87,7 @@ class AdminPageFramework_Utility_Interpreter extends AdminPageFramework_Utility_
     private static function ___getTableHeaderOfKeyValuePair(array $aHeader, array $aAllAttributes, $bEscape)
     {
         $_aTRAttr = self::getElementAsArray($aAllAttributes, 'tr');
-        $_aTRAttr[ 'class' ] = self::___addClass('key-value', self::getElement($_aTRAttr, array( 'class' ), ''));
+        $_aTRAttr[ 'class' ] = self::getClassAttribute('key-value', self::getElement($_aTRAttr, array( 'class' ), ''));
         $_aTHAttr = self::getElementAsArray($aAllAttributes, 'th');
         $_aTHAttr1 = self::getElementAsArray($aAllAttributes, array( 'th', 0 )) + $_aTHAttr;
         $_aTHAttr2 = self::getElementAsArray($aAllAttributes, array( 'th', 1 )) + $_aTHAttr;
@@ -120,7 +120,7 @@ class AdminPageFramework_Utility_Interpreter extends AdminPageFramework_Utility_
     {
         $_aTRAttr = self::getElementAsArray($aAllAttributes, 'tr');
         $_aTDAttr = self::getElementAsArray($aAllAttributes, 'td');
-        $_aTRAttr[ 'class' ] = self::___addClass('key-value', self::getElement($_aTRAttr, array( 'class' ), ''));
+        $_aTRAttr[ 'class' ] = self::getClassAttribute('key-value', self::getElement($_aTRAttr, array( 'class' ), ''));
         $_aTDAttr1 = self::getElementAsArray($aAllAttributes, array( 'td', 0 )) + $_aTDAttr;
         $_aTDAttr2 = self::getElementAsArray($aAllAttributes, array( 'td', 1 )) + $_aTDAttr;
         $_sOutput = '';
@@ -162,12 +162,12 @@ class AdminPageFramework_Utility_Interpreter extends AdminPageFramework_Utility_
     private static function ___getRowsOfKeyValuePair(array $aItem, array $aAllAttributes, $bEscape)
     {
         $_aTRAttr = self::getElementAsArray($aAllAttributes, 'tr');
-        $_aTRAttr[ 'class' ] = self::___addClass('key-value', self::getElement($_aTRAttr, array( 'class' ), ''));
+        $_aTRAttr[ 'class' ] = self::getClassAttribute('key-value', self::getElement($_aTRAttr, array( 'class' ), ''));
         $_aTDAttr = self::getElementAsArray($aAllAttributes, 'td');
         $_aTDAttr = array_filter($_aTDAttr, 'is_scalar');
         $_aPAttr = self::getElementAsArray($aAllAttributes, array( 'p' ));
         $_aTDAttrFirst = self::getElementAsArray($aAllAttributes, array( 'td', 0 )) + $_aTDAttr;
-        $_aTDAttrFirst[ 'class' ] = self::___addClass('column-key', self::getElement($_aTDAttrFirst, array( 'class' ), ''));
+        $_aTDAttrFirst[ 'class' ] = self::getClassAttribute('column-key', self::getElement($_aTDAttrFirst, array( 'class' ), ''));
         $_sOutput = '';
         foreach ($aItem as $_sColumnName => $_asValue) {
             $_sOutput .= "<tr " . self::getAttributes($_aTRAttr) . ">";
@@ -199,18 +199,12 @@ class AdminPageFramework_Utility_Interpreter extends AdminPageFramework_Utility_
         }
         return $_sOutput;
     }
-    private static function ___addClass($sClassToAdd, $sClasses)
-    {
-        $_aClasses = explode(' ', $sClasses);
-        $_aClasses[] = $sClassToAdd;
-        return trim(implode(' ', array_unique($_aClasses)));
-    }
     private static function ___getColumnValue($mValue, array $aAllAttributes, $bEscape, $iColumnIndex)
     {
         $_aTDAttr = self::getElementAsArray($aAllAttributes, 'td');
         $_aTDAttr = array_filter($_aTDAttr, 'is_scalar');
         $_aTDAttrNth = self::getElementAsArray($aAllAttributes, array( 'td', $iColumnIndex )) + $_aTDAttr;
-        $_aTDAttrNth[ 'class' ] = self::___addClass('column-value', self::getElement($_aTDAttrNth, array( 'class' ), ''));
+        $_aTDAttrNth[ 'class' ] = self::getClassAttribute('column-value', self::getElement($_aTDAttrNth, array( 'class' ), ''));
         if (is_null($mValue)) {
             $mValue = '(null)';
         }
@@ -227,7 +221,7 @@ class AdminPageFramework_Utility_Interpreter extends AdminPageFramework_Utility_
     {
         $_aULAttr = self::getElementAsArray($aAllAttributes, 'ul');
         $_aLIAttr = self::getElementAsArray($aAllAttributes, 'li');
-        $_aULAttr[ 'class' ] = self::___addClass('numeric', self::getElement($_aULAttr, array( 'class' ), ''));
+        $_aULAttr[ 'class' ] = self::getClassAttribute('numeric', self::getElement($_aULAttr, array( 'class' ), ''));
         if (empty($aArray)) {
             return '';
         }
