@@ -5,6 +5,7 @@
 *Admin Page Framework* is an OOP based open source WordPress library that facilitates theme and plugin development. 
 
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/michaeluno/admin-page-framework/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/michaeluno/admin-page-framework/?branch=master)
+[![Build Status](https://scrutinizer-ci.com/g/michaeluno/admin-page-framework/badges/build.png?b=master)](https://scrutinizer-ci.com/g/michaeluno/admin-page-framework/build-status/master)
 
 <p align="center">
 	<a href="https://lh6.googleusercontent.com/-U_29dZp26Yw/VCFc0cDPGSI/AAAAAAAABtM/0l9klA6JFcg/s0/built-in%2520field%2520types.png" title="Admin Page Framework - Text, Password, and Textarea">
