@@ -1,7 +1,7 @@
 # @see https://scrutinizer-ci.com/docs/configuration/build_reference
 build:
   nodes:
-#    analysis:
+    analysis:
 #      tests:
 #        override:
 #          # Add the respective Scrutinizer analysis for your language like
@@ -35,15 +35,15 @@ build:
 #            coverage:
 #              file: ./coverage.xml
 #              format: clover
-#    test-with-php80:
-#      environment:
-#        php:
-#          version: 8.0
-#    test-with-php74-mu:
-#      environment:
-#        variables:
-#          WP_VERSION: latest
-#          WP_MULTISITE: 1
+    test-with-php80:
+      environment:
+        php:
+          version: 8.0
+    test-with-php74-mu:
+      environment:
+        variables:
+          WP_VERSION: latest
+          WP_MULTISITE: 1
 
   services:
 #    mysql: 5.7
