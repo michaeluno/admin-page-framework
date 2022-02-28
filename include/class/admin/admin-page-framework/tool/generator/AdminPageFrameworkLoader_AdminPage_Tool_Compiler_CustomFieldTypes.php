@@ -234,7 +234,7 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Compiler_CustomFieldTypes {
                             $_POST,
                             array(
                                 $this->oFactory->oProp->sOptionKey,
-                                'generator',    // section id
+                                'compiler',    // section id
                                 'class_prefix'  // field id
                             ),
                             ''
@@ -294,7 +294,7 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Compiler_CustomFieldTypes {
                         $_POST,
                         array(
                             $this->oFactory->oProp->sOptionKey,
-                            'generator', // section id
+                            'compiler', // section id
                             'text_domain' // field id
                         ),
                         ''
@@ -368,7 +368,7 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Compiler_CustomFieldTypes {
                                 $_POST,
                                 array(
                                     $this->oFactory->oProp->sOptionKey,
-                                    'generator', // section id
+                                    'compiler', // section id
                                     'class_prefix' // field id
                                 ),
                                 ''
@@ -404,24 +404,15 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Compiler_CustomFieldTypes {
              * @callback    add_filter() admin_page_framework_loader_filter_generator_additional_source_directories
              */
             public function replyToSetAdditionalDirectoriesForGenerator( $aDirPaths ) {
-
-                $_aCheckedCustomFieldTypes = $this->___getSelectedCustomFieldTypes(
-                    $this->aCustomFieldTypes
-                );
-
-                $_aDirPathInfo = array();
+                $_aCheckedCustomFieldTypes = $this->___getSelectedCustomFieldTypes( $this->aCustomFieldTypes );
+                $_aDirPathInfo             = array();
                 foreach( $_aCheckedCustomFieldTypes as $_sKey => $_aCheckedCustomFieldType ) {
-
                     $_sArchiveDirPath = $this->oFactory->oUtil->getElement( $_aCheckedCustomFieldType, 'archive_dir_path' );
                     $_sSourceDirPath  = $this->oFactory->oUtil->getElement( $_aCheckedCustomFieldType, 'directory_path' );
                     $_aDirPathInfo[ $_sArchiveDirPath ] = $_sSourceDirPath;
-
                 }
-
                 return $aDirPaths + $_aDirPathInfo;
-
             }
-
                 /**
                  * @return array The array keys of the checked items.
                  * @since  3.6.0
@@ -433,7 +424,7 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Compiler_CustomFieldTypes {
                             $_POST,
                             array(
                                 $this->oFactory->oProp->sOptionKey,
-                                'generator', // section id
+                                'compiler', // section id
                                 'custom_field_types' // field id
                             ),
                             array()
