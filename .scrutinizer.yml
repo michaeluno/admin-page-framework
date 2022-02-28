@@ -49,11 +49,11 @@ build:
 #    mysql: 5.7
     mariadb: 10
 
-  dependencies:
-   before:
-     - cd ./test
-     - composer install --no-interaction
-     - cd ../
+#  dependencies:
+#   before:
+#     - cd ./test
+#     - composer install --no-interaction
+#     - cd ../
 
   environment:
     hosts:
