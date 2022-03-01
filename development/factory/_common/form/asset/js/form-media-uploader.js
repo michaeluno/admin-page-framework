@@ -2,16 +2,20 @@
 
     /**
      * @var AdminPageFrameworkScriptFormMediaUploader
+     * global: AdminPageFrameworkScriptFormMediaUploader
      */
     var translation = AdminPageFrameworkScriptFormMediaUploader;
 
+    /* global: getAdminPageFrameworkCustomMediaUploaderSelectObject */
     getAdminPageFrameworkCustomMediaUploaderSelectObject = function() {
 
+        /* global: wp */
         return wp.media.view.MediaFrame.Select.extend({
 
             initialize: function() {
                 wp.media.view.MediaFrame.prototype.initialize.apply( this, arguments );
 
+                /* global: _ */
                 _.defaults( this.options, {
                     multiple:   true,
                     editing:    false,
@@ -188,6 +192,7 @@
 
             featuredImageToolbar: function( toolbar ) {
                 this.createSelectToolbar( toolbar, {
+                    /** global: l10n */
                     text:  l10n.setFeaturedImage,
                     state: this.options.state || 'upload'
                 });

@@ -2,6 +2,7 @@
 
   var setAdminPageFrameworkImageUploader;
 
+  /** global: apfImage */
   debugLog( '0.0.2', apfImage );
 
   $( document ).ready( function () {

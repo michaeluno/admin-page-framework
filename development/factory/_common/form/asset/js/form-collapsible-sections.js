@@ -1,6 +1,9 @@
 /*! Admin Page Framework - Form Collapsible Sections 1.0.1 */
 ( function( $ ) {
 
+    /** global: AdminPageFrameworkScriptFormMain */
+    /** global: navigator */
+
     $( document ).ready( function() {
         $( this ).initializeAdminPageFrameworkCollapsibleSections();
     });
