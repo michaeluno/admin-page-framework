@@ -15,7 +15,7 @@
  * @since   3.8.9
  * @package AdminPageFramework/Common/Utility
  */
-class AdminPageFramework_Debug_Base extends AdminPageFramework_FrameworkUtility {
+class AdminPageFramework_Debug_Base extends AdminPageFramework_Debug_Utility {
 
     /**
      * @var   integer
@@ -45,23 +45,6 @@ class AdminPageFramework_Debug_Base extends AdminPageFramework_FrameworkUtility 
     }
 
     /**
-     * Returns a object name if it is an object. Otherwise, the value itself.
-     * This is used to convert objects into a string in array-walk functions
-     * as objects tent to get large when they are converted to a string representation.
-     * @since  3.8.9
-     * @since  3.8.32  Changed the visibility scope to public from private to be passed as a callback for outside the current class scope.
-     * And renamed from `___getObjectName()`.
-     * @param  mixed $mItem
-     * @return mixed
-     */
-    static public function getObjectName( $mItem ) {
-        if ( is_object( $mItem ) ) {
-            return '(object) ' . get_class( $mItem );
-        }
-        return $mItem;
-    }
-
-    /**
      * Returns a string representation of the given value with no variable details.
      *
      * @param  $mValue
@@ -83,14 +66,14 @@ class AdminPageFramework_Debug_Base extends AdminPageFramework_FrameworkUtility 
         $mValue = is_array( $mValue )
             ? self::getArrayMappedRecursive(
                 array( __CLASS__, 'getObjectName' ),
-                self::___getSlicedByDepth( $mValue, $iArrayDepthLimit ),
+                self::getSlicedByDepth( $mValue, $iArrayDepthLimit ),
                 array()
             )
             : $mValue;
         $mValue = is_string( $mValue )
             ? self::___getLegibleString( $mValue,  $iStringLengthLimit, false )
             : $mValue;
-        return self::_getArrayRepresentationSanitized( self::getAsString( print_r( $mValue, true ) ) );
+        return self::getArrayRepresentationSanitized( self::getAsString( print_r( $mValue, true ) ) );
 
     }
 
@@ -148,7 +131,7 @@ class AdminPageFramework_Debug_Base extends AdminPageFramework_FrameworkUtility 
             $_iDepthLimit = $iDepthLimit ? $iDepthLimit : self::$iLegibleArrayDepthLimit;
             return self::getArrayMappedRecursive(
                 array( __CLASS__, 'getLegibleDetailedValue' ),
-                self::___getSlicedByDepth( $aArray, $_iDepthLimit ),
+                self::getSlicedByDepth( $aArray, $_iDepthLimit ),
                 array( $iStringLengthLimit )
             );
         }
@@ -248,80 +231,6 @@ class AdminPageFramework_Debug_Base extends AdminPageFramework_FrameworkUtility 
                     : call_user_func_array( $_aSubstrMethod[ $_iMBSupport ], array( $sString, 0, $iCharLimit ) );
 
             }
-
-    /**
-     * @param  string $sString
-     * @since  3.8.9
-     * @return string
-     */
-    static protected function _getArrayRepresentationSanitized( $sString ) {
-
-        // Fix extra line breaks after `Array()`
-        $sString = preg_replace(
-            '/\)(\r\n?|\n)(?=(\r\n?|\n)\s+[\[)])/', // needle
-            ')', // replacement
-            $sString // subject
-        );
-
-        // Fix empty array output
-        return preg_replace(
-            '/Array(\r\n?|\n)\s+\((\r\n?|\n)\s+\)/', // needle
-            'Array()', // replacement
-            $sString // subject
-        );
-
-    }
-
-    /**
-     * Slices an array by the given depth.
-     * @param  array   $aSubject
-     * @param  integer $iDepth
-     * @param  string  $sMore
-     * @return array
-     * @since  3.8.22
-     */
-    static public function getSlicedByDepth( array $aSubject, $iDepth=0, $sMore='(array truncated) ...' ) {
-       return self::___getSlicedByDepth( $aSubject, $iDepth, $sMore );
-    }
-
-    /**
-     * Slices an array by the given depth.
-     *
-     * @since  3.4.4
-     * @since  3.8.9   Changed it not to convert an object into an array.
-     * @since  3.8.9   Changed the scope to private.
-     * @since  3.8.9   Renamed from `getSliceByDepth()`.
-     * @since  3.8.22  Show a message when truncated by depth. Added the `$sMore` parameter.
-     * @param  array   $aSubject
-     * @param  integer $iDepth
-     * @param  string  $sMore
-     * @return array
-     */
-    static private function ___getSlicedByDepth( array $aSubject, $iDepth=0, $sMore='(array truncated) ...' ) {
-
-        foreach ( $aSubject as $_sKey => $_vValue ) {
-
-            if ( is_array( $_vValue ) ) {
-
-                $_iDepth = $iDepth;
-                if ( $iDepth > 0 ) {
-                    $aSubject[ $_sKey ] = self::___getSlicedByDepth( $_vValue, --$iDepth );
-                    $iDepth = $_iDepth;
-                    continue;
-                }
-
-                if ( strlen( $sMore ) ) {
-                    $aSubject[ $_sKey ] = $sMore;
-                    continue;
-                }
-                unset( $aSubject[ $_sKey ] );
-
-            }
-
-        }
-        return $aSubject;
-
-    }
 
     /**
      * @param  integer     $iSkip    The number of skipping records. This is used when the caller does not want to include the self function/method.

@@ -275,6 +275,7 @@ return array(
     "AdminPageFramework_Debug" => AdminPageFramework_Registry::$sDirPath . "/factory/_common/utility/debug/AdminPageFramework_Debug.php", 
     "AdminPageFramework_Debug_Base" => AdminPageFramework_Registry::$sDirPath . "/factory/_common/utility/debug/AdminPageFramework_Debug_Base.php", 
     "AdminPageFramework_Debug_Log" => AdminPageFramework_Registry::$sDirPath . "/factory/_common/utility/debug/AdminPageFramework_Debug_Log.php", 
+    "AdminPageFramework_Debug_Utility" => AdminPageFramework_Registry::$sDirPath . "/factory/_common/utility/debug/AdminPageFramework_Debug_Utility.php", 
     "AdminPageFramework_WPUtility" => AdminPageFramework_Registry::$sDirPath . "/factory/_common/utility/wp_utility/AdminPageFramework_WPUtility.php", 
     "AdminPageFramework_WPUtility_File" => AdminPageFramework_Registry::$sDirPath . "/factory/_common/utility/wp_utility/AdminPageFramework_WPUtility_File.php", 
     "AdminPageFramework_WPUtility_HTML" => AdminPageFramework_Registry::$sDirPath . "/factory/_common/utility/wp_utility/AdminPageFramework_WPUtility_HTML.php", 

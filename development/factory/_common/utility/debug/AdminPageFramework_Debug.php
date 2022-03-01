@@ -45,7 +45,7 @@ class AdminPageFramework_Debug extends AdminPageFramework_Debug_Log {
      * @return      string
      */
     static public function getDetails( $mValue, $bEscape=true, $bStackTrace=false, $iStringLengthLimit=0, $iArrayDepthLimit=0 ) {
-        $_sValueWithDetails = self::_getArrayRepresentationSanitized(
+        $_sValueWithDetails = self::getArrayRepresentationSanitized(
             self::_getLegibleDetails( $mValue, $iStringLengthLimit, $iArrayDepthLimit )
         );
         $_sValueWithDetails = $bStackTrace
