@@ -21,6 +21,13 @@
  */
 abstract class AdminPageFramework_Router extends AdminPageFramework_Factory {
 
+    /**
+     * Stores the property object.
+     *
+     * @var AdminPageFramework_Property_admin_page
+     */
+    public $oProp;
+
     /**'
      * Sets up hooks and properties.
      *
