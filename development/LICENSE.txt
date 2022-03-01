@@ -1,5 +1,5 @@
 Admin Page Framework - A WordPress library that facilitates creating WordPress plugin and themes.
-Copyright (c) 2013-2021, Michael Uno
+Copyright (c) 2013-2022, Michael Uno
 
 This program was contributed to by the following users:
 
@@ -20,7 +20,7 @@ http://erusev.com
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 The MIT License (MIT)
 
-Copyright (c) 2013-2021, Michael Uno
+Copyright (c) 2013-2022, Michael Uno
 
 Permission is hereby granted, free of charge, to any person
 obtaining a copy of this software and associated documentation
