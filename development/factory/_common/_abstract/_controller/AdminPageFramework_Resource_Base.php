@@ -12,14 +12,11 @@
  *
  * The class handles `<link>`, `<style>` and `<script>` tags to be inserted conditionally into the head tag or the footer of the page.
  *
- * @abstract
- * @since       2.1.5
- * @since       3.3.0       Changed the name from `AdminPageFramework_HeadTag_Base`.
- * @since       3.6.3       Changed it to extend `AdminPageFramework_WPUtility`.
- * @extends     AdminPageFramework_FrameworkUtility
- * @package     AdminPageFramework/Common/Factory/Resource
  * @internal
- * @extends     AdminPageFramework_FrameworkUtility
+ * @since    2.1.5
+ * @since    3.3.0 Changed the name from `AdminPageFramework_HeadTag_Base`.
+ * @since    3.6.3 Changed it to extend `AdminPageFramework_WPUtility`.
+ * @package  AdminPageFramework/Common/Factory/Resource
  */
 abstract class AdminPageFramework_Resource_Base extends AdminPageFramework_FrameworkUtility {
 
@@ -135,7 +132,7 @@ abstract class AdminPageFramework_Resource_Base extends AdminPageFramework_Frame
             }
 
             // Hook the admin header to insert custom admin stylesheets and scripts.
-            add_action( 'admin_enqueue_scripts', array( $this, '_replyToEnqueueCommonScripts' ), 1 );
+            // add_action( 'admin_enqueue_scripts', array( $this, '_replyToEnqueueCommonScripts' ), 1 );    // @deprecated 3.9.0
             add_action( 'admin_enqueue_scripts', array( $this, '_replyToEnqueueCommonStyles' ), 1  );
 
             add_action( 'admin_enqueue_scripts', array( $this, '_replyToEnqueueScripts' ) );
@@ -178,11 +175,11 @@ abstract class AdminPageFramework_Resource_Base extends AdminPageFramework_Frame
     /**
      * A helper function for the _replyToEnqueueScripts() and the `_replyToEnqueueStyle()` methods.
      *
-     * @since       2.1.5
-     * @since       3.7.0      Fixed a typo in the method name.
+     * @since    2.1.5
+     * @since    3.7.0      Fixed a typo in the method name.
      * @internal
-     * @remark      The widget fields type does not have conditions unlike the meta-box type that requires to check currently loaded post type.
-     * @remark      This method should be redefined in the extended class.
+     * @remark   The widget fields type does not have conditions unlike the meta-box type that requires to check currently loaded post type.
+     * @remark   This method should be redefined in the extended class.
      */
     protected function _enqueueSRCByCondition( $aEnqueueItem ) {
         $this->_enqueueSRC( $aEnqueueItem );
@@ -196,25 +193,23 @@ abstract class AdminPageFramework_Resource_Base extends AdminPageFramework_Frame
          *
          * If it is one of the framework added item, the method sets up a hook to modify the url to add custom attributes.
          *
-         * @since       3.3.0
+         * @since    3.3.0
          * @internal
-         * @callback    action      script_loader_src
-         * @callback    action      style_loader_src
+         * @callback add_action() script_loader_src
+         * @callback add_action() style_loader_src
          */
         public function _replyToSetupArgumentCallback( $sSRC, $sHandleID ) {
-
             if ( isset( $this->oProp->aResourceAttributes[ $sHandleID ] ) ) {
                 $this->_aHandleIDs[ $sSRC ] = $sHandleID;
                 add_filter( 'clean_url', array( $this, '_replyToModifyEnqueuedAttributes' ), 1, 3 );
                 remove_filter( current_filter(), array( $this, '_replyToSetupArgumentCallback' ), 1 );
             }
             return $sSRC;
-
         }
             /**
              * Modifies the attributes of the enqueued script tag.
              *
-             * @since   3.3.0
+             * @since    3.3.0
              * @internal
              */
             public function _replyToModifyEnqueuedAttributes( $sSanitizedURL, $sOriginalURL, $sContext ) {
@@ -246,11 +241,11 @@ abstract class AdminPageFramework_Resource_Base extends AdminPageFramework_Frame
      * Prints the inline stylesheet of the meta-box common CSS rules with the style tag.
      *
      * @internal
-     * @since       3.0.0
-     * @since       3.2.0       Moved to the base class from the meta box class.
-     * @remark      The meta box class may be instantiated multiple times so prevent echoing the same styles multiple times.
-     * @parameter   string      $sIDPrefix   The id selector embedded in the script tag.
-     * @parameter   string      $sClassName  The class name that identify the call group. This is important for the meta-box class because it can be instantiated multiple times in one particular page.
+     * @since    3.0.0
+     * @since    3.2.0       Moved to the base class from the meta box class.
+     * @remark   The meta box class may be instantiated multiple times so prevent echoing the same styles multiple times.
+     * @param    string      $sIDPrefix   The id selector embedded in the script tag.
+     * @param    string      $sClassName  The class name that identify the call group. This is important for the meta-box class because it can be instantiated multiple times in one particular page.
      */
     protected function _printCommonStyles( $sIDPrefix, $sClassName ) {
 
@@ -264,9 +259,9 @@ abstract class AdminPageFramework_Resource_Base extends AdminPageFramework_Frame
     }
         /**
          * @internal
-         * @since       3.5.7
-         * @since       3.8.22  Renamed from `_getStyleTag()`.
-         * @return      string
+         * @since    3.5.7
+         * @since    3.8.22  Renamed from `_getStyleTag()`.
+         * @return   string
          */
         private function ___getCommonStyleTag( $oCaller, $sIDPrefix ) {
 
@@ -290,12 +285,11 @@ abstract class AdminPageFramework_Resource_Base extends AdminPageFramework_Frame
         }
         /**
          * @internal
-         * @since       3.5.7
-         * @since       3.8.22  Renamed from `_getIEStyleTag()`.
-         * @return      string
+         * @since    3.5.7
+         * @since    3.8.22  Renamed from `_getIEStyleTag()`.
+         * @return   string
          */
         private function ___getCommonIEStyleTag( $oCaller, $sIDPrefix ) {
-
             $_sStyleIE   = $this->addAndApplyFilters(
                 $oCaller,
                 array(
@@ -311,18 +305,17 @@ abstract class AdminPageFramework_Resource_Base extends AdminPageFramework_Frame
                         . $_sStyleIE
                     . "</style><![endif]-->"
                 : '';
-
         }
 
     /**
      * Prints the inline scripts of the meta-box common scripts.
      *
      * @internal
-     * @since       3.0.0
-     * @since       3.2.0       Moved to the base class from the meta box class.
-     * @remark      The meta box class may be instantiated multiple times so prevent echoing the same styles multiple times.
-     * @parametr    string      $sIDPrefix      The id selector embedded in the script tag.
-     * @parametr    string      $sClassName     The class name that identify the call group. This is important for the meta-box class because it can be instantiated multiple times in one particular page.
+     * @since    3.0.0
+     * @since    3.2.0  Moved to the base class from the meta box class.
+     * @remark   The meta box class may be instantiated multiple times so prevent echoing the same styles multiple times.
+     * @param    string $sIDPrefix  The id selector embedded in the script tag.
+     * @param    string $sClassName The class name that identify the call group. This is important for the meta-box class because it can be instantiated multiple times in one particular page.
      */
     protected function _printCommonScripts( $sIDPrefix, $sClassName ) {
 
@@ -353,10 +346,9 @@ abstract class AdminPageFramework_Resource_Base extends AdminPageFramework_Frame
     /**
      * Prints the inline stylesheet of this class stored in this class property.
      *
-     * @since       3.0.0
-     * @since       3.2.0       Made the properties storing styles empty. Moved to the base class.
+     * @since    3.0.0
+     * @since    3.2.0 Made the properties storing styles empty. Moved to the base class.
      * @internal
-     * @return      void
      */
     protected function _printClassSpecificStyles( $sIDPrefix ) {
 
@@ -364,7 +356,7 @@ abstract class AdminPageFramework_Resource_Base extends AdminPageFramework_Frame
         echo $this->_getClassSpecificStyleTag( $_oCaller, $sIDPrefix );
         echo $this->_getClassSpecificIEStyleTag( $_oCaller, $sIDPrefix );
 
-        // As of 3.2.0, this method also gets called in the footer to ensure there is not any left styles.
+        // Since 3.2.0, this method also gets called in the footer to ensure there is not any left styles.
         // This happens when a head tag item is added after the head tag is already rendered such as for widget forms.
         $this->oProp->sStyle    = '';
         $this->oProp->sStyleIE  = '';
@@ -373,8 +365,8 @@ abstract class AdminPageFramework_Resource_Base extends AdminPageFramework_Frame
         /**
          *
          * @internal
-         * @since       3.5.7
-         * @return      string
+         * @since    3.5.7
+         * @return   string
          */
         private function _getClassSpecificStyleTag( $_oCaller, $sIDPrefix ) {
 
@@ -400,8 +392,8 @@ abstract class AdminPageFramework_Resource_Base extends AdminPageFramework_Frame
         /**
          *
          * @internal
-         * @since       3.5.7
-         * @return      string
+         * @since    3.5.7
+         * @return   string
          */
         private function _getClassSpecificIEStyleTag( $_oCaller, $sIDPrefix ) {
 
@@ -428,8 +420,8 @@ abstract class AdminPageFramework_Resource_Base extends AdminPageFramework_Frame
     /**
      * Prints the inline scripts of this class stored in this class property.
      *
-     * @since       3.0.0
-     * @since       3.2.0       Made the property empty that stores scripts. Moved to the base class.
+     * @since    3.0.0
+     * @since    3.2.0 Made the property empty that stores scripts. Moved to the base class.
      * @internal
      */
     protected function _printClassSpecificScripts( $sIDPrefix ) {
@@ -462,9 +454,9 @@ abstract class AdminPageFramework_Resource_Base extends AdminPageFramework_Frame
     /**
      * Appends the CSS rules of the framework in the head tag.
      *
-     * @since       2.0.0
-     * @since       2.1.5       Moved from `AdminPageFramework_MetaBox`. Changed the name from `addAtyle()` to `replyToAddStyle()`.
-     * @callback    action      admin_head
+     * @since    2.0.0
+     * @since    2.1.5        Moved from `AdminPageFramework_MetaBox`. Changed the name from `addAtyle()` to `replyToAddStyle()`.
+     * @callback add_action() admin_head
      * @internal
      */
     public function _replyToAddStyle() {
@@ -481,10 +473,10 @@ abstract class AdminPageFramework_Resource_Base extends AdminPageFramework_Frame
     /**
      * Appends the JavaScript script of the framework in the head tag.
      *
-     * @callback    action      admin_head
-     * @since       2.0.0
-     * @since       2.1.5       Moved from AdminPageFramework_MetaBox. Changed the name from `addScript()` to `replyToAddScript()`.
-     * @since       3.2.0       Moved from AdminPageFramework_Resource_post_meta_box.
+     * @callback add_action() admin_head
+     * @since    2.0.0
+     * @since    2.1.5        Moved from AdminPageFramework_MetaBox. Changed the name from `addScript()` to `replyToAddScript()`.
+     * @since    3.2.0        Moved from AdminPageFramework_Resource_post_meta_box.
      * @internal
      */
     public function _replyToAddScript() {
@@ -619,12 +611,12 @@ abstract class AdminPageFramework_Resource_Base extends AdminPageFramework_Frame
     /**
      * Enqueues framework required common scripts.
      * @since 3.9.0
-     * @deprecated 3.9.0 Unused
+     * @deprecated 3.9.0 Unused at the moment
      */
-    public function _replyToEnqueueCommonScripts() {
-        if ( $this->hasBeenCalled( 'COMMON_EXTERNAL_SCRIPTS: ' . __METHOD__ ) ) {
-            return;
-        }
+    // public function _replyToEnqueueCommonScripts() {
+    //     if ( $this->hasBeenCalled( 'COMMON_EXTERNAL_SCRIPTS: ' . __METHOD__ ) ) {
+    //         return;
+    //     }
         // Currently no common JS script is needed
         // $this->_addEnqueuingResourceByType(
         //     AdminPageFramework_Registry::$sDirPath . '/factory/_common/asset/js/common.js',
@@ -634,7 +626,7 @@ abstract class AdminPageFramework_Resource_Base extends AdminPageFramework_Frame
         //     ),
         //     'script'
         // );
-    }
+    // }
     /**
      * Enqueues framework required common stylesheets.
      * @since    3.9.0
