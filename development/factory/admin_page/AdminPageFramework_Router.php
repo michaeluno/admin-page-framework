@@ -187,8 +187,7 @@ abstract class AdminPageFramework_Router extends AdminPageFramework_Factory {
             }
 
             // [3.4.6+] Set the page and tab slugs to the default form section so that added form fields without a section will appear in different pages and tabs.
-            // @deprecated 3.9.0 Doesn't seem to take effect
-            // $this->___setPageAndTabSlugsForForm( $sPageSlug, $sTabSlug );
+            $this->___setPageAndTabSlugsForForm( $sPageSlug, $sTabSlug );
 
             $this->_setShowDebugInfoProperty( $sPageSlug ); // 3.8.8+
 
@@ -263,12 +262,12 @@ abstract class AdminPageFramework_Router extends AdminPageFramework_Factory {
              * @since       3.8.8
              * @todo        The `oForm` object will get instantiated even the user does not use a form.
              * So look for a way to avoid calling `$oForm` unless the user uses a form.
-             * @deprecated  3.9.0   The aSections property is not used.
+             * @remark      Without this, page meta boxes cannot be saved saying $oForm is not defined.
              */
-            // private function ___setPageAndTabSlugsForForm( $sPageSlug, $sTabSlug ) {
-            //     $this->oForm->aSections[ '_default' ][ 'page_slug' ]  = $sPageSlug ? $sPageSlug : null;
-            //     $this->oForm->aSections[ '_default' ][ 'tab_slug' ]   = $sTabSlug ? $sTabSlug : null;
-            // }
+            private function ___setPageAndTabSlugsForForm( $sPageSlug, $sTabSlug ) {
+                $this->oForm->aSectionsets[ '_default' ][ 'page_slug' ]  = $sPageSlug ? $sPageSlug : null;
+                $this->oForm->aSectionsets[ '_default' ][ 'tab_slug' ]   = $sTabSlug ? $sTabSlug : null;
+            }
 
             /**
              * Determines whether the function call is of a page load.
