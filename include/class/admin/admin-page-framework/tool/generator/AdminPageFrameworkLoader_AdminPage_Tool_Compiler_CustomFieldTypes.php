@@ -450,7 +450,7 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Compiler_CustomFieldTypes {
         }
         return empty( $_aCustomFieldTypeLabels )
             ? $sComment
-            : $sComment . PHP_EOL . '  Custom Field Types: ' . implode( ', ', $_aCustomFieldTypeLabels );
+            : $sComment . PHP_EOL . ' * Custom Field Types: ' . implode( ', ', $_aCustomFieldTypeLabels );
     }
         /**
          * @return string[]

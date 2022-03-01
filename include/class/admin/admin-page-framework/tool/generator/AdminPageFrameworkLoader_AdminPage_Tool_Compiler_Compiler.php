@@ -538,10 +538,10 @@ class AdminPageFrameworkLoader_AdminPage_Tool_Compiler_Compiler extends AdminPag
                             'Compiled on ' . date( 'Y-m-d' ),  // today's date
                             'Included Components: ' . implode( ', ', $_aCheckedComponents ),
                         );
-                        $_sInsertComment     = apply_filters( AdminPageFrameworkLoader_Registry::HOOK_SLUG . '_filter_generator_header_comment', implode( PHP_EOL . '  ', $_aInsert ) );
+                        $_sInsertComment     = apply_filters( AdminPageFrameworkLoader_Registry::HOOK_SLUG . '_filter_generator_header_comment', implode( PHP_EOL . ' * ', $_aInsert ) );
                         return preg_replace(
-                            '#\*/#', // needle - matches '*/'
-                            PHP_EOL . '  ' . trim( $_sInsertComment ) . PHP_EOL . ' \0', // replacement \0 is a back-reference to '*/'
+                            '#[^\S\r\n]+?\*/#', // needle - matches '*/' or ' */'
+                            ' * ' . trim( $_sInsertComment ) . PHP_EOL . '\0', // replacement \0 is a back-reference to '*/'
                             $sFileContent, // subject
                             1 // replace only the first occurrence
                         );
