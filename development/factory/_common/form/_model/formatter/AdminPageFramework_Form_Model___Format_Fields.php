@@ -11,11 +11,10 @@
  * Provides methods to format form sub-fields definition arrays.
  * 
  * The user defines a field with a field definition array. Sub-fields will be created from the field definition array 
- * when it has numerically index field definition elements or the `repeatable` argument is set to `true`.
+ * when it has numerically indexed field definition elements or the `repeatable` argument is set to `true`.
  * 
- * @package     AdminPageFramework/Common/Form/Model/Format
- * @since       3.6.0
- * @extends     AdminPageFramework_Form_Model___Format_FormField_Base
+ * @package  AdminPageFramework/Common/Form/Model/Format
+ * @since    3.6.0
  * @internal
  */
 class AdminPageFramework_Form_Model___Format_Fields extends AdminPageFramework_Form_Model___Format_FormField_Base {
@@ -23,58 +22,44 @@ class AdminPageFramework_Form_Model___Format_Fields extends AdminPageFramework_F
     /**
      * Represents the structure of the sub-field definition array.
      */
-    static public $aStructure = array(
-    );
+    static public $aStructure = array();
     
     /**
-     * 
+     * @var array
      */
     public $aField      = array();
-    
     public $aOptions    = array();
     
     /**
      * Sets up properties.
      */
     public function __construct( /* array $aField, array $aOptions */ ) {
-
-        $_aParameters = func_get_args() + array( 
+        $_aParameters = func_get_args() + array(
             $this->aField, 
             $this->aOptions,
         );
         $this->aField           = $_aParameters[ 0 ];
         $this->aOptions         = $_aParameters[ 1 ];
-        
     }
 
     /**
      * Formats an array holding sub-fields.
      * 
-     * @return      array       A sub-fields definition array.
+     * @return array A sub-fields definition array.
      */
     public function get() {
 
         // Get the set value(s)
-        $_mSavedValue    = $this->_getStoredInputFieldValue( 
-            $this->aField, 
-            $this->aOptions 
-        );
+        $_mSavedValue    = $this->___getStoredInputFieldValue( $this->aField, $this->aOptions );
 
         // Construct fields array.
-        $_aFields = $this->_getFieldsWithSubs( 
-            $this->aField, 
-            $_mSavedValue 
-        );
+        $_aFields = $this->___getFieldsWithSubs( $this->aField, $_mSavedValue );
              
         // Set the saved values
-        $this->_setSavedFieldsValue( 
-            $_aFields, 
-            $_mSavedValue, 
-            $this->aField 
-        );
+        $this->___setSavedFieldsValue( $_aFields, $_mSavedValue, $this->aField );
 
         // Determine the value
-        $this->_setFieldsValue( $_aFields ); // by reference
+        $this->___setFieldsValue( $_aFields ); // passed by reference
         
         return $_aFields;
         
@@ -83,23 +68,23 @@ class AdminPageFramework_Form_Model___Format_Fields extends AdminPageFramework_F
         /**
          * Returns fields array which includes sub-fields.
          * 
-         * @since       3.5.3
-         * @since       3.6.0       Moved from `AdminPageFramework_FieldDefinition`.
+         * @since 3.5.3
+         * @since 3.6.0 Moved from `AdminPageFramework_FieldDefinition`.
          */
-        private function _getFieldsWithSubs( $aField, $mSavedValue ) {
+        private function ___getFieldsWithSubs( $aField, $mSavedValue ) {
 
             // Separate the first field and sub-fields
             $aFirstField    = array();
             $aSubFields     = array();
             
             // `$aFirstField` and `$aSubFields` get updated in the method
-            $this->_divideMainAndSubFields( $aField, $aFirstField, $aSubFields );
+            $this->___divideMainAndSubFields( $aField, $aFirstField, $aSubFields );
                         
             // `$aSubFields` gets updated in the method
-            $this->_fillRepeatableElements( $aField, $aSubFields, $mSavedValue );
+            $this->___fillRepeatableElements( $aField, $aSubFields, $mSavedValue );
 
             // `$aSubFields` gets updated in the method
-            $this->_fillSubFields( $aSubFields, $aFirstField );
+            $this->___fillSubFields( $aSubFields, $aFirstField );
 
             // Put them together
             return array_merge( array( $aFirstField ), $aSubFields );
@@ -108,13 +93,11 @@ class AdminPageFramework_Form_Model___Format_Fields extends AdminPageFramework_F
             /**
              * Divide the fields into the main field and sub fields.
              * 
-             * @remark      The method will update the arrays passed to the second and the third parameter.
-             * @since       3.5.3
-             * @since       3.6.0       Moved from `AdminPageFramework_FieldDefinition`.
-             * @internal
-             * @return      void
+             * @remark The method will update the arrays passed to the second and the third parameter.
+             * @since  3.5.3
+             * @since  3.6.0 Moved from `AdminPageFramework_FieldDefinition`.
              */
-            private function _divideMainAndSubFields( $aField, array &$aFirstField, array &$aSubFields ) {
+            private function ___divideMainAndSubFields( $aField, array &$aFirstField, array &$aSubFields ) {
                 foreach( $aField as $_nsIndex => $_mFieldElement ) {
                     if ( is_numeric( $_nsIndex ) ) {
                         $aSubFields[] = $_mFieldElement;
@@ -128,13 +111,12 @@ class AdminPageFramework_Form_Model___Format_Fields extends AdminPageFramework_F
              * 
              * This method creates the sub-fields of repeatable fields based on the saved values.
              * 
-             * @remark      This method updates the passed array to the second parameter.
-             * @since       3.5.3
-             * @since       3.6.0       Moved from `AdminPageFramework_FieldDefinition`.
-             * @internal
-             * @return      void
+             * @remark This method updates the passed array to the second parameter.
+             * @since  3.5.3
+             * @since  3.6.0 Moved from `AdminPageFramework_FieldDefinition`.
              */
-            private function _fillRepeatableElements( $aField, array &$aSubFields, $mSavedValue ) {
+            private function ___fillRepeatableElements( $aField, array &$aSubFields, $mSavedValue ) {
+
                 if ( empty( $aField[ 'repeatable' ] ) ) {
                     return;
                 }
@@ -148,15 +130,14 @@ class AdminPageFramework_Form_Model___Format_Fields extends AdminPageFramework_F
                         ? $aSubFields[ $_iIndex - 1 ] 
                         : array();     
                 }
+                
             }
             /**
              * Fills sub-fields.
-             * @since       3.5.3
-             * @since       3.6.0       Moved from `AdminPageFramework_FieldDefinition`.
-             * @internal
-             * @return      void
+             * @since 3.5.3
+             * @since 3.6.0 Moved from `AdminPageFramework_FieldDefinition`.
              */
-            private function _fillSubFields( array &$aSubFields, array $aFirstField ) {
+            private function ___fillSubFields( array &$aSubFields, array $aFirstField ) {
                         
                 foreach( $aSubFields as &$_aSubField ) {
                     
@@ -181,11 +162,10 @@ class AdminPageFramework_Form_Model___Format_Fields extends AdminPageFramework_F
          * Sets saved field values to the given field arrays.
          * 
          * @internal
-         * @since       3.5.3
-         * @since       3.6.0       Moved from `AdminPageFramework_FieldDefinition`.
-         * @return      void
+         * @since    3.5.3
+         * @since    3.6.0       Moved from `AdminPageFramework_FieldDefinition`.
          */
-        private function _setSavedFieldsValue( array &$aFields, $mSavedValue, $aField ) {
+        private function ___setSavedFieldsValue( array &$aFields, $mSavedValue, $aField ) {
          
             // Determine whether the elements are saved in an array.
             // $_bHasSubFields = count( $aFields ) > 1 || $aField[ 'repeatable' ] || $aField[ 'sortable' ];
@@ -206,25 +186,22 @@ class AdminPageFramework_Form_Model___Format_Fields extends AdminPageFramework_F
         /**
          * Sets the value to the given fields array.
          * 
-         * @internal
-         * @since       3.5.3
-         * @since       3.6.0       Moved from `AdminPageFramework_FieldDefinition`.
+         * @since 3.5.3
+         * @since 3.6.0 Moved from `AdminPageFramework_FieldDefinition`.
          */
-        private function _setFieldsValue( &$aFields ) {
+        private function ___setFieldsValue( &$aFields ) {
             foreach( $aFields as &$_aField ) {
                 $_aField[ '_is_value_set_by_user' ] = isset( $_aField[ 'value' ] );
-                $_aField[ 'value' ]                 = $this->_getSetFieldValue( $_aField );
+                $_aField[ 'value' ]                 = $this->___getSetFieldValue( $_aField );
             }
         }
             /**
              * Returns the set field value.
              * 
-             * @internal
-             * @since       3.5.3
-             * @since       3.6.0       Moved from `AdminPageFramework_FieldDefinition`.
+             * @since 3.5.3
+             * @since 3.6.0       Moved from `AdminPageFramework_FieldDefinition`.
              */
-            private function _getSetFieldValue( $aField ) {
-                
+            private function ___getSetFieldValue( $aField ) {
                 if ( isset( $aField[ 'value' ] ) ) {
                     return $aField[ 'value' ];
                 }
@@ -235,7 +212,6 @@ class AdminPageFramework_Form_Model___Format_Fields extends AdminPageFramework_F
                     return $aField[ 'default' ];
                 }
                 return null;                  
-                
             }        
             
         /**
@@ -246,15 +222,15 @@ class AdminPageFramework_Form_Model___Format_Fields extends AdminPageFramework_F
          * If an empty value is returned, it will be considered the value is set.
          * 
          * @internal
-         * @since       2.0.0
-         * @since       3.0.0       Removed the check of the 'value' and 'default' keys. Made it use the '_fields_type' internal key.
-         * @since       3.1.0       Changed the name to _getStoredInputFieldValue from _getInputFieldValue
-         * @since       3.4.1       Removed the switch block as it was redundant.
-         * @since       3.6.0       Moved from `AdminPageFramework_FieldDefinition`.
-         * @since       3.7.0       Changed the `_field_type` element to `_structure_type`.
-         * @return      null|string|array
+         * @since    2.0.0
+         * @since    3.0.0       Removed the check of the 'value' and 'default' keys. Made it use the '_fields_type' internal key.
+         * @since    3.1.0       Changed the name to ___getStoredInputFieldValue from _getInputFieldValue
+         * @since    3.4.1       Removed the switch block as it was redundant.
+         * @since    3.6.0       Moved from `AdminPageFramework_FieldDefinition`.
+         * @since    3.7.0       Changed the `_field_type` element to `_structure_type`.
+         * @return   null|string|array
          */
-        private function _getStoredInputFieldValue( $aField, $aOptions ) {    
+        private function ___getStoredInputFieldValue( $aField, $aOptions ) {    
 
             $_aFieldPath   = $aField[ '_field_path_array' ];
         
