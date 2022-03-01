@@ -3,8 +3,8 @@ Contributors:       Michael Uno, miunosoft, pcraig3
 Donate link:        http://michaeluno.jp/en/donate
 Tags:               admin pages, developers, options, settings, API, framework, library, meta box, custom post type, fields, widgets, forms, plugins, themes
 Requires at least:  3.4
-Tested up to:       5.7.2
-Stable tag:         3.8.34
+Tested up to:       5.9.1
+Stable tag:         3.9.0
 License:            GPLv2 or later
 License URI:        http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -537,6 +537,24 @@ Alternately, you may use the `options_{instantiated class name}` filter to suppr
 See examples, https://gist.github.com/michaeluno/c30713fcfe0d9d45d89f, https://gist.github.com/michaeluno/fcfac27825aa8a35b90f,
 
 == Changelog ==
+
+= 3.9.0 - 2022/03/02 =
+- Refined tooltips.
+- Refined the `path` custom field type due to the deprecation of the `jQueryFileTree` library and switching to `jstree`, which involves deprecation of some arguments and UI improvements.
+- Added the `table` built-in field type.
+- Added the `contact` built-in field type.
+- Added the `selector` argument to the `select2` custom field type that enables to show/hide elements on selection.
+- Added the ability for tooltips to include `a` tags.
+- Added the `width` argument for the `tip` field argument.
+- Added the ability to insert included custom field type labels in the file header comment of the compiled bootstrap file.
+- Fixed a bug that sortable sections could not be sorted in some cases.
+- Fixed an issue that field repeat buttons and labels of the `color` field type are hidden by the color picker pallet in recent WordPress versions.
+- Fixed an issue that tooltips created with the `tip` field argument made the document width wider than the initial width.
+- Fixed an issue that class names and text domains of sub-files of custom field types were not converted when building.
+- Changed the default argument value of `save` of the `submit` field type to `false`.
+- Changed the behavior of loading framework resources (stylesheets and JavaScript scripts) from internally to externally for most cases.
+- Changed the tab label `Generator` to `Compiler`.
+- Deprecated the `email` argument of the `submit` field type.
 
 = 3.8.34 - 2021/09/25 =
 - Fixed irregular vertical alignment of elements with the `inline_mixed` field type.
