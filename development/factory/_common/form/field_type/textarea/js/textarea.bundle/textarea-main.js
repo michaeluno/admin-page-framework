@@ -1,6 +1,8 @@
 (function($){
 
+  /** global: AdminPageFrameworkScriptFormMain */
   var apfMain  = AdminPageFrameworkScriptFormMain;
+  /** global: AdminPageFrameworkFieldTypeTextArea */
   var apfTextArea = AdminPageFrameworkFieldTypeTextArea;
 
   $( document ).ready( function(){
@@ -183,21 +185,18 @@
 
           // Return if not the type and there is no editor element.
           if ( ! isEditorReady( oCloned, aModel[ 'field_type' ] ) ) {
-debugLog( 'the editor is not ready', aModel );
             return;
           }
           if ( oCloned.find( 'textarea.wp-editor-area' ).length <= 0 ) {
-debugLog( 'not found .wp-editor-area' );
             return;
           }
 
           // Find the tinyMCE wrapper element
           var _oWrap = oCloned.find( '.wp-editor-wrap' );
           if ( _oWrap.length <= 0 ) {
-debugLog( 'not found .wp-editor-wrap' );
             return;
           }
-debugLog( 'repeat passed' );
+
           // TinyMCE and Quick Tags Settings - the enabler script stores the original element id.
           var _oSettings = $().getAdminPageFrameworkInputOptions( _oWrap.attr( 'data-id' ) );
 
