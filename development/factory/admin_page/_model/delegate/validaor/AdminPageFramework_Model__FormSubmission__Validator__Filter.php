@@ -154,7 +154,7 @@ class AdminPageFramework_Model__FormSubmission__Validator__Filter extends AdminP
             private function ___validateEachField( array $aData, array $aInputsToParse ) {
 
                 foreach( $aInputsToParse as $_sID => $_aSectionOrFields ) { // $_sID is either a section id or a field id
-                    
+
                     // For each section
                     if ( $this->oFactory->oForm->isSection( $_sID ) ) {
                         
@@ -225,15 +225,15 @@ class AdminPageFramework_Model__FormSubmission__Validator__Filter extends AdminP
                     
                     if ( 
                         $sPageSlug
-                        && isset( $this->oFactory->oForm->aSections[ $sSectionID ][ 'page_slug' ] ) 
-                        && $sPageSlug !== $this->oFactory->oForm->aSections[ $sSectionID ][ 'page_slug' ] 
+                        && isset( $this->oFactory->oForm->aSectionsets[ $sSectionID ][ 'page_slug' ] )
+                        && $sPageSlug !== $this->oFactory->oForm->aSectionsets[ $sSectionID ][ 'page_slug' ]
                     ) {
                         return false;
                     }
                     if ( 
                         $sTabSlug 
-                        && isset( $this->oFactory->oForm->aSections[ $sSectionID ][ 'tab_slug' ] ) 
-                        && $sTabSlug !== $this->oFactory->oForm->aSections[ $sSectionID ][ 'tab_slug' ]
+                        && isset( $this->oFactory->oForm->aSectionsets[ $sSectionID ][ 'tab_slug' ] )
+                        && $sTabSlug !== $this->oFactory->oForm->aSectionsets[ $sSectionID ][ 'tab_slug' ]
                     ) {
                         return false;
                     }     

@@ -187,12 +187,12 @@ abstract class AdminPageFramework_Router extends AdminPageFramework_Factory {
             }
 
             // [3.4.6+] Set the page and tab slugs to the default form section so that added form fields without a section will appear in different pages and tabs.
-            // @todo Investigate whether this is necessary or not.
-            $this->_setPageAndTabSlugsForForm( $sPageSlug, $sTabSlug );
+            // @deprecated 3.9.0 Doesn't seem to take effect
+            // $this->___setPageAndTabSlugsForForm( $sPageSlug, $sTabSlug );
 
             $this->_setShowDebugInfoProperty( $sPageSlug ); // 3.8.8+
 
-            // Do actions in this order, class ->  page -> in-page tab. This order is important as some methods rely on it.
+            // Perform actions in this order, class ->  page -> in-page tab. This order is important as some methods rely on it.
             $this->_load(
                 array(
                     "load_{$this->oProp->sClassName}",
@@ -263,12 +263,12 @@ abstract class AdminPageFramework_Router extends AdminPageFramework_Factory {
              * @since       3.8.8
              * @todo        The `oForm` object will get instantiated even the user does not use a form.
              * So look for a way to avoid calling `$oForm` unless the user uses a form.
+             * @deprecated  3.9.0   The aSections property is not used.
              */
-            private function _setPageAndTabSlugsForForm( $sPageSlug, $sTabSlug ) {
-                // @todo Investigate whether $aSections should be $aSectionsets.
-                $this->oForm->aSections[ '_default' ][ 'page_slug' ]  = $sPageSlug ? $sPageSlug : null;
-                $this->oForm->aSections[ '_default' ][ 'tab_slug' ]   = $sTabSlug ? $sTabSlug : null;
-            }
+            // private function ___setPageAndTabSlugsForForm( $sPageSlug, $sTabSlug ) {
+            //     $this->oForm->aSections[ '_default' ][ 'page_slug' ]  = $sPageSlug ? $sPageSlug : null;
+            //     $this->oForm->aSections[ '_default' ][ 'tab_slug' ]   = $sTabSlug ? $sTabSlug : null;
+            // }
 
             /**
              * Determines whether the function call is of a page load.
