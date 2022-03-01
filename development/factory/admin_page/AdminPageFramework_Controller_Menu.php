@@ -56,15 +56,14 @@ abstract class AdminPageFramework_Controller_Menu extends AdminPageFramework_Vie
      *     'APF Form',
      *     plugins_url( 'image/screen_icon32x32.jpg', __FILE__ )
      * );</code>
-     * 
-     * @access      public
-     * @since       2.0.0
-     * @since       2.1.6       The $sIcon16x16 parameter accepts a file path.
-     * @since       3.0.0       The scope was changed to public from protected.
-     * @remark      Only one root page can be set per one class instance.
-     * @param       string      If the method cannot find the passed string from the following listed items, it will create a top level menu item with the passed string. ( case insensitive )
+     *
+     * @since  2.0.0
+     * @since  2.1.6       The $sIcon16x16 parameter accepts a file path.
+     * @since  3.0.0       The scope was changed to public from protected.
+     * @remark Only one root page can be set per one class instance.
+     * @param  string      If the method cannot find the passed string from the following listed items, it will create a top level menu item with the passed string. ( case insensitive )
      * <blockquote>Dashboard, Posts, Media, Links, Pages, Comments, Appearance, Plugins, Users, Tools, Settings, Network Admin</blockquote>
-     * @param       string      (optional) the source of menu icon with either of the following forms:
+     * @param  string      (optional) the source of menu icon with either of the following forms:
      * <ul>
      *  <li>the URL of the menu icon with the size of 16 by 16 in pixel.</li>
      *  <li>the file path of the menu icon with the size of 16 by 16 in pixel.</li>
@@ -72,8 +71,7 @@ abstract class AdminPageFramework_Controller_Menu extends AdminPageFramework_Vie
      *  <li>the string, 'none', to leave div.wp-menu-image empty so an icon can be added via CSS.</li>
      *  <li>a base64-encoded SVG using a data URI, which will be colored to match the color scheme. This should begin with 'data:image/svg+xml;base64,'.</li>
      * </ul>
-     * @param       string      (optional) the position number that is passed to the <var>$position</var> parameter of the <a href="http://codex.wordpress.org/Function_Reference/add_menu_page">add_menu_page()</a> function.
-     * @return      void
+     * @param  string      (optional) the position number that is passed to the <var>$position</var> parameter of the <a href="http://codex.wordpress.org/Function_Reference/add_menu_page">add_menu_page()</a> function.
      */
     public function setRootMenuPage( $sRootMenuLabel, $sIcon16x16=null, $iMenuPosition=null ) {
         $sRootMenuLabel = trim( $sRootMenuLabel );
@@ -88,13 +86,13 @@ abstract class AdminPageFramework_Controller_Menu extends AdminPageFramework_Vie
     }
         /**
          * Checks if a menu item is a WordPress built-in menu item from the given menu label.
-         * 
-         * @since       2.0.0
+         *
          * @internal
-         * @return      void|string     Returns the associated slug string, if true.
-         */ 
-        private function _isBuiltInMenuItem( $sMenuLabel ) {
-            
+         * @since       2.0.0
+         * @since       3.9.0       Made the return type always string. Renamed from `_isBuiltInMenuItem()`.
+         * @return      string     Returns the associated slug string, if true.
+         */
+        private function ___getBuiltInMenuSlug( $sMenuLabel ) {
             $_sMenuLabelLower = strtolower( $sMenuLabel );
             return array_key_exists( $_sMenuLabelLower, $this->_aBuiltInRootMenuSlugs )
                 ? $this->_aBuiltInRootMenuSlugs[ $_sMenuLabelLower ]
@@ -113,15 +111,11 @@ abstract class AdminPageFramework_Controller_Menu extends AdminPageFramework_Vie
      * 
      * @since       2.0.0
      * @since       3.0.0       The scope was changed to public from protected.
-     * @access      public
      * @param       string      The page slug of the top-level root page.
-     * @return      void
      */ 
     public function setRootMenuPageBySlug( $sRootMenuSlug ) {
-        
         $this->oProp->aRootMenu[ 'sPageSlug' ]    = $sRootMenuSlug; // do not sanitize the slug here because post types includes a question mark.
         $this->oProp->aRootMenu[ 'fCreateRoot' ]  = false; // indicates whether to use an existing menu item.
-        
     }
     
     /**

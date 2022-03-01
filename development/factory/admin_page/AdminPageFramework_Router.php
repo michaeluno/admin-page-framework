@@ -43,10 +43,10 @@ abstract class AdminPageFramework_Router extends AdminPageFramework_Factory {
 
         parent::__construct( $this->oProp );
 
-// @deprecated      3.8.14
-//        if ( $this->oProp->bIsAdminAjax ) {
-//            return;
-//        }
+        // @deprecated 3.8.14
+        // if ( $this->oProp->bIsAdminAjax ) {
+        //     return;
+        // }
         if ( ! $this->oProp->bIsAdmin ) {
             return;
         }
