@@ -42,7 +42,7 @@ abstract class AdminPageFramework_Controller_Menu extends AdminPageFramework_Vie
         'users'         => 'users.php',
         'tools'         => 'tools.php',
         'settings'      => 'options-general.php',
-        'network admin' => "network_admin_menu",
+        'network admin' => 'network_admin_menu',
     );   
     
     /**
