@@ -65,6 +65,7 @@ abstract class AdminPageFramework_Router extends AdminPageFramework_Factory {
         if (! $this->_isPageLoadCall($sMethodName, $sPageSlug, $oScreen)) {
             return;
         }
+        $this->___setPageAndTabSlugsForForm($sPageSlug, $sTabSlug);
         $this->_setShowDebugInfoProperty($sPageSlug);
         $this->_load(array( "load_{$this->oProp->sClassName}", "load_{$sPageSlug}", ));
         $sTabSlug = $this->oProp->getCurrentTabSlug($sPageSlug);
@@ -82,6 +83,11 @@ abstract class AdminPageFramework_Router extends AdminPageFramework_Factory {
             return;
         }
         $this->oProp->bShowDebugInfo = $this->oUtil->getElement($this->oProp->aInPageTabs, array( $sPageSlug, $sTabSlug, 'show_debug_info' ), $this->oProp->bShowDebugInfo);
+    }
+    private function ___setPageAndTabSlugsForForm($sPageSlug, $sTabSlug)
+    {
+        $this->oForm->aSectionsets[ '_default' ][ 'page_slug' ] = $sPageSlug ? $sPageSlug : null;
+        $this->oForm->aSectionsets[ '_default' ][ 'tab_slug' ] = $sTabSlug ? $sTabSlug : null;
     }
     private function _isPageLoadCall($sMethodName, $sPageSlug, $osScreenORPageHook)
     {
