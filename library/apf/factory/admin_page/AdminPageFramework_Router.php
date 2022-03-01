@@ -1,12 +1,14 @@
 <?php
 /*
- * Admin Page Framework v3.9.0b18 by Michael Uno
+ * Admin Page Framework v3.9.0b19 by Michael Uno
  * Compiled with Admin Page Framework Compiler <https://github.com/michaeluno/admin-page-framework-compiler>
  * <https://en.michaeluno.jp/admin-page-framework>
  * Copyright (c) 2013-2022, Michael Uno; Licensed under MIT <https://opensource.org/licenses/MIT>
  */
 
 abstract class AdminPageFramework_Router extends AdminPageFramework_Factory {
+    public $oProp;
+    public $oForm;
     public function __construct($sOptionKey=null, $sCallerPath=null, $sCapability='manage_options', $sTextDomain='admin-page-framework')
     {
         $_sPropertyClassName = isset($this->aSubClassNames[ 'oProp' ]) ? $this->aSubClassNames[ 'oProp' ] : 'AdminPageFramework_Property_' . $this->_sStructureType;
@@ -63,7 +65,6 @@ abstract class AdminPageFramework_Router extends AdminPageFramework_Factory {
         if (! $this->_isPageLoadCall($sMethodName, $sPageSlug, $oScreen)) {
             return;
         }
-        $this->_setPageAndTabSlugsForForm($sPageSlug, $sTabSlug);
         $this->_setShowDebugInfoProperty($sPageSlug);
         $this->_load(array( "load_{$this->oProp->sClassName}", "load_{$sPageSlug}", ));
         $sTabSlug = $this->oProp->getCurrentTabSlug($sPageSlug);
@@ -81,11 +82,6 @@ abstract class AdminPageFramework_Router extends AdminPageFramework_Factory {
             return;
         }
         $this->oProp->bShowDebugInfo = $this->oUtil->getElement($this->oProp->aInPageTabs, array( $sPageSlug, $sTabSlug, 'show_debug_info' ), $this->oProp->bShowDebugInfo);
-    }
-    private function _setPageAndTabSlugsForForm($sPageSlug, $sTabSlug)
-    {
-        $this->oForm->aSections[ '_default' ][ 'page_slug' ] = $sPageSlug ? $sPageSlug : null;
-        $this->oForm->aSections[ '_default' ][ 'tab_slug' ] = $sTabSlug ? $sTabSlug : null;
     }
     private function _isPageLoadCall($sMethodName, $sPageSlug, $osScreenORPageHook)
     {

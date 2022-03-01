@@ -1,6 +1,6 @@
 <?php
 /*
- * Admin Page Framework v3.9.0b18 by Michael Uno
+ * Admin Page Framework v3.9.0b19 by Michael Uno
  * Compiled with Admin Page Framework Compiler <https://github.com/michaeluno/admin-page-framework-compiler>
  * <https://en.michaeluno.jp/admin-page-framework>
  * Copyright (c) 2013-2022, Michael Uno; Licensed under MIT <https://opensource.org/licenses/MIT>
@@ -27,7 +27,6 @@ abstract class AdminPageFramework_Resource_Base extends AdminPageFramework_Frame
         if (! $this->oProp->oCaller->isInThePage()) {
             return;
         }
-        add_action('admin_enqueue_scripts', array( $this, '_replyToEnqueueCommonScripts' ), 1);
         add_action('admin_enqueue_scripts', array( $this, '_replyToEnqueueCommonStyles' ), 1);
         add_action('admin_enqueue_scripts', array( $this, '_replyToEnqueueScripts' ));
         add_action('admin_enqueue_scripts', array( $this, '_replyToEnqueueStyles' ));
@@ -237,12 +236,6 @@ abstract class AdminPageFramework_Resource_Base extends AdminPageFramework_Frame
         $_aPathPartsURL = pathinfo($aEnqueueItem[ 'sSRC' ]) + array( 'dirname' => '', 'filename' => '', 'basename' => '', 'extension' => '' );
         $_sPathMinifiedVersion = $_aPathParts[ 'dirname' ] . '/' . $_aPathParts[ 'filename' ] . $_sMinPrefix . '.' . $_aPathParts[ 'extension' ];
         return file_exists($_sPathMinifiedVersion) ? $_aPathPartsURL[ 'dirname' ] . '/' . $_aPathPartsURL[ 'filename' ] . $_sMinPrefix . '.' . $_aPathPartsURL[ 'extension' ] : $aEnqueueItem[ 'sSRC' ];
-    }
-    public function _replyToEnqueueCommonScripts()
-    {
-        if ($this->hasBeenCalled('COMMON_EXTERNAL_SCRIPTS: ' . __METHOD__)) {
-            return;
-        }
     }
     public function _replyToEnqueueCommonStyles()
     {

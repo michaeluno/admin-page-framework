@@ -1,5 +1,7 @@
 /*! Admin Page Framework - Import Field Type 0.0.1 */
+/** global: AdminPageFrameworkScriptFormMain */
 var apfMain  = AdminPageFrameworkScriptFormMain;
+/** global: AdminPageFrameworkImportFieldType */
 var apfImport = AdminPageFrameworkImportFieldType;
 (function ( $ ) {
   

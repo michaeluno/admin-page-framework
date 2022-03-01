@@ -1,25 +1,23 @@
 <?php
 /*
- * Admin Page Framework v3.9.0b18 by Michael Uno
+ * Admin Page Framework v3.9.0b19 by Michael Uno
  * Compiled with Admin Page Framework Compiler <https://github.com/michaeluno/admin-page-framework-compiler>
  * <https://en.michaeluno.jp/admin-page-framework>
  * Copyright (c) 2013-2022, Michael Uno; Licensed under MIT <https://opensource.org/licenses/MIT>
  */
 
 abstract class AdminPageFramework_Controller_Menu extends AdminPageFramework_View_Menu {
-    protected $_aBuiltInRootMenuSlugs = array( 'dashboard' => 'index.php', 'posts' => 'edit.php', 'media' => 'upload.php', 'links' => 'link-manager.php', 'pages' => 'edit.php?post_type=page', 'comments' => 'edit-comments.php', 'appearance' => 'themes.php', 'plugins' => 'plugins.php', 'users' => 'users.php', 'tools' => 'tools.php', 'settings' => 'options-general.php', 'network admin' => "network_admin_menu", );
+    protected $_aBuiltInRootMenuSlugs = array( 'dashboard' => 'index.php', 'posts' => 'edit.php', 'media' => 'upload.php', 'links' => 'link-manager.php', 'pages' => 'edit.php?post_type=page', 'comments' => 'edit-comments.php', 'appearance' => 'themes.php', 'plugins' => 'plugins.php', 'users' => 'users.php', 'tools' => 'tools.php', 'settings' => 'options-general.php', 'network admin' => 'network_admin_menu', );
     public function setRootMenuPage($sRootMenuLabel, $sIcon16x16=null, $iMenuPosition=null)
     {
         $sRootMenuLabel = trim($sRootMenuLabel);
-        $_sSlug = $this->_isBuiltInMenuItem($sRootMenuLabel);
-        $this->oProp->aRootMenu = array( 'sTitle' => $sRootMenuLabel, 'sPageSlug' => $_sSlug ? $_sSlug : $this->oProp->sClassName, 'sIcon16x16' => $this->oUtil->getResolvedSRC($sIcon16x16), 'iPosition' => $iMenuPosition, 'fCreateRoot' => empty($_sSlug), );
+        $_sSlug = $this->___getBuiltInMenuSlugByLabel($sRootMenuLabel);
+        $this->oProp->aRootMenu = array( 'sTitle' => $sRootMenuLabel, 'sPageSlug' => strlen($_sSlug) ? $_sSlug : $this->oProp->sClassName, 'sIcon16x16' => $this->oUtil->getResolvedSRC($sIcon16x16), 'iPosition' => $iMenuPosition, 'fCreateRoot' => empty($_sSlug), );
     }
-    private function _isBuiltInMenuItem($sMenuLabel)
+    private function ___getBuiltInMenuSlugByLabel($sMenuLabel)
     {
         $_sMenuLabelLower = strtolower($sMenuLabel);
-        if (array_key_exists($_sMenuLabelLower, $this->_aBuiltInRootMenuSlugs)) {
-            return $this->_aBuiltInRootMenuSlugs[ $_sMenuLabelLower ];
-        }
+        return array_key_exists($_sMenuLabelLower, $this->_aBuiltInRootMenuSlugs) ? $this->_aBuiltInRootMenuSlugs[ $_sMenuLabelLower ] : '';
     }
     public function setRootMenuPageBySlug($sRootMenuSlug)
     {

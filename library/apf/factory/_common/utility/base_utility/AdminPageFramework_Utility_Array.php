@@ -1,6 +1,6 @@
 <?php
 /*
- * Admin Page Framework v3.9.0b18 by Michael Uno
+ * Admin Page Framework v3.9.0b19 by Michael Uno
  * Compiled with Admin Page Framework Compiler <https://github.com/michaeluno/admin-page-framework-compiler>
  * <https://en.michaeluno.jp/admin-page-framework>
  * Copyright (c) 2013-2022, Michael Uno; Licensed under MIT <https://opensource.org/licenses/MIT>
@@ -46,6 +46,6 @@ abstract class AdminPageFramework_Utility_Array extends AdminPageFramework_Utili
     }
     public static function isAssociativeArray(array $aArray)
     {
-        return ( bool ) count(array_filter(array_keys($aArray), 'is_string'));
+        return ( boolean ) count(array_filter(array_keys($aArray), 'is_string'));
     }
 }

@@ -1,13 +1,13 @@
 <?php
 /*
- * Admin Page Framework v3.9.0b18 by Michael Uno
+ * Admin Page Framework v3.9.0b19 by Michael Uno
  * Compiled with Admin Page Framework Compiler <https://github.com/michaeluno/admin-page-framework-compiler>
  * <https://en.michaeluno.jp/admin-page-framework>
  * Copyright (c) 2013-2022, Michael Uno; Licensed under MIT <https://opensource.org/licenses/MIT>
  */
 
 class AdminPageFramework_Form_Model___Format_Fields extends AdminPageFramework_Form_Model___Format_FormField_Base {
-    public static $aStructure = array( );
+    public static $aStructure = array();
     public $aField = array();
     public $aOptions = array();
     public function __construct()
@@ -18,22 +18,22 @@ class AdminPageFramework_Form_Model___Format_Fields extends AdminPageFramework_F
     }
     public function get()
     {
-        $_mSavedValue = $this->_getStoredInputFieldValue($this->aField, $this->aOptions);
-        $_aFields = $this->_getFieldsWithSubs($this->aField, $_mSavedValue);
-        $this->_setSavedFieldsValue($_aFields, $_mSavedValue, $this->aField);
-        $this->_setFieldsValue($_aFields);
+        $_mSavedValue = $this->___getStoredInputFieldValue($this->aField, $this->aOptions);
+        $_aFields = $this->___getFieldsWithSubs($this->aField, $_mSavedValue);
+        $this->___setSavedFieldsValue($_aFields, $_mSavedValue, $this->aField);
+        $this->___setFieldsValue($_aFields);
         return $_aFields;
     }
-    private function _getFieldsWithSubs($aField, $mSavedValue)
+    private function ___getFieldsWithSubs($aField, $mSavedValue)
     {
         $aFirstField = array();
         $aSubFields = array();
-        $this->_divideMainAndSubFields($aField, $aFirstField, $aSubFields);
-        $this->_fillRepeatableElements($aField, $aSubFields, $mSavedValue);
-        $this->_fillSubFields($aSubFields, $aFirstField);
+        $this->___divideMainAndSubFields($aField, $aFirstField, $aSubFields);
+        $this->___fillRepeatableElements($aField, $aSubFields, $mSavedValue);
+        $this->___fillSubFields($aSubFields, $aFirstField);
         return array_merge(array( $aFirstField ), $aSubFields);
     }
-    private function _divideMainAndSubFields($aField, array &$aFirstField, array &$aSubFields)
+    private function ___divideMainAndSubFields($aField, array &$aFirstField, array &$aSubFields)
     {
         foreach ($aField as $_nsIndex => $_mFieldElement) {
             if (is_numeric($_nsIndex)) {
@@ -43,7 +43,7 @@ class AdminPageFramework_Form_Model___Format_Fields extends AdminPageFramework_F
             }
         }
     }
-    private function _fillRepeatableElements($aField, array &$aSubFields, $mSavedValue)
+    private function ___fillRepeatableElements($aField, array &$aSubFields, $mSavedValue)
     {
         if (empty($aField[ 'repeatable' ])) {
             return;
@@ -54,7 +54,7 @@ class AdminPageFramework_Form_Model___Format_Fields extends AdminPageFramework_F
             $aSubFields[ $_iIndex - 1 ] = isset($aSubFields[ $_iIndex - 1 ]) && is_array($aSubFields[ $_iIndex - 1 ]) ? $aSubFields[ $_iIndex - 1 ] : array();
         }
     }
-    private function _fillSubFields(array &$aSubFields, array $aFirstField)
+    private function ___fillSubFields(array &$aSubFields, array $aFirstField)
     {
         foreach ($aSubFields as &$_aSubField) {
             $_aLabel = $this->getElement($_aSubField, 'label', $this->getElement($aFirstField, 'label', null));
@@ -62,7 +62,7 @@ class AdminPageFramework_Form_Model___Format_Fields extends AdminPageFramework_F
             $_aSubField[ 'label' ] = $_aLabel;
         }
     }
-    private function _setSavedFieldsValue(array &$aFields, $mSavedValue, $aField)
+    private function ___setSavedFieldsValue(array &$aFields, $mSavedValue, $aField)
     {
         if (! $this->hasSubFields($aFields, $aField)) {
             $aFields[ 0 ][ '_saved_value' ] = $mSavedValue;
@@ -75,14 +75,14 @@ class AdminPageFramework_Form_Model___Format_Fields extends AdminPageFramework_F
             $_aThisField[ '_is_multiple_fields' ] = true;
         }
     }
-    private function _setFieldsValue(&$aFields)
+    private function ___setFieldsValue(&$aFields)
     {
         foreach ($aFields as &$_aField) {
             $_aField[ '_is_value_set_by_user' ] = isset($_aField[ 'value' ]);
-            $_aField[ 'value' ] = $this->_getSetFieldValue($_aField);
+            $_aField[ 'value' ] = $this->___getSetFieldValue($_aField);
         }
     }
-    private function _getSetFieldValue($aField)
+    private function ___getSetFieldValue($aField)
     {
         if (isset($aField[ 'value' ])) {
             return $aField[ 'value' ];
@@ -95,7 +95,7 @@ class AdminPageFramework_Form_Model___Format_Fields extends AdminPageFramework_F
         }
         return null;
     }
-    private function _getStoredInputFieldValue($aField, $aOptions)
+    private function ___getStoredInputFieldValue($aField, $aOptions)
     {
         $_aFieldPath = $aField[ '_field_path_array' ];
         if (! isset($aField[ 'section_id' ]) || '_default' === $aField[ 'section_id' ]) {

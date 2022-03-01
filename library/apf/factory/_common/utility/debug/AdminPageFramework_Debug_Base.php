@@ -1,12 +1,12 @@
 <?php
 /*
- * Admin Page Framework v3.9.0b18 by Michael Uno
+ * Admin Page Framework v3.9.0b19 by Michael Uno
  * Compiled with Admin Page Framework Compiler <https://github.com/michaeluno/admin-page-framework-compiler>
  * <https://en.michaeluno.jp/admin-page-framework>
  * Copyright (c) 2013-2022, Michael Uno; Licensed under MIT <https://opensource.org/licenses/MIT>
  */
 
-class AdminPageFramework_Debug_Base extends AdminPageFramework_FrameworkUtility {
+class AdminPageFramework_Debug_Base extends AdminPageFramework_Debug_Utility {
     public static $iLegibleArrayDepthLimit = 50;
     public static $iLegibleStringCharacterLimit = 99999;
     protected static function _getLegibleDetails($mValue, $iStringLengthLimit=0, $iArrayDepthLimit=0)
@@ -16,20 +16,13 @@ class AdminPageFramework_Debug_Base extends AdminPageFramework_FrameworkUtility 
         }
         return self::getAsString(print_r(self::getLegibleDetailedValue($mValue, $iStringLengthLimit), true));
     }
-    public static function getObjectName($mItem)
-    {
-        if (is_object($mItem)) {
-            return '(object) ' . get_class($mItem);
-        }
-        return $mItem;
-    }
     protected static function _getLegible($mValue, $iStringLengthLimit=0, $iArrayDepthLimit=0)
     {
         $iArrayDepthLimit = $iArrayDepthLimit ? $iArrayDepthLimit : self::$iLegibleArrayDepthLimit;
         $mValue = is_object($mValue) ? (method_exists($mValue, '__toString') ? ( string ) $mValue : ( array ) $mValue) : $mValue;
-        $mValue = is_array($mValue) ? self::getArrayMappedRecursive(array( __CLASS__, 'getObjectName' ), self::_getSlicedByDepth($mValue, $iArrayDepthLimit), array()) : $mValue;
+        $mValue = is_array($mValue) ? self::getArrayMappedRecursive(array( __CLASS__, 'getObjectName' ), self::getSlicedByDepth($mValue, $iArrayDepthLimit), array()) : $mValue;
         $mValue = is_string($mValue) ? self::___getLegibleString($mValue, $iStringLengthLimit, false) : $mValue;
-        return self::_getArrayRepresentationSanitized(self::getAsString(print_r($mValue, true)));
+        return self::getArrayRepresentationSanitized(self::getAsString(print_r($mValue, true)));
     }
     private static function ___getLegibleDetailedCallable($asoCallable)
     {
@@ -56,7 +49,7 @@ class AdminPageFramework_Debug_Base extends AdminPageFramework_FrameworkUtility 
     private static function ___getLegibleDetailedArray(array $aArray, $iStringLengthLimit=0, $iDepthLimit=0)
     {
         $_iDepthLimit = $iDepthLimit ? $iDepthLimit : self::$iLegibleArrayDepthLimit;
-        return self::getArrayMappedRecursive(array( __CLASS__, 'getLegibleDetailedValue' ), self::_getSlicedByDepth($aArray, $_iDepthLimit), array( $iStringLengthLimit ));
+        return self::getArrayMappedRecursive(array( __CLASS__, 'getLegibleDetailedValue' ), self::getSlicedByDepth($aArray, $_iDepthLimit), array( $iStringLengthLimit ));
     }
     public static function getLegibleDetailedValue($mItem, $iStringLengthLimit)
     {
@@ -109,34 +102,6 @@ class AdminPageFramework_Debug_Base extends AdminPageFramework_FrameworkUtility 
             return $_iCharLength <= $iCharLimit ? '(string, length: ' . $_iCharLength . ') ' . $sString : '(string, length: ' . $_iCharLength . ') ' . call_user_func_array($_aSubstrMethod[ $_iMBSupport ], array( $sString, 0, $iCharLimit )) . '...';
         }
         return $_iCharLength <= $iCharLimit ? $sString : call_user_func_array($_aSubstrMethod[ $_iMBSupport ], array( $sString, 0, $iCharLimit ));
-    }
-    protected static function _getArrayRepresentationSanitized($sString)
-    {
-        $sString = preg_replace('/\)(\r\n?|\n)(?=(\r\n?|\n)\s+[\[)])/', ')', $sString);
-        return preg_replace('/Array(\r\n?|\n)\s+\((\r\n?|\n)\s+\)/', 'Array()', $sString);
-    }
-    public static function getSlicedByDepth(array $aSubject, $iDepth=0, $sMore='(array truncated) ...')
-    {
-        return self::_getSlicedByDepth($aSubject, $iDepth, $sMore);
-    }
-    private static function _getSlicedByDepth(array $aSubject, $iDepth=0, $sMore='(array truncated) ...')
-    {
-        foreach ($aSubject as $_sKey => $_vValue) {
-            if (is_array($_vValue)) {
-                $_iDepth = $iDepth;
-                if ($iDepth > 0) {
-                    $aSubject[ $_sKey ] = self::_getSlicedByDepth($_vValue, --$iDepth);
-                    $iDepth = $_iDepth;
-                    continue;
-                }
-                if (strlen($sMore)) {
-                    $aSubject[ $_sKey ] = $sMore;
-                    continue;
-                }
-                unset($aSubject[ $_sKey ]);
-            }
-        }
-        return $aSubject;
     }
     public static function getStackTrace($iSkip=0, $_deprecated=null)
     {
