@@ -76,19 +76,15 @@ abstract class AdminPageFramework_Controller_Menu extends AdminPageFramework_Vie
      * @return      void
      */
     public function setRootMenuPage( $sRootMenuLabel, $sIcon16x16=null, $iMenuPosition=null ) {
-
         $sRootMenuLabel = trim( $sRootMenuLabel );
-        $_sSlug         = $this->_isBuiltInMenuItem( $sRootMenuLabel ); // if true, this method returns the slug
+        $_sSlug         = $this->___getBuiltInMenuSlug( $sRootMenuLabel ); // if true, this method returns the slug
         $this->oProp->aRootMenu = array(
             'sTitle'        => $sRootMenuLabel,
-            'sPageSlug'     => $_sSlug 
-                ? $_sSlug
-                : $this->oProp->sClassName,
+            'sPageSlug'     => strlen( $_sSlug ) ? $_sSlug : $this->oProp->sClassName,
             'sIcon16x16'    => $this->oUtil->getResolvedSRC( $sIcon16x16 ),
             'iPosition'     => $iMenuPosition,
             'fCreateRoot'   => empty( $_sSlug ),
-        );    
-                    
+        );
     }
         /**
          * Checks if a menu item is a WordPress built-in menu item from the given menu label.
@@ -100,10 +96,9 @@ abstract class AdminPageFramework_Controller_Menu extends AdminPageFramework_Vie
         private function _isBuiltInMenuItem( $sMenuLabel ) {
             
             $_sMenuLabelLower = strtolower( $sMenuLabel );
-            if ( array_key_exists( $_sMenuLabelLower, $this->_aBuiltInRootMenuSlugs ) ) {
-                return $this->_aBuiltInRootMenuSlugs[ $_sMenuLabelLower ];
-            }
-            
+            return array_key_exists( $_sMenuLabelLower, $this->_aBuiltInRootMenuSlugs )
+                ? $this->_aBuiltInRootMenuSlugs[ $_sMenuLabelLower ]
+                : '';
         }    
 
     /**
