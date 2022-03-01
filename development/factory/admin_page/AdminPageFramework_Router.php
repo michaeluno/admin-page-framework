@@ -10,14 +10,10 @@
 /**
  * Deals with redirecting function calls and instantiating classes.
  *
- * @abstract
- * @since           3.0.0
- * @since           3.3.1       Changed from `AdminPageFramework_Base`.
- * @package         AdminPageFramework/Factory/AdminPage
+ * @since    3.0.0
+ * @since    3.3.1       Changed from `AdminPageFramework_Base`.
+ * @package  AdminPageFramework/Factory/AdminPage
  * @internal
- * @method          _renderSectionDescription( $sMethodName )           defined in AdminPageFramework_Setting
- * @method          _renderSettingField( $_mFirstArg, $_sPageSlug )     defined in AdminPageFramework_Setting
- * @method          load()
  */
 abstract class AdminPageFramework_Router extends AdminPageFramework_Factory {
 
@@ -27,6 +23,11 @@ abstract class AdminPageFramework_Router extends AdminPageFramework_Factory {
      * @var AdminPageFramework_Property_admin_page
      */
     public $oProp;
+
+    /**
+     * @var AdminPageFramework_Form_admin_page
+     */
+    public $oForm;
 
     /**'
      * Sets up hooks and properties.
@@ -66,11 +67,12 @@ abstract class AdminPageFramework_Router extends AdminPageFramework_Factory {
     /**
      * Loads page components for ajax calls.
      *
-     * @since           3.8.14
-     * @remark          It is assumed that the `setUp()` method is already called.
-     * @callback        add_action      set_up_{extended class name}
+     * @since    3.8.14
+     * @remark   It is assumed that the `setUp()` method is already called.
+     * @callback add_action() set_up_{extended class name}
      */
     public function _replyToLoadComponentsForAjax() {
+
         if ( ! $this->oProp->bIsAdminAjax ) {
             return;
         }
@@ -89,9 +91,9 @@ abstract class AdminPageFramework_Router extends AdminPageFramework_Factory {
     /**
      * Instantiates a link object based on the type.
      *
-     * @since       3.7.10
      * @internal
-     * @return      null|object
+     * @since    3.7.10
+     * @return   null|object
      */
     protected function _getLinkObject() {
         $_sClassName = $this->aSubClassNames[ 'oLink' ];
@@ -101,9 +103,9 @@ abstract class AdminPageFramework_Router extends AdminPageFramework_Factory {
     /**
      * Instantiates a link object based on the type.
      *
-     * @since       3.7.10
      * @internal
-     * @return      null|object
+     * @since    3.7.10
+     * @return   null|object
      */
     protected function _getPageLoadObject() {
         $_sClassName = $this->aSubClassNames[ 'oPageLoadInfo' ];
@@ -115,14 +117,13 @@ abstract class AdminPageFramework_Router extends AdminPageFramework_Factory {
      *
      * This method redirects callback-function calls with the pre-defined prefixes for hooks to the appropriate methods.
      *
-     * @access      public
-     * @remark      the users do not need to call or extend this method unless they know what they are doing.
-     * @param       string      the called method name.
-     * @param       array       the argument array. The first element holds the parameters passed to the called method.
-     * @return      mixed       depends on the called method. If the method name matches one of the hook prefixes, the redirected methods return value will be returned. Otherwise, none.
-     * @since       2.0.0
-     * @since       3.3.1       Moved from `AdminPageFramework_Base`.
      * @internal
+     * @since    2.0.0
+     * @since    3.3.1  Moved from `AdminPageFramework_Base`.
+     * @remark   the users do not need to call or extend this method unless they know what they are doing.
+     * @param    string the called method name.
+     * @param    array  the argument array. The first element holds the parameters passed to the called method.
+     * @return   mixed  depends on the called method. If the method name matches one of the hook prefixes, the redirected methods return value will be returned. Otherwise, none.
      */
     public function __call( $sMethodName, $aArgs=null ) {
 
@@ -157,33 +158,27 @@ abstract class AdminPageFramework_Router extends AdminPageFramework_Factory {
         /**
          * Attempts to find the factory class callback method for the given method name.
          *
-         * @since       3.5.3
-         * @return      string      The found callback method name or the prefix of a known callback method name. An empty string if not found.
          * @internal
+         * @since    3.5.3
+         * @return   string      The found callback method name or the prefix of a known callback method name. An empty string if not found.
          */
         private function _getCallbackName( $sMethodName, $sPageSlug, array $aKnownMethodPrefixes=array() ) {
-
             foreach( $aKnownMethodPrefixes as $_sMethodPrefix ) {
                 if ( $this->oUtil->hasPrefix( $_sMethodPrefix, $sMethodName ) ) {
                     return $_sMethodPrefix;
                 }
             }
             return '';
-
         }
 
         /**
          * Redirects the callback of the load-{page} action hook to the framework's callback.
          *
-         * @since       2.1.0
-         * @since       3.3.1       Moved from `AdminPageFramework_Base`.
-         * @since       3.5.3       Added the $sMethodName parameter.
-         *
-         * @access      protected
          * @internal
-         * @remark      This method will be triggered before the header gets sent.
-         * @return      void
-         * @internal
+         * @since    2.1.0
+         * @since    3.3.1       Moved from `AdminPageFramework_Base`.
+         * @since    3.5.3       Added the $sMethodName parameter.
+         * @remark   This method will be triggered before the header gets sent.
          */
         protected function _doPageLoadCall( $sMethodName, $sPageSlug, $sTabSlug, $oScreen ) {
 
@@ -192,6 +187,7 @@ abstract class AdminPageFramework_Router extends AdminPageFramework_Factory {
             }
 
             // [3.4.6+] Set the page and tab slugs to the default form section so that added form fields without a section will appear in different pages and tabs.
+            // @todo Investigate whether this is necessary or not.
             $this->_setPageAndTabSlugsForForm( $sPageSlug, $sTabSlug );
 
             $this->_setShowDebugInfoProperty( $sPageSlug ); // 3.8.8+
@@ -235,10 +231,9 @@ abstract class AdminPageFramework_Router extends AdminPageFramework_Factory {
              *
              * If the `$sTabSlug` parameter is not set, it is considered for the current page. Otherwise, it is for the current tab.
              *
-             * @remark      This must be called before calling the `load()` method as which page to load is already determined at this point.
+             * @remark This must be called before calling the `load()` method as which page to load is already determined at this point.
              * And if the user wants to modify the property value manually, they can do so in the `load()` method.
-             * @since       3.8.8
-             * @return      void
+             * @since  3.8.8
              */
             private function _setShowDebugInfoProperty( $sPageSlug, $sTabSlug='' ) {
 
@@ -270,21 +265,21 @@ abstract class AdminPageFramework_Router extends AdminPageFramework_Factory {
              * So look for a way to avoid calling `$oForm` unless the user uses a form.
              */
             private function _setPageAndTabSlugsForForm( $sPageSlug, $sTabSlug ) {
+                // @todo Investigate whether $aSections should be $aSectionsets.
                 $this->oForm->aSections[ '_default' ][ 'page_slug' ]  = $sPageSlug ? $sPageSlug : null;
                 $this->oForm->aSections[ '_default' ][ 'tab_slug' ]   = $sTabSlug ? $sTabSlug : null;
             }
 
             /**
              * Determines whether the function call is of a page load.
-             * @since       3.5.3
              * @internal
-             * @return      boolean         True if it is a page load call; othwrwise, false.
-             * @param       string          $sMethodName        The undefined method name that is passed to the __call() overload method.
-             * @param       string          $sPageSlug          The currently loading page slug.
-             * @param       object|string   $osScreenORPageHook The screen ID that the WordPress screen object gives.
+             * @since    3.5.3
+             * @return   boolean         True if it is a page load call; othwrwise, false.
+             * @param    string          $sMethodName        The undefined method name that is passed to the __call() overload method.
+             * @param    string          $sPageSlug          The currently loading page slug.
+             * @param    object|string   $osScreenORPageHook The screen ID that the WordPress screen object gives.
              */
             private function _isPageLoadCall( $sMethodName, $sPageSlug, $osScreenORPageHook ) {
-
                 if ( substr( $sMethodName, strlen( 'load_pre_' ) ) !== $sPageSlug ) {
                     return false;
                 }
@@ -295,7 +290,6 @@ abstract class AdminPageFramework_Router extends AdminPageFramework_Factory {
                     ? $osScreenORPageHook->id
                     : $sPageSlug; // for ajax calls
                 return $_sPageHook === $this->oProp->aPageHooks[ $sPageSlug ];
-
             }
 
     /* Shared methods */
@@ -308,14 +302,10 @@ abstract class AdminPageFramework_Router extends AdminPageFramework_Factory {
      * @internal
      */
     protected function _isInstantiatable() {
-
         if ( $this->_isWordPressCoreAjaxRequest() ) {
             return false;
         }
-
-        // Nothing to do in the network admin area.
-        return ! is_network_admin();
-
+        return ! is_network_admin();    // Nothing to do in the network admin area.
     }
 
     /**
@@ -334,7 +324,7 @@ abstract class AdminPageFramework_Router extends AdminPageFramework_Factory {
         }
 
         // If the `setUp()` method is not loaded yet, nothing can be checked
-        // as there is not page is added.
+        // as there is no page is added.
         if ( ! did_action( 'set_up_' . $this->oProp->sClassName ) ) {
             return true;
         }
@@ -347,17 +337,14 @@ abstract class AdminPageFramework_Router extends AdminPageFramework_Factory {
      * Loads factory specific components.
      *
      * @internal
-     * @callback    action      current_screen
-     * @return      void
-     * @since       3.7.0
+     * @since    3.7.0
+     * @callback add_action()      current_screen
      */
     public function _replyToLoadComponents( /* $oScreen */ ) {
-
         if ( 'plugins.php' === $this->oProp->sPageNow ) {
             $this->oLink = $this->_replyTpSetAndGetInstance_oLink();
         }
         parent::_replyToLoadComponents();
-
     }
 
 }
