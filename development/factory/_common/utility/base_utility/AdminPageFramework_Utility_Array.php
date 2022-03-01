@@ -12,7 +12,6 @@
  *
  * @since       2.0.0
  * @package     AdminPageFramework/Utility
- * @extends     AdminPageFramework_Utility_String
  * @internal
  */
 abstract class AdminPageFramework_Utility_Array extends AdminPageFramework_Utility_String {
@@ -43,9 +42,9 @@ abstract class AdminPageFramework_Utility_Array extends AdminPageFramework_Utili
     /**
      * Finds an unused numeric index of an array.
      *
-     * @remark      the user may set a decimal number for the `order` argument.
-     * @return      numeric
-     * @since       3.7.4
+     * @remark The user may set a decimal number for the `order` argument.
+     * @return numeric
+     * @since  3.7.4
      */
     static public function getUnusedNumericIndex( $aArray, $nIndex, $iOffset=1 ) {
 
@@ -61,8 +60,8 @@ abstract class AdminPageFramework_Utility_Array extends AdminPageFramework_Utili
 
     /**
      * Checks if the given array is an associative array or not.
-     * @since       3.7.0
-     * @return      boolean
+     * @since  3.7.0
+     * @return boolean
      */
     static public function isAssociative( array $aArray ) {
         return array_keys ( $aArray ) !== range( 0, count( $aArray ) - 1 );
@@ -71,8 +70,8 @@ abstract class AdminPageFramework_Utility_Array extends AdminPageFramework_Utili
     /**
      * Determines whether the element is the last element of an array by the given key.
      *
-     * @since       3.0.0
-     * @return      boolean
+     * @since  3.0.0
+     * @return boolean
      */
     static public function isLastElement( array $aArray, $sKey ) {
         end( $aArray );
@@ -81,8 +80,8 @@ abstract class AdminPageFramework_Utility_Array extends AdminPageFramework_Utili
     /**
      * Determines whether element is the first element of an array by the given key.
      *
-     * @since       3.4.0
-     * @return      boolean
+     * @since  3.4.0
+     * @return boolean
      */
     static public function isFirstElement( array $aArray, $sKey ) {
         reset( $aArray );
@@ -111,7 +110,7 @@ abstract class AdminPageFramework_Utility_Array extends AdminPageFramework_Utili
      * @return boolean
      */
     static public function isAssociativeArray( array $aArray ) {
-        return ( bool ) count( array_filter( array_keys( $aArray ), 'is_string' ) );
+        return ( boolean ) count( array_filter( array_keys( $aArray ), 'is_string' ) );
     }
 
 }
