@@ -10,8 +10,8 @@
 /**
  * Provides methods to format form a definition array.
  *
- * @package     AdminPageFramework/Factory/AdminPage/Format
- * @since       3.6.0
+ * @package  AdminPageFramework/Factory/AdminPage/Format
+ * @since    3.6.0
  * @internal
  */
 class AdminPageFramework_Format_SubMenuPage extends AdminPageFramework_Format_Base {
@@ -19,13 +19,11 @@ class AdminPageFramework_Format_SubMenuPage extends AdminPageFramework_Format_Ba
     /**
      * Represents the structure of sub-menu page array.
      *
-     * @since       2.0.0
-     * @since       3.1.1       Moved from `AdminPageFramework_Menu`.
-     * @since       3.6.0       Moved from `AdminPageFramework_Menu_Model`.
-     * @remark      Not for the user.
-     * @var         array Holds array structure of sub-menu page.
-     * @static
-     * @internal
+     * @since    2.0.0
+     * @since    3.1.1 Moved from `AdminPageFramework_Menu`.
+     * @since    3.6.0 Moved from `AdminPageFramework_Menu_Model`.
+     * @var      array Holds array structure of sub-menu page.
+     * @internal Not for users.
      */
     static public $aStructure = array(
         'page_slug'                 => null, // (required)
@@ -56,12 +54,10 @@ class AdminPageFramework_Format_SubMenuPage extends AdminPageFramework_Format_Ba
     /**
      * Stores the ID selector names for screen icons. `generic` is not available in WordPress v3.4.x.
      *
-     * @since       2.0.0
-     * @since       3.3.1       Moved from `AdminPageFramework_Page`.
-     * @since       3.6.0       Moved from `AdminPageFramework_Page_Model`.
-     * @var         array
-     * @static
-     * @access      public
+     * @since    2.0.0
+     * @since    3.3.1       Moved from `AdminPageFramework_Page`.
+     * @since    3.6.0       Moved from `AdminPageFramework_Page_Model`.
+     * @var      array
      * @internal
      */
     static public $aScreenIconIDs = array(
@@ -75,13 +71,16 @@ class AdminPageFramework_Format_SubMenuPage extends AdminPageFramework_Format_Ba
      */
     public $aSubMenuPage = array();
 
+    /**
+     * @var AdminPageFramework
+     */
     public $oFactory;
 
     /**
      * The parsed index.
      *
-     * This should represents the order of the registered sub-menu item as it is used to calculate the sub-menu position.
-     * @since       3.7.4
+     * This should represent the order of the registered sub-menu item as it is used to calculate the sub-menu position.
+     * @since 3.7.4
      */
     public $iParsedIndex = 1;
 
@@ -89,7 +88,6 @@ class AdminPageFramework_Format_SubMenuPage extends AdminPageFramework_Format_Ba
      * Sets up properties
      */
     public function __construct( /* $aSubMenuPage, $oFactory, $iParsedIndex */ ) {
-
         $_aParameters = func_get_args() + array(
             $this->aSubMenuPage,
             $this->oFactory,
@@ -98,25 +96,22 @@ class AdminPageFramework_Format_SubMenuPage extends AdminPageFramework_Format_Ba
         $this->aSubMenuPage  = $_aParameters[ 0 ];
         $this->oFactory      = $_aParameters[ 1 ];
         $this->iParsedIndex  = $_aParameters[ 2 ];
-
     }
 
     /**
-     *
-     * @return      array       The formatted subject array.
+     * @return array The formatted subject array.
      */
     public function get() {
         return $this->_getFormattedSubMenuPageArray( $this->aSubMenuPage );
     }
-
         /**
          * Formats the given sub-menu page array.
          *
-         * @since       3.0.0
-         * @since       3.3.1       Changed the scope to `protected` from `private` as the method is called from a different class.
-         * @since       3.1.1       Moved from `AdminPageFramework_Menu`.
-         * @since       3.6.0       Moved from `AdminPageFramework_Menu_Model`.
-         * @return      array
+         * @since    3.0.0
+         * @since    3.3.1 Changed the scope to `protected` from `private` as the method is called from a different class.
+         * @since    3.1.1 Moved from `AdminPageFramework_Menu`.
+         * @since    3.6.0 Moved from `AdminPageFramework_Menu_Model`.
+         * @return   array
          * @internal
          */
         protected function _getFormattedSubMenuPageArray( array $aSubMenuPage ) {
@@ -128,7 +123,7 @@ class AdminPageFramework_Format_SubMenuPage extends AdminPageFramework_Format_Ba
                     'show_in_page_tabs'         => $this->oFactory->oProp->bShowInPageTabs,      // boolean
                     'in_page_tab_tag'           => $this->oFactory->oProp->sInPageTabTag,        // string
                     'page_heading_tab_tag'      => $this->oFactory->oProp->sPageHeadingTabTag,   // string
-                    'capability'                => $this->oFactory->oProp->sCapability,  // 3.6.0+
+                    'capability'                => $this->oFactory->oProp->sCapability,          // 3.6.0+
                 )
                 + self::$aStructure;
 
@@ -136,29 +131,29 @@ class AdminPageFramework_Format_SubMenuPage extends AdminPageFramework_Format_Ba
             $aSubMenuPage[ 'screen_icon_id' ] = trim( $aSubMenuPage[ 'screen_icon_id' ] );
 
             return array(
-                    'href_icon_32x32'   => $aSubMenuPage[ 'screen_icon' ],
-                    'screen_icon_id'    => $this->getAOrB(
-                        in_array( $aSubMenuPage[ 'screen_icon' ], self::$aScreenIconIDs ),
-                        $aSubMenuPage[ 'screen_icon' ],
-                        'generic'
-                    ),
-                    'capability'        => $this->getElement(
-                        $aSubMenuPage,
-                        'capability',
-                        $this->oFactory->oProp->sCapability
-                    ),
-                    'order'             => $this->getAOrB(
-                        is_numeric( $aSubMenuPage[ 'order' ] ),
-                        $aSubMenuPage[ 'order' ],
-                        $this->iParsedIndex * 10
-                    ),
-                    'show_debug_info'   => $this->getAOrB(
-                        isset( $aSubMenuPage[ 'show_debug_info' ] ),
-                        $aSubMenuPage[ 'show_debug_info' ],
-                        $this->oFactory->oProp->bShowDebugInfo
-                    ),
-                )
-                + $aSubMenuPage;
+                'href_icon_32x32'   => $aSubMenuPage[ 'screen_icon' ],
+                'screen_icon_id'    => $this->getAOrB(
+                    in_array( $aSubMenuPage[ 'screen_icon' ], self::$aScreenIconIDs ),
+                    $aSubMenuPage[ 'screen_icon' ],
+                    'generic'
+                ),
+                'capability'        => $this->getElement(
+                    $aSubMenuPage,
+                    'capability',
+                    $this->oFactory->oProp->sCapability
+                ),
+                'order'             => $this->getAOrB(
+                    is_numeric( $aSubMenuPage[ 'order' ] ),
+                    $aSubMenuPage[ 'order' ],
+                    $this->iParsedIndex * 10
+                ),
+                'show_debug_info'   => $this->getAOrB(
+                    isset( $aSubMenuPage[ 'show_debug_info' ] ),
+                    $aSubMenuPage[ 'show_debug_info' ],
+                    $this->oFactory->oProp->bShowDebugInfo
+                ),
+            )
+            + $aSubMenuPage;
 
         }
 

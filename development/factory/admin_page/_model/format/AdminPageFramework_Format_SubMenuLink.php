@@ -43,6 +43,9 @@ class AdminPageFramework_Format_SubMenuLink extends AdminPageFramework_Format_Su
      */
     public $aSubMenuLink = array();
 
+    /**
+     * @var AdminPageFramework
+     */
     public $oFactory;
 
     /**
