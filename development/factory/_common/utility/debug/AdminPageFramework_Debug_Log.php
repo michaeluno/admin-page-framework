@@ -10,24 +10,22 @@
 /**
  * A base class of the debug class.
  *
- * @since           3.8.9
- * @extends         AdminPageFramework_Debug_Base
- * @package         AdminPageFramework/Common/Utility
+ * @since   3.8.9
+ * @package AdminPageFramework/Common/Utility
  */
 class AdminPageFramework_Debug_Log extends AdminPageFramework_Debug_Base {
 
     /**
      * Logs the given variable output to a file.
      *
-     * @param       mixed       $mValue             The value to log.
-     * @param       string      $sFilePath          The log file path.
-     * @param       boolean     $bStackTrace        Whether to include the stack trace.
-     * @param       integer     $iTrace             How many times to climb the backtrace.
-     * @param       integer     $iStringLengthLimit The string value length limit.
-     * @param       integer     $iArrayDepthLimit   The depth limit for arrays.
-     * @since       3.8.9
-     * @return      void
-     **/
+     * @param mixed   $mValue             The value to log.
+     * @param string  $sFilePath          The log file path.
+     * @param boolean $bStackTrace        Whether to include the stack trace.
+     * @param integer $iTrace             How many times to climb the backtrace.
+     * @param integer $iStringLengthLimit The string value length limit.
+     * @param integer $iArrayDepthLimit   The depth limit for arrays.
+     * @since 3.8.9
+     */
     static protected function _log( $mValue, $sFilePath=null, $bStackTrace=false, $iTrace=0, $iStringLengthLimit=99999, $iArrayDepthLimit=50 ) {
 
         static $_fPreviousTimeStamp = 0;
@@ -45,8 +43,8 @@ class AdminPageFramework_Debug_Log extends AdminPageFramework_Debug_Base {
 
     }
         /**
-         * @since       3.8.9
-         * @return      string
+         * @since  3.8.9
+         * @return string
          */
         static private function ___getLogContents( $mValue, $_fCurrentTimeStamp, $_fPreviousTimeStamp, $_sCallerClass, $_sCallerFunction, $iStringLengthLimit, $iArrayDepthLimit ) {
             return self::___getLogHeadingLine(
@@ -58,8 +56,8 @@ class AdminPageFramework_Debug_Log extends AdminPageFramework_Debug_Base {
                 . self::_getLegibleDetails( $mValue, $iStringLengthLimit, $iArrayDepthLimit ) . PHP_EOL;
         }
         /**
-         * @since       3.8.9
-         * @return      string
+         * @since  3.8.9
+         * @return string
          */
         static private function ___getCallerFunctionName( $oCallerInfo, $iTrace ) {
             return self::getElement(
@@ -81,11 +79,10 @@ class AdminPageFramework_Debug_Log extends AdminPageFramework_Debug_Base {
         }
         /**
          * Determines the log file path.
-         * @since       3.5.3
-         * @sicne       3.8.19  Shortened the generated file name.
-         * @internal
-         * @return      string      The path of the file to log the contents.
-         * @param       string|boolean  $bsFilePathOrName     If the file path is specified, use that path. If a string of non-path value is given, it will be used as a part of the log file name. Otherwise, automatically generates a file name with a caller class name.
+         * @since  3.5.3
+         * @sicne  3.8.19  Shortened the generated file name.
+         * @return string      The path of the file to log the contents.
+         * @param  string|boolean  $bsFilePathOrName     If the file path is specified, use that path. If a string of non-path value is given, it will be used as a part of the log file name. Otherwise, automatically generates a file name with a caller class name.
          */
         static private function ___getLogFilePath( $bsFilePathOrName, $sCallerClass ) {
 
@@ -111,8 +108,7 @@ class AdminPageFramework_Debug_Log extends AdminPageFramework_Debug_Base {
         }
             /**
              * Creates a file.
-             * @return      boolean
-             * @internal
+             * @return boolean
              */
             static private function ___createFile( $sFilePath ) {
                 if ( ! $sFilePath || true === $sFilePath ) {
@@ -128,12 +124,10 @@ class AdminPageFramework_Debug_Log extends AdminPageFramework_Debug_Base {
 
         /**
          * Returns the heading part of a log item.
-         * @since       3.5.3
-         * @internal
-         * @return      string      the heading part of a log item.
+         * @since  3.5.3
+         * @return string The heading part of a log item.
          */
         static private function ___getLogHeadingLine( $fCurrentTimeStamp, $nElapsed, $sCallerClass, $sCallerFunction ) {
-
             $_nNow              = $fCurrentTimeStamp + ( self::___getSiteGMTOffset() * 60 * 60 );
             $_nMicroseconds     = str_pad( round( ( $_nNow - floor( $_nNow ) ) * 10000 ), 4, '0' );
             $_aOutput           = array(
@@ -146,13 +140,10 @@ class AdminPageFramework_Debug_Log extends AdminPageFramework_Debug_Base {
                 self::getCurrentURL(),
             );
             return implode( ' ', $_aOutput );
-
         }
-
             /**
              * Returns the GMT offset of the site.
-             *
-             * @return      numeric
+             * @return numeric
              */
             static private function ___getSiteGMTOffset() {
                 static $_nGMTOffset;
@@ -161,9 +152,8 @@ class AdminPageFramework_Debug_Log extends AdminPageFramework_Debug_Base {
                     : get_option( 'gmt_offset' );
                 return $_nGMTOffset;
             }
-
             /**
-             * @return      integer
+             * @return integer
              */
             static private function ___getPageLoadID() {
                 static $_sPageLoadID;
@@ -175,9 +165,8 @@ class AdminPageFramework_Debug_Log extends AdminPageFramework_Debug_Base {
 
             /**
              * Returns formatted elapsed time.
-             * @since       3.5.3
-             * @internal
-             * @return      string      Formatted elapsed time.
+             * @since  3.5.3
+             * @return string Formatted elapsed time.
              */
             static private function ___getFormattedElapsedTime( $nElapsed ) {
 
