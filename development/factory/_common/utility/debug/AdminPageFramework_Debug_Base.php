@@ -12,15 +12,14 @@
  *
  * Mainly provides methods for debug outputs.
  *
- * @since           3.8.9
- * @extends         AdminPageFramework_FrameworkUtility
- * @package         AdminPageFramework/Common/Utility
+ * @since   3.8.9
+ * @package AdminPageFramework/Common/Utility
  */
 class AdminPageFramework_Debug_Base extends AdminPageFramework_FrameworkUtility {
 
     /**
-     * @var int
-     * @since   3.8.19
+     * @var   integer
+     * @since 3.8.19
      */
     static public $iLegibleArrayDepthLimit = 50;
 
@@ -31,11 +30,11 @@ class AdminPageFramework_Debug_Base extends AdminPageFramework_FrameworkUtility 
 
     /**
      * Returns a legible value representation with value details.
-     * @param   mixed   $mValue
-     * @param   integer $iStringLengthLimit
-     * @param   integer $iArrayDepthLimit
-     * @return  string
-     * @since   3.8.9
+     * @param  mixed   $mValue
+     * @param  integer $iStringLengthLimit
+     * @param  integer $iArrayDepthLimit
+     * @return string
+     * @since  3.8.9
      */
     static protected function _getLegibleDetails( $mValue, $iStringLengthLimit=0, $iArrayDepthLimit=0 ) {
         if ( is_array( $mValue ) ) {
@@ -49,10 +48,10 @@ class AdminPageFramework_Debug_Base extends AdminPageFramework_FrameworkUtility 
      * Returns a object name if it is an object. Otherwise, the value itself.
      * This is used to convert objects into a string in array-walk functions
      * as objects tent to get large when they are converted to a string representation.
-     * @since       3.8.9
-     * @since       3.8.32  Changed the visibility scope to public from private to be passed as a callback for outside the current class scope.
+     * @since  3.8.9
+     * @since  3.8.32  Changed the visibility scope to public from private to be passed as a callback for outside the current class scope.
      * And renamed from `___getObjectName()`.
-     * @param mixed $mItem
+     * @param  mixed $mItem
      * @return mixed
      */
     static public function getObjectName( $mItem ) {
@@ -84,7 +83,7 @@ class AdminPageFramework_Debug_Base extends AdminPageFramework_FrameworkUtility 
         $mValue = is_array( $mValue )
             ? self::getArrayMappedRecursive(
                 array( __CLASS__, 'getObjectName' ),
-                self::_getSlicedByDepth( $mValue, $iArrayDepthLimit ),
+                self::___getSlicedByDepth( $mValue, $iArrayDepthLimit ),
                 array()
             )
             : $mValue;
@@ -96,20 +95,19 @@ class AdminPageFramework_Debug_Base extends AdminPageFramework_FrameworkUtility 
     }
 
         /**
-         * @since       3.8.9
-         * @param       callable     $asoCallable
-         * @return      string
+         * @since  3.8.9
+         * @param  callable $asoCallable
+         * @return string
          */
         static private function ___getLegibleDetailedCallable( $asoCallable ) {
             return '(callable) ' . self::___getCallableName( $asoCallable );
         }
             /**
-             * @since       3.8.9
-             * @param       callable     $asoCallable
-             * @return      string
+             * @since  3.8.9
+             * @param  callable $asoCallable
+             * @return string
              */
             static public function ___getCallableName( $asoCallable ) {
-
                 if ( is_string( $asoCallable ) ) {
                     return $asoCallable;
                 }
@@ -120,52 +118,49 @@ class AdminPageFramework_Debug_Base extends AdminPageFramework_FrameworkUtility 
                     ? get_class( $asoCallable[ 0 ] )
                     : ( string ) $asoCallable[ 0 ];
                 return $_sSubject . '::' . ( string ) $asoCallable[ 1 ];
-
             }
 
         /**
-         * @since       3.8.9
-         * @param       object      $oObject
-         * @return      string
+         * @since  3.8.9
+         * @param  object $oObject
+         * @return string
          */
         static private function ___getLegibleDetailedObject( $oObject ) {
-
             if ( method_exists( $oObject, '__toString' ) ) {
                 return ( string ) $oObject;
             }
             return '(object) ' . get_class( $oObject ) . ' ' . count( get_object_vars( $oObject ) ) . ' properties.';
-
         }
 
         /**
          * Returns an array representation with value types in each element.
          * The element deeper than 10 dimensions will be dropped.
-         * @param  array   $aArray
-         * @param  integer $iStringLengthLimit
-         * @param  integer $iDepthLimit
-         * @return array
          * @since  3.8.9
          * @since  3.8.22  Added the `$iDepthLimit` parameter
          * @since  3.8.22  Changed the scope to private from public.
          * @since  3.8.22  Renamed from `_getLegibleArray()`.
+         * @param  array   $aArray
+         * @param  integer $iStringLengthLimit
+         * @param  integer $iDepthLimit
+         * @return array
          */
         static private function ___getLegibleDetailedArray( array $aArray, $iStringLengthLimit=0, $iDepthLimit=0 ) {
             $_iDepthLimit = $iDepthLimit ? $iDepthLimit : self::$iLegibleArrayDepthLimit;
             return self::getArrayMappedRecursive(
                 array( __CLASS__, 'getLegibleDetailedValue' ),
-                self::_getSlicedByDepth( $aArray, $_iDepthLimit ),
+                self::___getSlicedByDepth( $aArray, $_iDepthLimit ),
                 array( $iStringLengthLimit )
             );
         }
 
     /**
-     * @param mixed $mItem
-     * @param integer $iStringLengthLimit
-     * @return      string
-     * @since       3.8.22  Renamed from `_getLegibleValue()`.
-     * @since       3.8.9
-     * @since       3.8.32  Changed the visibility scope to public from private to be passed as a callback for outside the current class scope.
+     * @since  3.8.22  Renamed from `_getLegibleValue()`.
+     * @since  3.8.9
+     * @since  3.8.32  Changed the visibility scope to public from private to be passed as a callback for outside the current class scope.
      * And renamed from `___getLegibleDetailedValue()`.
+     * @param  mixed   $mItem
+     * @param  integer $iStringLengthLimit
+     * @return string
      */
     static public function getLegibleDetailedValue( $mItem, $iStringLengthLimit ) {
         if ( is_callable( $mItem ) ) {
@@ -212,8 +207,7 @@ class AdminPageFramework_Debug_Base extends AdminPageFramework_FrameworkUtility 
                 : '(' . gettype( $sScalar ) . ', length: ' . self::___getValueLength( $sScalar ) .  ') ' . $sScalar;
         }
             /**
-             * Returns a length of a value.
-             * @internal
+             * Returns a length of a value.l
              * @since    3.5.3
              * @return   integer|null For string or integer, the string length. For array, the element lengths. For other types, null.
              * @param    mixed        $mValue
@@ -229,10 +223,10 @@ class AdminPageFramework_Debug_Base extends AdminPageFramework_FrameworkUtility 
                 return null;
             }
             /**
-             * @param       string      $sString
-             * @param       integer     $iLengthLimit
-             * @param       boolean     $bShowDetails
-             * @return      string
+             * @param  string  $sString
+             * @param  integer $iLengthLimit
+             * @param  boolean $bShowDetails
+             * @return string
              */
             static private function ___getLegibleString( $sString, $iLengthLimit, $bShowDetails=true ) {
 
@@ -280,33 +274,30 @@ class AdminPageFramework_Debug_Base extends AdminPageFramework_FrameworkUtility 
 
     /**
      * Slices an array by the given depth.
-     * @param array $aSubject
-     * @param int $iDepth
-     * @param string $sMore
+     * @param  array   $aSubject
+     * @param  integer $iDepth
+     * @param  string  $sMore
      * @return array
      * @since  3.8.22
      */
     static public function getSlicedByDepth( array $aSubject, $iDepth=0, $sMore='(array truncated) ...' ) {
-       return self::_getSlicedByDepth( $aSubject, $iDepth, $sMore );
+       return self::___getSlicedByDepth( $aSubject, $iDepth, $sMore );
     }
 
     /**
      * Slices an array by the given depth.
      *
-     * @param array $aSubject
-     * @param int $iDepth
-     * @param string $sMore
-     *
-     * @return      array
-     * @since       3.4.4
-     * @since       3.8.9       Changed it not to convert an object into an array.
-     * @since       3.8.9       Changed the scope to private.
-     * @since       3.8.9       Renamed from `getSliceByDepth()`.
-     * @since       3.8.22      Show a message when truncated by depth.
-     * @since       3.8.22      Added the `$sMore` parameter.
-     * @internal
+     * @since  3.4.4
+     * @since  3.8.9   Changed it not to convert an object into an array.
+     * @since  3.8.9   Changed the scope to private.
+     * @since  3.8.9   Renamed from `getSliceByDepth()`.
+     * @since  3.8.22  Show a message when truncated by depth. Added the `$sMore` parameter.
+     * @param  array   $aSubject
+     * @param  integer $iDepth
+     * @param  string  $sMore
+     * @return array
      */
-    static private function _getSlicedByDepth( array $aSubject, $iDepth=0, $sMore='(array truncated) ...' ) {
+    static private function ___getSlicedByDepth( array $aSubject, $iDepth=0, $sMore='(array truncated) ...' ) {
 
         foreach ( $aSubject as $_sKey => $_vValue ) {
 
@@ -314,7 +305,7 @@ class AdminPageFramework_Debug_Base extends AdminPageFramework_FrameworkUtility 
 
                 $_iDepth = $iDepth;
                 if ( $iDepth > 0 ) {
-                    $aSubject[ $_sKey ] = self::_getSlicedByDepth( $_vValue, --$iDepth );
+                    $aSubject[ $_sKey ] = self::___getSlicedByDepth( $_vValue, --$iDepth );
                     $iDepth = $_iDepth;
                     continue;
                 }
@@ -333,11 +324,11 @@ class AdminPageFramework_Debug_Base extends AdminPageFramework_FrameworkUtility 
     }
 
     /**
-     * @param   integer     $iSkip    The number of skipping records. This is used when the caller does not want to include the self function/method.
-     * @param   null|mixed  $_deprecated
-     * @return  string
-     * @since   3.8.22
-     * @since   3.8.23 Deprecated the `$oException` parameter.
+     * @param  integer     $iSkip    The number of skipping records. This is used when the caller does not want to include the self function/method.
+     * @param  null|mixed  $_deprecated
+     * @return string
+     * @since  3.8.22
+     * @since  3.8.23 Deprecated the `$oException` parameter.
      */
     static public function getStackTrace( $iSkip=0, $_deprecated=null ) {
 
@@ -351,7 +342,6 @@ class AdminPageFramework_Debug_Base extends AdminPageFramework_FrameworkUtility 
         }
 
         $_iSkip      = $_iSkip + $iSkip;
-
         $_aTraces    = array();
         $_aFrames    = $_oException->getTrace();
         $_aFrames    = array_slice( $_aFrames, $_iSkip );
@@ -376,13 +366,11 @@ class AdminPageFramework_Debug_Base extends AdminPageFramework_FrameworkUtility 
 
     }
         /**
-         * @param array $aTraceArguments
+         * @param  array  $aTraceArguments
          * @return string
-         * @since 3.8.22
-         * @internal
+         * @since  3.8.22
          */
         static private function ___getArgumentsOfEachStackTrace( array $aTraceArguments ) {
-
             $_aArguments = array();
             foreach ( $aTraceArguments as $_mArgument ) {
                 $_sType        = gettype( $_mArgument );
@@ -399,9 +387,8 @@ class AdminPageFramework_Debug_Base extends AdminPageFramework_FrameworkUtility 
             return join(", ",  $_aArguments );
         }
             /**
-             * @since 3.8.22
-             * @param mixed $mArgument
-             * @internal
+             * @since  3.8.22
+             * @param  mixed  $mArgument
              * @return string
              */
             static private function ___getStackTraceArgument_string( $mArgument ) {
