@@ -75,7 +75,7 @@ abstract class AdminPageFramework_Controller_Menu extends AdminPageFramework_Vie
      */
     public function setRootMenuPage( $sRootMenuLabel, $sIcon16x16=null, $iMenuPosition=null ) {
         $sRootMenuLabel = trim( $sRootMenuLabel );
-        $_sSlug         = $this->___getBuiltInMenuSlug( $sRootMenuLabel ); // if true, this method returns the slug
+        $_sSlug         = $this->___getBuiltInMenuSlugByLabel( $sRootMenuLabel ); // if true, this method returns the slug
         $this->oProp->aRootMenu = array(
             'sTitle'        => $sRootMenuLabel,
             'sPageSlug'     => strlen( $_sSlug ) ? $_sSlug : $this->oProp->sClassName,
@@ -92,7 +92,7 @@ abstract class AdminPageFramework_Controller_Menu extends AdminPageFramework_Vie
          * @since       3.9.0       Made the return type always string. Renamed from `_isBuiltInMenuItem()`.
          * @return      string     Returns the associated slug string, if true.
          */
-        private function ___getBuiltInMenuSlug( $sMenuLabel ) {
+        private function ___getBuiltInMenuSlugByLabel( $sMenuLabel ) {
             $_sMenuLabelLower = strtolower( $sMenuLabel );
             return array_key_exists( $_sMenuLabelLower, $this->_aBuiltInRootMenuSlugs )
                 ? $this->_aBuiltInRootMenuSlugs[ $_sMenuLabelLower ]
