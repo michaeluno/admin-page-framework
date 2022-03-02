@@ -10,13 +10,12 @@
 /**
  * Provides methods for text messages.
  *
- * @since       2.0.0
- * @since       2.1.6       Multiple instances of this class are disallowed.
- * @since       3.2.0       Multiple instances of this class are allowed but the instantiation is restricted to per text domain basis.
- * @package     AdminPageFramework/Common/Factory/Property
+ * @since    2.0.0
+ * @since    2.1.6       Multiple instances of this class are disallowed.
+ * @since    3.2.0       Multiple instances of this class are allowed but the instantiation is restricted to per text domain basis.
+ * @package  AdminPageFramework/Common/Factory/Property
  * @internal
- *
- * @remark      When adding a new framework translation item,
+ * @remark   When adding a new framework translation item,
  * Step 1: add a key and the default value to the `$aDefaults` property array.
  * Step 2: add a dummy function call in the `___doDummy()` method so that parser programs can catch it.
  */
@@ -25,9 +24,9 @@ class AdminPageFramework_Message {
     /**
      * Stores the framework's messages.
      *
-     * @since       2.0.0
-     * @since       3.1.3       No item is defined by default but done on the fly per request. The below array structure is kept for backward compatibility.
-     * @remark      The user may modify this property directly.
+     * @since  2.0.0
+     * @since  3.1.3       No item is defined by default but done on the fly per request. The below array structure is kept for backward compatibility.
+     * @remark The user may modify this property directly.
      */
     public $aMessages = array();
 
@@ -198,15 +197,15 @@ class AdminPageFramework_Message {
 
     /**
      * Stores the text domain.
-     * @since       3.x
-     * @since       3.5.0       Declared as a default property.
+     * @since 3.x
+     * @since 3.5.0       Declared as a default property.
      */
     protected $_sTextDomain = 'admin-page-framework';
 
     /**
      * Stores the self instance by text domain.
      * @internal
-     * @since       3.2.0
+     * @since    3.2.0
      */
     static private $_aInstancesByTextDomain = array();
 
@@ -259,7 +258,7 @@ class AdminPageFramework_Message {
      *
      * This is used from field type and input classes to display deprecated admin errors/
      *
-     * @since       3.3.3
+     * @since 3.3.3
      */
     public function getTextDomain() {
         return $this->_sTextDomain;
@@ -276,11 +275,11 @@ class AdminPageFramework_Message {
     /**
      * Returns the framework system message by key.
      *
-     * @remark      An alias of the __() method.
-     * @since       3.2.0
-     * @since       3.7.0        If no key is specified, return the entire mesage array.
-     * @param       string       $sKey
-     * @return      string|array
+     * @remark An alias of the __() method.
+     * @since  3.2.0
+     * @since  3.7.0        If no key is specified, return the entire mesage array.
+     * @param  string       $sKey
+     * @return string|array
      */
     public function get( $sKey='' ) {
         if ( ! $sKey ) {
@@ -307,8 +306,8 @@ class AdminPageFramework_Message {
 
     /**
      * Echoes the framework system message by key.
-     * @remark  An alias of the _e() method.
-     * @since   3.2.0
+     * @remark An alias of the _e() method.
+     * @since  3.2.0
      */
     public function output( $sKey ) {
         echo $this->get( $sKey );
@@ -334,8 +333,8 @@ class AdminPageFramework_Message {
     /**
      * Responds to a request to an undefined property.
      *
-     * @since       3.1.3
-     * @return      string
+     * @since  3.1.3
+     * @return string
      */
     public function __get( $sPropertyName ) {
         return isset( $this->aDefaults[ $sPropertyName ] ) ? $this->aDefaults[ $sPropertyName ] : $sPropertyName;
@@ -345,8 +344,8 @@ class AdminPageFramework_Message {
     /**
      * A dummy method just lists translation items to be parsed by translation programs such as POEdit.
      *
-     * @since       3.5.3
-     * @since       3.8.19  Changed the name to avoid false-positives of PHP 7.2 incompatibility by third party tools.
+     * @since 3.5.3
+     * @since 3.8.19 Changed the name to avoid false-positives of PHP 7.2 incompatibility by third party tools.
      */
     private function ___doDummy() {
 
