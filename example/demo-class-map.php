@@ -1,4 +1,5 @@
 <?php 
+
 return array(
     "AdminPageFrameworkLoader_Demo_Bootstrap" => AdminPageFrameworkLoader_Registry::$sDirPath . "/example/admin-page-framework-demo-bootstrap.php", 
     "APF_Demo" => AdminPageFrameworkLoader_Registry::$sDirPath . "/example/admin_page/APF_Demo.php", 
@@ -74,6 +75,9 @@ return array(
     "APF_Demo_CustomFieldType_Sample" => AdminPageFrameworkLoader_Registry::$sDirPath . "/example/admin_page/custom_field_type/APF_Demo_CustomFieldType_Sample.php", 
     "APF_Demo_CustomFieldType_Select2" => AdminPageFrameworkLoader_Registry::$sDirPath . "/example/admin_page/custom_field_type/APF_Demo_CustomFieldType_Select2.php", 
     "APF_Demo_CustomFieldType_Toggle" => AdminPageFrameworkLoader_Registry::$sDirPath . "/example/admin_page/custom_field_type/APF_Demo_CustomFieldType_Toggle.php", 
+    "APF_Demo_Debug" => AdminPageFrameworkLoader_Registry::$sDirPath . "/example/admin_page/debug/APF_Demo_Debug.php", 
+    "APF_Demo_Debug_Menu" => AdminPageFrameworkLoader_Registry::$sDirPath . "/example/admin_page/debug/APF_Demo_Debug_Menu.php", 
+    "APF_Demo_Debug_PostMeta" => AdminPageFrameworkLoader_Registry::$sDirPath . "/example/admin_page/debug/APF_Demo_Debug_PostMeta.php", 
     "APF_Demo_HiddenPage" => AdminPageFrameworkLoader_Registry::$sDirPath . "/example/admin_page/hidden_page/APF_Demo_HiddenPage.php", 
     "APF_Demo_ManageOptions" => AdminPageFrameworkLoader_Registry::$sDirPath . "/example/admin_page/manage_options/APF_Demo_ManageOptions.php", 
     "APF_Demo_ManageOptions_Export" => AdminPageFrameworkLoader_Registry::$sDirPath . "/example/admin_page/manage_options/APF_Demo_ManageOptions_Export.php", 
