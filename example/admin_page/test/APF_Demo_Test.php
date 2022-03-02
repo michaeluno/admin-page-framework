@@ -10,8 +10,8 @@
 /**
  * Adds a page to the loader plugin.
  *
- * @since       3.8.14
- * @package     AdminPageFramework/Example
+ * @since   3.8.14
+ * @package AdminPageFramework/Example
  */
 class APF_Demo_Test {
 
@@ -33,18 +33,18 @@ class APF_Demo_Test {
     }
 
     /**
-     * @callback        action      set_up_{instantiated class name}
+     * @callback add_action() set_up_{instantiated class name}
      */
     public function replyToSetUp( $oFactory ) {
 
         /**
-         * ( required ) Add sub-menu items (pages or links)
+         * (required) Add sub-menu items (pages or links)
          */
         $oFactory->addSubMenuItems(
             array(
-                'title'         => __( 'Test', 'admin-page-framework-loader' ),
-                'page_slug'     => $this->_sPageSlug,
-                'order'         => 35,
+                'title'     => __( 'Test', 'admin-page-framework-loader' ),
+                'page_slug' => $this->_sPageSlug,
+                'order'     => 100,
             )
         );
 
@@ -53,8 +53,7 @@ class APF_Demo_Test {
     }
 
     /**
-     * @return      void
-     * @callback    action      load_{page slug}
+     * @callback add_action() load_{page slug}
      */
     public function replyToLoadPage( $oFactory ) {
 

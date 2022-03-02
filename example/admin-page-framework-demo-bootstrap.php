@@ -9,8 +9,7 @@
  */
 
 /**
- * 
- * @since      DEVVER
+ *
  */
 class AdminPageFrameworkLoader_Demo_Bootstrap {
     
@@ -24,7 +23,7 @@ class AdminPageFrameworkLoader_Demo_Bootstrap {
                 
         $this->_loadTermMeta();
         
-        $this->_loadAdminPaeges();
+        $this->_loadAdminPages();
         
         $this->_loadWidgets();
         
@@ -33,8 +32,7 @@ class AdminPageFrameworkLoader_Demo_Bootstrap {
     }
     
         private function _loadCustomPostType() {
-            
-            // Custom post type
+
             include( AdminPageFrameworkLoader_Registry::$sDirPath . '/example/post_type/APF_PostType.php' );
                          
         }
@@ -81,7 +79,7 @@ class AdminPageFrameworkLoader_Demo_Bootstrap {
         /**
          * Admin Pages
          */
-        private function _loadAdminPaeges() {
+        private function _loadAdminPages() {
         
             if ( ! is_admin() ) { 
                 return; 
@@ -115,7 +113,6 @@ class AdminPageFrameworkLoader_Demo_Bootstrap {
       
         /**
          * Registers classes to be auto-loaded.
-         * @return      void
          */
         private function _registerClasses() {
             new AdminPageFramework_RegisterClasses( 
