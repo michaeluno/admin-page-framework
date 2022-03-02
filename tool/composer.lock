@@ -594,16 +594,16 @@
         },
         {
             "name": "michaeluno/admin-page-framework-compiler",
-            "version": "1.1.0",
+            "version": "1.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/michaeluno/admin-page-framework-compiler.git",
-                "reference": "370f5e614016325544a7c01be01a2cd8ba37e39c"
+                "reference": "2d8fa7e1b07ed782c1ce44653d322405be9331ae"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/michaeluno/admin-page-framework-compiler/zipball/370f5e614016325544a7c01be01a2cd8ba37e39c",
-                "reference": "370f5e614016325544a7c01be01a2cd8ba37e39c",
+                "url": "https://api.github.com/repos/michaeluno/admin-page-framework-compiler/zipball/2d8fa7e1b07ed782c1ce44653d322405be9331ae",
+                "reference": "2d8fa7e1b07ed782c1ce44653d322405be9331ae",
                 "shasum": ""
             },
             "require": {
@@ -641,9 +641,9 @@
             ],
             "support": {
                 "issues": "https://github.com/michaeluno/admin-page-framework-compiler/issues",
-                "source": "https://github.com/michaeluno/admin-page-framework-compiler/tree/1.1.0"
+                "source": "https://github.com/michaeluno/admin-page-framework-compiler/tree/1.2.0"
             },
-            "time": "2022-02-26T14:49:44+00:00"
+            "time": "2022-03-02T05:40:32+00:00"
         },
         {
             "name": "michaeluno/php-classmap-generator",
