@@ -357,6 +357,7 @@ class AdminPageFramework_Message {
         __( 'Import Options', 'admin-page-framework' );
         __( 'Submit', 'admin-page-framework' );
         __( 'An error occurred while uploading the import file.', 'admin-page-framework' );
+        /* translators: 1: Uploaded file type */
         __( 'The uploaded file type is not supported: %1$s', 'admin-page-framework' );
         __( 'Could not load the importing data.', 'admin-page-framework' );
         __( 'The uploaded file has been imported.', 'admin-page-framework' );
@@ -368,6 +369,7 @@ class AdminPageFramework_Message {
         __( 'Please confirm your action.', 'admin-page-framework' );
         __( 'The specified options have been deleted.', 'admin-page-framework' );
         __( 'A problem occurred while processing the form data. Please try again.', 'admin-page-framework' );
+        /* translators: 1: The value of max_input_vars set by PHP 2: Actual $_POST element count */
         __( 'Not all form fields could not be sent. Please check your server settings of PHP <code>max_input_vars</code> and consult the server administrator to increase the value. <code>max input vars</code>: %1$s. <code>$_POST</code> count: %2$s', 'admin-page-framework' ); // sanitization unnecessary as a literal string
         __( 'Is it okay to send the email?', 'admin-page-framework' );
         __( 'The email has been sent.', 'admin-page-framework' );
@@ -397,9 +399,13 @@ class AdminPageFramework_Message {
         __( 'Insert', 'admin-page-framework' );
         __( 'Use This', 'admin-page-framework' );
         __( 'Return to Library', 'admin-page-framework' );
+        /* translators: 1: Number of performed database queries 2: Elapsed seconds for page load */
         __( '%1$s queries in %2$s seconds.', 'admin-page-framework' );
+        /* translators: 1: Used memory amount 2: Max memory cap set by WordPress (WP_MEMORY_LIMIT) 3: Percentage of the memory usage */
         __( '%1$s out of %2$s MB (%3$s) memory used.', 'admin-page-framework' );
+        /* translators: 1: Peak memory usage amount */
         __( 'Peak memory usage %1$s MB.', 'admin-page-framework' );
+        /* translators: 1: Initial memory usage amount */
         __( 'Initial memory usage  %1$s MB.', 'admin-page-framework' );
         __( 'The allowed maximum number of fields is {0}.', 'admin-page-framework' );
         __( 'The allowed minimum number of fields is {0}.', 'admin-page-framework' );
@@ -426,6 +432,7 @@ class AdminPageFramework_Message {
         __( 'Acceptable', 'admin-page-framework' );
         __( 'No log found.', 'admin-page-framework' );
 
+        /* translators: 1: Method name */
         __( 'The method is called too early: %1$s', 'admin-page-framework' );
         __( 'Debug Info', 'admin-page-framework' );
 
