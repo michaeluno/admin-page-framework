@@ -33,7 +33,7 @@ class AdminPageFrameworkLoader_Registry_Base {
  *
  * The plugin will refer to the information.
  *
- * @since       3.5.0
+ * @since 3.5.0
  */
 final class AdminPageFrameworkLoader_Registry extends AdminPageFrameworkLoader_Registry_Base {
 
@@ -52,15 +52,15 @@ final class AdminPageFrameworkLoader_Registry extends AdminPageFrameworkLoader_R
     /**
      * The transient prefix.
      *
-     * @remark      This is also accessed from `uninstall.php` so do not remove.
-     * @remark      Do not exceed 8 characters as a transient name allows 45 characters or less ( 40 for site transients ) so that md5 (32 characters) can be added.
+     * @remark This is also accessed from `uninstall.php` so do not remove.
+     * @remark Do not exceed 8 characters as a transient name allows 45 characters or less ( 40 for site transients ) so that md5 (32 characters) can be added.
      */
     const TRANSIENT_PREFIX         = 'APFL_';
 
     /**
      * The hook slug used for the prefix of action and filter hook names.
      *
-     * @remark      The ending underscore is not necessary.
+     * @remark The ending underscore is not necessary.
      */
     const HOOK_SLUG                = 'admin_page_framework_loader';
 
@@ -116,28 +116,26 @@ final class AdminPageFrameworkLoader_Registry extends AdminPageFrameworkLoader_R
      */
     static public $aAdminPages = array(
         // key => 'page slug'
-        'about'     => 'apfl_about',        // the welcome page
-        'addon'     => 'apfl_addons',
-        'tool'      => 'apfl_tools',
-        'help'      => 'apfl_contact',
+        'about' => 'apfl_about',   // the welcome page
+        'addon' => 'apfl_addons',
+        'tool'  => 'apfl_tools',
+        'help'  => 'apfl_contact',
     );
 
     /**
      * Used post types.
      */
     static public $aPostTypes = array(
-        'demo'      => 'apf_posts',
+        'demo' => 'apf_posts',
     );
 
     /**
      * Used taxonomies.
      */
-    static public $aTaxonomies = array(
-    );
+    static public $aTaxonomies = array();
 
     /**
      * Sets up static properties.
-     * @return      void
      */
     static public function setUp( $sPluginFilePath ) {
         self::$sFilePath = $sPluginFilePath;
@@ -151,8 +149,8 @@ final class AdminPageFrameworkLoader_Registry extends AdminPageFrameworkLoader_R
      * <code>
      * AdminPageFrameworkLoader_Registry::getPluginURL( 'asset/css/meta_box.css' );
      * </code>
-     * @since       3.5.0
-     * @return      string
+     * @since  3.5.0
+     * @return string
      */
     public static function getPluginURL( $sRelativePath='' ) {
         if ( isset( self::$_sPluginURLCache ) ) {
@@ -169,25 +167,23 @@ final class AdminPageFrameworkLoader_Registry extends AdminPageFrameworkLoader_R
     /**
      * Returns the information of this class.
      *
-     * @since       3.5.0
-     * @return      array
+     * @since  3.5.0
+     * @return array
      */
     static public function getInfo() {
         $_oReflection = new ReflectionClass( __CLASS__ );
         return $_oReflection->getConstants()
-            + $_oReflection->getStaticProperties()
-        ;
+            + $_oReflection->getStaticProperties();
     }
 
     /**
      * Stores admin notices.
-     * @since       3.5.0
+     * @since 3.5.0
      */
     static public $_aAdminNotices = array();
     /**
      * Sets an admin notice.
-     * @since       3.5.0
-     * @return      void
+     * @since 3.5.0
      */
     static public function setAdminNotice( $sMessage, $sClassAttribute='error' ) {
         if ( ! is_admin() ) {
@@ -201,8 +197,7 @@ final class AdminPageFrameworkLoader_Registry extends AdminPageFrameworkLoader_R
     }
         /**
          * Displays the set admin notices.
-         * @since       3.5.0
-         * @return      void
+         * @since 3.5.0
          */
         static public function _replyToSetAdminNotice() {
             foreach( self::$_aAdminNotices as $_aAdminNotice ) {
