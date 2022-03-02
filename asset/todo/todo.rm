@@ -1,11 +1,9 @@
 # Todo List
 
 ## Minor
-- Change the class map script to support autoload of traits and interfaces.
-       
+
 ## Major
 - Add the ability to set slug that suppresses the class name used for the hook names.
-- Separate resources from PHP files.
 - [4.0.0] Support namespaces.
 - [4.0.0] Add the ability to auto-load file constructs.
 - [4.0.0] Add a new meta box classes that do not require constructor parameters as they can be defined in class properties.
