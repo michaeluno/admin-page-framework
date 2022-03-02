@@ -32,7 +32,9 @@ $oCompiler = new \AdminPageFrameworkCompiler\Compiler(
             'path'  => $sHeaderClassPath,
             'type'  => 'CONSTANTS',
         ],
-        'exclude_classes'      => [],
+        'excludes'      => [
+            'file_names' => 'AdminPageFramework_Message.php',
+        ],
         'css_heredoc_keys'     => [ 'CSSRULES' ],       // to disable inline CSS minification, set an empty array
         'js_heredoc_keys'      => [ 'JAVASCRIPTS' ],    // to disable inline JavaScript minification, set an empty array
         'search'               => [
@@ -60,6 +62,7 @@ $oCompiler = new \AdminPageFrameworkCompiler\Compiler(
             'exclude_classes' => [
                 'AdminPageFramework_Form_Meta',
                 'AdminPageFramework_MetaBox_Page',
+                'AdminPageFramework_Message',
             ],
         ],
         'php_cs_fixer' => [
