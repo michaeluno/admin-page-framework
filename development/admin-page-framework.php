@@ -129,8 +129,7 @@ final class AdminPageFramework_Registry extends AdminPageFramework_Registry_Base
     static public function getVersion() {
 
         if ( ! isset( self::$sAutoLoaderPath ) ) {
-            /* translators: 1: A method name which triggered the error 2: The method name which should load earlier than the detected method */
-            trigger_error( self::NAME . ': ' . ' : ' . sprintf( __( 'The method, <code>%1$s</code>, is called too early. Perform <code>%2$s</code> earlier.', 'admin-page-framework' ), __METHOD__, 'setUp()' ), E_USER_WARNING );
+            trigger_error( self::NAME . ': ' . ' : ' . sprintf( 'The method, <code>%1$s</code>, is called too early. Perform <code>%2$s</code> earlier.', __METHOD__, 'setUp()' ), E_USER_WARNING );
             return self::VERSION;
         }
         $_aMinifiedVersionSuffix    = array(
