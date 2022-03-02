@@ -74,7 +74,7 @@ class APF_Demo_Debug_PostMeta {
                 'save'              => false,
                 'type'              => 'submit',
                 'value'             => 'Inspect'
-            ),
+            )
         );
 
         add_filter( 'validation_' . $oAdminPage->oProp->sClassName . '_debug', array( $this, 'validate' ), 10, 4 );
