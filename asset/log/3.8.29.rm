@@ -1,6 +1,0 @@
-- Fixed a bug that duplicated class selectors were added to the class attribute of input elements with the `class` field argument when nested elements are specified. 
-- Fixed a bug with the `AdminPageFramework_WPUtility_Meta::getSavedTermMetaArray()` method that did not retrieve any values
-- Fixed a bug with the `AdminPageFramework_ArrayHandler::delete()` method that did not delete given array elements properly.
-- Fixed a bug with the `AdminPageFramework_ErrorReporting` class that did not retrieve proper error level labels when a value was passed to the constructor parameter.
-- Fixed a bug with the `addLinkToPluginTitle()` method that did not properly add links when a value of an array was passed.
-- Fixed a bug with the `enqueueScripts()` method of the page metabox factory class that did not enqueue scripts properly.

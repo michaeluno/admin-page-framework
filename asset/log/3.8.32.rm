@@ -1,3 +1,0 @@
-- Fixed some raw HTTP request values.
-- Tweaked the behavior of the `submit` filed type with the `email` argument.
-- Tweaked the visual of repeatable buttons.

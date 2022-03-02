@@ -1,7 +1,0 @@
-- Added the `confirm` argument for the `submit` field type.
-- Added a message to appear when the submit button of the `import` field type is clicked without uploading a file.
-- Tweaked the style of the `import` field type.
-- Fixed non-sanitized HTTP request arrays.
-- Fixed a bug that field capability did not inherit from its section properly. 
-- Changed the behavior of the textarea of the system field type not to select text on click.
-- Removed the `ace` custom field type as it was warned by the wordpress.org plugin team not to load files remotely.

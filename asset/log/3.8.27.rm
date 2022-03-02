@@ -1,2 +1,0 @@
-- Fixed a bug that the `capability` field argument did not hide the field title. 
-- Fixed a bug that backslashes were stripped out for text input values.
