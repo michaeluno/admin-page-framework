@@ -53,9 +53,9 @@ With Composer, create a `composer.json` file with the following contents and per
 
 ### Making Changes to Your Cloned Repository
 
-The core files are located in the [development](./development) directory. 
+The core files are located in the [development](../development) directory. 
 
-1. Make sure the constant `WP_DEBUG` is set to `true` in the `wp-config.php` file of your development site. If this is `false`, the loader plugin will load the complied files in the [library](./library) directory.
+1. Make sure the constant `WP_DEBUG` is set to `true` in the `wp-config.php` file of your development site. If this is `false`, the loader plugin will load the complied files in the [library](../library) directory.
 2. Modify the core files and make sure your changes take effect.
     - Ensure you stick to the [Admin Page Framework Coding Standards](./coding_standard.md).
 3. If you add class files, make sure you run `run.sh` in `tool/inclusion_class_list` to generate inclusion file lists.
@@ -77,11 +77,11 @@ The core files are located in the [development](./development) directory.
 * Finally, please use 4 spaces and not tabs for indentations.
 
 # Additional Resources
-- [Tutorials](http://admin-page-framework.michaeluno.jp/tutorials/)
-- [Manual](http://admin-page-framework.michaeluno.jp/en/v3/package-AdminPageFramework.html)
-- [FAQ](https://wordpress.org/plugins/admin-page-framework/faq/)
+- [Tutorials](https://admin-page-framework.michaeluno.jp/tutorials/)
+- [Manual](https://admin-page-framework.michaeluno.jp/en/v3/package-AdminPageFramework.html)
+- [FAQ](httpss://wordpress.org/plugins/admin-page-framework/faq/)
 - [Other Notes](https://wordpress.org/plugins/admin-page-framework/other_notes/)
-- [Change Log](https://wordpress.org/plugins/admin-page-framework/changelog/) ([old change log](./changelog.md))
-- [How to Run Admin Page Framework Tests](./test/readme.md)
+- [Change Log](https://wordpress.org/plugins/admin-page-framework/changelog/) ([old change log](../changelog.md))
+- [How to Run Admin Page Framework Tests](../test/readme.md)
 - [GitHub Pull Request documentation](https://help.github.com/send-pull-requests/)
-- [Codeception Tests Guide](http://codeception.com/docs/02-GettingStarted)
+- [Codeception Tests Guide](https://codeception.com/docs/02-GettingStarted)
