@@ -1,4 +1,4 @@
-/*! Admin Page Framework - Image Field Type 0.0.2 */
+/*! Admin Page Framework - Image Field Type 0.0.3 */
 var apfMain  = AdminPageFrameworkScriptFormMain;
 var apfImage = AdminPageFrameworkImageFieldType;
 apfImage.hasMediaUploader = !! apfImage.hasMediaUploader;
@@ -6,6 +6,7 @@ apfImage.hasMediaUploader = !! apfImage.hasMediaUploader;
 
   var setAdminPageFrameworkImageUploader;
 
+  /** global: apfImage */
   debugLog( '0.0.2', apfImage );
 
   $( document ).ready( function () {
@@ -168,7 +169,7 @@ apfImage.hasMediaUploader = !! apfImage.hasMediaUploader;
             // If the _oImage variable is not defined at this point, it's an attachment, not an external URL.
             if ( typeof (_oImage) !== 'undefined' ) {
               setImagePreviewElementWithDelay( sInputID, _oImage );
-
+              _triggerChangeWithDelay( sInputID, _oImage );
             } else {
 
               var _oNewField;
@@ -181,6 +182,7 @@ apfImage.hasMediaUploader = !! apfImage.hasMediaUploader;
                 if ( 0 === iIndex ) {
                   // place first attachment in the field
                   setImagePreviewElementWithDelay( sInputID, _oAttributes );
+                  _triggerChangeWithDelay( sInputID, _oAttributes );
                   return true;
                 }
 
@@ -190,7 +192,7 @@ apfImage.hasMediaUploader = !! apfImage.hasMediaUploader;
                 _oNewField = $( this ).addAdminPageFrameworkRepeatableField( _oFieldContainer.attr( 'id' ) );
                 var sInputIDOfNewField = _oNewField.find( 'input' ).attr( 'id' );
                 setImagePreviewElementWithDelay( sInputIDOfNewField, _oAttributes );
-
+                _triggerChangeWithDelay( sInputIDOfNewField, _oAttributes );
               } );
 
             }
@@ -207,6 +209,18 @@ apfImage.hasMediaUploader = !! apfImage.hasMediaUploader;
 
         } );
 
+        function _triggerChangeWithDelay( sInputID, oImage, iMilliSeconds ) {
+          if ( _bEscaped ) {
+            return;
+          }
+          if ( $( '#' + sInputID ).val() === oImage.url ) {
+            return;
+          }
+          iMilliSeconds = 'undefined' === typeof iMilliSeconds ? 100 : iMilliSeconds;
+          setTimeout( function () {
+            $( '#' + sInputID ).trigger( 'change' );
+          }, iMilliSeconds );
+        }
         function setImagePreviewElementWithDelay( sInputID, oImage, iMilliSeconds ) {
           iMilliSeconds = 'undefined' === typeof iMilliSeconds ? 100 : iMilliSeconds;
           setTimeout( function () {
