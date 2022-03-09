@@ -220,7 +220,7 @@ The framework uses
  
 ### Framework Core Development
 
-See the [contribution guideline](./contributing.md).
+See the [contribution guideline](./.gituhb/contributing.md).
 
 ### Supporting Future Development 
 
