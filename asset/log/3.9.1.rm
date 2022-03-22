@@ -1,1 +1,2 @@
-- Optimized the behavior of the custom image uploader by triggering a change event after setting a new value. 
+- Changed the behavior of the `color` field type by triggering a change event after setting a new value. 
+- Changed the behavior of the custom image uploader by triggering a change event after setting a new value. 

@@ -1,1 +1,1 @@
-/*! Admin Page Framework - Color Field Type 0.0.1 */
+/*! Admin Page Framework - Color Field Type 1.0.0 */
