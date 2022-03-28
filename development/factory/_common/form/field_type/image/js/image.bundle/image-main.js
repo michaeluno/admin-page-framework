@@ -338,6 +338,7 @@
     // Remove buttons
     $( '.remove_image.button' ).on( 'click', function ( event ) {
       setImagePreviewElement( $( this ).data( 'input_id' ), {} );
+      $( '#' + $( this ).data( 'input_id' ) ).trigger( 'change' );
       return false;
     } );
     
