@@ -27,6 +27,7 @@
           'admin-page-framework_field_type_color_cleared',
           [ $( '#' + sInputID ), sInputID ]
         );
+        $( osTargetInput ).trigger( 'change' ); // [3.9.1+]
       }, // a callback to fire when the input is emptied or an invalid color
       hide: true, // hide the color picker controls on load
       palettes: true // show a group of common colors beneath the square or, supply an array of colors to customize further
