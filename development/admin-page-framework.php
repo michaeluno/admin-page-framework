@@ -35,11 +35,11 @@ if ( ! class_exists( 'AdminPageFramework_Registry', false ) ) :
  * @download_latest     https://github.com/michaeluno/admin-page-framework/archive/master.zip
  * @download_stable     https://downloads.wordpress.org/plugin/admin-page-framework.latest-stable.zip
  * @catchcopy           The framework for all WordPress developers.
- * @version             3.9.1b03
+ * @version             3.9.1b04
  */
 abstract class AdminPageFramework_Registry_Base {
 
-    const VERSION       = '3.9.1b03'; // <--- DON'T FORGET TO CHANGE THIS AS WELL!!
+    const VERSION       = '3.9.1b04'; // <--- DON'T FORGET TO CHANGE THIS AS WELL!!
     const NAME          = 'Admin Page Framework';
     const DESCRIPTION   = 'Facilitates WordPress plugin and theme development.';
     const URI           = 'https://en.michaeluno.jp/admin-page-framework';
