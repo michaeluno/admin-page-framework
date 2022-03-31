@@ -17,17 +17,11 @@
     var _aDefaults = {
       defaultColor: false, // you can declare a default color here, or in the data-default-color attribute on the input
       change: function ( event, ui ) {
-        $( this ).trigger(
-          'admin-page-framework_field_type_color_changed',
-          [ $( this ), sInputID ]
-        );
+        $( '#' + sInputID ).trigger( 'admin-page-framework_field_type_color_changed' );
         $( osTargetInput ).val( ui.color.toString() ).trigger( 'change' ); // [3.9.1+]
       }, // a callback to fire whenever the color changes to a valid color. reference : http://automattic.github.io/Iris/
       clear: function ( event, ui ) {
-        $( this ).trigger(
-          'admin-page-framework_field_type_color_cleared',
-          [ $( '#' + sInputID ), sInputID ]
-        );
+        $( '#' + sInputID ).trigger( 'admin-page-framework_field_type_color_cleared' );
       }, // a callback to fire when the input is emptied or an invalid color
       hide: true, // hide the color picker controls on load
       palettes: true // show a group of common colors beneath the square or, supply an array of colors to customize further
@@ -95,6 +89,7 @@
 
             // Bind the color picker event.
             registerAdminPageFrameworkColorPickerField( _oNewColorInput );
+            _oNewColorInput.trigger( 'change' );
 
           } );
         },
