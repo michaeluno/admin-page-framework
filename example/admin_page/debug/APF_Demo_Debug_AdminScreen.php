@@ -10,11 +10,11 @@
  */
 
 /**
- * Adds a tab of the test page to the loader plugin.
+ * Adds a tab.
  *
  * @since 3.9.1
  */
-class APF_Demo_Debug_Menu {
+class APF_Demo_Debug_AdminScreen {
 
     public $oFactory;
 
@@ -22,7 +22,7 @@ class APF_Demo_Debug_Menu {
 
     public $sPageSlug;
 
-    public $sTabSlug = 'screen_info';
+    public $sTabSlug = 'admin_screen';
 
     public $sSectionID;
 
@@ -37,13 +37,12 @@ class APF_Demo_Debug_Menu {
             $this->sPageSlug,
             array(
                 'tab_slug'      => $this->sTabSlug,
-                'title'         => 'Screen Information',
+                'title'         => 'Admin Screen',
             )
         );
 
         // load + page slug + tab slug
          add_action( 'load_' . $this->sPageSlug . '_' . $this->sTabSlug, array( $this, 'replyToLoadTab' ) );
-         add_action( 'do_' . $this->sPageSlug . '_' . $this->sTabSlug, array( $this, 'replyToDoTab' ) );
 
     }
 
@@ -68,17 +67,11 @@ class APF_Demo_Debug_Menu {
                 'field_id'          => 'screen',
                 'show_title_column' => false,
                 'type'              => 'table',
-                'collapsible'       => true,
+                'collapsible'       => array(
+                    'active' => true,
+                ),
                 'data'              => array(),
                 'caption'           => 'Current Screen',
-            ),
-            array(
-                'field_id'          => 'sidebar_menu',
-                'show_title_column' => false,
-                'type'              => 'table',
-                'collapsible'       => true,
-                'data'              => $GLOBALS[ 'submenu' ],
-                'caption'           => 'Admin Sidebar Menu',
             )
         );
 
@@ -99,10 +92,5 @@ class APF_Demo_Debug_Menu {
         return $aFieldset;
 
     }
-
-    /**
-     * @param AdminPageFramework $oAdminPage
-     */
-    public function replyToDoTab( $oAdminPage ) {}
 
 }

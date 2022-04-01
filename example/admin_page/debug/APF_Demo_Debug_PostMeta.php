@@ -10,7 +10,7 @@
  */
 
 /**
- * Adds a tab of the test page to the loader plugin.
+ * Adds a tab.
  *
  * @since 3.9.1
  */
@@ -43,7 +43,6 @@ class APF_Demo_Debug_PostMeta {
 
         // load + page slug + tab slug
          add_action( 'load_' . $this->sPageSlug . '_' . $this->sTabSlug, array( $this, 'replyToLoadTab' ) );
-         add_action( 'do_' . $this->sPageSlug . '_' . $this->sTabSlug, array( $this, 'replyToDoTab' ) );
 
     }
 
@@ -74,59 +73,60 @@ class APF_Demo_Debug_PostMeta {
                 'save'              => false,
                 'type'              => 'submit',
                 'value'             => 'Inspect'
+            ),
+            array(
+                'field_id'          => 'post_columns',
+                'type'              => 'table',
+                'show_title_column' => false,
+                'collapsible'       => array(
+                    'active' => true,
+                ),
+                'caption'           => 'Post Columns',
+            ),
+            array(
+                'field_id'          => 'post_meta',
+                'type'              => 'table',
+                'show_title_column' => false,
+                'collapsible'       => array(
+                    'active' => true,
+                ),
+                'caption'           => 'Post Meta',
             )
         );
 
         add_filter( 'validation_' . $oAdminPage->oProp->sClassName . '_debug', array( $this, 'validate' ), 10, 4 );
-
+        add_filter( 'field_definition_' . $oAdminPage->oProp->sClassName . '_debug_post_columns', array( $this, 'replyToGetFieldPostColumns' ) );
+        add_filter( 'field_definition_' . $oAdminPage->oProp->sClassName . '_debug_post_meta', array( $this, 'replyToGetFieldPostMeta' ) );
     }
 
     /**
-     * @param AdminPageFramework $oAdminPage
+     * @param  array $aFieldset
+     * @return array
      */
-    public function replyToDoTab( $oAdminPage ) {
-        $_iPostID = absint( $oAdminPage->getValue( 'debug', 'post_id' ) );
-        if ( empty( $_iPostID ) ) {
-            return;
-        }
-        /**
-         * @var WP_POST
-         */
-        $_oPost     = get_post( $_iPostID );
-        if ( empty( $_oPost ) ) {
-            echo "<p>Post not found with the post ID: {$_iPostID}.</p>";
-            return;
-        }
-        $_aMetaKeys = $oAdminPage->oUtil->getAsArray( get_post_custom_keys( $_iPostID ) );
+    public function replyToGetFieldPostColumns( $aFieldset ) {
+        $_iPostID = absint( $this->oFactory->getValue( 'debug', 'post_id' ) );
+        $_oPost   = get_post( $_iPostID );
+        $aFieldset[ 'data' ] = ( $_oPost instanceof WP_Post )
+            ? get_object_vars( get_post( $_iPostID ) )
+            : "<p>Post not found with the post ID: {$_iPostID}.</p>";
+        return $aFieldset;
+    }
+
+    /**
+     * @param  array $aFieldset
+     * @return array
+     */
+    public function replyToGetFieldPostMeta( $aFieldset ) {
+        $_iPostID   = absint( $this->oFactory->getValue( 'debug', 'post_id' ) );
+        $_aMetaKeys = $this->oFactory->oUtil->getAsArray( get_post_custom_keys( $_iPostID ) );
         $_aMeta     = array();
         foreach( $_aMetaKeys as $_sMetaKey ) {
             $_aMeta[ $_sMetaKey ] = get_post_meta( $_iPostID, $_sMetaKey, true );
         }
-
-        $_aTableArguments = array(
-            'table' => array(
-                'class' => 'widefat striped fixed demo-options',
-            ),
-            'th'    => array(
-                array( 'style' => 'width:10%;', ),  // first th
-            ),
-            'td'    => array(
-                array( 'style' => 'width:10%;', ),  // first td
-            )
-        );
-        echo '<h4>Post Table Row</h4>';
-        echo $oAdminPage->oUtil->getTableOfArray(
-            get_object_vars( $_oPost ),
-            $_aTableArguments,
-            array( 'Key' => 'Value' )
-        );
-        echo '<h4>Post Meta</h4>';
-        echo $oAdminPage->oUtil->getTableOfArray(
-            $_aMeta,
-            $_aTableArguments,
-            array( 'Key' => 'Value' )
-        );
-
+        $aFieldset[ 'data' ] = empty( $_aMeta )
+            ? "<p>No meta data found.</p>"
+            : $_aMeta;
+        return $aFieldset;
     }
 
     public function validate( $aInputs, $aOldInputs, $oAdminPage, $aSubmitInfo ) {

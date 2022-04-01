@@ -62,7 +62,8 @@ class APF_Demo_Debug {
          */
         $_aTabClasses = array(
             'APF_Demo_Debug_PostMeta',
-            'APF_Demo_Debug_Menu',
+            'APF_Demo_Debug_AdminSidebarMenu',
+            'APF_Demo_Debug_AdminScreen',
         );
         foreach ( $_aTabClasses as $_sTabClassName ) {
             if ( ! class_exists( $_sTabClassName ) ) {
