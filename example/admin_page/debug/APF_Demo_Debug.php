@@ -62,6 +62,7 @@ class APF_Demo_Debug {
          */
         $_aTabClasses = array(
             'APF_Demo_Debug_PostMeta',
+            'APF_Demo_Debug_Option',
             'APF_Demo_Debug_AdminSidebarMenu',
             'APF_Demo_Debug_AdminScreen',
         );

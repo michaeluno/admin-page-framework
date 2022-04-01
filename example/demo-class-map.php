@@ -78,6 +78,7 @@ return array(
     "APF_Demo_Debug" => AdminPageFrameworkLoader_Registry::$sDirPath . "/example/admin_page/debug/APF_Demo_Debug.php", 
     "APF_Demo_Debug_AdminScreen" => AdminPageFrameworkLoader_Registry::$sDirPath . "/example/admin_page/debug/APF_Demo_Debug_AdminScreen.php", 
     "APF_Demo_Debug_AdminSidebarMenu" => AdminPageFrameworkLoader_Registry::$sDirPath . "/example/admin_page/debug/APF_Demo_Debug_AdminSidebarMenu.php", 
+    "APF_Demo_Debug_Option" => AdminPageFrameworkLoader_Registry::$sDirPath . "/example/admin_page/debug/APF_Demo_Debug_Option.php", 
     "APF_Demo_Debug_PostMeta" => AdminPageFrameworkLoader_Registry::$sDirPath . "/example/admin_page/debug/APF_Demo_Debug_PostMeta.php", 
     "APF_Demo_HiddenPage" => AdminPageFrameworkLoader_Registry::$sDirPath . "/example/admin_page/hidden_page/APF_Demo_HiddenPage.php", 
     "APF_Demo_ManageOptions" => AdminPageFrameworkLoader_Registry::$sDirPath . "/example/admin_page/manage_options/APF_Demo_ManageOptions.php", 
