@@ -62,8 +62,11 @@ class AdminPageFramework_Factory_View__SettingNotice extends AdminPageFramework_
                 return false;
             }
 
+            // @deprecated 3.9.1 Post type classes don't use the form object but can set setting-notices. And this below check prevents messages from being shown.
             // Some factory classes including the page meta box factory can leave the form object uninstantiated.
-            return isset( $this->oFactory->oForm );
+            // return isset( $this->oFactory->oForm );
+
+            return true;
 
         }
 

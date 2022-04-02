@@ -1,2 +1,3 @@
+Fix: Fix a bug that setting notices set with `setSettingNotice()` of classes extending the post type factory class were not displayed. 
 - Changed the behavior of the `color` field type by triggering a change event after setting a new value. 
 - Changed the behavior of the custom image uploader by triggering a change event after setting a new value. 
