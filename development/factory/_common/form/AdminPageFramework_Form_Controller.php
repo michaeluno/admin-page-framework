@@ -40,9 +40,9 @@ class AdminPageFramework_Form_Controller extends AdminPageFramework_Form_View {
      * This is used in the internal validation callback method to decide whether the system error or update notice should be added or not.
      * If this method yields true, the framework discards the system message and displays the user set notification message.
      *
-     * @since       3.7.0
-     * @param       string      $sType If empty, the method will check if a message exists in all types. Otherwise, it checks the existence of a message of the specified type.
-     * @return      boolean     True if a setting notice is set; otherwise, false.
+     * @since  3.7.0
+     * @param  string  $sType If empty, the method will check if a message exists in all types. Otherwise, it checks the existence of a message of the specified type.
+     * @return boolean True if a setting notice is set; otherwise, false.
      */
     public function hasSubmitNotice( $sType='' ) {
         return $this->oSubmitNotice->hasNotice( $sType );

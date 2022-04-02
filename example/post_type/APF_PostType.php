@@ -6,22 +6,24 @@
  *
  * http://admin-page-framework.michaeluno.jp/
  * Copyright (c) 2013-2021, Michael Uno; Licensed GPLv2
- *
  */
 
+/**
+ *
+ */
 class APF_PostType extends AdminPageFramework_PostType {
 
     /**
      * This method is called at the end of the constructor.
      *
-     * ALternatevely, you may use the start_{instantiated class name} method, which also is called at the end of the constructor.
+     * Alternatively, you may use the start_{instantiated class name} method, which also is called at the end of the constructor.
      */
     public function start() {}
 
     /**
      * Use this method to set up the post type.
      *
-     * ALternatevely, you may use the set_up_{instantiated class name} method, which also is called at the end of the constructor.
+     * Alternatively, you may use the set_up_{instantiated class name} method, which also is called at the end of the constructor.
      */
     public function setUp() {
 
@@ -95,7 +97,7 @@ class APF_PostType extends AdminPageFramework_PostType {
 
     }
         /**
-         * @return      array
+         * @return array
          */
         private function _getLabels() {
 
@@ -140,7 +142,7 @@ class APF_PostType extends AdminPageFramework_PostType {
     /**
      * Inserts a custom string into the left footer.
      *
-     * @callback        filter      footer_left_{class name}
+     * @callback add_filter() footer_left_{class name}
      */
     public function footer_left_APF_PostType( $sHTML ) {
         return __( 'Custom left footer text.', 'admin-page-framework-loader' ) . '<br />'
@@ -149,18 +151,16 @@ class APF_PostType extends AdminPageFramework_PostType {
     /**
      * Inserts a custom string into the left footer.
      *
-     * @callback        filter      footer_left_{class name}
+     * @callback add_filter() footer_left_{class name}
      */
     public function footer_right_APF_PostType( $sHTML ) {
         return __( 'Custom right footer text.', 'admin-page-framework-loader' ) . '<br />'
             . $sHTML;
     }
 
-    /*
-     * Built-in callback methods
-     *
-     * @callback    filter      action_links_{post type slug}
-     * @return      array
+    /**
+     * @callback add_filter() action_links_{post type slug}
+     * @return   array
      */
     public function action_links_apf_posts( $aActionLinks, $oPost ) {
         $_sMessage = esc_attr(
@@ -172,13 +172,10 @@ class APF_PostType extends AdminPageFramework_PostType {
         return $aActionLinks;
     }
 
-    /*
-     * Built-in callback methods
-     *
-     * @callback        filter      columns_{post type slug}
+    /**
+     * @callback add_filter() columns_{post type slug}
      */
     public function columns_apf_posts( $aHeaderColumns ) {
-
         return array_merge(
             $aHeaderColumns,
             array(
@@ -192,12 +189,11 @@ class APF_PostType extends AdminPageFramework_PostType {
                 'samplecolumn'      => __( 'Sample Column' ),
             )
         );
-
     }
 
     /**
-     *
-     * @callback        filter      sortable_columns_{post type slug}
+     * @callback add_filter() sortable_columns_{post type slug}
+     * @return   array
      */
     public function sortable_columns_apf_posts( $aSortableHeaderColumns ) {
         return $aSortableHeaderColumns + array(
@@ -206,14 +202,12 @@ class APF_PostType extends AdminPageFramework_PostType {
     }
 
     /**
-     *
-     * @callback        filter      cell_{post type}_{column key}
+     * @callback add_filter() cell_{post type}_{column key}
+     * @return   string
      */
     public function cell_apf_posts_samplecolumn( $sCell, $iPostID ) {
-
         return sprintf( __( 'Post ID: %1$s', 'admin-page-framework-loader' ), $iPostID ) . "<br />"
             . __( 'Text', 'admin-page-framework-loader' ) . ': ' . get_post_meta( $iPostID, 'metabox_text_field', true );
-
     }
 
     /**
@@ -223,11 +217,10 @@ class APF_PostType extends AdminPageFramework_PostType {
     /**
      * Modifies the way how the sample column is sorted. This makes it sorted by post ID.
      *
-     * @see http://codex.wordpress.org/Class_Reference/WP_Query#Order_.26_Orderby_Parameters
-     * @callback        filter      request
+     * @see      http://codex.wordpress.org/Class_Reference/WP_Query#Order_.26_Orderby_Parameters
+     * @callback add_filter()
      */
     public function replyToSortCustomColumn( $aVars ){
-
         if ( isset( $aVars[ 'orderby' ] ) && 'samplecolumn' == $aVars[ 'orderby' ] ){
             $aVars = array_merge(
                 $aVars,

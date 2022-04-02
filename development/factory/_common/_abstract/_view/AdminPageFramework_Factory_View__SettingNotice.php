@@ -10,10 +10,9 @@
 /**
  * Provides methods to display setting notices.
  *
- * @since       3.7.0
- * @package     AdminPageFramework/Common/Factory
+ * @since    3.7.0
+ * @package  AdminPageFramework/Common/Factory
  * @internal
- * @extends     AdminPageFramework_FrameworkUtility
  */
 class AdminPageFramework_Factory_View__SettingNotice extends AdminPageFramework_FrameworkUtility {
 
@@ -22,42 +21,37 @@ class AdminPageFramework_Factory_View__SettingNotice extends AdminPageFramework_
     /**
      * Sets up hooks and properties.
      *
-     * @since       3.7.0
-     * @since       3.7.9       Added the second parameter to accept an action hook name.
+     * @since 3.7.0
+     * @since 3.7.9 Added the second parameter to accept an action hook name.
      */
 
     public function __construct( $oFactory, $sActionHookName='admin_notices' ) {
-
         $this->oFactory = $oFactory;
-
         add_action( $sActionHookName, array( $this, '_replyToPrintSettingNotice' ) );
-
     }
 
     /**
      * Displays stored setting notification messages.
      *
-     * @since       3.0.4
-     * @since       3.7.0       Moved from `AdminPageFramework_Factory_View`.
+     * @since    3.0.4
+     * @since    3.7.0        Moved from `AdminPageFramework_Factory_View`.
      * @internal
-     * @callback    action      network_admin_notices
-     * @callback    action      admin_notices
+     * @callback add_action() network_admin_notices
+     * @callback add_action() admin_notices
      */
     public function _replyToPrintSettingNotice() {
-
-        if ( ! $this->_shouldProceed() ) {
+        if ( ! $this->___shouldProceed() ) {
             return;
         }
         $this->oFactory->oForm->printSubmitNotices();
-
     }
 
         /**
          * Determines whether to proceed.
-         * @sine        3.7.0
-         * @return      boolean
+         * @sine   3.7.0
+         * @return boolean
          */
-        private function _shouldProceed() {
+        private function ___shouldProceed() {
 
             if ( ! $this->oFactory->isInThePage() ) {
                 return false;

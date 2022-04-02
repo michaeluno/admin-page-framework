@@ -10,16 +10,13 @@
 /**
  * Provides methods for models.
  *
- * @abstract
- * @since       3.0.4
- * @package     AdminPageFramework/Common/Factory
+ * @since   3.0.4
+ * @package AdminPageFramework/Common/Factory
  */
 abstract class AdminPageFramework_Factory_Controller extends AdminPageFramework_Factory_View {
 
     /**
-     * Should be extended.
-     *
-     * @internal
+     * @remark This should be extended.
      */
     public function start() {}
     public function setUp() {}
@@ -28,8 +25,8 @@ abstract class AdminPageFramework_Factory_Controller extends AdminPageFramework_
     /**
      * Allows the user to check if the current page belongs to the admin pages of the factory component.
      *
-     * @since       3.7.9
-     * @return      boolean
+     * @since  3.7.9
+     * @return boolean
      */
     public function isInThePage() {
         return $this->_isInThePage();
@@ -40,8 +37,7 @@ abstract class AdminPageFramework_Factory_Controller extends AdminPageFramework_
      *
      * This can be used to replace the framework system messages such as "Allowed maximum number of fields is ...".
      *
-     * @return      void
-     * @since       3.7.0
+     * @since 3.7.0
      */
     public function setMessage( $sKey, $sMessage ) {
         $this->oMsg->set( $sKey, $sMessage );
@@ -50,8 +46,8 @@ abstract class AdminPageFramework_Factory_Controller extends AdminPageFramework_
     /**
      * Returns the registered system message item(s).
      *
-     * @return      array|string
-     * @since       3.7.0
+     * @return   array|string
+     * @since    3.7.0
      */
     public function getMessage( $sKey='' ) {
         return $this->oMsg->get( $sKey );
@@ -60,7 +56,7 @@ abstract class AdminPageFramework_Factory_Controller extends AdminPageFramework_
     /**
      * Head Tag Methods - should be extended.
      *
-     * @remark      the number of arguments depend on the extended class.
+     * @remark   the number of arguments depend on the extended class.
      * @internal
      */
 
@@ -68,10 +64,10 @@ abstract class AdminPageFramework_Factory_Controller extends AdminPageFramework_
      * Enqueues styles of the given sources.
      *
      *
-     * @since       3.0.4       The method itself has existed since v3.0.0 but moved to this factory class.
-     * @param       array       The sources of the stylesheet to enqueue: the url, the absolute file path, or the relative path to the root directory of WordPress. Example: `array( '/css/mystyle.css', '/css/mystyle2.css' )`
-     * @param       array       (optional) The another source argument array.
-     * @return      string[]    AN array holing the queued item handle IDs.
+     * @since    3.0.4    The method itself has existed since v3.0.0 but moved to this factory class.
+     * @param    array    The sources of the stylesheet to enqueue: the url, the absolute file path, or the relative path to the root directory of WordPress. Example: `array( '/css/mystyle.css', '/css/mystyle2.css' )`
+     * @param    array    (optional) The another source argument array.
+     * @return   string[] AN array holing the queued item handle IDs.
      * @internal
      */
     public function enqueueStyles( /* $aSRCs, $aCustomArgs=array() */ ) {
@@ -82,10 +78,10 @@ abstract class AdminPageFramework_Factory_Controller extends AdminPageFramework_
     /**
      * Enqueues a style of the given source.
      *
-     * @since       3.0.4       The method itself has existed since v3.0.0 but moved to this factory class.
-     * @see         http://codex.wordpress.org/Function_Reference/wp_enqueue_style
-     * @param       string      The source of the stylesheet to enqueue: the url, the absolute file path, or the relative path to the root directory of WordPress. Example: '/css/mystyle.css'.
-     * @param       array       (optional) The argument array for more advanced parameters.
+     * @since    3.0.4  The method itself has existed since v3.0.0 but moved to this factory class.
+     * @see      http://codex.wordpress.org/Function_Reference/wp_enqueue_style
+     * @param    string The source of the stylesheet to enqueue: the url, the absolute file path, or the relative path to the root directory of WordPress. Example: '/css/mystyle.css'.
+     * @param    array  (optional) The argument array for more advanced parameters.
      * <h4>Argument Array</h4>
      * <ul>
      *     <li>**handle_id** - (optional, string) The handle ID of the stylesheet.</li>
@@ -99,7 +95,7 @@ abstract class AdminPageFramework_Factory_Controller extends AdminPageFramework_
      *     <li>**alt** - (optional, boolean) [3.9.0+] For rel="alternate stylesheet".</li>
      *     <li>**title** - (optional, string) [3.9.0+] For preferred/alternate stylesheets.</li>
      * </ul>
-     * @return      string      The added style handle ID. If the passed url is not a valid url string, an empty string will be returned.
+     * @return   string The added style handle ID. If the passed url is not a valid url string, an empty string will be returned.
      * @internal
      */
     public function enqueueStyle( /* $sSRC, $aCustomArgs=array() */ ) {
@@ -120,10 +116,10 @@ abstract class AdminPageFramework_Factory_Controller extends AdminPageFramework_
      * );
      * </code>
      *
-     * @since       3.0.4       The method itself has existed since v3.0.0 but moved to this factory class.
-     * @param       array       The sources of the style-sheets to enqueue: the URL, the absolute file path, or the relative path to the root directory of WordPress. Example: '/js/myscript.js'.
-     * @param       array       (optional) Ad additional source list array.
-     * @return      string[]    An array holding the queued item handle IDs.
+     * @since    3.0.4    The method itself has existed since v3.0.0 but moved to this factory class.
+     * @param    array    The sources of the style-sheets to enqueue: the URL, the absolute file path, or the relative path to the root directory of WordPress. Example: '/js/myscript.js'.
+     * @param    array    (optional) Ad additional source list array.
+     * @return   string[] An array holding the queued item handle IDs.
      * @internal
      */
     public function enqueueScripts( /* $aSRCs, $aCustomArgs=array() */ ) {
@@ -146,10 +142,10 @@ abstract class AdminPageFramework_Factory_Controller extends AdminPageFramework_
      *      )
      * );</code>
      *
-     * @since       3.0.4       The method itself has existed since v3.0.0 but moved to this factory class.
-     * @see         http://codex.wordpress.org/Function_Reference/wp_enqueue_script
-     * @param       string      The URL of the stylesheet to enqueue, the absolute file path, or the relative path to the root directory of WordPress. Example: '/js/myscript.js'.
-     * @param       array       (optional) The argument array for more advanced parameters.
+     * @since    3.0.4  The method itself has existed since v3.0.0 but moved to this factory class.
+     * @see      http://codex.wordpress.org/Function_Reference/wp_enqueue_script
+     * @param    string The URL of the stylesheet to enqueue, the absolute file path, or the relative path to the root directory of WordPress. Example: '/js/myscript.js'.
+     * @param    array  (optional) The argument array for more advanced parameters.
      * <h4>Argument Array</h4>
      * <ul>
      *     <li>**handle_id** - (optional, string) The handle ID of the script.</li>
@@ -161,7 +157,7 @@ abstract class AdminPageFramework_Factory_Controller extends AdminPageFramework_
      *     <li>**<s>attributes</s>** - (optional, array) [3.9.0] deprecated [3.3.0+] attributes array. `array( 'data-id' => '...' )`</li>
      *     <li>**conditional** - (optional, string) [3.9.0+] A browser specific conditional statement with HTML comments such as `lte IE 7`, `IE` etc.</li>
      * </ul>
-     * @return      string      The script handle ID. If the passed url is not a valid url string, an empty string will be returned.
+     * @return   string The script handle ID. If the passed url is not a valid url string, an empty string will be returned.
      * @internal
      */
     public function enqueueScript( /* $sSRC, $aCustomArgs=array() */ ) {
@@ -182,8 +178,8 @@ abstract class AdminPageFramework_Factory_Controller extends AdminPageFramework_
      *      __( 'This text will appear in the contextual help pane.', 'your-text-domain' ),
      *      __( 'This description goes to the sidebar of the help pane.', 'your-text-domain' )
      * );</code></pre>
-     * @since       2.1.0
-     * @remark      This method just adds the given text into the class property. The actual registration will be performed with the `replyToRegisterHelpTabTextForMetaBox()` method.
+     * @since   2.1.0
+     * @remark  This method just adds the given text into the class property. The actual registration will be performed with the `replyToRegisterHelpTabTextForMetaBox()` method.
      */
     public function addHelpText( $sHTMLContent, $sHTMLSidebarContent="" ) {
         if ( method_exists( $this->oHelpPane, '_addHelpText' ) ) {
@@ -209,15 +205,13 @@ abstract class AdminPageFramework_Factory_Controller extends AdminPageFramework_
      *            'description'   => __( 'These are selector type options such as dropdown lists, radio buttons, and checkboxes', 'your-text-domain' ),
      *       )
      * );</code>
-     * @since       3.0.0
-     * @since       3.5.3       Removed the parameter declarations as they are caught with func_get_args().
-     * @access      public
-     * @remark      Accepts variadic parameters; the number of accepted parameters are not limited to three.
-     * @remark      The target section tab slug will be reset once the method returns.
-     * @param       array     a section definition array.
-     * @param       array     (optional) another section array.
-     * @param       array     (optional)  add more section array to the next parameters as many as necessary.
-     * @return      void
+     * @since  3.0.0
+     * @since  3.5.3 Removed the parameter declarations as they are caught with func_get_args().
+     * @remark Accepts variadic parameters; the number of accepted parameters are not limited to three.
+     * @remark The target section tab slug will be reset once the method returns.
+     * @param  array a section definition array.
+     * @param  array (optional) another section array.
+     * @param  array (optional)  add more section array to the next parameters as many as necessary.
      */
     public function addSettingSections( /* $aSection1, $aSection2=null, $_and_more=null */ ) {
 
@@ -235,11 +229,10 @@ abstract class AdminPageFramework_Factory_Controller extends AdminPageFramework_
      *
      * This is useful when adding section arrays in loops.
      *
-     * @since       3.0.0               Changed the scope to public from protected.
-     * @access      public
-     * @remark      The actual registration will be performed in the `_replyToRegisterSettings()` method with the `admin_menu` hook.
-     * @remark      The `$oForm` property should be created in each extended class.
-     * @param       array|string        $aSection       the section array. If a string is passed, it is considered as a target page slug that will be used as a page slug element from the next call so that the element can be omitted.
+     * @since  3.0.0        Changed the scope to public from protected.
+     * @remark The actual registration will be performed in the `_replyToRegisterSettings()` method with the `admin_menu` hook.
+     * @remark The `$oForm` property should be created in each extended class.
+     * @param  array|string $aSection the section array. If a string is passed, it is considered as a target page slug that will be used as a page slug element from the next call so that the element can be omitted.
      * <h4>Section Definition Array</h4>
      * <ul>
      *      <li>**section_id** - (string) the section ID. Avoid using non-alphabetic characters except underscore and numbers.</li>
@@ -303,7 +296,6 @@ abstract class AdminPageFramework_Factory_Controller extends AdminPageFramework_
      *      <li>**tip** - (optional, string) [3.7.0+] a tool tip which pops up when the user hovers their mouse over the ? mark icon beside the title..</li>
      *      <li>**show_debug_info** - (optional, boolean) [3.8.8+] Whether to show debug information such as field definition tool-tips.</li>
      * </ul>
-     * @return      void
      */
     public function addSettingSection( $aSectionset ) {
 
@@ -331,13 +323,12 @@ abstract class AdminPageFramework_Factory_Controller extends AdminPageFramework_
     *
     * It inserts the given field definition arrays into the class property and later they are parsed when fields are registered. The field definition array requires specific keys. Refer to the parameter section of this method.
     *
-    * @since        2.0.0
-    * @since        3.5.3       Removed the parameter declarations as they are caught with the func_get_args().
-    * @remark       Accepts variadic parameters; the number of accepted parameters are not limited to three.
-    * @param        array       the field definition array.
-    * @param        array       (optional) another field array.
-    * @param        array       (optional) add more field arrays to the next parameters as many as necessary.
-    * @return       void
+    * @since  2.0.0
+    * @since  3.5.3 Removed the parameter declarations as they are caught with the func_get_args().
+    * @remark Accepts variadic parameters; the number of accepted parameters are not limited to three.
+    * @param  array the field definition array.
+    * @param  array (optional) another field array.
+    * @param  array (optional) add more field arrays to the next parameters as many as necessary.
     */
     public function addSettingFields( /* $aField1, $aField2=null, $_and_more=null */ ) {
         foreach( func_get_args() as $_aFieldset ) {
@@ -420,14 +411,14 @@ abstract class AdminPageFramework_Factory_Controller extends AdminPageFramework_
     *           <ul>
     *                 <li>**max** - the allowed maximum number of fields to be repeated.</li>
     *                 <li>**min** - the allowed minimum number of fields to be repeated.</li>
-     *                <li>**disabled** - (optional, boolean|array) [3.8.13+]
-     *                    <ul>
-     *                        <li>**message** - (optional, string) the message to show when the user clicks on the `Add` repeatable button.</li>
-     *                        <li>**caption** - (optional, string) the title of the modal window that displays the message. Default: Warning</li>
-     *                        <li>**box_width** - (optional, integer) the width of the modal window that displays the message. Default: 300</li>
-     *                        <li>**box_width** - (optional, integer) the height of the modal window that displays the message. Default: 100.</li>
-     *                    <ul>
-     *                </li>
+    *                <li>**disabled** - (optional, boolean|array) [3.8.13+]
+    *                    <ul>
+    *                        <li>**message** - (optional, string) the message to show when the user clicks on the `Add` repeatable button.</li>
+    *                        <li>**caption** - (optional, string) the title of the modal window that displays the message. Default: Warning</li>
+    *                        <li>**box_width** - (optional, integer) the width of the modal window that displays the message. Default: 300</li>
+    *                        <li>**box_width** - (optional, integer) the height of the modal window that displays the message. Default: 100.</li>
+    *                    <ul>
+    *                </li>
     *           </ul>
     *       </li>
     *       <li>**sortable** - [3.0.0+] (optional, boolean) whether the fields should be sortable. If it yields true, the fields will be enclosed in a draggable box.
@@ -574,9 +565,8 @@ abstract class AdminPageFramework_Factory_Controller extends AdminPageFramework_
      * }
      * </code>
      *
-     * @since   3.0.4
-     * @param   array   $aErrors     the field error array. The structure should follow the one contained in the submitted `$_POST` array.
-     * @return  void
+     * @since 3.0.4
+     * @param array $aErrors the field error array. The structure should follow the one contained in the submitted `$_POST` array.
      */
     public function setFieldErrors( $aErrors ) {
         $this->oForm->setFieldErrors( $aErrors );
@@ -585,8 +575,8 @@ abstract class AdminPageFramework_Factory_Controller extends AdminPageFramework_
     /**
      * Check whether a user has set a field error(s) or not.
      *
-     * @since       3.3.0
-     * @return      boolean     Whether or not a field error exists.
+     * @since  3.3.0
+     * @return boolean Whether a field error exists.
      */
     public function hasFieldError() {
         return $this->oForm->hasFieldError();
@@ -607,21 +597,14 @@ abstract class AdminPageFramework_Factory_Controller extends AdminPageFramework_
     * }
     * `
     *
-    * @since        3.0.4
-    * @access       public
-    * @param        string      $sMessage       the text message to be displayed.
-    * @param        string      $sType          (optional) the type of the message, either "error" or "updated"  is used.
-    * @param        array       $asAttributes   (optional) the tag attribute array applied to the message container HTML element. If a string is given, it is used as the ID attribute value.
-    * @param        boolean     $bOverride      (optional) If true, only one message will be shown in the next page load. false: do not override when there is a message of the same id. true: override the previous one.
-    * @return       void
+    * @since 3.0.4
+    * @param string  $sMessage     the text message to be displayed.
+    * @param string  $sType        (optional) the type of the message, either "error" or "updated"  is used.
+    * @param array   $asAttributes (optional) the tag attribute array applied to the message container HTML element. If a string is given, it is used as the ID attribute value.
+    * @param boolean $bOverride    (optional) If true, only one message will be shown in the next page load. false: do not override when there is a message of the same id. true: override the previous one.
     */
     public function setSettingNotice( $sMessage, $sType='error', $asAttributes=array(), $bOverride=true ) {
-        $this->oForm->setSubmitNotice(
-            $sMessage,
-            $sType,
-            $asAttributes,
-            $bOverride
-        );
+        $this->oForm->setSubmitNotice( $sMessage, $sType, $asAttributes, $bOverride );
     }
 
     /**
@@ -630,9 +613,9 @@ abstract class AdminPageFramework_Factory_Controller extends AdminPageFramework_
      * This is used in the internal validation callback method to decide whether the system error or update notice should be added or not.
      * If this method yields true, the framework discards the system message and displays the user set notification message.
      *
-     * @since       3.1.0
-     * @param       string      $sType If empty, the method will check if a message exists in all types. Otherwise, it checks the existence of a message of the specified type.
-     * @return      boolean     True if a setting notice is set; otherwise, false.
+     * @since  3.1.0
+     * @param  string  $sType If empty, the method will check if a message exists in all types. Otherwise, it checks the existence of a message of the specified type.
+     * @return boolean True if a setting notice is set; otherwise, false.
      */
     public function hasSettingNotice( $sType='' ) {
         return $this->oForm->hasSubmitNotice( $sType );

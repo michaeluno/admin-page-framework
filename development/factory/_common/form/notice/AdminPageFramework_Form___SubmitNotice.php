@@ -10,9 +10,9 @@
 /**
  * Provides methods to handle setting notices.
  * 
- * @package     AdminPageFramework/Form
- * @since       3.7.0
- * @extends     AdminPageFramework_FrameworkUtility
+ * @package  AdminPageFramework/Form
+ * @since    3.7.0
+ * @extends  AdminPageFramework_FrameworkUtility
  * @internal
  */
 class AdminPageFramework_Form___SubmitNotice extends AdminPageFramework_FrameworkUtility {
@@ -35,22 +35,22 @@ class AdminPageFramework_Form___SubmitNotice extends AdminPageFramework_Framewor
         
     }
         /**
-         * @remark      Up to 40 chars
-         * @remark      Not using the page-now value nor page slug because the user may be redirected to a different page.
-         * @return      string
+         * @remark Up to 40 chars
+         * @remark Not using the page-now value nor page slug because the user may be redirected to a different page.
+         * @return string
          */
         private function _getTransientKey() {
             return 'apf_ntc_' . get_current_user_id();
         }
     
     /**
-     * Checks if a submit notice has been set in the current screen (not in the database).
+     * Checks if a submit-notice has been set in the current screen (not in the database).
      * 
      * This is used in the internal validation callback method to decide whether the system error or update notice should be added or not.
      * If this method yields true, the framework discards the system message and displays the user set notification message.
      * 
-     * @param       string      $sType If empty, the method will check if a message exists in all types. Otherwise, it checks the existence of a message of the specified type.
-     * @return      boolean     True if a setting notice is set; otherwise, false.
+     * @param  string  $sType If empty, the method will check if a message exists in all types. Otherwise, it checks the existence of a message of the specified type.
+     * @return boolean True if a setting notice is set; otherwise, false.
      */
     public function hasNotice( $sType='' ) {
                 
@@ -85,18 +85,16 @@ class AdminPageFramework_Form___SubmitNotice extends AdminPageFramework_Framewor
      * <h4>Example</h4>
      * `
      * if ( ! $bVerified ) {
-     *       $this->setFieldErrors( $aErrors );     
-     *       $this->setSettingNotice( 'There was an error in your input.' );
-     *       return $aOldPageOptions;
+     *     $this->setFieldErrors( $aErrors );
+     *     $this->setSettingNotice( 'There was an error in your input.' );
+     *     return $aOldPageOptions;
      * }
      * `
-     * @since        3.7.0
-     * @access       public
-     * @param        string      $sMessage       the text message to be displayed.
-     * @param        string      $sType          (optional) the type of the message, either "error" or "updated"  is used.
-     * @param        array       $asAttributes   (optional) the tag attribute array applied to the message container HTML element. If a string is given, it is used as the ID attribute value.
-     * @param        boolean     $bOverride      (optional) If true, only one message will be shown in the next page load. false: do not override when there is a message of the same id. true: override the previous one.
-     * @return       void
+     * @since 3.7.0
+     * @param string  $sMessage     the text message to be displayed.
+     * @param string  $sType        (optional) the type of the message, either "error" or "updated"  is used.
+     * @param array   $asAttributes (optional) the tag attribute array applied to the message container HTML element. If a string is given, it is used as the ID attribute value.
+     * @param boolean $bOverride    (optional) If true, only one message will be shown in the next page load. false: do not override when there is a message of the same id. true: override the previous one.
      */
     public function set( $sMessage, $sType='error', $asAttributes=array(), $bOverride=true ) {
         
@@ -129,16 +127,14 @@ class AdminPageFramework_Form___SubmitNotice extends AdminPageFramework_Framewor
             ),
         );
 
-
     }       
         /**
          * Saves the notification array set via the setSettingNotice() method.
-         * 
-         * @since       3.0.4 
-         * @sine        3.7.0      Moved from `AdminPageFramework_Factory_Model`.
+         *
          * @internal
-         * @callback    action     shutdown
-         * @return      void
+         * @since    3.0.4
+         * @sine     3.7.0        Moved from `AdminPageFramework_Factory_Model`.
+         * @callback add_action() shutdown
          */
         public function _replyToSaveNotices() {
             if ( empty( self::$_aNotices ) ) { 
@@ -152,7 +148,6 @@ class AdminPageFramework_Form___SubmitNotice extends AdminPageFramework_Framewor
     
     /**
      * Outputs the stored submit notices in the database.
-     * @return      void
      */
     public function render() {
 
@@ -174,51 +169,41 @@ class AdminPageFramework_Form___SubmitNotice extends AdminPageFramework_Framewor
         
     }
         /**
-         * @since       3.7.8
-         * @return      array|boolean
+         * @since  3.7.8
+         * @return array|boolean
          */
         private function _getNotices() {
-        
             if ( isset( self::$_aNoticeCaches[ $this->sTransientKey ] ) ) {
                 return self::$_aNoticeCaches[ $this->sTransientKey ];
             }
-
             $_abNotices = $this->getTransient( $this->sTransientKey );            
             if ( false !== $_abNotices ) {
                 $this->deleteTransient( $this->sTransientKey );
             }
-
             self::$_aNoticeCaches[ $this->sTransientKey ] = $_abNotices;
             return self::$_aNoticeCaches[ $this->sTransientKey ];
-            
         }
             static private $_aNoticeCaches = array();
             
         /**
          * Displays settings notices.
-         * @since       3.5.3
-         * @since       3.7.0      Moved from `AdminPageFramework_Factory_View`. Renamed from `_printSettingNotices()`.
+         * @since    3.5.3
+         * @since    3.7.0 Moved from `AdminPageFramework_Factory_View`. Renamed from `_printSettingNotices()`.
          * @internal
-         * @return      void
          */
         private function _printNotices( $aNotices ) {
-            
             $_aPreventDuplicates = array();
             foreach ( array_filter( ( array ) $aNotices, 'is_array' ) as $_aNotice ) {
-                
                 $_sNotificationKey = md5( serialize( $_aNotice ) );
                 if ( isset( $_aPreventDuplicates[ $_sNotificationKey ] ) ) {
                     continue;
                 }
                 $_aPreventDuplicates[ $_sNotificationKey ] = true;
-                
                 new AdminPageFramework_AdminNotice(
                     $this->getElement( $_aNotice, 'sMessage' ),
                     $this->getElement( $_aNotice, 'aAttributes' )
-                );              
-              
-            }            
-            
+                );
+            }
         }    
         
 }

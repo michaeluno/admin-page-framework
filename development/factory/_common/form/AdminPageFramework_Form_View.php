@@ -10,35 +10,28 @@
 /**
  * Provides methods to build forms.
  *
- * @package     AdminPageFramework/Common/Form/View
- * @since       3.7.0
+ * @package  AdminPageFramework/Common/Form/View
+ * @since    3.7.0
  * @internal
  */
 class AdminPageFramework_Form_View extends AdminPageFramework_Form_Model {
 
     /**
      * Sets up hooks.
-     * @since       3.7.0
+     * @since 3.7.0
      */
     public function __construct() {
-
         parent::__construct();
-
         new AdminPageFramework_Form_View__Resource( $this );
-
     }
 
     /**
      * Returns the form output.
-     * @return      string  The form output.
+     * @return string  The form output.
      */
     public function get() {
 
-        $this->sCapability = $this->callBack(
-            $this->aCallbacks[ 'capability' ],
-            '' // default value
-        );
-
+        $this->sCapability = $this->callBack( $this->aCallbacks[ 'capability' ], '' );
         if ( ! $this->canUserView( $this->sCapability ) ) {
             return '';
         }
@@ -70,12 +63,12 @@ class AdminPageFramework_Form_View extends AdminPageFramework_Form_Model {
 
     }
         /**
-         * @return      string
-         * @since       3.7.0
+         * @return string
+         * @since  3.7.0
          */
         private function _getNoScriptMessage() {
             if ( $this->hasBeenCalled( __METHOD__ ) ) {
-                return;
+                return '';
             }
             return "<noscript>"
                 . "<div class='error'>"
@@ -88,8 +81,7 @@ class AdminPageFramework_Form_View extends AdminPageFramework_Form_Model {
 
     /**
      * Outputs submit notices stored in the database transient.
-     * @since       3.7.0
-     * @return      void
+     * @since 3.7.0
      */
     public function printSubmitNotices() {
         $this->oSubmitNotice->render();
