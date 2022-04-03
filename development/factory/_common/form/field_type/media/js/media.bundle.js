@@ -1,18 +1,12 @@
-/*! Admin Page Framework - Media Field Type 0.0.1 */
+/*! Admin Page Framework - Media Field Type 0.1.0 */
 
 var apfMain  = AdminPageFrameworkScriptFormMain;
 var apfMedia = AdminPageFrameworkMediaFieldType;
 apfMedia.hasMediaUploader = !! apfMedia.hasMediaUploader;
-debugLog( 'loaded:', '0.0.19', apfMedia );
 
-function debugLog( ...msg ) {
-  if ( ! parseInt( apfMain.debugMode ) ) {
-    return;
-  }
-  console.log( 'APF Media Field Type:', ...msg );
-}
 (function ( $ ) {
 
+  debugLog( '0.1.0', apfMedia );
 
   var setAdminPageFrameworkMediaUploader;
   
@@ -63,6 +57,7 @@ function debugLog( ...msg ) {
 
           // Reassign the input id from the pressed element ( do not use the passed parameter value to the caller function ) for repeatable sections.
           var sInputID = $( this ).attr( 'id' ).substring( 13 ); // remove the select_image_ prefix and set a property to pass it to the editor callback method.
+          var jInput   = $( '#' + sInputID );
 
           window.wpActiveEditor = null;
           e.preventDefault();
@@ -84,6 +79,9 @@ function debugLog( ...msg ) {
               : apfMedia.label.uploadFile,
             button: {
               text: apfMedia.label.useThisFile
+            },
+            library: {
+              type: jInput.data( 'mime_types' ).length ? jInput.data( 'mime_types' ) : [],
             },
             multiple: bMultiple, // Set this to true to allow multiple files to be selected
             metadata: {},
@@ -205,19 +203,14 @@ function debugLog( ...msg ) {
             // Bind the event.
             var _oMediaInput = oCloned.find( '.media-field input' );
             if ( _oMediaInput.length <= 0 ) {
-console.log( 'media field inputs not found' );
               return true;
             }
-
             setAdminPageFrameworkMediaUploader(
               _oMediaInput.attr( 'id' ),
               true,
               oCloned.find( '.select_media' ).attr( 'data-enable_external_source' )
             );
-console.log( 'cloned:', _oMediaInput.attr( 'id' ) );
-console.log( 'found:', $( '#remove_media_' + _oMediaInput.attr( 'id' ) ).length );
             $( '#remove_media_' + _oMediaInput.attr( 'id' ) ).on( 'click', function() {
-console.log( 'clicked:', $( this ).attr( 'id' ) );
               setMediaPreviewElement( $( this ).data( 'input_id' ), {} );
               return false; // do not click
             } );
@@ -229,7 +222,13 @@ console.log( 'clicked:', $( this ).attr( 'id' ) );
     } );
 
   } );  // $( document ).ready  
-  
+
+  function debugLog( ...msg ) {
+    if ( ! parseInt( apfMain.debugMode ) ) {
+      return;
+    }
+    console.log( 'APF Media Field Type:', ...msg );
+  }
 
 
 }( jQuery ));

@@ -26,6 +26,13 @@
  *              <li>`remove_button` - (array) [3.2.0+] applies to the remove-image button. To set a custom text label instead on of an image icon, set it to the `data-label` attribute. e.g. `'remove_button' => array( 'data-label' => 'Remove Image' )`</li>
  *          </ul>
  *      </li>
+ *      <li>**mime_types** - (optional, array) [3.9.1+] specifies allowed file types to be listed in the uploader.
+ *<pre><code>
+ *   'mime_types' => array(
+ *       'zip' => 'application/zip',
+ *   ),
+ *</code></pre>
+ *      </li>
  * </ul>
  * <h3>Common Field Definition Arguments</h3>
  * For common field definition arguments, see {@link AdminPageFramework_Factory_Controller::addSettingField()}.
@@ -68,6 +75,13 @@ class AdminPageFramework_FieldType_image extends AdminPageFramework_FieldType {
         'attributes_to_store'       => array(), // ( array ) This is for the image and media field type. The attributes to save besides URL. e.g. ( for the image field type ) array( 'title', 'alt', 'width', 'height', 'caption', 'id', 'align', 'link' ).
         'show_preview'              => true,    // ( boolean ) Indicates whether the image preview should be displayed or not.
         'allow_external_source'     => true,    // ( boolean ) Indicates whether the media library box has the From URL tab.
+        'mime_types'                => array(   // [3.9.1] To display files of different file types, add MIME types
+            'image' => 'image',
+            // 'text' => 'text/plain',
+            // 'csv'  => 'text/csv',
+            // 'pdf'  => 'application/pdf',
+            // 'doc'  => 'application/msword', // etc
+        ),
         'attributes'                => array(
             'input'     => array(
                 'size'      => 40,
@@ -78,6 +92,31 @@ class AdminPageFramework_FieldType_image extends AdminPageFramework_FieldType {
             'preview'           => array(),
         ),
     );
+
+    /**
+     * @since 3.9.1
+     * @var   array
+     */
+    static public $aMimeTypes = array();
+
+    /**
+     * @since 3.9.1
+     */
+    protected function doOnFieldRegistration( $aField ) {
+        self::$aMimeTypes = $this->getElementAsArray( $aField, array( 'mime_types' ) ) + self::$aMimeTypes;
+        if ( ! $this->hasBeenCalled( get_class( $this ) . '/upload_mimes' ) ) {
+            add_filter( 'upload_mimes', array( $this, 'replyToGetAllowedFileTypesToUpload' ) );
+        }
+    }
+        /**
+         * @since  3.9.1
+         * @param  array $aMimeTypes
+         * @return array
+         */
+        static public function replyToGetAllowedFileTypesToUpload( $aMimeTypes ) {
+            unset( self::$aMimeTypes[ 'image' ] );  // the default 'image' is for the custom uploader and the format is different
+            return $aMimeTypes + self::$aMimeTypes;
+        }
 
     /**
      * Loads the field type necessary components.
@@ -210,6 +249,7 @@ class AdminPageFramework_FieldType_image extends AdminPageFramework_FieldType {
                 'type'              => 'text',
                 // 3.4.2+ Referenced to bind an input update event to the preview updater script.
                 'data-show_preview' => $aField[ 'show_preview' ],
+                'data-mime_types'   => json_encode( array_values( array_unique( array_values( $this->getElementAsArray( $aField, array( 'mime_types' ) ) ) ) ) ), // [3.9.1+] without applying array_values() last, numeric keys appear in the json which causes a problem for the WordPress custom media uploader.
             )
             + $aField[ 'attributes' ][ 'input' ]
             + $aBaseAttributes;

@@ -66,8 +66,13 @@ class AdminPageFramework_FieldType_media extends AdminPageFramework_FieldType_im
      */
     protected $aDefaultKeys = array(
         'attributes_to_store'   => array(), // ( array ) This is for the image and media field type. The attributes to save besides URL. e.g. ( for the image field type ) array( 'title', 'alt', 'width', 'height', 'caption', 'id', 'align', 'link' ).
-        'show_preview'          =>    true,
-        'allow_external_source' =>    true, // ( boolean ) Indicates whether the media library box has the From URL tab.
+        'show_preview'          => true,
+        'allow_external_source' => true,    // ( boolean ) Indicates whether the media library box has the From URL tab.
+        'mime_types'            => array(   // [3.9.1+]
+            // 'image',
+            // 'text/plain',
+            // 'application/pdf', // etc
+        ),
         'attributes'            => array(
             'input'     => array(
                 'size'      => 40,

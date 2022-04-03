@@ -3,7 +3,7 @@
   var setAdminPageFrameworkImageUploader;
 
   /** global: apfImage */
-  debugLog( '0.0.2', apfImage );
+  debugLog( '0.1.0', apfImage );
 
   $( document ).ready( function () {
 
@@ -116,6 +116,7 @@
 
           // Reassign the input id from the pressed element ( do not use the passed parameter value to the caller function ) for repeatable sections.
           var sInputID = $( this ).attr( 'id' ).substring( 13 ); // remove the select_image_ prefix and set a property to pass it to the editor callback method.
+          var jInput   = $( '#' + sInputID );
 
           window.wpActiveEditor = null;
           e.preventDefault();
@@ -128,7 +129,6 @@
 
           // Store the original select object in a global variable
           oAdminPageFrameworkOriginalImageUploaderSelectObject = wp.media.view.MediaFrame.Select;
-
           // Assign a custom select object
           wp.media.view.MediaFrame.Select = fExternalSource ? getAdminPageFrameworkCustomMediaUploaderSelectObject() : oAdminPageFrameworkOriginalImageUploaderSelectObject;
           _oCustomImageUploader = wp.media( {
@@ -138,7 +138,7 @@
               text: apfImage.label.useThisImage
             },
             type: 'image',
-            library: { type: 'image' },
+            library: { type: jInput.data( 'mime_types' ).length ? jInput.data( 'mime_types' ) : 'image' },
             multiple: fMultiple,  // Set this to true to allow multiple files to be selected
             metadata: {},
           } );
