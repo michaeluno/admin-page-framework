@@ -429,7 +429,7 @@ abstract class AdminPageFramework_Property_Base extends AdminPageFramework_Frame
 
             $this->sPageNow         = $this->getPageNow();
             $this->bIsAdmin         = is_admin();
-            $this->bIsAdminAjax     = 'admin-ajax.php' === $this->sPageNow;
+            $this->bIsAdminAjax     = in_array( $this->sPageNow, array( 'admin-ajax.php', 'async-upload.php' ), true ); // 3.9.1 Added async-upload.php
             $this->sAjaxReferrer    = $this->bIsAdminAjax ? $this->___getReferrer() : '';
             $this->bShowDebugInfo   = $this->isDebugMode();
 

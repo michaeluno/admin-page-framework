@@ -242,10 +242,13 @@ abstract class AdminPageFramework_Factory_Router {
      *
      * This method should be redefined in the extended class.
      *
-     * @since       3.1.0
+     * @since    3.1.0
      * @internal
      */
     protected function _isInstantiatable() {
+        if ( ! empty( $GLOBALS[ 'pagenow' ] ) && 'async-upload.php' === $GLOBALS[ 'pagenow' ] ) {   // 3.9.1
+            return true;
+        }
         if ( $this->_isWordPressCoreAjaxRequest() ) {
             return false;
         }
@@ -253,9 +256,9 @@ abstract class AdminPageFramework_Factory_Router {
     }
         /**
          * Checks whether the page call is by WordPress core ajax requests.
-         * @return  boolean
-         * @remark  Not using the property or utility object as this can be called prior to instantiating those.
-         * @since   3.8.19
+         * @return boolean
+         * @remark Not using the property or utility object as this can be called prior to instantiating those.
+         * @since  3.8.19
          */
         protected function _isWordPressCoreAjaxRequest() {
             if ( ! isset( $GLOBALS[ 'pagenow' ] ) ) {
