@@ -61,10 +61,7 @@ abstract class AdminPageFramework_UserMeta_Router extends AdminPageFramework_Fac
             return $this->_isValidAjaxReferrer();
         }
 
-        return in_array(
-            $this->oProp->sPageNow,
-            array( 'user-new.php', 'user-edit.php', 'profile.php' )
-        );
+        return in_array( $this->oProp->sPageNow, array( 'user-new.php', 'user-edit.php', 'profile.php' ), true );
 
     }
 
