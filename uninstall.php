@@ -3,7 +3,7 @@
  * Cleans up the plugin options.
  *    
  * @package      Admin Page Framework Loader
- * @copyright    Copyright (c) 2013-2021, Michael Uno
+ * @copyright    Copyright (c) 2013-2022, Michael Uno
  * @author       Michael Uno
  * @authorurl    http://michaeluno.jp
  * @since        3.5.0

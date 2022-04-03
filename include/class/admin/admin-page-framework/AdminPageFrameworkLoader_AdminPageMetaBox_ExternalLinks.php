@@ -5,7 +5,7 @@
  * Loads Admin Page Framework.
  * 
  * http://admin-page-framework.michaeluno.jp/
- * Copyright (c) 2013-2021, Michael Uno
+ * Copyright (c) 2013-2022, Michael Uno
  * 
  */
  

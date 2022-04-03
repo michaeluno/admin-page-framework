@@ -1,7 +1,7 @@
 <?php
 /**
  * @package         Admin Page Framework Loader
- * @copyright       Copyright (c) 2013-2021, Michael Uno
+ * @copyright       Copyright (c) 2013-2022, Michael Uno
  * @license         http://opensource.org/licenses/gpl-2.0.php GNU Public License
  * @since           3.5.0
 */
