@@ -47,11 +47,10 @@
  *  )
  * </code>
  *
- * @image       http://admin-page-framework.michaeluno.jp/image/common/form/field_type/image.png
- * @package     AdminPageFramework/Common/Form/FieldType
- * @since       2.1.5
- * @since       3.5.3       Changed it to extend `AdminPageFramework_FieldType` from `AdminPageFramework_FieldType_Base`.
- * @extends     AdminPageFramework_FieldType
+ * @image   http://admin-page-framework.michaeluno.jp/image/common/form/field_type/image.png
+ * @package AdminPageFramework/Common/Form/FieldType
+ * @since   2.1.5
+ * @since   3.5.3 Changed it to extend `AdminPageFramework_FieldType` from `AdminPageFramework_FieldType_Base`.
  */
 class AdminPageFramework_FieldType_image extends AdminPageFramework_FieldType {
 
@@ -74,10 +73,8 @@ class AdminPageFramework_FieldType_image extends AdminPageFramework_FieldType {
                 'size'      => 40,
                 'maxlength' => 400,
             ),
-            'button'            => array(
-            ),
-            'remove_button'     => array(       // 3.2.0+
-            ),
+            'button'            => array(),
+            'remove_button'     => array(),       // 3.2.0+
             'preview'           => array(),
         ),
     );
@@ -97,8 +94,8 @@ class AdminPageFramework_FieldType_image extends AdminPageFramework_FieldType {
     protected function getEnqueuingScripts() {
         return array(
             array(
-                'handle_id'     => 'admin-page-framework-field-type-image',
-                'src'           => dirname( __FILE__ ) . '/js/image.bundle.js',
+                'handle_id'         => 'admin-page-framework-field-type-image',
+                'src'               => dirname( __FILE__ ) . '/js/image.bundle.js',
                 'in_footer'         => true,
                 'dependencies'      => array( 'jquery', 'admin-page-framework-script-form-main' ),
                 'translation_var'   => 'AdminPageFrameworkImageFieldType',
@@ -107,9 +104,9 @@ class AdminPageFramework_FieldType_image extends AdminPageFramework_FieldType {
                     'referer'           => 'admin_page_framework',
                     'hasMediaUploader'  => function_exists( 'wp_enqueue_media' ),
                     'label'             => array(
-                        'uploadImage'    => $this->oMsg->get( 'upload_image' ),
-                        'useThisImage'   => $this->oMsg->get( 'use_this_image' ),
-                        'insertFromURL'  => $this->oMsg->get( 'insert_from_url' ),
+                        'uploadImage'      => $this->oMsg->get( 'upload_image' ),
+                        'useThisImage'     => $this->oMsg->get( 'use_this_image' ),
+                        'insertFromURL'    => $this->oMsg->get( 'insert_from_url' ),
                     ),
                 ),
             ),
@@ -120,8 +117,8 @@ class AdminPageFramework_FieldType_image extends AdminPageFramework_FieldType {
      * Returns the output of the field type.
      *
      * @since    2.1.5
-     * @since    3.0.0   Reconstructed entirely.
-     * @since    3.5.3   Changed the name from `_replyToGetField()`.
+     * @since    3.0.0  Reconstructed entirely.
+     * @since    3.5.3  Changed the name from `_replyToGetField()`.
      * @return   string
      * @internal
      */
@@ -170,24 +167,18 @@ class AdminPageFramework_FieldType_image extends AdminPageFramework_FieldType {
     }
         /**
          * Returns a base attribute array.
-         * @since       3.5.3
-         * @return      array       The generated base attribute array.
-         * @internal
+         * @since  3.5.3
+         * @return array The generated base attribute array.
          */
         private function ___getBaseAttributes( array $aField ) {
-
             $_aBaseAttributes   = $aField[ 'attributes' ] + array( 'class' => null );
             unset(
-                $_aBaseAttributes[ 'input' ],
-                $_aBaseAttributes[ 'button' ],
-                $_aBaseAttributes[ 'preview' ],
-                $_aBaseAttributes[ 'name' ],
-                $_aBaseAttributes[ 'value' ],
-                $_aBaseAttributes[ 'type' ],
+                $_aBaseAttributes[ 'input' ],        $_aBaseAttributes[ 'button' ],
+                $_aBaseAttributes[ 'preview' ],      $_aBaseAttributes[ 'name' ],
+                $_aBaseAttributes[ 'value' ],        $_aBaseAttributes[ 'type' ],
                 $_aBaseAttributes[ 'remove_button' ]
             );
             return $_aBaseAttributes;
-
         }
         /**
          * Returns the set image url.
@@ -197,39 +188,31 @@ class AdminPageFramework_FieldType_image extends AdminPageFramework_FieldType {
          *
          * This value will be used for the preview container as well.
          *
-         * @since       3.5.3
-         * @return      string      The found image url.
-         * @internal
+         * @since  3.5.3
+         * @return string The found image url.
          */
         private function ___getTheSetImageURL( array $aField, $iCountAttributes ) {
-
             $_sCaptureAttribute = $this->getAOrB( $iCountAttributes, 'url', '' );
             return $_sCaptureAttribute
                 ? $this->getElement( $aField, array( 'attributes', 'value', $_sCaptureAttribute ), '' )
                 : $aField[ 'attributes' ][ 'value' ];
-
-
         }
         /**
          * Returns an image field input attribute for the url input tag.
-         * @since       3.5.3
-         * @return      array
-         * @internal
+         * @since  3.5.3
+         * @return array
          */
         private function ___getImageInputAttributes( array $aField, $iCountAttributes, $sImageURL, array $aBaseAttributes ) {
-
             return array(
                 'name'              => $aField[ 'attributes' ][ 'name' ]
                     . $this->getAOrB( $iCountAttributes, '[url]', '' ),
                 'value'             => $sImageURL,
                 'type'              => 'text',
-
                 // 3.4.2+ Referenced to bind an input update event to the preview updater script.
                 'data-show_preview' => $aField[ 'show_preview' ],
             )
             + $aField[ 'attributes' ][ 'input' ]
             + $aBaseAttributes;
-
         }
 
         /**
@@ -238,12 +221,11 @@ class AdminPageFramework_FieldType_image extends AdminPageFramework_FieldType {
          * This adds input fields for saving extra attributes.
          * It overrides the name attribute of the default text field for URL and saves them as an array.
          *
-         * @since       3.0.0
-         * @return      string
+         * @since    3.0.0
+         * @return   string
          * @internal
          */
         protected function getExtraInputFields( array $aField ) {
-
             $_aOutputs = array();
             foreach( $this->getElementAsArray( $aField, 'attributes_to_store' ) as $sAttribute ) {
                 $_aOutputs[] = "<input " . $this->getAttributes(
@@ -265,36 +247,31 @@ class AdminPageFramework_FieldType_image extends AdminPageFramework_FieldType {
                 ) . "/>";
             }
             return implode( PHP_EOL, $_aOutputs );
-
         }
 
         /**
          * Returns the output of the preview box.
-         * @since   3.0.0
-         * @internal
+         * @since  3.0.0
+         * @return string
          */
-        protected function _getPreviewContainer( $aField, $sImageURL, $aPreviewAtrributes ) {
-
+        protected function _getPreviewContainer( $aField, $sImageURL, $aPreviewAttributes ) {
             if ( ! $aField[ 'show_preview' ] ) {
                 return '';
             }
-
             $sImageURL = esc_url( $this->getResolvedSRC( $sImageURL, true ) );
-            return
-                "<div " . $this->getAttributes(
+            return "<div " . $this->getAttributes(
                         array(
                             'id'    => "image_preview_container_{$aField[ 'input_id' ]}",
-                            'class' => 'image_preview ' . $this->getElement( $aPreviewAtrributes, 'class', '' ),
+                            'class' => 'image_preview ' . $this->getElement( $aPreviewAttributes, 'class', '' ),
                             'style' => $this->getAOrB( $sImageURL, '', "display: none; "  )
-                                . $this->getElement( $aPreviewAtrributes, 'style', '' ),
-                        ) + $aPreviewAtrributes
+                                . $this->getElement( $aPreviewAttributes, 'style', '' ),
+                        ) + $aPreviewAttributes
                     )
                 . ">"
                     . "<img src='{$sImageURL}' "
                         . "id='image_preview_{$aField[ 'input_id' ]}' "
                     . "/>"
                 . "</div>";
-
         }
 
         /**
@@ -340,7 +317,6 @@ JAVASCRIPTS;
              * @return string The generated HTML uploader button output.
              */
             protected function _getUploaderButtonHTML( $sInputID, array $aButtonAttributes, $bRepeatable, $bExternalSource ) {
-                
                 $_bIsLabelSet = isset( $aButtonAttributes[ 'data-label' ] ) && $aButtonAttributes[ 'data-label' ];
                 $_aAttributes = $this->_getFormattedUploadButtonAttributes(
                     $sInputID,
@@ -358,7 +334,6 @@ JAVASCRIPTS;
                             )
                         )
                     ."</a>";
-
             }
                 /**
                  * Returns a formatted upload button attributes array.
@@ -441,7 +416,6 @@ JAVASCRIPTS;
          * @internal
          */
         protected function _getRemoveButtonHTMLByType( $sInputID, array $aButtonAttributes, $sType='image' ) {
-
             $_bIsLabelSet   = isset( $aButtonAttributes[ 'data-label' ] ) && $aButtonAttributes[ 'data-label' ];
             $_aAttributes   = $this->_getFormattedRemoveButtonAttributesByType( $sInputID, $aButtonAttributes, $_bIsLabelSet, $sType );
             return "<a " . $this->getAttributes( $_aAttributes ) . ">"
@@ -454,7 +428,6 @@ JAVASCRIPTS;
                         )
                     )
                 . "</a>";
-
         }
 
             /**
@@ -465,7 +438,7 @@ JAVASCRIPTS;
              */
             protected function _getFormattedRemoveButtonAttributesByType( $sInputID, array $aButtonAttributes, $_bIsLabelSet, $sType='image' ) {
 
-                // $_sOnClickFunctionName  = 'removeInputValuesFor' . ucfirst( $sType );
+                // $_sOnClickFunctionName  = 'removeInputValuesFor' . ucfirst( $sType ); // @deprecated
                 $_aAttributes           = array(
                         'id'            => "remove_{$sType}_{$sInputID}",
                         'href'          => '#',
@@ -501,24 +474,19 @@ JAVASCRIPTS;
          *
          * It checks whether the WordPress version is enough to support dash-icons.
          *
-         * @since       3.5.3
-         * @return      string      The generated class selectors.
-         * @internal
+         * @since  3.5.3
+         * @return string The generated class selectors.
          */
         private function ___getDashIconSelectorsBySlug( $sDashIconSlug ) {
-
             static $_bDashIconSupported;
-
             $_bDashIconSupported = isset( $_bDashIconSupported )
                 ? $_bDashIconSupported
                 : version_compare( $GLOBALS[ 'wp_version' ], '3.8', '>=' );
-
             return $this->getAOrB(
                 $_bDashIconSupported,
                 "dashicons dashicons-{$sDashIconSlug}",
                 ''
             );
-
         }
 
 }
