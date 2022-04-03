@@ -70,6 +70,30 @@ EOD
                 ),
             ),
             array(
+                'field_id'              => 'media_mime_types',
+                'title'                 => __( 'Mime Types', 'admin-page-framework-loader' ),
+                'type'                  => 'media',
+                'mime_types'            => array(
+                    'zip' => 'application/zip',
+                ),
+                'allow_external_source' => false,
+                'description'   => array(
+                    __( 'This only lists zip files', 'admin-page-framework-loader' ),
+                    "<pre class='field-argument-example'>"
+                        . $oFactory->oWPRMParser->getSyntaxHighlightedPHPCode(
+<<<EOD
+array(
+    'type'       => 'media',
+    'mime_types' => array(
+        'zip' => 'application/zip',
+    ),
+)
+EOD
+                        )
+                        . "</pre>",
+                ),
+            ),
+            array(
                 'field_id'              => 'media_with_attributes',
                 'title'                 => __( 'Media File with Attributes', 'admin-page-framework-loader' ),
                 'type'                  => 'media',
