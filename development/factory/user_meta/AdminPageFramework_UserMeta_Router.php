@@ -10,9 +10,8 @@
 /**
  * Handles routing of function calls and instantiation of associated classes.
  *
- * @abstract
- * @since           3.5.0
- * @package         AdminPageFramework/Factory/UserMeta
+ * @since    3.5.0
+ * @package  AdminPageFramework/Factory/UserMeta
  * @internal
  */
 abstract class AdminPageFramework_UserMeta_Router extends AdminPageFramework_Factory {
@@ -20,56 +19,43 @@ abstract class AdminPageFramework_UserMeta_Router extends AdminPageFramework_Fac
     /**
      * Sets up hooks.
      *
-     * @since       3.5.0
+     * @since 3.5.0
      */
     public function __construct( $oProp ) {
-
         parent::__construct( $oProp );
-
         if ( ! $this->oProp->bIsAdmin ) {
             return;
         }
-
         $this->oUtil->registerAction(
-            $this->oProp->bIsAdminAjax
-                ? 'wp_loaded'
-                : 'current_screen',
+            $this->oProp->bIsAdminAjax ? 'wp_loaded' : 'current_screen',
             array( $this, '_replyToDetermineToLoad' )
         );
-
-        // 3.7.10+
-        add_action( 'set_up_' . $this->oProp->sClassName, array( $this, '_replyToSetUpHooks' ) );
-
+        add_action( 'set_up_' . $this->oProp->sClassName, array( $this, '_replyToSetUpHooks' ) );   // 3.7.10+
     }
 
     /**
      * Determines whether the factory fields belong to the loading page.
      *
      * @internal
-     * @since       3.5.0
-     * @since       3.8.14  Changed the visibility scope to `protected` from `public` as there is the `isInThePage()` public method.
-     * @return      boolean
+     * @since    3.5.0
+     * @since    3.8.14  Changed the visibility scope to `protected` from `public` as there is the `isInThePage()` public method.
+     * @return   boolean
      */
     protected function _isInThePage() {
-
         if ( ! $this->oProp->bIsAdmin ) {
             return false;
         }
-
-        // 3.8.14+
-        if ( $this->oProp->bIsAdminAjax ) {
+        if ( $this->oProp->bIsAdminAjax ) { // 3.8.14+
             return $this->_isValidAjaxReferrer();
         }
-
         return in_array( $this->oProp->sPageNow, array( 'user-new.php', 'user-edit.php', 'profile.php' ), true );
-
     }
 
     /**
      * Checks if the `admin-ajax.php` is called from the page that this meta box belongs to.
-     * @sicne   3.8.19
-     * @remark  since 3.8.14, the check for `admin-ajax.php` has been added.
-     * @return  boolean
+     * @sicne  3.8.19
+     * @remark since 3.8.14, the check for `admin-ajax.php` has been added.
+     * @return boolean
      */
     protected function _isValidAjaxReferrer() {
 
@@ -84,8 +70,8 @@ abstract class AdminPageFramework_UserMeta_Router extends AdminPageFramework_Fac
     /**
      * Sets up hooks after calling the `setUp()` method.
      *
-     * @since       3.7.10
-     * @callback    action      set_up_{instantiated class name}
+     * @since    3.7.10
+     * @callback add_action() set_up_{instantiated class name}
      * @internal
      */
     public function _replyToSetUpHooks( $oFactory ) {
