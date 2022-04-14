@@ -45,11 +45,11 @@ build:
       # @see https://prinsfrank.nl/2022/02/04/Configuring-PHP8.1-on-scrutinizer
       # @see https://scrutinizer-ci.com/docs/guides/upgrading-trusty-image
       image: default-bionic
-      services:
+      environment:
         php: 8.0
     test-with-php81:
       image: default-bionic
-      services:
+      environment:
         php: 8.1.2
     test-with-php74-mu:
       environment:
