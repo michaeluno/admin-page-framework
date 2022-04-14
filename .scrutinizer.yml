@@ -47,22 +47,10 @@ build:
       image: default-bionic
       services:
         php: 8.0
-        apache2:
-          modules: ['rewrite']
-          sites:
-            symfony_app:
-                web_root: 'web/'
-                host: 'local.dev'
     test-with-php81:
       image: default-bionic
       services:
         php: 8.1.2
-        apache2:
-          modules: ['rewrite']
-          sites:
-            symfony_app:
-                web_root: 'web/'
-                host: 'local.dev'
     test-with-php74-mu:
       environment:
         variables:
