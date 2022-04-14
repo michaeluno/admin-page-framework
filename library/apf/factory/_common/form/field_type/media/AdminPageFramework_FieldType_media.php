@@ -1,6 +1,6 @@
 <?php
 /*
- * Admin Page Framework v3.9.1b04 by Michael Uno
+ * Admin Page Framework v3.9.1 by Michael Uno
  * Compiled with Admin Page Framework Compiler <https://github.com/michaeluno/admin-page-framework-compiler>
  * <https://en.michaeluno.jp/admin-page-framework>
  * Copyright (c) 2013-2022, Michael Uno; Licensed under MIT <https://opensource.org/licenses/MIT>
@@ -8,7 +8,7 @@
 
 class AdminPageFramework_FieldType_media extends AdminPageFramework_FieldType_image {
     public $aFieldTypeSlugs = array( 'media', );
-    protected $aDefaultKeys = array( 'attributes_to_store' => array(), 'show_preview' => true, 'allow_external_source' => true, 'attributes' => array( 'input' => array( 'size' => 40, 'maxlength' => 400, ), 'button' => array( ), 'remove_button' => array( ), 'preview' => array( ), ), );
+    protected $aDefaultKeys = array( 'attributes_to_store' => array(), 'show_preview' => true, 'allow_external_source' => true, 'mime_types' => array( ), 'attributes' => array( 'input' => array( 'size' => 40, 'maxlength' => 400, ), 'button' => array( ), 'remove_button' => array( ), 'preview' => array( ), ), );
     protected function getEnqueuingScripts()
     {
         return array( array( 'handle_id' => 'admin-page-framework-field-type-media', 'src' => dirname(__FILE__) . '/js/media.bundle.js', 'in_footer' => true, 'dependencies' => array( 'jquery', 'admin-page-framework-script-form-main' ), 'translation_var' => 'AdminPageFrameworkMediaFieldType', 'translation' => array( 'fieldTypeSlugs' => $this->aFieldTypeSlugs, 'referer' => 'admin_page_framework', 'hasMediaUploader' => function_exists('wp_enqueue_media'), 'label' => array( 'uploadFile' => $this->oMsg->get('upload_file'), 'useThisFile' => $this->oMsg->get('use_this_file'), 'insertFromURL' => $this->oMsg->get('insert_from_url'), ), ), ), );

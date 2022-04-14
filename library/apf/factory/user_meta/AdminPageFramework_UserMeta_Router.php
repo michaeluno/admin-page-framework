@@ -1,6 +1,6 @@
 <?php
 /*
- * Admin Page Framework v3.9.1b04 by Michael Uno
+ * Admin Page Framework v3.9.1 by Michael Uno
  * Compiled with Admin Page Framework Compiler <https://github.com/michaeluno/admin-page-framework-compiler>
  * <https://en.michaeluno.jp/admin-page-framework>
  * Copyright (c) 2013-2022, Michael Uno; Licensed under MIT <https://opensource.org/licenses/MIT>
@@ -24,7 +24,7 @@ abstract class AdminPageFramework_UserMeta_Router extends AdminPageFramework_Fac
         if ($this->oProp->bIsAdminAjax) {
             return $this->_isValidAjaxReferrer();
         }
-        return in_array($this->oProp->sPageNow, array( 'user-new.php', 'user-edit.php', 'profile.php' ));
+        return in_array($this->oProp->sPageNow, array( 'user-new.php', 'user-edit.php', 'profile.php' ), true);
     }
     protected function _isValidAjaxReferrer()
     {

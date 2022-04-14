@@ -1,6 +1,6 @@
 <?php
 /*
- * Admin Page Framework v3.9.1b04 by Michael Uno
+ * Admin Page Framework v3.9.1 by Michael Uno
  * Compiled with Admin Page Framework Compiler <https://github.com/michaeluno/admin-page-framework-compiler>
  * <https://en.michaeluno.jp/admin-page-framework>
  * Copyright (c) 2013-2022, Michael Uno; Licensed under MIT <https://opensource.org/licenses/MIT>
@@ -65,7 +65,7 @@ abstract class AdminPageFramework_Property_Base extends AdminPageFramework_Frame
         $this->sStructureType = $sStructureType;
         $this->sPageNow = $this->getPageNow();
         $this->bIsAdmin = is_admin();
-        $this->bIsAdminAjax = 'admin-ajax.php' === $this->sPageNow;
+        $this->bIsAdminAjax = in_array($this->sPageNow, array( 'admin-ajax.php', 'async-upload.php' ), true);
         $this->sAjaxReferrer = $this->bIsAdminAjax ? $this->___getReferrer() : '';
         $this->bShowDebugInfo = $this->isDebugMode();
         $this->aQuery = $this->___getURLQuery();

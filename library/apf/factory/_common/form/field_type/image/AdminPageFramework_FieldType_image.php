@@ -1,6 +1,6 @@
 <?php
 /*
- * Admin Page Framework v3.9.1b04 by Michael Uno
+ * Admin Page Framework v3.9.1 by Michael Uno
  * Compiled with Admin Page Framework Compiler <https://github.com/michaeluno/admin-page-framework-compiler>
  * <https://en.michaeluno.jp/admin-page-framework>
  * Copyright (c) 2013-2022, Michael Uno; Licensed under MIT <https://opensource.org/licenses/MIT>
@@ -8,7 +8,20 @@
 
 class AdminPageFramework_FieldType_image extends AdminPageFramework_FieldType {
     public $aFieldTypeSlugs = array( 'image', );
-    protected $aDefaultKeys = array( 'attributes_to_store' => array(), 'show_preview' => true, 'allow_external_source' => true, 'attributes' => array( 'input' => array( 'size' => 40, 'maxlength' => 400, ), 'button' => array( ), 'remove_button' => array( ), 'preview' => array(), ), );
+    protected $aDefaultKeys = array( 'attributes_to_store' => array(), 'show_preview' => true, 'allow_external_source' => true, 'mime_types' => array( 'image' => 'image', ), 'attributes' => array( 'input' => array( 'size' => 40, 'maxlength' => 400, ), 'button' => array(), 'remove_button' => array(), 'preview' => array(), ), );
+    public static $aMimeTypes = array();
+    protected function doOnFieldRegistration($aField)
+    {
+        self::$aMimeTypes = $this->getElementAsArray($aField, array( 'mime_types' )) + self::$aMimeTypes;
+        if (! $this->hasBeenCalled(get_class($this) . '/upload_mimes')) {
+            add_filter('upload_mimes', array( $this, 'replyToGetAllowedFileTypesToUpload' ));
+        }
+    }
+    public static function replyToGetAllowedFileTypesToUpload($aMimeTypes)
+    {
+        unset(self::$aMimeTypes[ 'image' ]);
+        return $aMimeTypes + self::$aMimeTypes;
+    }
     protected function setUp()
     {
         $this->enqueueMediaUploader();
@@ -41,7 +54,7 @@ class AdminPageFramework_FieldType_image extends AdminPageFramework_FieldType {
     }
     private function ___getImageInputAttributes(array $aField, $iCountAttributes, $sImageURL, array $aBaseAttributes)
     {
-        return array( 'name' => $aField[ 'attributes' ][ 'name' ] . $this->getAOrB($iCountAttributes, '[url]', ''), 'value' => $sImageURL, 'type' => 'text', 'data-show_preview' => $aField[ 'show_preview' ], ) + $aField[ 'attributes' ][ 'input' ] + $aBaseAttributes;
+        return array( 'name' => $aField[ 'attributes' ][ 'name' ] . $this->getAOrB($iCountAttributes, '[url]', ''), 'value' => $sImageURL, 'type' => 'text', 'data-show_preview' => $aField[ 'show_preview' ], 'data-mime_types' => json_encode(array_values(array_unique(array_values($this->getElementAsArray($aField, array( 'mime_types' )))))), ) + $aField[ 'attributes' ][ 'input' ] + $aBaseAttributes;
     }
     protected function getExtraInputFields(array $aField)
     {
@@ -51,13 +64,13 @@ class AdminPageFramework_FieldType_image extends AdminPageFramework_FieldType {
         }
         return implode(PHP_EOL, $_aOutputs);
     }
-    protected function _getPreviewContainer($aField, $sImageURL, $aPreviewAtrributes)
+    protected function _getPreviewContainer($aField, $sImageURL, $aPreviewAttributes)
     {
         if (! $aField[ 'show_preview' ]) {
             return '';
         }
         $sImageURL = esc_url($this->getResolvedSRC($sImageURL, true));
-        return "<div " . $this->getAttributes(array( 'id' => "image_preview_container_{$aField[ 'input_id' ]}", 'class' => 'image_preview ' . $this->getElement($aPreviewAtrributes, 'class', ''), 'style' => $this->getAOrB($sImageURL, '', "display: none; ") . $this->getElement($aPreviewAtrributes, 'style', ''), ) + $aPreviewAtrributes) . ">" . "<img src='{$sImageURL}' " . "id='image_preview_{$aField[ 'input_id' ]}' " . "/>" . "</div>";
+        return "<div " . $this->getAttributes(array( 'id' => "image_preview_container_{$aField[ 'input_id' ]}", 'class' => 'image_preview ' . $this->getElement($aPreviewAttributes, 'class', ''), 'style' => $this->getAOrB($sImageURL, '', "display: none; ") . $this->getElement($aPreviewAttributes, 'style', ''), ) + $aPreviewAttributes) . ">" . "<img src='{$sImageURL}' " . "id='image_preview_{$aField[ 'input_id' ]}' " . "/>" . "</div>";
     }
     protected function _getUploaderButtonScript($sInputID, $abRepeatable, $bExternalSource, array $aButtonAttributes)
     {

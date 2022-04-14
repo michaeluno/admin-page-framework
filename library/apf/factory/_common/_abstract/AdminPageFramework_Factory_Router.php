@@ -1,6 +1,6 @@
 <?php
 /*
- * Admin Page Framework v3.9.1b04 by Michael Uno
+ * Admin Page Framework v3.9.1 by Michael Uno
  * Compiled with Admin Page Framework Compiler <https://github.com/michaeluno/admin-page-framework-compiler>
  * <https://en.michaeluno.jp/admin-page-framework>
  * Copyright (c) 2013-2022, Michael Uno; Licensed under MIT <https://opensource.org/licenses/MIT>
@@ -67,6 +67,9 @@ abstract class AdminPageFramework_Factory_Router {
     }
     protected function _isInstantiatable()
     {
+        if (! empty($GLOBALS[ 'pagenow' ]) && 'async-upload.php' === $GLOBALS[ 'pagenow' ]) {
+            return true;
+        }
         if ($this->_isWordPressCoreAjaxRequest()) {
             return false;
         }
