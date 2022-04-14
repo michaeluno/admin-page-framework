@@ -39,14 +39,26 @@ build:
       # @see https://prinsfrank.nl/2022/02/04/Configuring-PHP8.1-on-scrutinizer
       # @see https://scrutinizer-ci.com/docs/guides/upgrading-trusty-image
       image: default-bionic
-      environment:
-        php:
-          version: 8.0
-    test-with-php81:
-      image: default-bionic
-      environment:
+      services:
         php:
           version: 8.1.2
+        apache2:
+          modules: ['rewrite']
+          sites:
+            symfony_app:
+                web_root: 'web/'
+                host: 'local.dev'
+    test-with-php81:
+      image: default-bionic
+      services:
+        php:
+          version: 8.1.2
+        apache2:
+          modules: ['rewrite']
+          sites:
+            symfony_app:
+                web_root: 'web/'
+                host: 'local.dev'
     test-with-php74-mu:
       environment:
         variables:
