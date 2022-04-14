@@ -46,11 +46,25 @@ build:
       # @see https://scrutinizer-ci.com/docs/guides/upgrading-trusty-image
       image: default-bionic
       environment:
-        php: 8.0
+        php:
+          version: 8.0
+      dependencies:
+        # Without this, the following error occurs:
+        # service apache2 start: The command exited with code 1. Failed to start apache2.service: The name org.freedesktop.PolicyKit1 was not provided by any .service files
+        # @see https://askubuntu.com/a/886603
+        before:
+          - sudo systemctl reload apache2
     test-with-php81:
       image: default-bionic
       environment:
-        php: 8.1.2
+        php:
+          version: 8.1.2
+      dependencies:
+        # Without this, the following error occurs:
+        # service apache2 start: The command exited with code 1. Failed to start apache2.service: The name org.freedesktop.PolicyKit1 was not provided by any .service files
+        # @see https://askubuntu.com/a/886603
+        before:
+          - sudo systemctl reload apache2
     test-with-php74-mu:
       environment:
         variables:
