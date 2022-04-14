@@ -17,13 +17,12 @@ build:
 #        php:
 #          version: 5.4
     test-with-php56:
-      analysis:
-        dependencies:
-          # Without this, the following error occurs:
-          # apache2: Syntax error on line 140 of /etc/apache2/apache2.conf: Syntax error on line 1 of /etc/apache2/mods-enabled/php5.load: Cannot load /usr/lib/apache2/modules/libphp5.so into server: /usr/lib/apache2/modules/libphp5.so: cannot open shared object file: No such file or directory
-          # @see https://askubuntu.com/a/536141
-          before:
-            - sudo apt-get install libapache2-mod-php5
+      dependencies:
+        # Without this, the following error occurs:
+        # apache2: Syntax error on line 140 of /etc/apache2/apache2.conf: Syntax error on line 1 of /etc/apache2/mods-enabled/php5.load: Cannot load /usr/lib/apache2/modules/libphp5.so into server: /usr/lib/apache2/modules/libphp5.so: cannot open shared object file: No such file or directory
+        # @see https://askubuntu.com/a/536141
+        before:
+          - sudo apt-get install libapache2-mod-php5
       environment:
         php:
           version: 5.6
