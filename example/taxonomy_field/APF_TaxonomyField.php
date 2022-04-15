@@ -9,6 +9,9 @@
  *
  */
 
+/**
+ *
+ */
 class APF_TaxonomyField extends AdminPageFramework_TaxonomyField {
 
     /*
@@ -66,24 +69,20 @@ class APF_TaxonomyField extends AdminPageFramework_TaxonomyField {
      * ( optional ) modify the columns of the term listing table
      */
     public function sortable_columns_APF_TaxonomyField( $aColumn ) { // sortable_column_{instantiated class name}
-
         return array(
                 'custom' => 'custom',
             )
             + $aColumn;
-
     }
 
     public function columns_APF_TaxonomyField( $aColumn ) { // column_{instantiated class name}
-
-        unset( $aColumn['description'] );
+        unset( $aColumn[ 'description' ] );
         return array(
-                'cb' => $aColumn['cb'],
+                'cb'        => $aColumn[ 'cb' ],
                 'thumbnail' => __( 'Thumbnail', 'admin-page-framework-loader' ),
-                'custom' => __( 'Custom Column', 'admin-page-framework-loader' ),
+                'custom'    => __( 'Custom Column', 'admin-page-framework-loader' ),
             )
             + $aColumn;
-
     }
 
     /*
@@ -91,7 +90,9 @@ class APF_TaxonomyField extends AdminPageFramework_TaxonomyField {
      */
     public function cell_APF_TaxonomyField( $sCellHTML, $sColumnSlug, $iTermID ) { // cell_{instantiated class name}
 
-        if ( ! $iTermID || $sColumnSlug != 'thumbnail' ) { return $sCellHTML; }
+        if ( ! $iTermID || $sColumnSlug != 'thumbnail' ) {
+            return $sCellHTML;
+        }
 
         $aOptions = get_option( 'APF_TaxonomyField', array() ); // by default the class name is the option key.
         return isset( $aOptions[ $iTermID ][ 'image_upload' ] ) && $aOptions[ $iTermID ][ 'image_upload' ]
@@ -120,24 +121,19 @@ class APF_TaxonomyField extends AdminPageFramework_TaxonomyField {
      * Customizes the sorting algorithm of a custom column.
      */
     public function replyToSortCustomColumn( $aTerms, $aTaxonomies, $aArgs ) {
-
-        if ( 'edit-tags.php' == $GLOBALS['pagenow'] && isset( $_GET[ 'orderby' ] ) && 'custom' == $_GET[ 'orderby' ] ) {
+        if ( 'edit-tags.php' == $GLOBALS[ 'pagenow' ] && isset( $_GET[ 'orderby' ] ) && 'custom' == $_GET[ 'orderby' ] ) {
             usort( $aTerms, array( $this, '_replyToSortByCustomOptionValue' ) );
         }
         return $aTerms;
-
     }
         public function _replyToSortByCustomOptionValue( $oTermA, $oTermB ) {
-
-            $_sClassName = get_class( $this ); // the instantiated class name is the option key by default.
+            $_sClassName  = get_class( $this ); // the instantiated class name is the option key by default.
             $_sTextFieldA = AdminPageFramework::getOption( $_sClassName, array( $oTermA->term_id, 'text_field' ) );
             $_sTextFieldB = AdminPageFramework::getOption( $_sClassName, array( $oTermB->term_id, 'text_field' ) );
-            return isset( $_GET['order'] ) && 'asc' == $_GET['order']
+            return isset( $_GET[ 'order' ] ) && 'asc' == $_GET[ 'order' ]
                 ? strnatcmp( $_sTextFieldA, $_sTextFieldB )
                 : strnatcmp( $_sTextFieldB, $_sTextFieldA );
-
         }
-
 
     /*
      * ( optional ) Use this method to validate submitted option values.
