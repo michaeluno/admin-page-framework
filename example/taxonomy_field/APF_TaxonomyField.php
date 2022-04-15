@@ -121,7 +121,7 @@ class APF_TaxonomyField extends AdminPageFramework_TaxonomyField {
      */
     public function replyToSortCustomColumn( $aTerms, $aTaxonomies, $aArgs ) {
 
-        if ( 'edit-tags.php' == $GLOBALS['pagenow'] && isset( $_GET{'orderby'} ) && 'custom' == $_GET{'orderby'} ) {
+        if ( 'edit-tags.php' == $GLOBALS['pagenow'] && isset( $_GET[ 'orderby' ] ) && 'custom' == $_GET[ 'orderby' ] ) {
             usort( $aTerms, array( $this, '_replyToSortByCustomOptionValue' ) );
         }
         return $aTerms;
