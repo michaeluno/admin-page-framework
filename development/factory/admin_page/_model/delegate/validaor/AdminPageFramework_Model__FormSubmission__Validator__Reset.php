@@ -43,10 +43,10 @@ class AdminPageFramework_Model__FormSubmission__Validator__Reset extends AdminPa
             $aSubmits,
             'reset_key'
         );
-        $_sKeyToReset = trim( $_sKeyToReset );
         if ( ! $_sKeyToReset ) {
             return;
         }
+        $_sKeyToReset = trim( $_sKeyToReset );
         $_oException = new Exception( 'aReturn' );
         $_oException->aReturn = $this->_resetOptions(
             $_sKeyToReset,

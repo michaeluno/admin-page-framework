@@ -45,6 +45,11 @@ class AdminPageFramework_Form extends AdminPageFramework_Form_Controller {
     );
 
     /**
+     * Stores sections definitions.
+     */
+    public $aSections  = array();
+
+    /**
      * Stores field set definitions.
      */
     public $aFieldsets    = array();

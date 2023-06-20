@@ -90,7 +90,7 @@ class AdminPageFramework_Form_View___FieldTitle extends AdminPageFramework_Form_
                                 strip_tags(
                                     is_array( $aField[ 'description' ] )
                                         ? implode( '&#10;', $aField[ 'description' ] )
-                                        : $aField[ 'description' ]
+                                        : ( is_string( $aField[ 'description' ] ) ? $aField[ 'description' ] : '' )
                                 )
                             )
                         . "'>"

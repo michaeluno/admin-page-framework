@@ -26,6 +26,10 @@ class AdminPageFramework_TabNavigationBar extends AdminPageFramework_FrameworkUt
      * Stores the tab items.
      */
     public $aTabs   = array();
+    /**
+     * Stores the active slugs.
+     */
+    public $aActiveSlugs   = array();
 
     /**
      * Stores container attributes.

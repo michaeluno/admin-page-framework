@@ -115,9 +115,9 @@ abstract class AdminPageFramework_Utility_HTMLAttribute extends AdminPageFramewo
             }
 
             // At this point, it is a string. Break them down to array elements.
-            $__aCSSRules = explode( ';', $_asCSSRules );
+            $__aCSSRules = explode( ';', is_string( $_asCSSRules ) ? $_asCSSRules : '' );
             foreach( $__aCSSRules as $_sPair ) {
-                $_aCSSPair = explode( ':', $_sPair );
+                $_aCSSPair = explode( ':', ( is_string( $_sPair )? $_sPair : '' ) );
                 if ( ! isset( $_aCSSPair[ 0 ], $_aCSSPair[ 1 ] ) ) {
                     continue;
                 }
