@@ -459,7 +459,7 @@ abstract class AdminPageFramework_Property_Base extends AdminPageFramework_Frame
                 self::$___sCacheReferrer = isset( self::$___sCacheReferrer )
                     ? self::$___sCacheReferrer
                     : wp_get_referer();
-                return self::$___sCacheReferrer;
+                return is_string( self::$___sCacheReferrer ) ? self::$___sCacheReferrer : '';
             }
             /**
              *

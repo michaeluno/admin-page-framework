@@ -9,6 +9,7 @@
 class AdminPageFramework_TabNavigationBar extends AdminPageFramework_FrameworkUtility {
     public $sTabTag = 'h2';
     public $aTabs = array();
+    public $aActiveSlugs;
     public $aAttributes = array( 'class' => 'nav-tab-wrapper', );
     public $aTab = array( 'slug' => null, 'title' => null, 'href' => null, 'disabled' => null, 'class' => null, 'attributes' => array(), );
     public $aCallbacks = array( 'format' => null, 'arguments' => array(), );

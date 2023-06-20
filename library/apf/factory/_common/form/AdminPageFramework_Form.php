@@ -10,6 +10,7 @@ class AdminPageFramework_Form extends AdminPageFramework_Form_Controller {
     public $sStructureType = '';
     public $aFieldTypeDefinitions = array();
     public $aSectionsets = array( '_default' => array( 'section_id' => '_default', ), );
+    public $aSections = array();
     public $aFieldsets = array();
     public $aSavedData = array();
     public $sCapability = '';

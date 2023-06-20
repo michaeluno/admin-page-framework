@@ -42,7 +42,7 @@ abstract class AdminPageFramework_Utility_HTMLAttribute extends AdminPageFramewo
                 $_aCSSRules = array_merge($_asCSSRules, $_aCSSRules);
                 continue;
             }
-            $__aCSSRules = explode(';', $_asCSSRules);
+            $__aCSSRules = explode( ';', is_string( $_asCSSRules ) ? $_asCSSRules : '' );
             foreach ($__aCSSRules as $_sPair) {
                 $_aCSSPair = explode(':', $_sPair);
                 if (! isset($_aCSSPair[ 0 ], $_aCSSPair[ 1 ])) {
